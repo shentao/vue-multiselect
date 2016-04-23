@@ -149,6 +149,7 @@
     watch: {
       'value' () {
         if (this.onChange) {
+          console.log('on change', this.value)
           this.onChange(this.value)
         } else {
           this.$set('selected', this.value)
@@ -178,9 +179,7 @@
       select (option) {
         if (this.multiple) {
           if (this.isSelected(option)) {
-            if (this.allowEmpty) {
-              this.value.$remove(option)
-            }
+            this.removeElement(option)
           } else {
             this.value.push(option)
             if (this.clearOnSelect) { this.search = '' }
@@ -211,7 +210,9 @@
         }
       },
       removeElement (option) {
-        this.value.$remove(option)
+        if (this.allowEmpty || this.value.length > 1) {
+          this.value.$remove(option)
+        }
       },
       tryActivate () {
         if (!this.isOpen) {
@@ -245,7 +246,7 @@
       },
       removeLastElement () {
         if (this.search.length === 0 && Array.isArray(this.value)) {
-          this.value.pop()
+          this.removeElement(this.value[this.value.length - 1])
         }
       },
       addPointerElement () {

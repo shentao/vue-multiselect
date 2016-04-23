@@ -23,7 +23,7 @@
     <multiselect
       :options="source"
       :selected="value"
-      :multiple="true"
+      :multiple="false"
       :searchable="true"
       :placeholder="placeholder"
       label="name"
@@ -45,10 +45,10 @@ export default {
       options: ['Select option', 'options', 'selected', 'mulitple', 'label', 'searchable', 'clearOnSelect', 'hideSelected', 'maxHeight', 'allowEmpty', 'showLabels', 'onChange', 'touched'],
       selected: ['onChange'],
       multiple: true,
-      searchable: false,
+      searchable: true,
       placeholder: 'Select props',
       source: [{ name: '1' }, { name: '2' }, { name: '3' }],
-      value: [{ name: '2' }]
+      value: []
     }
   }
 }
