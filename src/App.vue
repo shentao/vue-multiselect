@@ -1,13 +1,30 @@
 <template>
   <div id="app">
     <h1><img class="logo" src="./assets/logo.png"> Vue-multiselect</h1>
-    <multiselect
+    <!-- <multiselect
       :options="options"
       :selected="selected"
       :multiple="multiple"
       :searchable="searchable"
       :placeholder="placeholder"
     >
+      <span slot="noResult">
+        Oops! No elements found. Consider changing the search query.
+      </span>
+    </multiselect> -->
+
+    <multiselect
+      :options="countries"
+      :selected="selectedCountries"
+      :multiple="multiple"
+      :searchable="searchable"
+      :placeholder="placeholder"
+      :on-search-change="asyncFind"
+      label="name"
+    >
+      <span slot="noResult">
+        Oops! No elements found. Consider changing the search query.
+      </span>
     </multiselect>
 
     <h2>Config</h2>
@@ -27,6 +44,7 @@
       :searchable="true"
       :placeholder="placeholder"
       label="name"
+      :close-on-select="false"
     >
     </multiselect>
 
@@ -35,6 +53,7 @@
 
 <script>
 import Multiselect from './components/Multiselect'
+import countries from './data/countries.json'
 
 export default {
   components: {
@@ -48,7 +67,18 @@ export default {
       searchable: true,
       placeholder: 'Select props',
       source: [{ name: '1' }, { name: '2' }, { name: '3' }],
-      value: []
+      value: [],
+      countries: [],
+      selectedCountries: []
+    }
+  },
+  methods: {
+    asyncFind (query) {
+      setTimeout(() => {
+        this.countries = countries.filter((element, index, array) => {
+          return element.name.toLowerCase().includes(query.toLowerCase())
+        })
+      }, 1500)
     }
   }
 }
@@ -70,7 +100,7 @@ body {
 
 #app {
   margin-top: -100px;
-  width: 500px;
+  width: 450px;
   max-width: 500px;
   font-family: 'Lato', Helvetica, sans-serif;
   text-align: center;

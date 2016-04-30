@@ -1,5 +1,5 @@
 <template lang="jade">
-  .dropdown(
+  .multiselect(
     @focus="tryActivate()",
     @keydown.self.down.prevent="pointerForward()"
     @keydown.self.up.prevent="pointerBackward()"
@@ -7,24 +7,25 @@
     @keyup.esc="deactivate()"
     tabindex="0",
     @blur="tryDeactivate()",
-    :class="{ 'dropdown--active': isOpen }"
+    :class="{ 'multiselect--active': isOpen }"
   )
-    .dropdown__select(@mousedown.prevent="toggle()")
-    .dropdown__tags(v-el:tags)
-      span.dropdown__tag(
+    .multiselect__select(@mousedown.prevent="toggle()")
+    .multiselect__tags(v-el:tags)
+      span.multiselect__tag(
         v-for="option in value"
         track-by="$index"
         v-if="multiple"
         onmousedown="event.preventDefault()"
       )
         | {{ getOptionLabel(option) }}
-        i.dropdown__tag-icon(
+        i.multiselect__tag-icon(
           aria-hidden="true"
           tabindex="1"
           @keydown.enter.prevent="removeElement(option)"
           @mousedown.prevent="removeElement(option)"
         )
-      input.dropdown__input(
+      .multiselect__spinner(v-show="loading" transition="multiselect__loading")
+      input.multiselect__input(
         name="search"
         type="search"
         autocomplete="off"
@@ -41,10 +42,10 @@
         @keydown.enter.stop.prevent.self="addPointerElement('enter')"
         @keydown.delete="removeLastElement()"
       )
-      span.dropdown__single(v-if="!searchable && !multiple")
+      span.multiselect__single(v-if="!searchable && !multiple")
         | {{ getOptionLabel(value) ? getOptionLabel(value) : placeholder }}
-    ul.dropdown__content(
-      transition="dropdown",
+    ul.multiselect__content(
+      transition="multiselect",
       v-el:list,
       v-if="isOpen",
       :style="{ maxHeight: maxHeight + 'px' }"
@@ -53,15 +54,17 @@
         v-for="option in filteredOptions"
         track-by="$index"
       )
-        a.dropdown__option(
+        a.multiselect__option(
           tabindex="0"
           @mousedown.prevent="select(option)",
-          :class="{ 'dropdown__option--highlight': $index === pointer && this.showLabels, 'dropdown__option--selected': isSelected(option) }"
+          :class="{ 'multiselect__option--highlight': $index === pointer && this.showLabels, 'multiselect__option--selected': isSelected(option) }"
           @mouseover="pointerSet($index)"
         )
           | {{ getOptionLabel(option) }}
       li(v-show="filteredOptions.length === 0")
-        span.dropdown__option No elements found. Consider changing the search query.
+        span.multiselect__option
+          slot(name="noResult")
+            | No elements found. Consider changing the search query.
 </template>
 
 <script>
@@ -71,21 +74,24 @@
         search: '',
         isOpen: false,
         pointer: 0,
-        value: []
+        value: [],
+        loading: false
       }
     },
     props: {
+      options: {
+        type: Array,
+        required: true,
+        default () {
+          return []
+        }
+      },
       multiple: {
         type: Boolean,
         default: false
       },
       selected: {
         required: true
-      },
-      options: {
-        type: Array,
-        required: true,
-        default: []
       },
       label: {
         type: String,
@@ -123,9 +129,21 @@
         type: Function,
         default: false
       },
+      onSearchChange: {
+        type: Function,
+        default: false
+      },
       touched: {
         type: Boolean,
         default: false
+      },
+      resetAfter: {
+        type: Boolean,
+        default: false
+      },
+      closeOnSelect: {
+        type: Boolean,
+        default: true
       }
     },
     created: function () {
@@ -149,10 +167,25 @@
     watch: {
       'value' () {
         if (this.onChange) {
-          console.log('on change', this.value)
           this.onChange(this.value)
         } else {
           this.$set('selected', this.value)
+        }
+        if (this.resetAfter) {
+          this.$set('value', null)
+          this.$set('search', null)
+          this.$set('selected', null)
+        }
+      },
+      'search' () {
+        if (this.onSearchChange) {
+          this.onSearchChange(this.search)
+          this.loading = true
+        }
+      },
+      'options' () {
+        if (this.onSearchChange) {
+          this.loading = false
         }
       }
     },
@@ -192,9 +225,12 @@
           } else {
             this.$set('value', option)
           }
-          this.$el.blur()
-          if (this.searchable) {
-            this.$els.search.blur()
+          if (this.closeOnSelect) {
+            this.$el.blur()
+            if (this.searchable) {
+              this.$els.search.blur()
+            }
+            this.deactivate()
           }
         }
       },
@@ -235,6 +271,7 @@
         }
       },
       deactivate () {
+        if (!this.isOpen) return
         this.touched = true
         if (this.searchable) {
           this.multiple
@@ -290,31 +327,50 @@
 <style lang="sass" scoped>
   @import '../assets/functions'
 
-  $dropdown-height: 40px
-  $dropdown-font: inherit
-  $dropdown-font-size: 14px
-  $dropdown-line-height: 16px
-  $dropdown-font-weight: 300
-  $dropdown-color: #41B883
-  $dropdown-remove-color: #FF6A6A
-  $dropdown-color-text: #35495E
-  $dropdown-color-secondary: #F3F3F3
-  $dropdown-background: #fff
-  $dropdown-hover-bg: $dropdown-color
-  $dropdown-border: #E8E8E8
-  $dropdown-border-width: 1px
-  $dropdown-border-radius: 5px
-  $dropdown-padding: ($dropdown-height - $dropdown-line-height) / 2
+  $multiselect-height: 40px
+  $multiselect-font: inherit
+  $multiselect-font-size: 14px
+  $multiselect-line-height: 16px
+  $multiselect-font-weight: 300
+  $multiselect-color: #41B883
+  $multiselect-remove-color: #FF6A6A
+  $multiselect-color-text: #35495E
+  $multiselect-color-secondary: #F3F3F3
+  $multiselect-background: #fff
+  $multiselect-hover-bg: $multiselect-color
+  $multiselect-border: #E8E8E8
+  $multiselect-border-width: 1px
+  $multiselect-border-radius: 5px
+  $multiselect-padding: ($multiselect-height - $multiselect-line-height) / 2
 
-  .dropdown,
-  .dropdown__input,
-  .dropdown__single
+  .multiselect__spinner
+    @include spinner(16px, $multiselect-color)
+
+    position: absolute
+    right: 1px
+    top: 1px
+    width: 48px
+    height: 35px
+    background: $multiselect-background
+    display: block
+
+  .multiselect__loading-transition
+    transition: opacity 0.4s ease-in-out
+    opacity: 1
+
+  .multiselect__loading-enter,
+  .multiselect__loading-leave
+    opacity: 0
+
+  .multiselect,
+  .multiselect__input,
+  .multiselect__single
     font:
-      family: $dropdown-font
-      size: rem($dropdown-font-size)
-      weight: $dropdown-font-weight
+      family: $multiselect-font
+      size: rem($multiselect-font-size)
+      weight: $multiselect-font-weight
 
-  .dropdown
+  .multiselect
     box-sizing: content-box
 
     *
@@ -323,9 +379,9 @@
     display: block
     position: relative
     width: 100%
-    min-height: rem($dropdown-height)
+    min-height: rem($multiselect-height)
     text-align: left
-    color: $dropdown-color-text
+    color: $multiselect-color-text
 
     &:focus
       outline: none
@@ -333,24 +389,24 @@
     &--active
       z-index: 50
 
-      .dropdown__current,
-      .dropdown__input,
-      .dropdown__tags
+      .multiselect__current,
+      .multiselect__input,
+      .multiselect__tags
         border-bottom-left-radius: 0
         border-bottom-right-radius: 0
 
-      .dropdown__select
+      .multiselect__select
         transform: rotateZ(180deg)
 
-  .dropdown__input,
-  .dropdown__single
+  .multiselect__input,
+  .multiselect__single
     position: relative
     display: inline-block
     min-height: rem(20px)
     line-height: rem(20px)
     border: none
-    border-radius: $dropdown-border-radius
-    background: $dropdown-background
+    border-radius: $multiselect-border-radius
+    background: $multiselect-background
     padding: 1px 0 0 0
     width: auto
     transition: border .1s ease
@@ -358,36 +414,36 @@
     margin-bottom: rem(8px)
 
     &:hover
-      border-color: darken($dropdown-border, 10%)
+      border-color: darken($multiselect-border, 10%)
 
     &:focus
-      border-color: darken($dropdown-border, 25%)
+      border-color: darken($multiselect-border, 25%)
       outline: none
 
-  .dropdown__single
+  .multiselect__single
     padding-left: rem(6px)
     margin-bottom: rem(8px)
 
-  .dropdown__tags
-    min-height: rem($dropdown-height)
+  .multiselect__tags
+    min-height: rem($multiselect-height)
     display: block
     padding: rem(8px 40px 0 8px)
-    border-radius: $dropdown-border-radius
-    border: 1px solid $dropdown-border
-    background: $dropdown-background
+    border-radius: $multiselect-border-radius
+    border: 1px solid $multiselect-border
+    background: $multiselect-background
 
-  .dropdown__tag
+  .multiselect__tag
     position: relative
     display: inline-block
     padding: rem(4px 26px 4px 10px)
-    border-radius: $dropdown-border-radius
+    border-radius: $multiselect-border-radius
     margin-right: rem(10px)
     color: #fff
     line-height: 1
-    background: $dropdown-color
+    background: $multiselect-color
     margin-bottom: rem(8px)
 
-  .dropdown__tag-icon
+  .multiselect__tag-icon
     cursor: pointer
     margin-left: 7px
     position: absolute
@@ -401,41 +457,41 @@
     text-align: center
     line-height: rem(22px)
     transition: all 0.2s ease
-    border-radius: $dropdown-border-radius
+    border-radius: $multiselect-border-radius
 
     &:after
       content: "\00D7"
-      color: darken($dropdown-color, 20%)
+      color: darken($multiselect-color, 20%)
       font-size: rem(14px)
 
     &:focus, &:hover
-      background: darken($dropdown-color, 8%)
+      background: darken($multiselect-color, 8%)
 
       &:after
         color: white
 
-  .dropdown__current
-    line-height: rem($dropdown-line-height)
-    min-height: rem($dropdown-height)
+  .multiselect__current
+    line-height: rem($multiselect-line-height)
+    min-height: rem($multiselect-height)
     box-sizing: border-box
     display: block
     overflow: hidden
-    padding: rem(8px $dropdown-padding 0)
+    padding: rem(8px $multiselect-padding 0)
     padding-right: 30px
     white-space: nowrap
     margin: 0
     text-decoration: none
-    border-radius: $dropdown-border-radius
-    border: 1px solid $dropdown-border
+    border-radius: $multiselect-border-radius
+    border: 1px solid $multiselect-border
     cursor: pointer
 
-  .dropdown__select
+  .multiselect__select
     line-height: rem(16px)
     display: block
     position: absolute
     box-sizing: border-box
-    width: rem($dropdown-height)
-    height: rem($dropdown-height - 2px)
+    width: rem($multiselect-height)
+    height: rem($multiselect-height - 2px)
     right: rem(1px)
     top: rem(1px)
     padding: rem(4px 8px)
@@ -448,7 +504,7 @@
     &:before
       position: absolute
       right: 15px
-      top: $dropdown-height / 2 - 8
+      top: $multiselect-height / 2 - 8
       color: #999
       margin-top: rem(4px)
       border-style: solid
@@ -456,38 +512,38 @@
       border-color: #999999 transparent transparent transparent
       content: ""
 
-  .dropdown__placeholder
+  .multiselect__placeholder
     color: #ADADAD
     display: inline-block
     margin-bottom: rem(10px)
     padding-top: rem(2px)
 
-    .dropdown--active &
+    .multiselect--active &
       display: none
 
-  .dropdown__content
+  .multiselect__content
     position: absolute
     list-style: none
     display: block
-    background: $dropdown-background
+    background: $multiselect-background
     width: 100%
-    max-height: rem(200px + $dropdown-height)
+    max-height: rem(200px + $multiselect-height)
     overflow: auto
     padding: 0
     margin: 0
-    border: 1px solid $dropdown-border
+    border: 1px solid $multiselect-border
     border-top: none
-    border-bottom-left-radius: $dropdown-border-radius
-    border-bottom-right-radius: $dropdown-border-radius
+    border-bottom-left-radius: $multiselect-border-radius
+    border-bottom-right-radius: $multiselect-border-radius
     z-index: 50
 
     &::webkit-scrollbar
       display: none
 
-  .dropdown__option
+  .multiselect__option
     display: block
-    padding: rem($dropdown-padding)
-    min-height: rem($dropdown-height)
+    padding: rem($multiselect-padding)
+    min-height: rem($multiselect-height)
     line-height: rem(16px)
     font-weight: 300
     text-decoration: none
@@ -499,12 +555,12 @@
       top: 0
       right: 0
       position: absolute
-      line-height: rem($dropdown-height)
+      line-height: rem($multiselect-height)
       padding-right: rem(12px)
       padding-left: rem(20px)
 
     &--highlight
-      background: $dropdown-color
+      background: $multiselect-color
       outline: none
       color: white
 
@@ -513,50 +569,50 @@
         color: white
 
     &--selected
-      background: $dropdown-color-secondary
-      color: $dropdown-color-text
+      background: $multiselect-color-secondary
+      color: $multiselect-color-text
       font-weight: bold
 
       &:after
         content: "Selected"
         font-weight: 300
-        color: darken($dropdown-color-secondary, 20%)
+        color: darken($multiselect-color-secondary, 20%)
 
-  .dropdown__option--selected.dropdown__option--highlight
-    background: $dropdown-remove-color
+  .multiselect__option--selected.multiselect__option--highlight
+    background: $multiselect-remove-color
     color: #fff
-    font-weight: $dropdown-font-weight
+    font-weight: $multiselect-font-weight
 
     &:after
       content: "Press enter to remove"
       color: #fff
 
-  .dropdown--disabled
-    background: darken($dropdown-background, 7%)
+  .multiselect--disabled
+    background: darken($multiselect-background, 7%)
     pointer-events: none
 
-    .dropdown__current,
-    .dropdown__select
-      background: darken($dropdown-background, 7%)
-      color: darken($dropdown-background, 35%)
+    .multiselect__current,
+    .multiselect__select
+      background: darken($multiselect-background, 7%)
+      color: darken($multiselect-background, 35%)
 
-  .dropdown__option--disabled
-    background: darken($dropdown-background, 7%)
-    color: darken($dropdown-background, 35%)
+  .multiselect__option--disabled
+    background: darken($multiselect-background, 7%)
+    color: darken($multiselect-background, 35%)
     cursor: text
     pointer-events: none
 
     &:visited
-      color: darken($dropdown-background, 35%)
+      color: darken($multiselect-background, 35%)
 
     &:hover,
     &:focus
-      background: darken($dropdown-hover-bg, 3%)
+      background: darken($multiselect-hover-bg, 3%)
 
-  .dropdown-transition
+  .multiselect-transition
     transition: all .3s ease
 
-  .dropdown-enter, .dropdown-leave
+  .multiselect-enter, .multiselect-leave
     opacity: 0
     max-height: 0 !important
 </style>

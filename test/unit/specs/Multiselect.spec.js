@@ -41,7 +41,7 @@ describe('Multiselect.vue', () => {
             }
           }).$mount()
           expect(vm.$children[0].selected).to.deep.equal(vm.value)
-          expect(vm.$children[0].$els.tags.querySelector('.dropdown__tag').textContent).to.contain('1')
+          expect(vm.$children[0].$els.tags.querySelector('.multiselect__tag').textContent).to.contain('1')
         })
 
         it('should preselect passed array of objects', () => {
@@ -54,7 +54,7 @@ describe('Multiselect.vue', () => {
             }
           }).$mount()
           expect(vm.$children[0].selected).to.deep.equal(vm.value)
-          expect(vm.$children[0].$els.tags.querySelector('.dropdown__tag').textContent).to.contain('2')
+          expect(vm.$children[0].$els.tags.querySelector('.multiselect__tag').textContent).to.contain('2')
         })
 
         it('should preselect passed array of objects in different order', () => {
@@ -67,7 +67,7 @@ describe('Multiselect.vue', () => {
             }
           }).$mount()
           expect(vm.$children[0].selected).to.deep.equal(vm.value)
-          expect(vm.$children[0].$els.tags.querySelector('.dropdown__tag').textContent).to.contain('3')
+          expect(vm.$children[0].$els.tags.querySelector('.multiselect__tag').textContent).to.contain('3')
         })
       })
 
@@ -110,7 +110,7 @@ describe('Multiselect.vue', () => {
           }
         }).$mount()
         expect(vm.$children[0].selected).to.deep.equal(vm.value)
-        expect(vm.$children[0].$els.tags.querySelector('.dropdown__single').textContent).to.contain('1')
+        expect(vm.$children[0].$els.tags.querySelector('.multiselect__single').textContent).to.contain('1')
       })
 
       it('should preselect passed object', () => {
@@ -123,7 +123,7 @@ describe('Multiselect.vue', () => {
           }
         }).$mount()
         expect(vm.$children[0].selected).to.deep.equal(vm.value)
-        expect(vm.$children[0].$els.tags.querySelector('.dropdown__single').textContent).to.contain('2')
+        expect(vm.$children[0].$els.tags.querySelector('.multiselect__single').textContent).to.contain('2')
       })
     })
   })
@@ -224,6 +224,24 @@ describe('Multiselect.vue', () => {
         expect(vm.$children[0].value).to.deep.equal({ name: '1' })
         vm.$children[0].select(vm.source[1])
         expect(vm.$children[0].value).to.deep.equal({ name: '2' })
+      })
+    })
+    describe('when closeOnSelect == FALSE', () => {
+      it('should not close the dropdown', () => {
+        const vm = new Vue({
+          template: '<multiselect :selected="value" :options="source" label="name" :close-on-select="false"></multiselect>',
+          components: { Multiselect },
+          data: {
+            value: [],
+            source: [{ name: '1' }, { name: '2' }, { name: '3' }]
+          }
+        }).$mount()
+        const spy = sinon.spy(vm.$children[0], 'deactivate')
+        vm.$children[0].activate()
+        vm.$children[0].select(vm.source[0])
+        Vue.nextTick(function () {
+          expect(spy.called).to.equal(false)
+        })
       })
     })
   })
@@ -453,6 +471,59 @@ describe('Multiselect.vue', () => {
     })
   })
 
+  describe('#watch:search', () => {
+    it('calls onSearchChange(searchQuery) callback when onSearchChange prop is set', (done) => {
+      const vm = new Vue({
+        template: '<multiselect :selected="value" :options="source" label="name" :searchable="true" :on-search-change="afterSearch"></multiselect>',
+        components: { Multiselect },
+        data: {
+          value: null,
+          source: [{ name: '1' }, { name: '2' }, { name: '3' }],
+          query: ''
+        },
+        methods: {
+          afterSearch (query) {
+            this.query = query
+          }
+        }
+      }).$mount()
+      vm.$children[0].search = 'test'
+      Vue.nextTick(function () {
+        expect(vm.query).to.equal('test')
+        done()
+      })
+    })
+    it('sets loading status to TRUE until the options change', (done) => {
+      const vm = new Vue({
+        template: '<multiselect :selected="value" :options="source" label="name" :searchable="true" :on-search-change="afterSearch"></multiselect>',
+        components: { Multiselect },
+        data: {
+          value: null,
+          source: [{ name: '1' }, { name: '2' }, { name: '3' }],
+          query: ''
+        },
+        methods: {
+          afterSearch (query) {
+            setTimeout(() => {
+              this.source = [{ name: '1' }]
+            }, 10)
+          }
+        }
+      }).$mount()
+      expect(vm.$children[0].options).to.deep.equal(vm.source)
+      vm.$children[0].search = '1'
+      Vue.nextTick(function () {
+        expect(vm.$children[0].loading).to.equal(true)
+      })
+
+      setTimeout(() => {
+        expect(vm.$children[0].loading).to.equal(false)
+        expect(vm.$children[0].options).to.deep.equal([{ name: '1' }])
+        done()
+      }, 20)
+    })
+  })
+
   describe('#activate()', () => {
     it('should set isOpen value to true', (done) => {
       const vm = new Vue({
@@ -557,6 +628,7 @@ describe('Multiselect.vue', () => {
           source: [{ name: '1' }, { name: '2' }, { name: '3' }]
         }
       }).$mount()
+      vm.$children[0].activate()
       vm.$children[0].touched = false
       vm.$children[0].deactivate()
       Vue.nextTick(function () {
@@ -574,9 +646,11 @@ describe('Multiselect.vue', () => {
           source: [{ name: '1' }, { name: '2' }, { name: '3' }]
         }
       }).$mount()
+      vm.$children[0].activate()
       vm.$children[0].search = '1'
       vm.$children[0].deactivate()
       Vue.nextTick(function () {
+        expect(vm.$children[0].loading).to.equal(false)
         expect(vm.$children[0].search).to.equal('')
         done()
       })
@@ -591,9 +665,11 @@ describe('Multiselect.vue', () => {
           source: [{ name: '1' }, { name: '2' }, { name: '3' }]
         }
       }).$mount()
+      vm.$children[0].activate()
       vm.$children[0].search = '1'
       vm.$children[0].deactivate()
       Vue.nextTick(function () {
+        expect(vm.$children[0].loading).to.equal(false)
         expect(vm.$children[0].search).to.equal('2')
         done()
       })
