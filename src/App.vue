@@ -1,17 +1,17 @@
 <template>
   <div id="app">
     <h1><img class="logo" src="./assets/logo.png"> Vue-multiselect</h1>
-    <!-- <multiselect
+    <multiselect
       :options="options"
       :selected="selected"
       :multiple="multiple"
       :searchable="searchable"
       :placeholder="placeholder"
     >
-      <span slot="noResult">
-        Oops! No elements found. Consider changing the search query.
-      </span>
-    </multiselect> -->
+      <li slot="beforeList">
+        <a href="#" class="multiselect__option">Some action!</a>
+      </li>
+    </multiselect>
 
     <multiselect
       :options="countries"
@@ -84,7 +84,10 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+$multiselect-height: 140px;
+$multiselect-background: #000;
+
 html {
   height: 100%;
 }

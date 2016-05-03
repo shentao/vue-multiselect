@@ -543,28 +543,8 @@ describe('Multiselect.vue', () => {
     })
   })
 
-  describe('#tryActivate()', () => {
-    it('only calls #activate() when isOpen == FALSE', () => {
-      const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" label="name" :searchable="false"></multiselect>',
-        components: { Multiselect },
-        data: {
-          value: null,
-          source: [{ name: '1' }, { name: '2' }, { name: '3' }]
-        }
-      }).$mount()
-      vm.$children[0].isOpen = true
-      const activate = sinon.spy(vm.$children[0], 'activate')
-      vm.$children[0].tryActivate()
-      expect(activate.called).to.equal(false)
-      vm.$children[0].isOpen = false
-      vm.$children[0].tryActivate()
-      expect(activate.called).to.equal(true)
-    })
-  })
-
   describe('#toggle()', () => {
-    it('should set isOpen value to FALSE when it is TRUE and searchable == FALSE', () => {
+    it('should set isOpen value to FALSE when it is TRUE', () => {
       const vm = new Vue({
         template: '<multiselect :selected="value" :options="source" label="name" :searchable="false"></multiselect>',
         components: { Multiselect },
@@ -575,29 +555,11 @@ describe('Multiselect.vue', () => {
       }).$mount()
       vm.$children[0].isOpen = false
       vm.$children[0].toggle()
-      expect(vm.$children[0].isOpen).to.equal(false)
-      vm.$children[0].isOpen = true
+      expect(vm.$children[0].isOpen).to.equal(true)
       vm.$children[0].toggle()
       expect(vm.$children[0].isOpen).to.equal(false)
-    })
-  })
-
-  describe('#tryDeactivate()', () => {
-    it('only calls #deactivate() when isOpen == TRUE and searchable == FALSE', () => {
-      const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" label="name" :searchable="false"></multiselect>',
-        components: { Multiselect },
-        data: {
-          value: null,
-          source: [{ name: '1' }, { name: '2' }, { name: '3' }]
-        }
-      }).$mount()
-      const deactivate = sinon.spy(vm.$children[0], 'deactivate')
-      vm.$children[0].tryDeactivate()
-      expect(deactivate.called).to.equal(false)
-      vm.$children[0].isOpen = true
-      vm.$children[0].tryDeactivate()
-      expect(deactivate.called).to.equal(true)
+      vm.$children[0].toggle()
+      expect(vm.$children[0].isOpen).to.equal(true)
     })
   })
 
