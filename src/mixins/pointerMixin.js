@@ -1,4 +1,9 @@
 export default {
+  data () {
+    return {
+      pointer: 0
+    }
+  },
   methods: {
     addPointerElement () {
       if (this.filteredOptions.length > 0) {

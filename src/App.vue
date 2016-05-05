@@ -7,6 +7,7 @@
       :multiple="multiple"
       :searchable="searchable"
       :placeholder="placeholder"
+      :hide-selected="true"
     >
       <li slot="beforeList">
         <a href="#" class="multiselect__option">Some action!</a>
@@ -62,12 +63,12 @@ export default {
   data () {
     return {
       options: ['Select option', 'options', 'selected', 'mulitple', 'label', 'searchable', 'clearOnSelect', 'hideSelected', 'maxHeight', 'allowEmpty', 'showLabels', 'onChange', 'touched'],
-      selected: ['onChange'],
+      selected: [''],
       multiple: true,
       searchable: true,
       placeholder: 'Select props',
       source: [{ name: '1' }, { name: '2' }, { name: '3' }],
-      value: [],
+      value: { name: '1' },
       countries: [],
       selectedCountries: []
     }

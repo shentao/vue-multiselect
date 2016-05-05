@@ -58,7 +58,7 @@
         span.multiselect__option(
           tabindex="0"
           @mousedown.prevent="select(option)",
-          :class="{ 'multiselect__option--highlight': $index === pointer && this.showLabels, 'multiselect__option--selected': isSelected(option) }"
+          :class="{ 'multiselect__option--highlight': $index === pointer && this.showLabels, 'multiselect__option--selected': !isNotSelected(option) }"
           @mouseover="pointerSet($index)"
         )
           | {{ getOptionLabel(option) }}

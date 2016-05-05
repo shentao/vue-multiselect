@@ -3,74 +3,155 @@ export default {
     return {
       search: '',
       isOpen: false,
-      pointer: 0,
       value: [],
       loading: false
     }
   },
   props: {
+    /**
+     * Array of available options: Objects, Strings or Integers.
+     * If array of objects, visible label will default to option.label.
+     * If `labal` prop is passed, label will equal option['label']
+     * @type {Array}
+     */
     options: {
       type: Array,
       required: true,
+      /* istanbul ignore next  */
       default () {
         return []
       }
     },
+    /**
+     * Equivalent to the `multiple` attribute on a `<select>` input.
+     * @default false
+     * @type {Boolean}
+     */
     multiple: {
       type: Boolean,
       default: false
     },
+    /**
+     * Required. Presets the selected options. Add `.sync` to
+     * update parent value. If this.onChange callback is present,
+     * this will not update. In that case, the parent is responsible
+     * for updating this value.
+     * @type {Object||Array||String||Integer}
+     */
     selected: {
       required: true
     },
+    /**
+     * Label to look for in option Object
+     * @default 'value'
+     * @type {String}
+     */
     label: {
       type: String,
       default: 'value'
     },
+    /**
+     * Enable/disable search in options
+     * @default true
+     * @type {Boolean}
+     */
     searchable: {
       type: Boolean,
       default: true
     },
+    /**
+     * Clear the search input after select()
+     * @default true
+     * @type {Boolean}
+     */
     clearOnSelect: {
       type: Boolean,
       default: true
     },
+    /**
+     * Hide already selected options
+     * @default false
+     * @type {Boolean}
+     */
     hideSelected: {
       type: Boolean,
       default: false
     },
+    /**
+     * Equivalent to the `placeholder` attribute on a `<select>` input.
+     * @default 'Select option'
+     * @type {String}
+     */
     placeholder: {
       type: String,
       default: 'Select option'
     },
+    /**
+     * Sets maxHeight style value of the dropdown
+     * @default 300
+     * @type {Integer}
+     */
     maxHeight: {
       type: Number,
       default: 300
     },
+    /**
+     * Allow to remove all selected values
+     * @default true
+     * @type {Boolean}
+     */
     allowEmpty: {
       type: Boolean,
       default: true
     },
-    showLabels: {
-      type: Boolean,
-      default: true
-    },
+    /**
+     * Callback function to call after this.value changes
+     * @callback onChange
+     * @default false
+     * @param {Array||Object||String||Integer} Current this.value
+     * @type {Function}
+     */
     onChange: {
       type: Function,
       default: false
     },
+    /**
+     * Callback function to call after this.search changes
+     * @callback onSearchChange
+     * @default false
+     * @param {String} Pass current search String
+     * @type {Function}
+     */
     onSearchChange: {
       type: Function,
       default: false
     },
+    /**
+     * Value that indicates if the dropdown has been used.
+     * Useful for validation.
+     * @default false
+     * @type {Boolean}
+     */
     touched: {
       type: Boolean,
       default: false
     },
+    /**
+     * Reset this.value, this.search, this.selected after this.value changes.
+     * Useful if want to create a stateless dropdown, that fires the this.onChange
+     * callback function with different params.
+     * @default false
+     * @type {Boolean}
+     */
     resetAfter: {
       type: Boolean,
       default: false
     },
+    /**
+     * Enable/disable closing after selecting an option
+     * @default true
+     * @type {Boolean}
+     */
     closeOnSelect: {
       type: Boolean,
       default: true
@@ -101,6 +182,7 @@ export default {
       } else {
         this.$set('selected', this.value)
       }
+      /* istanbul ignore if  */
       if (this.resetAfter) {
         this.$set('value', null)
         this.$set('search', null)
@@ -120,15 +202,27 @@ export default {
     }
   },
   methods: {
+    /**
+     * Finds out if the given element is NOT already present
+     * in the result value
+     * @param  {Object||String||Integer} option passed element to check
+     * @returns {Boolean} returns true if element is not selected
+     */
     isNotSelected (option) {
-      return JSON.stringify(this.value).indexOf(JSON.stringify(option)) === -1
-    },
-    isSelected (option) {
       if (this.value && this.multiple) {
-        return JSON.stringify(this.value).indexOf(JSON.stringify(option)) !== -1
+        return JSON.stringify(this.value).indexOf(JSON.stringify(option)) === -1
+      } else {
+        return JSON.stringify(this.value) !== JSON.stringify(option)
       }
-      return JSON.stringify(this.value) === JSON.stringify(option)
     },
+    /**
+     * Returns the option[this.label]
+     * if option is Object. Otherwise check for option.label.
+     * If non is found, return entrie option.
+     *
+     * @param  {Object||String||Integer} Passed option
+     * @returns {Object||String}
+     */
     getOptionLabel (option) {
       if (typeof option === 'object' && option !== null) {
         if (this.label && option[this.label]) {
@@ -139,16 +233,23 @@ export default {
       }
       return option
     },
+    /**
+     * Add the given option to the list of selected options
+     * or sets the option as the selected option.
+     * If option is already selected -> remove it from the results.
+     *
+     * @param  {Object||String||Integer} option to select/deselect
+     */
     select (option) {
       if (this.multiple) {
-        if (this.isSelected(option)) {
+        if (!this.isNotSelected(option)) {
           this.removeElement(option)
         } else {
           this.value.push(option)
           if (this.clearOnSelect) { this.search = '' }
         }
       } else {
-        if (this.isSelected(option)) {
+        if (!this.isNotSelected(option)) {
           if (this.allowEmpty) {
             this.$set('value', null)
           }
@@ -162,20 +263,42 @@ export default {
         }
       }
     },
+    /**
+     * Removes the given option from the selected options.
+     * Additionally checks this.allowEmpty prop if option can be removed when
+     * it is the last selected option.
+     *
+     * @param  {type} option description
+     * @returns {type}        description
+     */
     removeElement (option) {
+      /* istanbul ignore else  */
       if (this.allowEmpty || this.value.length > 1) {
         this.value.$remove(option)
       }
     },
+    /**
+     * Calls this.removeElement() with the last element
+     * from this.value (selected element Array)
+     *
+     * @fires this#removeElement
+     */
     removeLastElement () {
+      /* istanbul ignore else  */
       if (this.search.length === 0 && Array.isArray(this.value)) {
         this.removeElement(this.value[this.value.length - 1])
       }
     },
+    /**
+     * Opens the multiselect’s dropdown.
+     * Sets this.isOpen to TRUE
+     */
     activate () {
-      if (this.isOpen) return
+      /* istanbul ignore else  */
+      if (this.isOpen) return false
 
       this.isOpen = true
+      /* istanbul ignore else  */
       if (this.searchable) {
         this.search = ''
         this.$els.search.focus()
@@ -183,11 +306,16 @@ export default {
         this.$el.focus()
       }
     },
+    /**
+     * Closes the multiselect’s dropdown.
+     * Sets this.isOpen to FALSE
+     */
     deactivate () {
       if (!this.isOpen) return
 
       this.isOpen = false
       this.touched = true
+      /* istanbul ignore else  */
       if (this.searchable) {
         this.$els.search.blur()
         this.search = this.multiple
@@ -197,6 +325,13 @@ export default {
         this.$el.blur()
       }
     },
+    /**
+     * Call this.activate() or this.deactivate()
+     * depending on this.isOpen value.
+     *
+     * @fires this#activate || this#deactivate
+     * @property {Boolean} isOpen indicates if dropdown is open
+     */
     toggle () {
       this.isOpen
         ? this.deactivate()

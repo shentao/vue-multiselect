@@ -69,6 +69,18 @@ describe('Multiselect.vue', () => {
           expect(vm.$children[0].selected).to.deep.equal(vm.value)
           expect(vm.$children[0].$els.tags.querySelector('.multiselect__tag').textContent).to.contain('3')
         })
+        it('should set value to [] when passing null as selected', () => {
+          const vm = new Vue({
+            template: '<multiselect :selected="value" :options="source" :multiple="true" label="name"></multiselect>',
+            components: { Multiselect },
+            data: {
+              value: null,
+              source: [{ name: '1' }, { name: '2' }, { name: '3' }]
+            }
+          }).$mount()
+          expect(vm.$children[0].value).to.deep.equal([])
+          expect(vm.$children[0].$els.tags.querySelector('.multiselect__tag')).to.equal(null)
+        })
       })
 
       describe('when multiple == FALSE', () => {
@@ -96,6 +108,45 @@ describe('Multiselect.vue', () => {
           }).$mount()
           expect(vm.$children[0].selected).to.deep.equal(vm.value)
           expect(vm.$children[0].$els.tags.querySelector('input').value).to.contain('2')
+        })
+
+        it('should set value to null when passing null as selected', () => {
+          const vm = new Vue({
+            template: '<multiselect :selected="value" :options="source" label="name"></multiselect>',
+            components: { Multiselect },
+            data: {
+              value: null,
+              source: [{ name: '1' }, { name: '2' }, { name: '3' }]
+            }
+          }).$mount()
+          expect(vm.$children[0].value).to.deep.equal(null)
+          expect(vm.$children[0].$els.tags.querySelector('.multiselect__tag')).to.equal(null)
+        })
+
+        it('should set search value to equal to passed object label', () => {
+          const vm = new Vue({
+            template: '<multiselect :selected="value" :options="source" label="name"></multiselect>',
+            components: { Multiselect },
+            data: {
+              value: { name: '1' },
+              source: [{ name: '1' }, { name: '2' }, { name: '3' }]
+            }
+          }).$mount()
+          expect(vm.$children[0].search).to.equal('1')
+          expect(vm.$children[0].$els.search.value).to.equal('1')
+        })
+
+        it('should set search value to equal to passed value', () => {
+          const vm = new Vue({
+            template: '<multiselect :selected="value" :options="source" label="name"></multiselect>',
+            components: { Multiselect },
+            data: {
+              value: 2,
+              source: [1, 2, 3]
+            }
+          }).$mount()
+          expect(vm.$children[0].search).to.equal(2)
+          expect(vm.$children[0].$els.search.value).to.equal('2')
         })
       })
     })
@@ -638,49 +689,8 @@ describe('Multiselect.vue', () => {
     })
   })
 
-  describe('#isSelected()', () => {
-    it('should return TRUE when passed option is selected when multiple == TRUE', () => {
-      const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" :multiple="true"></multiselect>',
-        components: { Multiselect },
-        data: {
-          value: ['1', '2'],
-          source: ['1', '2', '3']
-        }
-      }).$mount()
-      const option = vm.$children[0].options[1]
-      expect(vm.$children[0].isSelected(option)).to.equal(true)
-    })
-
-    it('should return TRUE when passed option is selected when multiple == FALSE', () => {
-      const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source"></multiselect>',
-        components: { Multiselect },
-        data: {
-          value: '2',
-          source: ['1', '2', '3']
-        }
-      }).$mount()
-      const option = vm.$children[0].options[1]
-      expect(vm.$children[0].isSelected(option)).to.equal(true)
-    })
-
-    it('should return FALSE when passed option is NOT selected', () => {
-      const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" :multiple="true"></multiselect>',
-        components: { Multiselect },
-        data: {
-          value: ['1'],
-          source: ['1', '2', '3']
-        }
-      }).$mount()
-      const option = vm.$children[0].options[1]
-      expect(vm.$children[0].isSelected(option)).to.equal(false)
-    })
-  })
-
   describe('#isNotSelected()', () => {
-    it('should return FALSE when passed option is selected', () => {
+    it('should return FALSE when passed option is selected when multiple == TRUE', () => {
       const vm = new Vue({
         template: '<multiselect :selected="value" :options="source" :multiple="true"></multiselect>',
         components: { Multiselect },
@@ -693,7 +703,7 @@ describe('Multiselect.vue', () => {
       expect(vm.$children[0].isNotSelected(option)).to.equal(true)
     })
 
-    it('should return TRUE when passed option is NOT selected', () => {
+    it('should return TRUE when passed option is NOT selected when multiple == TRUE', () => {
       const vm = new Vue({
         template: '<multiselect :selected="value" :options="source" :multiple="true"></multiselect>',
         components: { Multiselect },
@@ -704,6 +714,32 @@ describe('Multiselect.vue', () => {
       }).$mount()
       const option = vm.$children[0].options[0]
       expect(vm.$children[0].isNotSelected(option)).to.equal(false)
+    })
+
+    it('should return FALSE when passed option is NOT selected when multiple == FALSE', () => {
+      const vm = new Vue({
+        template: '<multiselect :selected="value" :options="source"></multiselect>',
+        components: { Multiselect },
+        data: {
+          value: '2',
+          source: ['1', '2', '3']
+        }
+      }).$mount()
+      const option = vm.$children[0].options[1]
+      expect(vm.$children[0].isNotSelected(option)).to.equal(false)
+    })
+
+    it('should return TRUE when passed option is NOT selected when multiple == FALSE', () => {
+      const vm = new Vue({
+        template: '<multiselect :selected="value" :options="source"></multiselect>',
+        components: { Multiselect },
+        data: {
+          value: '2',
+          source: ['1', '2', '3']
+        }
+      }).$mount()
+      const option = vm.$children[0].options[0]
+      expect(vm.$children[0].isNotSelected(option)).to.equal(true)
     })
   })
 
