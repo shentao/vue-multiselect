@@ -1,20 +1,20 @@
 <template lang="jade">
   .multiselect(
-    @focus="activate()",
+    tabindex="0",
+    :class="{ 'multiselect--active': isOpen }"
+    @focus="activate()"
+    @blur="searchable ? false : deactivate()"
     @keydown.self.down.prevent="pointerForward()"
     @keydown.self.up.prevent="pointerBackward()"
     @keydown.enter.stop.prevent.self="addPointerElement()"
     @keyup.esc="deactivate()"
-    tabindex="0",
-    @blur="searchable ? false : deactivate()",
-    :class="{ 'multiselect--active': isOpen }"
   )
     .multiselect__select(@mousedown.prevent="toggle()")
     .multiselect__tags(v-el:tags)
       span.multiselect__tag(
+        v-if="multiple"
         v-for="option in value"
         track-by="$index"
-        v-if="multiple"
         onmousedown="event.preventDefault()"
       )
         | {{ getOptionLabel(option) }}
@@ -28,14 +28,14 @@
       input.multiselect__input(
         name="search"
         type="text"
-        autocomplete="off"
+        autocomplete="off",
+        :placeholder="placeholder"
         v-el:search
         v-if="searchable"
-        v-model="search",
-        :placeholder="placeholder"
-        @input="pointerReset()"
-        @blur.prevent="deactivate()"
+        v-model="search"
         @focus.prevent="activate()"
+        @blur.prevent="deactivate()"
+        @input="pointerReset()"
         @keyup.esc="deactivate()"
         @keyup.down="pointerForward()"
         @keyup.up="pointerBackward()"
@@ -46,9 +46,9 @@
         | {{ getOptionLabel(value) ? getOptionLabel(value) : placeholder }}
     ul.multiselect__content(
       transition="multiselect",
-      v-el:list,
-      v-if="isOpen",
       :style="{ maxHeight: maxHeight + 'px' }"
+      v-el:list
+      v-show="isOpen"
     )
       slot(name="beforeList")
       li(
@@ -56,9 +56,9 @@
         track-by="$index"
       )
         span.multiselect__option(
-          tabindex="0"
-          @mousedown.prevent="select(option)",
-          :class="{ 'multiselect__option--highlight': $index === pointer && this.showLabels, 'multiselect__option--selected': !isNotSelected(option) }"
+          tabindex="0",
+          :class="{ 'multiselect__option--highlight': $index === pointer && this.showPointer, 'multiselect__option--selected': !isNotSelected(option) }"
+          @mousedown.prevent="select(option)"
           @mouseover="pointerSet($index)"
         )
           | {{ getOptionLabel(option) }}

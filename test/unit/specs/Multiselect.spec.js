@@ -493,6 +493,7 @@ describe('Multiselect.vue', () => {
       vm.$children[0].select(vm.$children[0].options[0])
       Vue.nextTick(function () {
         expect(vm.newValue).to.deep.equal({ name: '1' })
+        expect(vm.$children[0].selected).to.deep.equal(null)
         done()
       })
     })

@@ -109,6 +109,7 @@ export default {
      * @callback onChange
      * @default false
      * @param {Array||Object||String||Integer} Current this.value
+     * @param {Integer} $index of current selection
      * @type {Function}
      */
     onChange: {

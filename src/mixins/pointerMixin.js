@@ -4,6 +4,17 @@ export default {
       pointer: 0
     }
   },
+  props: {
+    /**
+     * Enable/disable highlighting of the pointed value.
+     * @type {Boolean}
+     * @default true
+     */
+    showPointer: {
+      type: Boolean,
+      default: true
+    }
+  },
   methods: {
     addPointerElement () {
       if (this.filteredOptions.length > 0) {
