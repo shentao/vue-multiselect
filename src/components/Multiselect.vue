@@ -59,7 +59,10 @@
           tabindex="0",
           :class="{ 'multiselect__option--highlight': $index === pointer && this.showPointer, 'multiselect__option--selected': !isNotSelected(option) }"
           @mousedown.prevent="select(option)"
-          @mouseover="pointerSet($index)"
+          @mouseover="pointerSet($index)",
+          :data-select="selectLabel",
+          :data-selected="selectedLabel",
+          :data-deselect="deselectLabel"
         )
           | {{ getOptionLabel(option) }}
       li(v-show="filteredOptions.length === 0")
@@ -74,7 +77,36 @@
   import pointerMixin from '../mixins/pointerMixin'
 
   export default {
-    mixins: [multiselectMixin, pointerMixin]
+    mixins: [multiselectMixin, pointerMixin],
+    props: {
+      /**
+       * String to show when pointing to an option
+       * @default 'Press enter to select'
+       * @type {String}
+       */
+      selectLabel: {
+        type: String,
+        default: 'Press enter to select'
+      },
+      /**
+       * String to show next to selected option
+       * @default 'Selected'
+       * @type {String}
+      */
+      selectedLabel: {
+        type: String,
+        default: 'Selected'
+      },
+       /**
+       * String to show when pointing to an alredy selected option
+       * @default 'Press enter to remove'
+       * @type {String}
+      */
+      deselectLabel: {
+        type: String,
+        default: 'Press enter to remove'
+      }
+    }
   }
 </script>
 
@@ -320,7 +352,7 @@
       color: white
 
       &:after
-        content: "Press enter to add"
+        content: attr(data-select)
         color: white
 
     &--selected
@@ -329,7 +361,7 @@
       font-weight: bold
 
       &:after
-        content: "Selected"
+        content: attr(data-selected)
         font-weight: 300
         color: darken($multiselect-color-secondary, 20%)
 
@@ -339,7 +371,7 @@
     font-weight: $multiselect-font-weight
 
     &:after
-      content: "Press enter to remove"
+      content: attr(data-deselect)
       color: #fff
 
   .multiselect--disabled

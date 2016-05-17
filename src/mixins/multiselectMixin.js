@@ -156,6 +156,16 @@ export default {
     closeOnSelect: {
       type: Boolean,
       default: true
+    },
+    /**
+     * Key to compare objects
+     * @default 'value'
+     * @type {String}
+     */
+    key: {
+      type: String,
+      // TODO: Correct when tests are fixed
+      default: 'name'
     }
   },
   created () {
@@ -174,6 +184,11 @@ export default {
         ? this.options.filter(this.isNotSelected)
         : this.options
       return this.$options.filters.filterBy(options, this.search)
+    },
+    allKeys () {
+      return this.value.map((element) => {
+        return element[this.key]
+      })
     }
   },
   watch: {
@@ -210,10 +225,20 @@ export default {
      * @returns {Boolean} returns true if element is not selected
      */
     isNotSelected (option) {
-      if (this.value && this.multiple) {
-        return JSON.stringify(this.value).indexOf(JSON.stringify(option)) === -1
+      if (!this.value) return true
+      if (typeof option === 'object' && option !== null) {
+        if (this.value && this.multiple) {
+          return this.allKeys.indexOf(option[this.key]) === -1
+          // return JSON.stringify(this.value).indexOf(JSON.stringify(option)) === -1
+        } else {
+          return this.value[this.key] !== option[this.key]
+        }
       } else {
-        return JSON.stringify(this.value) !== JSON.stringify(option)
+        if (this.value && this.multiple) {
+          return this.value.indexOf(option) === -1
+        } else {
+          return this.value !== option
+        }
       }
     },
     /**
@@ -275,7 +300,12 @@ export default {
     removeElement (option) {
       /* istanbul ignore else  */
       if (this.allowEmpty || this.value.length > 1) {
-        this.value.$remove(option)
+        if (this.multiple && typeof option === 'object') {
+          const index = this.allKeys.indexOf(option[this.key])
+          this.value.splice(index, 1)
+        } else {
+          this.value.$remove(option)
+        }
       }
     },
     /**
