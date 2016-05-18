@@ -13,7 +13,7 @@
     .multiselect__tags(v-el:tags)
       span.multiselect__tag(
         v-if="multiple"
-        v-for="option in value"
+        v-for="option in visibleValue"
         track-by="$index"
         onmousedown="event.preventDefault()"
       )
@@ -24,6 +24,8 @@
           @keydown.enter.prevent="removeElement(option)"
           @mousedown.prevent="removeElement(option)"
         )
+      template(v-if="value.length > limit")
+        strong and {{ value.length }} more
       .multiselect__spinner(v-show="loading" transition="multiselect__loading")
       input.multiselect__input(
         name="search"

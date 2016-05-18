@@ -42,13 +42,31 @@ export default {
       required: true
     },
     /**
+     * Key to compare objects
+     * @default 'id'
+     * @type {String}
+     */
+    key: {
+      type: String,
+      default: 'id'
+    },
+    /**
      * Label to look for in option Object
-     * @default 'value'
+     * @default 'label'
      * @type {String}
      */
     label: {
       type: String,
-      default: 'value'
+      default: 'label'
+    },
+    /**
+     * Label to look for in option Object
+     * @default 'label'
+     * @type {String}
+     */
+    limit: {
+      type: Number,
+      default: 99999
     },
     /**
      * Enable/disable search in options
@@ -156,16 +174,6 @@ export default {
     closeOnSelect: {
       type: Boolean,
       default: true
-    },
-    /**
-     * Key to compare objects
-     * @default 'value'
-     * @type {String}
-     */
-    key: {
-      type: String,
-      // TODO: Correct when tests are fixed
-      default: 'name'
     }
   },
   created () {
@@ -189,6 +197,11 @@ export default {
       return this.value.map((element) => {
         return element[this.key]
       })
+    },
+    visibleValue () {
+      return this.multiple
+        ? this.value.slice(0, this.limit)
+        : this.value
     }
   },
   watch: {
@@ -204,6 +217,9 @@ export default {
         this.$set('search', null)
         this.$set('selected', null)
       }
+      if (!this.multiple && this.searchable && !this.clearOnSelect) {
+        this.search = this.getOptionLabel(this.value)
+      }
     },
     'search' () {
       if (this.onSearchChange) {
@@ -212,9 +228,10 @@ export default {
       }
     },
     'options' () {
-      if (this.onSearchChange) {
-        this.loading = false
-      }
+      if (this.onSearchChange) this.loading = false
+    },
+    'selected' (newVal, oldVal) {
+      if (newVal !== oldVal) this.value = this.selected
     }
   },
   methods: {
@@ -229,7 +246,6 @@ export default {
       if (typeof option === 'object' && option !== null) {
         if (this.value && this.multiple) {
           return this.allKeys.indexOf(option[this.key]) === -1
-          // return JSON.stringify(this.value).indexOf(JSON.stringify(option)) === -1
         } else {
           return this.value[this.key] !== option[this.key]
         }

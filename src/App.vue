@@ -15,10 +15,10 @@
             :multiple="multiple",
             :searchable="searchable",
             :placeholder="placeholder",
-            :hide-selected="true",
             :on-change="afterChange",
             :show-labels="true"
-            select-label="Enter to select"
+            select-label="Enter to select",
+            :limit="2"
             )
         .grid__column.grid__unit--md-4
           pre.language-json
@@ -60,10 +60,10 @@
     h1.typo__h1 Simple select dropdown
     .grid__row
       .grid__column.grid__unit--md-4
-        label.typo__label Simple select / dropdown
+        label.typo__label Single select / dropdown
         multiselect(
           :options="source",
-          :selected="value",
+          :selected.sync="value",
           :multiple="false",
           :searchable="false",
           placeholder="Select one",
@@ -71,6 +71,9 @@
           :close-on-select="false",
           key="name"
         )
+        pre.language-json
+          code
+            {{ value | json }}
 
       .grid__column.grid__unit--md-8
         pre.language-jade
@@ -92,13 +95,18 @@
         label.typo__label Simple select / dropdown
         multiselect(
           :options="source",
-          :selected="value",
+          :selected.sync="value",
           :multiple="false",
           :searchable="true",
           placeholder="Select one",
           label="name",
-          :close-on-select="true"
+          :close-on-select="true",
+          :clear-on-select="false"
+          key="name"
         )
+        pre.language-json
+          code
+            {{ value | json }}
 
       .grid__column.grid__unit--md-8
         pre.language-jade
@@ -111,6 +119,7 @@
               placeholder="Select one",
               label="name",
               :close-on-select="false",
+              :clear-on-select="false"
               key="name"
             )
 
@@ -126,6 +135,7 @@
           placeholder="Select one",
           label="name",
           :close-on-select="true"
+          key="name"
         )
 
       .grid__column.grid__unit--md-8
