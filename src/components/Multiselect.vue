@@ -24,8 +24,8 @@
           @keydown.enter.prevent="removeElement(option)"
           @mousedown.prevent="removeElement(option)"
         )
-      template(v-if="value.length > limit")
-        strong and {{ value.length }} more
+      template(v-if="value && value.length > limit")
+        strong and {{ value.length - limit }} more
       .multiselect__spinner(v-show="loading" transition="multiselect__loading")
       input.multiselect__input(
         name="search"
@@ -99,7 +99,7 @@
         type: String,
         default: 'Selected'
       },
-       /**
+      /**
        * String to show when pointing to an alredy selected option
        * @default 'Press enter to remove'
        * @type {String}
@@ -107,6 +107,20 @@
       deselectLabel: {
         type: String,
         default: 'Press enter to remove'
+      },
+      /**
+       * Decide whether to show pointer labels
+       * @default true
+       * @type {Boolean}
+      */
+      showLabels: {
+        type: Boolean,
+        default: true
+      }
+    },
+    ready () {
+      if (!this.showLabels) {
+        this.deselectLabel = this.selectedLabel = this.selectLabel = ''
       }
     }
   }

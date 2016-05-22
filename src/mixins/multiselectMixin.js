@@ -16,11 +16,7 @@ export default {
      */
     options: {
       type: Array,
-      required: true,
-      /* istanbul ignore next  */
-      default () {
-        return []
-      }
+      required: true
     },
     /**
      * Equivalent to the `multiple` attribute on a `<select>` input.
@@ -211,7 +207,6 @@ export default {
       } else {
         this.$set('selected', this.value)
       }
-      /* istanbul ignore if  */
       if (this.resetAfter) {
         this.$set('value', null)
         this.$set('search', null)
@@ -228,10 +223,10 @@ export default {
       }
     },
     'options' () {
-      if (this.onSearchChange) this.loading = false
+      this.onSearchChange && (this.loading = false)
     },
     'selected' (newVal, oldVal) {
-      if (newVal !== oldVal) this.value = this.selected
+      newVal !== oldVal && (this.value = this.selected)
     }
   },
   methods: {
@@ -291,13 +286,11 @@ export default {
           if (this.clearOnSelect) { this.search = '' }
         }
       } else {
-        if (!this.isNotSelected(option)) {
-          if (this.allowEmpty) {
-            this.$set('value', null)
-          }
-        } else {
-          this.$set('value', option)
-        }
+        this.$set('value',
+          !this.isNotSelected(option) && this.allowEmpty
+            ? null
+            : option
+        )
         if (this.closeOnSelect) {
           this.searchable
             ? this.$els.search.blur()
@@ -314,7 +307,6 @@ export default {
      * @returns {type}        description
      */
     removeElement (option) {
-      /* istanbul ignore else  */
       if (this.allowEmpty || this.value.length > 1) {
         if (this.multiple && typeof option === 'object') {
           const index = this.allKeys.indexOf(option[this.key])
@@ -331,7 +323,7 @@ export default {
      * @fires this#removeElement
      */
     removeLastElement () {
-      /* istanbul ignore else  */
+      /* istanbul ignore else */
       if (this.search.length === 0 && Array.isArray(this.value)) {
         this.removeElement(this.value[this.value.length - 1])
       }
@@ -341,16 +333,15 @@ export default {
      * Sets this.isOpen to TRUE
      */
     activate () {
-      /* istanbul ignore else  */
-      if (this.isOpen) return false
-
-      this.isOpen = true
-      /* istanbul ignore else  */
-      if (this.searchable) {
-        this.search = ''
-        this.$els.search.focus()
-      } else {
-        this.$el.focus()
+      if (!this.isOpen) {
+        this.isOpen = true
+        /* istanbul ignore else  */
+        if (this.searchable) {
+          this.search = ''
+          this.$els.search.focus()
+        } else {
+          this.$el.focus()
+        }
       }
     },
     /**
@@ -358,18 +349,18 @@ export default {
      * Sets this.isOpen to FALSE
      */
     deactivate () {
-      if (!this.isOpen) return
-
-      this.isOpen = false
-      this.touched = true
-      /* istanbul ignore else  */
-      if (this.searchable) {
-        this.$els.search.blur()
-        this.search = this.multiple
+      if (this.isOpen) {
+        this.isOpen = false
+        this.touched = true
+        /* istanbul ignore else  */
+        if (this.searchable) {
+          this.$els.search.blur()
+          this.search = this.multiple
           ? ''
           : this.getOptionLabel(this.value)
-      } else {
-        this.$el.blur()
+        } else {
+          this.$el.blur()
+        }
       }
     },
     /**

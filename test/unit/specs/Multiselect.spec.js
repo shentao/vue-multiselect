@@ -474,6 +474,54 @@ describe('Multiselect.vue', () => {
     })
   })
 
+  describe('#watch:options', () => {
+    it('sets loading to FALSE after options update', (done) => {
+      const vm = new Vue({
+        template: '<multiselect :selected="sel" :options="source" label="id" key="id" :searchable="true" :multiple="false" :on-search-change="onSearch"></multiselect>',
+        components: { Multiselect },
+        data: {
+          sel: { id: '2' },
+          source: [{ id: '1' }, { id: '2' }, { id: '3' }]
+        },
+        methods: {
+          onSearch (query) {
+            this.source.push({ id: query })
+          }
+        }
+      }).$mount()
+      vm.$children[0].loading = true
+      expect(vm.$children[0].loading).to.equal(true)
+      vm.$children[0].search = 'test'
+      Vue.nextTick(function () {
+        expect(vm.$children[0].loading).to.equal(false)
+        done()
+      })
+    })
+  })
+
+  describe('#watch:selected', () => {
+    it('updates multiselect value when parent selected changes', (done) => {
+      const vm = new Vue({
+        template: '<multiselect :selected="sel" :options="source" label="id" key="id" :searchable="false" :on-change="addMore" :multiple="false"></multiselect>',
+        components: { Multiselect },
+        data: {
+          sel: { id: '2' },
+          source: [{ id: '1' }, { id: '2' }, { id: '3' }]
+        },
+        methods: {
+          addMore (option) {
+            this.sel = this.source[2]
+          }
+        }
+      }).$mount()
+      vm.$children[0].select(vm.$children[0].options[0])
+      Vue.nextTick(function () {
+        expect(vm.$children[0].value).to.deep.equal(vm.sel)
+        done()
+      })
+    })
+  })
+
   describe('#watch:value', () => {
     it('calls onChange(option) callback when onChange prop is set', (done) => {
       const vm = new Vue({
@@ -506,11 +554,6 @@ describe('Multiselect.vue', () => {
           value: null,
           source: [{ id: '1' }, { id: '2' }, { id: '3' }],
           newValue: null
-        },
-        methods: {
-          afterSelect (option) {
-            this.newValue = option
-          }
         }
       }).$mount()
       vm.$children[0].select(vm.$children[0].options[0])
@@ -518,6 +561,42 @@ describe('Multiselect.vue', () => {
         expect(vm.$children[0].selected).to.deep.equal({ id: '1' })
         expect(vm.newValue).to.deep.equal(null)
         expect(vm.value).to.deep.equal({ id: '1' })
+        done()
+      })
+    })
+
+    it('resets value, search and selected when resetAfter is TRUE', (done) => {
+      const vm = new Vue({
+        template: '<multiselect :selected="value" :options="source" label="id" key="id" :searchable="false" :reset-after="true"></multiselect>',
+        components: { Multiselect },
+        data: {
+          value: null,
+          source: [{ id: '1' }, { id: '2' }, { id: '3' }],
+          newValue: null
+        }
+      }).$mount()
+      vm.$children[0].select(vm.$children[0].options[2])
+      Vue.nextTick(function () {
+        expect(vm.$children[0].selected).to.deep.equal(null)
+        expect(vm.$children[0].value).to.deep.equal(null)
+        expect(vm.$children[0].search).to.deep.equal(null)
+        done()
+      })
+    })
+
+    it('set search to value after change when clearOnSelect and multiple are FALSE and searchable is TRUE', (done) => {
+      const vm = new Vue({
+        template: '<multiselect :selected="value" :options="source" label="id" key="id" :searchable="true" :clear-on-select="false"></multiselect>',
+        components: { Multiselect },
+        data: {
+          value: null,
+          source: [{ id: '1' }, { id: '2' }, { id: '3' }],
+          newValue: null
+        }
+      }).$mount()
+      vm.$children[0].select(vm.$children[0].options[2])
+      Vue.nextTick(function () {
+        expect(vm.$children[0].search).to.deep.equal('3')
         done()
       })
     })
