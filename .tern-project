@@ -1,0 +1,10 @@
+{
+  "ecmaVersion": 6,
+  "plugins": {
+    "modules": {},
+    "es_modules": {},
+    "doc_comment": {
+      "fullDocs": true
+    }
+  }
+}

@@ -1,60 +1,442 @@
-<template>
-  <div id="app">
-    <h1><img class="logo" src="./assets/logo.png"> Vue-multiselect</h1>
-    <multiselect
-      :options="options"
-      :selected="selected"
-      :multiple="multiple"
-      :searchable="searchable"
-      :placeholder="placeholder"
-      :hide-selected="true"
-    >
-      <li slot="beforeList">
-        <a href="#" class="multiselect__option">Some action!</a>
-      </li>
-    </multiselect>
+<template lang="jade">
+div
+  section.start
+    .center-vertically
+      h1
+        img.logo(src="./assets/logo.png")
+        | Vue-multiselect
+      h2 The most complete selecting solution for
+        = ' '
+        a.typo__link(href="http://vuejs.org" target="_BLANK") Vue.js
 
-    <multiselect
-      :options="countries"
-      :selected="selectedCountries"
-      :multiple="multiple"
-      :searchable="searchable"
-      :placeholder="placeholder"
-      :on-search-change="asyncFind"
-      label="name"
-    >
-      <span slot="noResult">
-        Oops! No elements found. Consider changing the search query.
-      </span>
-    </multiselect>
+      .grid__row.grid__row--centered
+        .grid__column.grid__unit--md-6
+          .multiselect-example__container
+            multiselect(
+              :options="options",
+              :selected="selected",
+              :multiple="multiple",
+              :searchable="searchable",
+              :placeholder="placeholder",
+              :on-change="afterChange",
+              :show-labels="true"
+              select-label="Enter to select",
+              :limit="3"
+            )
+            .grid__row
+              .grid__column.grid__unit--md-6.list
+                ul.list__ul
+                  li.typo__li Single select
+                  li.typo__li Multiple select
+                  li.typo__li Dropdowns
+                  li.typo__li Search
+                  li.typo__li Mixins
+                  li.typo__li Custom components
+              .grid__column.grid__unit--md-6.list
+                ul.list__ul
+                  li.typo__li Vuex support
+                  li.typo__li Async options
+                  li.typo__li Fully tested
+                  li.typo__li Fully configurable
+                  li.typo__li No dependencies
+                  li.typo__li And more...
 
-    <h2>Config</h2>
-    <label>
-      <input type="checkbox" name="name" v-model="multiple"> Multiple
-    </label>
-    <label>
-      <input type="checkbox" name="name" v-model="searchable"> Searchable
-    </label>
-    <label>Placeholder</label>
-    <input type="text" name="name" v-model="placeholder">
+      .grid__row.grid__row--centered
+        .grid__column.grid__unit--md-6.utils--center
+          .button__group
+            a.button.button--secondary.button--large(href="https://github.com/monterail/vue-multiselect" target="_BLANK") View project on Github
+            a.button.button--large(href="#getting-started") Getting started & examples
 
-    <multiselect
-      :options="source"
-      :selected="value"
-      :multiple="false"
-      :searchable="true"
-      :placeholder="placeholder"
-      label="name"
-      :close-on-select="false"
-    >
-    </multiselect>
+  .grid__row
+    .grid__column
+      section.docs#getting-started
+        h1.typo__h1 Getting started
+        hr.typo__hr
 
-  </div>
+        .grid__row
+          .grid__column.grid__unit--md-6
+            h2.typo__h2 Installation
+            pre.language-bash
+              code.
+                npm install vue-multiselect --save
+          .grid__column.grid__unit--md-6
+            h2.typo__h2 Usage
+            pre.language-jade
+              code.
+                multiselect(
+                  :selected.sync="selected",
+                  :options="options"
+                )
+            pre.language-javascript
+              code.
+                import multiselect from 'vue-multiselect'
+                export default {
+                  components: { multiselect },
+                  data () {
+                    return {
+                      selected: null,
+                      options: ['list', 'of', 'options']
+                    }
+                  }
+                }
+
+  .grid__row
+    .grid__column
+      section.docs
+        h1.typo__h1 Examples
+        hr.typo__hr
+        h2.typo__h2 Asynchronous dropdown
+        .grid__row
+          .grid__column.grid__unit--md-4
+            label.typo__label Async multiselect
+            multiselect(
+              :options="countries",
+              :selected.sync="selectedCountries",
+              :multiple="multiple",
+              :searchable="searchable",
+              placeholder="Type to search",
+              :on-search-change="asyncFind",
+              label="name"
+              key="code"
+            )
+              span(slot="noResult").
+                Oops! No elements found. Consider changing the search query.
+            pre.language-json
+              code.
+                {{ selectedCountries | json }}
+
+          .grid__column.grid__unit--md-8
+            label.typo__label Code sample
+            pre.language-jade
+              code.
+                multiselect(
+                  :options="countries",
+                  :selected.sync="selectedCountries",
+                  :multiple="multiple",
+                  :searchable="searchable",
+                  placeholder="Type to search",
+                  :on-search-change="asyncFind",
+                  label="name"
+                  key="code"
+                )
+                  span(slot="noResult").
+                    Oops! No elements found. Consider changing the search query.
+
+        hr.typo__hr
+        h2.typo__h2 Simple select dropdown
+        .grid__row
+          .grid__column.grid__unit--md-4
+            label.typo__label Single select / dropdown
+            multiselect(
+              :options="source",
+              :selected.sync="value",
+              :multiple="false",
+              :searchable="false",
+              placeholder="Select one",
+              label="name",
+              :close-on-select="false",
+              key="name"
+            )
+            pre.language-json
+              code.
+                {{ value | json }}
+
+          .grid__column.grid__unit--md-8
+            label.typo__label Code sample
+            pre.language-jade
+              code.
+                multiselect(
+                  :options="source",
+                  :selected="value",
+                  :multiple="false",
+                  :searchable="false",
+                  placeholder="Select one",
+                  label="name",
+                  :close-on-select="false",
+                  key="name"
+                )
+
+        hr.typo__hr
+        h2.typo__h2 Single select with search
+        .grid__row
+          .grid__column.grid__unit--md-4
+            label.typo__label Simple select / dropdown
+            multiselect(
+              :options="source",
+              :selected.sync="value",
+              :multiple="false",
+              :searchable="true",
+              placeholder="Select one",
+              label="name",
+              :close-on-select="true",
+              :clear-on-select="false"
+              key="name"
+            )
+            pre.language-json
+              code.
+                {{ value | json }}
+
+          .grid__column.grid__unit--md-8
+            label.typo__label Code sample
+            pre.language-jade
+              code.
+                multiselect(
+                  :options="source",
+                  :selected="value",
+                  :multiple="false",
+                  :searchable="false",
+                  placeholder="Select one",
+                  label="name",
+                  :close-on-select="false",
+                  :clear-on-select="false"
+                  key="name"
+                )
+
+        hr.typo__hr
+        h2.typo__h2 Multiple select with search
+        .grid__row
+          .grid__column.grid__unit--md-4
+            label.typo__label Simple select / dropdown
+            multiselect(
+              :options="source",
+              :selected.sync="multiValue",
+              :multiple="true",
+              :searchable="true",
+              placeholder="Pick some",
+              label="name",
+              :close-on-select="true"
+              key="name"
+            )
+            pre.language-json
+              code.
+                {{ multiValue | json }}
+
+          .grid__column.grid__unit--md-8
+            label.typo__label Code sample
+            pre.language-jade
+              code.
+                multiselect(
+                  :options="source",
+                  :selected="multiValue",
+                  :multiple="false",
+                  :searchable="false",
+                  placeholder="Pick some",
+                  label="name",
+                  :close-on-select="false",
+                  key="name"
+                )
+
+      section.docs
+        h1.typo__h1 Config
+        hr.typo__hr
+        h2.typo__h2 Props
+        .grid__row
+          .grid__column
+            pre.language-javascript
+              code.
+                // multiselectMixin.js
+
+                props: {
+                  /**
+                   * Array of available options: Objects, Strings or Integers.
+                   * If array of objects, visible label will default to option.label.
+                   * If `labal` prop is passed, label will equal option['label']
+                   * @type {Array}
+                   */
+                  options: {
+                    type: Array,
+                    required: true,
+                    /* istanbul ignore next  */
+                    default () {
+                      return []
+                    }
+                  },
+                  /**
+                   * Equivalent to the `multiple` attribute on a select input.
+                   * @default false
+                   * @type {Boolean}
+                   */
+                  multiple: {
+                    type: Boolean,
+                    default: false
+                  },
+                  /**
+                   * Required. Presets the selected options. Add `.sync` to
+                   * update parent value. If this.onChange callback is present,
+                   * this will not update. In that case, the parent is responsible
+                   * for updating this value.
+                   * @type {Object||Array||String||Integer}
+                   */
+                  selected: {
+                    required: true
+                  },
+                  /**
+                   * Key to compare objects
+                   * @default 'id'
+                   * @type {String}
+                   */
+                  key: {
+                    type: String,
+                    default: 'id'
+                  },
+                  /**
+                   * Label to look for in option Object
+                   * @default 'label'
+                   * @type {String}
+                   */
+                  label: {
+                    type: String,
+                    default: 'label'
+                  },
+                  /**
+                   * Label to look for in option Object
+                   * @default 'label'
+                   * @type {String}
+                   */
+                  limit: {
+                    type: Number,
+                    default: 99999
+                  },
+                  /**
+                   * Enable/disable search in options
+                   * @default true
+                   * @type {Boolean}
+                   */
+                  searchable: {
+                    type: Boolean,
+                    default: true
+                  },
+                  /**
+                   * Clear the search input after select()
+                   * @default true
+                   * @type {Boolean}
+                   */
+                  clearOnSelect: {
+                    type: Boolean,
+                    default: true
+                  },
+                  /**
+                   * Hide already selected options
+                   * @default false
+                   * @type {Boolean}
+                   */
+                  hideSelected: {
+                    type: Boolean,
+                    default: false
+                  },
+                  /**
+                   * Equivalent to the placeholder attribute on a select input.
+                   * @default 'Select option'
+                   * @type {String}
+                   */
+                  placeholder: {
+                    type: String,
+                    default: 'Select option'
+                  },
+                  /**
+                   * Sets maxHeight style value of the dropdown
+                   * @default 300
+                   * @type {Integer}
+                   */
+                  maxHeight: {
+                    type: Number,
+                    default: 300
+                  },
+                  /**
+                   * Allow to remove all selected values
+                   * @default true
+                   * @type {Boolean}
+                   */
+                  allowEmpty: {
+                    type: Boolean,
+                    default: true
+                  },
+                  /**
+                   * Callback function to call after this.value changes
+                   * @callback onChange
+                   * @default false
+                   * @param {Array||Object||String||Integer} Current this.value
+                   * @param {Integer} $index of current selection
+                   * @type {Function}
+                   */
+                  onChange: {
+                    type: Function,
+                    default: false
+                  },
+                  /**
+                   * Callback function to call after this.search changes
+                   * @callback onSearchChange
+                   * @default false
+                   * @param {String} Pass current search String
+                   * @type {Function}
+                   */
+                  onSearchChange: {
+                    type: Function,
+                    default: false
+                  },
+                  /**
+                   * Value that indicates if the dropdown has been used.
+                   * Useful for validation.
+                   * @default false
+                   * @type {Boolean}
+                   */
+                  touched: {
+                    type: Boolean,
+                    default: false
+                  },
+                  /**
+                   * Reset this.value, this.search, this.selected after this.value changes.
+                   * Useful if want to create a stateless dropdown, that fires the this.onChange
+                   * callback function with different params.
+                   * @default false
+                   * @type {Boolean}
+                   */
+                  resetAfter: {
+                    type: Boolean,
+                    default: false
+                  },
+                  /**
+                   * Enable/disable closing after selecting an option
+                   * @default true
+                   * @type {Boolean}
+                   */
+                  closeOnSelect: {
+                    type: Boolean,
+                    default: true
+                  }
+                }
+
+                // pointerMixin.js
+
+                props: {
+                  /**
+                   * Enable/disable highlighting of the pointed value.
+                   * @type {Boolean}
+                   * @default true
+                   */
+                  showPointer: {
+                    type: Boolean,
+                    default: true
+                  }
+                }
+
+      section.utils--center
+        hr.typo__hr
+        h4.typo__h4 Created by Damian Dulisz
+          strong
+            a.typo__link(href="https://twitter.com/DamianDulisz" target="_BLANK")  @DamianDulisz
+        h4.typo__h4 With love from
+          strong
+            a.typo__link.monterail-link(href="http://monterail.com" target="_BLANK")  Monterail
+        a(href="http://monterail.com" target="_BLANK")
+          img.monterail-logo(src="/static/monterail-logo.png")
 </template>
 
 <script>
 import Multiselect from './components/Multiselect'
 import countries from './data/countries.json'
+
+const SL = ', 100%, 87%'
 
 export default {
   components: {
@@ -63,29 +445,48 @@ export default {
   data () {
     return {
       options: ['Select option', 'options', 'selected', 'mulitple', 'label', 'searchable', 'clearOnSelect', 'hideSelected', 'maxHeight', 'allowEmpty', 'showLabels', 'onChange', 'touched'],
-      selected: [''],
+      selected: ['Select option'],
+      source: [{ name: 'Vue.js' }, { name: 'Javascript' }, { name: 'Monterail' }, { name: 'Open Source' }],
+      value: { name: 'Vue.js' },
+      multiValue: [{ name: 'Vue.js' }],
       multiple: true,
       searchable: true,
       placeholder: 'Select props',
-      source: [{ name: '1' }, { name: '2' }, { name: '3' }],
-      value: { name: '1' },
       countries: [],
-      selectedCountries: []
+      selectedCountries: [],
+      first: 230,
+      second: 197
+    }
+  },
+  computed: {
+    gradient () {
+      // return 'linear-gradient(to left bottom, #C1C6FF 0%, #E7FFEB 100%) fixed'
+      return `linear-gradient(to left bottom, hsl(${this.first + SL}) 0%, hsl(${this.second + SL}) 100%)`
     }
   },
   methods: {
     asyncFind (query) {
-      setTimeout(() => {
-        this.countries = countries.filter((element, index, array) => {
-          return element.name.toLowerCase().includes(query.toLowerCase())
-        })
-      }, 1500)
+      if (query.length === 0) {
+        this.countries = []
+      } else {
+        setTimeout(() => {
+          this.countries = countries.filter((element, index, array) => {
+            return element.name.toLowerCase().includes(query.toLowerCase())
+          })
+        }, 1000)
+      }
+    },
+    afterChange (selectValue) {
+      this.selected = selectValue
     }
   }
 }
 </script>
 
 <style lang="scss">
+@import './assets/main';
+@import './assets/prism';
+
 $multiselect-height: 140px;
 $multiselect-background: #000;
 
@@ -94,24 +495,36 @@ html {
 }
 
 body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
   height: 100%;
   background: #fafafa;
   color: #35495E;
-}
-
-#app {
-  margin-top: -100px;
-  width: 450px;
-  max-width: 500px;
-  font-family: 'Lato', Helvetica, sans-serif;
   text-align: center;
+  font-family: 'Lato', Helvetica, sans-serif;
+  text-decoration: none;
 }
 
-#app {
-  text-decoration: none;
+.start {
+  min-height: 100vh;
+  display: block;
+  background: linear-gradient(to left bottom, #C1C6FF 0%, #E7FFEB 100%) fixed;
+}
+
+.docs {
+  text-align: left;
+  padding-top: rem(60px)
+}
+
+.center-vertically {
+  position: absolute;
+  height: 600px;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.multiselect-example__container {
+  margin: 0 auto 60px;
 }
 
 h1 {
@@ -120,11 +533,25 @@ h1 {
   line-height: 40px;
 }
 
+.button {
+  margin-right: rem(20px)
+}
+
 .logo {
   width: 70px;
   height: 70px;
   margin-right: 10px;
   vertical-align: middle;
   display: inline-block;
+}
+
+.monterail-logo {
+  width: 100px;
+  height: 100px;
+  margin-bottom: rem(30px)
+}
+
+.monterail-link {
+  color: #D20C03
 }
 </style>

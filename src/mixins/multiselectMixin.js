@@ -16,11 +16,7 @@ export default {
      */
     options: {
       type: Array,
-      required: true,
-      /* istanbul ignore next  */
-      default () {
-        return []
-      }
+      required: true
     },
     /**
      * Equivalent to the `multiple` attribute on a `<select>` input.
@@ -42,13 +38,31 @@ export default {
       required: true
     },
     /**
+     * Key to compare objects
+     * @default 'id'
+     * @type {String}
+     */
+    key: {
+      type: String,
+      default: 'id'
+    },
+    /**
      * Label to look for in option Object
-     * @default 'value'
+     * @default 'label'
      * @type {String}
      */
     label: {
       type: String,
-      default: 'value'
+      default: 'label'
+    },
+    /**
+     * Label to look for in option Object
+     * @default 'label'
+     * @type {String}
+     */
+    limit: {
+      type: Number,
+      default: 99999
     },
     /**
      * Enable/disable search in options
@@ -109,6 +123,7 @@ export default {
      * @callback onChange
      * @default false
      * @param {Array||Object||String||Integer} Current this.value
+     * @param {Integer} $index of current selection
      * @type {Function}
      */
     onChange: {
@@ -173,6 +188,16 @@ export default {
         ? this.options.filter(this.isNotSelected)
         : this.options
       return this.$options.filters.filterBy(options, this.search)
+    },
+    allKeys () {
+      return this.value.map((element) => {
+        return element[this.key]
+      })
+    },
+    visibleValue () {
+      return this.multiple
+        ? this.value.slice(0, this.limit)
+        : this.value
     }
   },
   watch: {
@@ -182,11 +207,13 @@ export default {
       } else {
         this.$set('selected', this.value)
       }
-      /* istanbul ignore if  */
       if (this.resetAfter) {
         this.$set('value', null)
         this.$set('search', null)
         this.$set('selected', null)
+      }
+      if (!this.multiple && this.searchable && !this.clearOnSelect) {
+        this.search = this.getOptionLabel(this.value)
       }
     },
     'search' () {
@@ -196,9 +223,10 @@ export default {
       }
     },
     'options' () {
-      if (this.onSearchChange) {
-        this.loading = false
-      }
+      this.onSearchChange && (this.loading = false)
+    },
+    'selected' (newVal, oldVal) {
+      newVal !== oldVal && (this.value = this.selected)
     }
   },
   methods: {
@@ -209,10 +237,19 @@ export default {
      * @returns {Boolean} returns true if element is not selected
      */
     isNotSelected (option) {
-      if (this.value && this.multiple) {
-        return JSON.stringify(this.value).indexOf(JSON.stringify(option)) === -1
+      if (!this.value) return true
+      if (typeof option === 'object' && option !== null) {
+        if (this.value && this.multiple) {
+          return this.allKeys.indexOf(option[this.key]) === -1
+        } else {
+          return this.value[this.key] !== option[this.key]
+        }
       } else {
-        return JSON.stringify(this.value) !== JSON.stringify(option)
+        if (this.value && this.multiple) {
+          return this.value.indexOf(option) === -1
+        } else {
+          return this.value !== option
+        }
       }
     },
     /**
@@ -249,13 +286,11 @@ export default {
           if (this.clearOnSelect) { this.search = '' }
         }
       } else {
-        if (!this.isNotSelected(option)) {
-          if (this.allowEmpty) {
-            this.$set('value', null)
-          }
-        } else {
-          this.$set('value', option)
-        }
+        this.$set('value',
+          !this.isNotSelected(option) && this.allowEmpty
+            ? null
+            : option
+        )
         if (this.closeOnSelect) {
           this.searchable
             ? this.$els.search.blur()
@@ -272,9 +307,13 @@ export default {
      * @returns {type}        description
      */
     removeElement (option) {
-      /* istanbul ignore else  */
       if (this.allowEmpty || this.value.length > 1) {
-        this.value.$remove(option)
+        if (this.multiple && typeof option === 'object') {
+          const index = this.allKeys.indexOf(option[this.key])
+          this.value.splice(index, 1)
+        } else {
+          this.value.$remove(option)
+        }
       }
     },
     /**
@@ -284,7 +323,7 @@ export default {
      * @fires this#removeElement
      */
     removeLastElement () {
-      /* istanbul ignore else  */
+      /* istanbul ignore else */
       if (this.search.length === 0 && Array.isArray(this.value)) {
         this.removeElement(this.value[this.value.length - 1])
       }
@@ -294,16 +333,15 @@ export default {
      * Sets this.isOpen to TRUE
      */
     activate () {
-      /* istanbul ignore else  */
-      if (this.isOpen) return false
-
-      this.isOpen = true
-      /* istanbul ignore else  */
-      if (this.searchable) {
-        this.search = ''
-        this.$els.search.focus()
-      } else {
-        this.$el.focus()
+      if (!this.isOpen) {
+        this.isOpen = true
+        /* istanbul ignore else  */
+        if (this.searchable) {
+          this.search = ''
+          this.$els.search.focus()
+        } else {
+          this.$el.focus()
+        }
       }
     },
     /**
@@ -311,18 +349,18 @@ export default {
      * Sets this.isOpen to FALSE
      */
     deactivate () {
-      if (!this.isOpen) return
-
-      this.isOpen = false
-      this.touched = true
-      /* istanbul ignore else  */
-      if (this.searchable) {
-        this.$els.search.blur()
-        this.search = this.multiple
+      if (this.isOpen) {
+        this.isOpen = false
+        this.touched = true
+        /* istanbul ignore else  */
+        if (this.searchable) {
+          this.$els.search.blur()
+          this.search = this.multiple
           ? ''
           : this.getOptionLabel(this.value)
-      } else {
-        this.$el.blur()
+        } else {
+          this.$el.blur()
+        }
       }
     },
     /**

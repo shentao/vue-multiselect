@@ -1,20 +1,20 @@
 <template lang="jade">
   .multiselect(
-    @focus="activate()",
+    tabindex="0",
+    :class="{ 'multiselect--active': isOpen }"
+    @focus="activate()"
+    @blur="searchable ? false : deactivate()"
     @keydown.self.down.prevent="pointerForward()"
     @keydown.self.up.prevent="pointerBackward()"
     @keydown.enter.stop.prevent.self="addPointerElement()"
     @keyup.esc="deactivate()"
-    tabindex="0",
-    @blur="searchable ? false : deactivate()",
-    :class="{ 'multiselect--active': isOpen }"
   )
     .multiselect__select(@mousedown.prevent="toggle()")
     .multiselect__tags(v-el:tags)
       span.multiselect__tag(
-        v-for="option in value"
-        track-by="$index"
         v-if="multiple"
+        v-for="option in visibleValue"
+        track-by="$index"
         onmousedown="event.preventDefault()"
       )
         | {{ getOptionLabel(option) }}
@@ -24,18 +24,20 @@
           @keydown.enter.prevent="removeElement(option)"
           @mousedown.prevent="removeElement(option)"
         )
+      template(v-if="value && value.length > limit")
+        strong and {{ value.length - limit }} more
       .multiselect__spinner(v-show="loading" transition="multiselect__loading")
       input.multiselect__input(
         name="search"
         type="text"
-        autocomplete="off"
+        autocomplete="off",
+        :placeholder="placeholder"
         v-el:search
         v-if="searchable"
-        v-model="search",
-        :placeholder="placeholder"
-        @input="pointerReset()"
-        @blur.prevent="deactivate()"
+        v-model="search"
         @focus.prevent="activate()"
+        @blur.prevent="deactivate()"
+        @input="pointerReset()"
         @keyup.esc="deactivate()"
         @keyup.down="pointerForward()"
         @keyup.up="pointerBackward()"
@@ -46,9 +48,9 @@
         | {{ getOptionLabel(value) ? getOptionLabel(value) : placeholder }}
     ul.multiselect__content(
       transition="multiselect",
-      v-el:list,
-      v-if="isOpen",
       :style="{ maxHeight: maxHeight + 'px' }"
+      v-el:list
+      v-show="isOpen"
     )
       slot(name="beforeList")
       li(
@@ -56,10 +58,13 @@
         track-by="$index"
       )
         span.multiselect__option(
-          tabindex="0"
-          @mousedown.prevent="select(option)",
-          :class="{ 'multiselect__option--highlight': $index === pointer && this.showLabels, 'multiselect__option--selected': !isNotSelected(option) }"
-          @mouseover="pointerSet($index)"
+          tabindex="0",
+          :class="{ 'multiselect__option--highlight': $index === pointer && this.showPointer, 'multiselect__option--selected': !isNotSelected(option) }"
+          @mousedown.prevent="select(option)"
+          @mouseover="pointerSet($index)",
+          :data-select="selectLabel",
+          :data-selected="selectedLabel",
+          :data-deselect="deselectLabel"
         )
           | {{ getOptionLabel(option) }}
       li(v-show="filteredOptions.length === 0")
@@ -74,7 +79,50 @@
   import pointerMixin from '../mixins/pointerMixin'
 
   export default {
-    mixins: [multiselectMixin, pointerMixin]
+    mixins: [multiselectMixin, pointerMixin],
+    props: {
+      /**
+       * String to show when pointing to an option
+       * @default 'Press enter to select'
+       * @type {String}
+       */
+      selectLabel: {
+        type: String,
+        default: 'Press enter to select'
+      },
+      /**
+       * String to show next to selected option
+       * @default 'Selected'
+       * @type {String}
+      */
+      selectedLabel: {
+        type: String,
+        default: 'Selected'
+      },
+      /**
+       * String to show when pointing to an alredy selected option
+       * @default 'Press enter to remove'
+       * @type {String}
+      */
+      deselectLabel: {
+        type: String,
+        default: 'Press enter to remove'
+      },
+      /**
+       * Decide whether to show pointer labels
+       * @default true
+       * @type {Boolean}
+      */
+      showLabels: {
+        type: Boolean,
+        default: true
+      }
+    },
+    ready () {
+      if (!this.showLabels) {
+        this.deselectLabel = this.selectedLabel = this.selectLabel = ''
+      }
+    }
   }
 </script>
 
@@ -320,7 +368,7 @@
       color: white
 
       &:after
-        content: "Press enter to add"
+        content: attr(data-select)
         color: white
 
     &--selected
@@ -329,7 +377,7 @@
       font-weight: bold
 
       &:after
-        content: "Selected"
+        content: attr(data-selected)
         font-weight: 300
         color: darken($multiselect-color-secondary, 20%)
 
@@ -339,7 +387,7 @@
     font-weight: $multiselect-font-weight
 
     &:after
-      content: "Press enter to remove"
+      content: attr(data-deselect)
       color: #fff
 
   .multiselect--disabled
