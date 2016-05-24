@@ -1,6 +1,6 @@
-<template lang="jade">
-  .multiselect(
-    tabindex="0",
+<template>
+  <div
+    tabindex="0"
     :class="{ 'multiselect--active': isOpen }"
     @focus="activate()"
     @blur="searchable ? false : deactivate()"
@@ -8,70 +8,59 @@
     @keydown.self.up.prevent="pointerBackward()"
     @keydown.enter.stop.prevent.self="addPointerElement()"
     @keyup.esc="deactivate()"
-  )
-    .multiselect__select(@mousedown.prevent="toggle()")
-    .multiselect__tags(v-el:tags)
-      span.multiselect__tag(
-        v-if="multiple"
-        v-for="option in visibleValue"
-        track-by="$index"
-        onmousedown="event.preventDefault()"
-      )
-        | {{ getOptionLabel(option) }}
-        i.multiselect__tag-icon(
-          aria-hidden="true"
-          tabindex="1"
-          @keydown.enter.prevent="removeElement(option)"
-          @mousedown.prevent="removeElement(option)"
-        )
-      template(v-if="value && value.length > limit")
-        strong and {{ value.length - limit }} more
-      .multiselect__spinner(v-show="loading" transition="multiselect__loading")
-      input.multiselect__input(
-        name="search"
-        type="text"
-        autocomplete="off",
-        :placeholder="placeholder"
-        v-el:search
-        v-if="searchable"
-        v-model="search"
-        @focus.prevent="activate()"
-        @blur.prevent="deactivate()"
-        @input="pointerReset()"
-        @keyup.esc="deactivate()"
-        @keyup.down="pointerForward()"
-        @keyup.up="pointerBackward()"
-        @keydown.enter.stop.prevent.self="addPointerElement()"
-        @keydown.delete="removeLastElement()"
-      )
-      span.multiselect__single(v-if="!searchable && !multiple")
-        | {{ getOptionLabel(value) ? getOptionLabel(value) : placeholder }}
-    ul.multiselect__content(
-      transition="multiselect",
-      :style="{ maxHeight: maxHeight + 'px' }"
-      v-el:list
-      v-show="isOpen"
-    )
-      slot(name="beforeList")
-      li(
-        v-for="option in filteredOptions"
-        track-by="$index"
-      )
-        span.multiselect__option(
-          tabindex="0",
-          :class="{ 'multiselect__option--highlight': $index === pointer && this.showPointer, 'multiselect__option--selected': !isNotSelected(option) }"
-          @mousedown.prevent="select(option)"
-          @mouseover="pointerSet($index)",
-          :data-select="selectLabel",
-          :data-selected="selectedLabel",
-          :data-deselect="deselectLabel"
-        )
-          | {{ getOptionLabel(option) }}
-      li(v-show="filteredOptions.length === 0")
-        span.multiselect__option
-          slot(name="noResult")
-            | No elements found. Consider changing the search query.
-      slot(name="afterList")
+    class="multiselect">
+      <div @mousedown.prevent="toggle()" class="multiselect__select"></div>
+      <div v-el:tags="v-el:tags" class="multiselect__tags">
+        <span v-if="multiple" v-for="option in visibleValue" track-by="$index" onmousedown="event.preventDefault()" class="multiselect__tag">
+          {{ getOptionLabel(option) }}
+          <i aria-hidden="true" tabindex="1" @keydown.enter.prevent="removeElement(option)" @mousedown.prevent="removeElement(option)" class="multiselect__tag-icon"></i>
+        </span>
+        <template v-if="value &amp;&amp; value.length &gt; limit">
+          <strong>and {{ value.length - limit }} more</strong>
+        </template>
+        <div v-show="loading" transition="multiselect__loading" class="multiselect__spinner"></div>
+        <input
+          name="search"
+          type="text"
+          autocomplete="off"
+          :placeholder="placeholder"
+          v-el:search="v-el:search"
+          v-if="searchable"
+          v-model="search"
+          @focus.prevent="activate()"
+          @blur.prevent="deactivate()"
+          @input="pointerReset()"
+          @keyup.esc="deactivate()"
+          @keyup.down="pointerForward()"
+          @keyup.up="pointerBackward()"
+          @keydown.enter.stop.prevent.self="addPointerElement()"
+          @keydown.delete="removeLastElement()"
+          class="multiselect__input"/>
+          <span v-if="!searchable &amp;&amp; !multiple" class="multiselect__single">{{ getOptionLabel(value) ? getOptionLabel(value) : placeholder }}</span>
+      </div>
+      <ul transition="multiselect" :style="{ maxHeight: maxHeight + 'px' }" v-el:list="v-el:list" v-show="isOpen" class="multiselect__content">
+        <slot name="beforeList"></slot>
+        <li v-for="option in filteredOptions" track-by="$index">
+          <span
+            tabindex="0"
+            :class="{ 'multiselect__option--highlight': $index === pointer &amp;&amp; this.showPointer, 'multiselect__option--selected': !isNotSelected(option) }"
+            @mousedown.prevent="select(option)"
+            @mouseover="pointerSet($index)"
+            :data-select="selectLabel"
+            :data-selected="selectedLabel"
+            :data-deselect="deselectLabel"
+            class="multiselect__option">
+              {{ getOptionLabel(option) }}
+          </span>
+        </li>
+        <li v-show="filteredOptions.length === 0">
+          <span class="multiselect__option">
+            <slot name="noResult">No elements found. Consider changing the search query.</slot>
+          </span>
+        </li>
+        <slot name="afterList"></slot>
+    </ul>
+  </div>
 </template>
 
 <script>
