@@ -1,17 +1,16 @@
 {
   "name": "vue-multiselect",
-  "version": "1.0.0",
+  "version": "0.1.2",
   "description": "Multiselect component for vue.js",
   "author": "Damian Dulisz <damian.dulisz@monterail.com>",
-  "private": true,
+  "private": false,
   "scripts": {
     "dev": "node build/dev-server.js",
     "build": "node build/build.js",
     "unit": "karma start test/unit/karma.conf.js --single-run",
     "unit-watch": "karma start test/unit/karma.conf.js --watch",
-    "e2e": "node test/e2e/runner.js",
-    "test": "npm run unit && npm run e2e",
-    "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
+    "test": "npm run unit",
+    "lint": "eslint --ext .js,.vue src test/unit/specs"
   },
   "dependencies": {
     "vue": "1.0.21",
