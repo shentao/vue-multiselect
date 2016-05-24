@@ -79,9 +79,9 @@ div
                 )
             pre.language-javascript
               code.
-                import multiselect from 'vue-multiselect'
+                import Multiselect from 'vue-multiselect'
                 export default {
-                  components: { multiselect },
+                  components: { Multiselect },
                   data () {
                     return {
                       selected: null,
