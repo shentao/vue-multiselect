@@ -4,6 +4,11 @@
   "description": "Multiselect component for vue.js",
   "author": "Damian Dulisz <damian.dulisz@monterail.com>",
   "private": false,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/monterail/vue-multiselect.git"
+  },
   "scripts": {
     "dev": "node build/dev-server.js",
     "build": "node build/build.js",
@@ -45,7 +50,7 @@
     "isparta-loader": "2.0.0",
     "jade": "1.11.0",
     "json-loader": "0.5.4",
-    "karma": "0.13.15",
+    "karma": "0.13.19",
     "karma-coverage": "0.5.5",
     "karma-mocha": "0.2.2",
     "karma-phantomjs-launcher": "1.0.0",
