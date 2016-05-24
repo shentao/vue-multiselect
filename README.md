@@ -1,4 +1,4 @@
-# vue-multiselect ![Build Status](https://circleci.com/gh/monterail/vue-multiselect.svg?style=shield&circle-token=5c931ff28fd12587610f835472becdd514d09cef)
+# vue-multiselect ![Build Status](https://circleci.com/gh/monterail/vue-multiselect/tree/master.svg?style=shield&circle-token=5c931ff28fd12587610f835472becdd514d09cef)
 Probably the most complete *selecting* solution for Vue.js, without jQuery.
 
 ### Features & characteristics:
@@ -17,7 +17,7 @@ Probably the most complete *selecting* solution for Vue.js, without jQuery.
 
 ## Demo & docs
 
-[IN PROGRESS]
+[http://monterail.github.io/vue-multiselect/](http://monterail.github.io/vue-multiselect/)
 
 ## Install & basic usage
 
