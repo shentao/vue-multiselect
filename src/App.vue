@@ -59,8 +59,18 @@ div
             pre.language-bash
               code.
                 npm install vue-multiselect --save
+
+            h2.typo__h2 Package content
+            p.typo__p
+              | The package consist of of multiple files:
+              strong  Multiselect.vue
+              |  which includes the template and styling of the default component. This component extends 2 additional mixins:
+              strong  multiselectMixin.js
+              |  and
+              strong  pointerMixin.js
+              |  , which contain the logic behind the multiselect. This way you can actually use the multiselect logic with your own template and styling.
           .grid__column.grid__unit--md-6
-            h2.typo__h2 Usage
+            h2.typo__h2 Basic usage
             pre.language-jade
               code.
                 multiselect(
@@ -85,45 +95,7 @@ div
       section.docs
         h1.typo__h1 Examples
         hr.typo__hr
-        h2.typo__h2 Asynchronous dropdown
-        .grid__row
-          .grid__column.grid__unit--md-4
-            label.typo__label Async multiselect
-            multiselect(
-              :options="countries",
-              :selected.sync="selectedCountries",
-              :multiple="multiple",
-              :searchable="searchable",
-              placeholder="Type to search",
-              :on-search-change="asyncFind",
-              label="name"
-              key="code"
-            )
-              span(slot="noResult").
-                Oops! No elements found. Consider changing the search query.
-            pre.language-json
-              code.
-                {{ selectedCountries | json }}
-
-          .grid__column.grid__unit--md-8
-            label.typo__label Code sample
-            pre.language-jade
-              code.
-                multiselect(
-                  :options="countries",
-                  :selected.sync="selectedCountries",
-                  :multiple="multiple",
-                  :searchable="searchable",
-                  placeholder="Type to search",
-                  :on-search-change="asyncFind",
-                  label="name"
-                  key="code"
-                )
-                  span(slot="noResult").
-                    Oops! No elements found. Consider changing the search query.
-
-        hr.typo__hr
-        h2.typo__h2 Simple select dropdown
+        h2.typo__h2 Single select dropdown
         .grid__row
           .grid__column.grid__unit--md-4
             label.typo__label Single select / dropdown
@@ -135,6 +107,7 @@ div
               placeholder="Select one",
               label="name",
               :close-on-select="false",
+              :allow-empty="false",
               key="name"
             )
             pre.language-json
@@ -225,6 +198,46 @@ div
                   :close-on-select="false",
                   key="name"
                 )
+
+        hr.typo__hr
+        h2.typo__h2 Asynchronous dropdown
+        .grid__row
+          .grid__column.grid__unit--md-4
+            label.typo__label Async multiselect
+            multiselect(
+              :options="countries",
+              :selected.sync="selectedCountries",
+              :multiple="multiple",
+              :searchable="searchable",
+              placeholder="Type to search",
+              :on-search-change="asyncFind",
+              label="name"
+              key="code"
+            )
+              span(slot="noResult").
+                Oops! No elements found. Consider changing the search query.
+            pre.language-json
+              code.
+                {{ selectedCountries | json }}
+
+          .grid__column.grid__unit--md-8
+            label.typo__label Code sample
+            pre.language-jade
+              code.
+                multiselect(
+                  :options="countries",
+                  :selected.sync="selectedCountries",
+                  :multiple="multiple",
+                  :searchable="searchable",
+                  placeholder="Type to search",
+                  :on-search-change="asyncFind",
+                  label="name"
+                  key="code"
+                )
+                  span(slot="noResult").
+                    Oops! No elements found. Consider changing the search query.
+
+        hr.typo__hr
 
       section.docs
         h1.typo__h1 Config
