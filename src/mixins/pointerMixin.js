@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   data () {
     return {
       pointer: 0
