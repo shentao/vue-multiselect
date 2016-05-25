@@ -46,6 +46,16 @@ export default {
 }
 ```
 
+## TODO:
+
+* Update docs: How to use available slots and configuration props
+* Update docs: How to use mixins to create custom select components
+* Add option groups
+* Update docs: Add more examples
+* Provide a way to customize the option list (showing more than just the label). Probably using slots/partials.
+* Create a headless and stateless dropdown component (could be attached to buttons or icons and act as a action trigger)
+* Fix problem with not counting the height of the option element when creating a custom element. This is important for scrolling the options viewport when using highlighting pointer.
+
 ## Examples
 in jade-lang/pug-lang
 
