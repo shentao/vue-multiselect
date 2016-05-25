@@ -337,6 +337,47 @@ props: {
     default: true
   }
 }
+
+// Multiselect.vue
+
+props: {
+  /**
+   * String to show when pointing to an option
+   * @default 'Press enter to select'
+   * @type {String}
+   */
+  selectLabel: {
+    type: String,
+    default: 'Press enter to select'
+  },
+  /**
+   * String to show next to selected option
+   * @default 'Selected'
+   * @type {String}
+  */
+  selectedLabel: {
+    type: String,
+    default: 'Selected'
+  },
+  /**
+   * String to show when pointing to an alredy selected option
+   * @default 'Press enter to remove'
+   * @type {String}
+  */
+  deselectLabel: {
+    type: String,
+    default: 'Press enter to remove'
+  },
+  /**
+   * Decide whether to show pointer labels
+   * @default true
+   * @type {Boolean}
+  */
+  showLabels: {
+    type: Boolean,
+    default: true
+  }
+}
 ```
 
 ## Contributing
