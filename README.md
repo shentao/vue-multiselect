@@ -390,7 +390,7 @@ npm run dev
 npm run build
 
 # run unit tests
-npm run unit
+npm run test
 
 # run unit tests watch
 npm run unit-watch

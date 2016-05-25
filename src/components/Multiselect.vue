@@ -293,9 +293,9 @@
     transition: transform 0.2s ease
 
     &:before
-      position: absolute
-      right: 15px
-      top: $multiselect-height / 2 - 8
+      position: relative
+      right: 0
+      top: 65%
       color: #999
       margin-top: rem(4px)
       border-style: solid
