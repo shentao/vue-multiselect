@@ -15,7 +15,7 @@
           {{ getOptionLabel(option) }}
           <i aria-hidden="true" tabindex="1" @keydown.enter.prevent="removeElement(option)" @mousedown.prevent="removeElement(option)" class="multiselect__tag-icon"></i>
         </span>
-        <template v-if="value &amp;&amp; value.length &gt; limit">
+        <template v-if="value && value.length > limit">
           <strong>and {{ value.length - limit }} more</strong>
         </template>
         <div v-show="loading" transition="multiselect__loading" class="multiselect__spinner"></div>
@@ -36,14 +36,14 @@
           @keydown.enter.stop.prevent.self="addPointerElement()"
           @keydown.delete="removeLastElement()"
           class="multiselect__input"/>
-          <span v-if="!searchable &amp;&amp; !multiple" class="multiselect__single">{{ getOptionLabel(value) ? getOptionLabel(value) : placeholder }}</span>
+          <span v-if="!searchable && !multiple" class="multiselect__single">{{ getOptionLabel(value) ? getOptionLabel(value) : placeholder }}</span>
       </div>
       <ul transition="multiselect" :style="{ maxHeight: maxHeight + 'px' }" v-el:list="v-el:list" v-show="isOpen" class="multiselect__content">
         <slot name="beforeList"></slot>
         <li v-for="option in filteredOptions" track-by="$index">
           <span
             tabindex="0"
-            :class="{ 'multiselect__option--highlight': $index === pointer &amp;&amp; this.showPointer, 'multiselect__option--selected': !isNotSelected(option) }"
+            :class="{ 'multiselect__option--highlight': $index === pointer && this.showPointer, 'multiselect__option--selected': !isNotSelected(option) }"
             @mousedown.prevent="select(option)"
             @mouseover="pointerSet($index)"
             :data-select="selectLabel"
