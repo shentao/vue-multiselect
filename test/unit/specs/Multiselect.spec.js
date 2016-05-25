@@ -500,7 +500,7 @@ describe('Multiselect.vue', () => {
   })
 
   describe('#watch:selected', () => {
-    it('updates multiselect value when parent selected changes', (done) => {
+    it('updates multiselect private value when parent selected changes to a different value than private value', (done) => {
       const vm = new Vue({
         template: '<multiselect :selected="sel" :options="source" label="id" key="id" :searchable="false" :on-change="addMore" :multiple="false"></multiselect>',
         components: { Multiselect },
@@ -539,8 +539,9 @@ describe('Multiselect.vue', () => {
         }
       }).$mount()
       vm.$children[0].select(vm.$children[0].options[0])
+      vm.$children[0].select(vm.$children[0].options[1])
       Vue.nextTick(function () {
-        expect(vm.newValue).to.deep.equal({ id: '1' })
+        expect(vm.newValue).to.deep.equal({ id: '2' })
         expect(vm.$children[0].selected).to.deep.equal(null)
         done()
       })
@@ -584,9 +585,9 @@ describe('Multiselect.vue', () => {
       })
     })
 
-    it('set search to value after change when clearOnSelect and multiple are FALSE and searchable is TRUE', (done) => {
+    it('set search to value after change when clearOnSelect is TRUE and multiple is FALSE and searchable is TRUE', (done) => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" label="id" key="id" :searchable="true" :clear-on-select="false"></multiselect>',
+        template: '<multiselect :selected="value" :options="source" label="id" key="id" :searchable="true" :clear-on-select="true"></multiselect>',
         components: { Multiselect },
         data: {
           value: null,
@@ -605,7 +606,7 @@ describe('Multiselect.vue', () => {
   describe('#watch:search', () => {
     it('calls onSearchChange(searchQuery) callback when onSearchChange prop is set', (done) => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" label="id" key="id" :searchable="true" :on-search-change="afterSearch"></multiselect>',
+        template: '<multiselect :selected="value" :options="source" label="id" key="id" :searchable="true" :on-search-change="afterSearch" :clear-on-select="false"></multiselect>',
         components: { Multiselect },
         data: {
           value: null,

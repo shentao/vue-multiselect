@@ -1,3 +1,20 @@
+// Copied from Vuex’s util.js
+function deepClone (obj) {
+  if (Array.isArray(obj)) {
+    return obj.map(deepClone)
+  } else if (obj && typeof obj === 'object') {
+    var cloned = {}
+    var keys = Object.keys(obj)
+    for (var i = 0, l = keys.length; i < l; i++) {
+      var key = keys[i]
+      cloned[key] = deepClone(obj[key])
+    }
+    return cloned
+  } else {
+    return obj
+  }
+}
+
 module.exports = {
   data () {
     return {
@@ -176,7 +193,7 @@ module.exports = {
     if (!this.selected) {
       this.$set('value', this.multiple ? [] : null)
     } else {
-      this.$set('value', JSON.parse(JSON.stringify(this.selected)))
+      this.value = deepClone(this.selected)
     }
     if (this.searchable && !this.multiple) {
       this.search = this.getOptionLabel(this.value)
@@ -202,17 +219,17 @@ module.exports = {
   },
   watch: {
     'value' () {
-      if (this.onChange) {
-        this.onChange(this.value)
+      if (this.onChange && JSON.stringify(this.value) !== JSON.stringify(this.selected)) {
+        this.onChange(deepClone(this.value))
       } else {
-        this.$set('selected', this.value)
+        this.$set('selected', deepClone(this.value))
       }
       if (this.resetAfter) {
         this.$set('value', null)
         this.$set('search', null)
         this.$set('selected', null)
       }
-      if (!this.multiple && this.searchable && !this.clearOnSelect) {
+      if (!this.multiple && this.searchable && this.clearOnSelect) {
         this.search = this.getOptionLabel(this.value)
       }
     },
@@ -226,7 +243,9 @@ module.exports = {
       this.onSearchChange && (this.loading = false)
     },
     'selected' (newVal, oldVal) {
-      newVal !== oldVal && (this.value = this.selected)
+      if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
+        this.value = deepClone(this.selected)
+      }
     }
   },
   methods: {
@@ -267,8 +286,9 @@ module.exports = {
         } else if (option.label) {
           return option.label
         }
+      } else {
+        return option
       }
-      return option
     },
     /**
      * Add the given option to the list of selected options

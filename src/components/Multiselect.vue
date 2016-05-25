@@ -18,7 +18,7 @@
         <template v-if="value && value.length > limit">
           <strong>and {{ value.length - limit }} more</strong>
         </template>
-        <div v-show="loading" transition="multiselect__loading" class="multiselect__spinner"></div>
+        <div v-if="loading" transition="multiselect__loading" class="multiselect__spinner"></div>
         <input
           name="search"
           type="text"
@@ -115,7 +115,7 @@
   }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
   @import '../assets/functions'
 
   $multiselect-height: 40px !default
