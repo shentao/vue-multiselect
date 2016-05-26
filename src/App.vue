@@ -2,10 +2,10 @@
 div
   section.start
     .center-vertically
-      h1
+      h1.typo__h1
         img.logo(src="./assets/logo.png")
         | Vue-multiselect
-      h2 The most complete selecting solution for
+      h3.typo__h3 The most complete selecting solution for
         = ' '
         a.typo__link(href="http://vuejs.org" target="_BLANK") Vue.js
 
@@ -23,29 +23,26 @@ div
               :limit="3"
               select-label="Enter to select"
             )
-            .grid__row
+            .grid__row.start__list
               .grid__column.grid__unit--md-6.list
                 ul.list__ul
-                  li.typo__li Single select
-                  li.typo__li Multiple select
+                  li.typo__li Single / multi select
                   li.typo__li Dropdowns
-                  li.typo__li Search
-                  li.typo__li Mixins
-                  li.typo__li Custom components
+                  li.typo__li Searchable
+                  li.typo__li Custom components with Mixins
               .grid__column.grid__unit--md-6.list
                 ul.list__ul
                   li.typo__li Vuex support
                   li.typo__li Async options
-                  li.typo__li Fully tested
-                  li.typo__li Fully configurable
+                  li.typo__li Configurable
+                  li.typo__li +90% test coverage
                   li.typo__li No dependencies
-                  li.typo__li And more...
 
       .grid__row.grid__row--centered
-        .grid__column.grid__unit--md-6.utils--center
-          .button__group
-            a.button.button--secondary.button--large(href="https://github.com/monterail/vue-multiselect" target="_BLANK") View project on Github
-            a.button.button--large(href="#getting-started") Getting started & examples
+        .grid__column.utils--center
+          //- .button__group
+          a.button.button--large.button--secondary.button--github(href="https://github.com/monterail/vue-multiselect" target="_BLANK") View on GitHub
+          a.button.button--large(href="#getting-started") Getting started & examples
 
   .grid__row
     .grid__column
@@ -557,12 +554,55 @@ div
                   }
                 }
 
+                // Multiselect.vue
+                //
+                props: {
+                  /**
+                   * String to show when pointing to an option
+                   * @default 'Press enter to select'
+                   * @type {String}
+                   */
+                  selectLabel: {
+                    type: String,
+                    default: 'Press enter to select'
+                  },
+                  /**
+                   * String to show next to selected option
+                   * @default 'Selected'
+                   * @type {String}
+                  */
+                  selectedLabel: {
+                    type: String,
+                    default: 'Selected'
+                  },
+                  /**
+                   * String to show when pointing to an alredy selected option
+                   * @default 'Press enter to remove'
+                   * @type {String}
+                  */
+                  deselectLabel: {
+                    type: String,
+                    default: 'Press enter to remove'
+                  },
+                  /**
+                   * Decide whether to show pointer labels
+                   * @default true
+                   * @type {Boolean}
+                  */
+                  showLabels: {
+                    type: Boolean,
+                    default: true
+                  }
+                }
+
       section.utils--center
         hr.typo__hr
         h4.typo__h4 Created by Damian Dulisz
+          = ' '
           strong
             a.typo__link(href="https://twitter.com/DamianDulisz" target="_BLANK")  @DamianDulisz
         h4.typo__h4 With love from
+          = ' '
           strong
             a.typo__link.monterail-link(href="http://monterail.com" target="_BLANK")  Monterail
         a(href="http://monterail.com" target="_BLANK")
@@ -655,26 +695,39 @@ $multiselect-background: #000;
   .multiselect__tags {
     border-color: $error-color !important;
   }
-
-}
-
-html {
-  height: 100%;
 }
 
 body {
-  height: 100%;
   background: #fafafa;
   color: #35495E;
-  text-align: center;
   font-family: 'Lato', Helvetica, sans-serif;
   text-decoration: none;
 }
 
 .start {
-  min-height: 100vh;
+  text-align: center;
   display: block;
-  background: linear-gradient(to left bottom, #C1C6FF 0%, #E7FFEB 100%) fixed;
+  background: linear-gradient(to left bottom, #C1D6FF 0%, #E0FFE5 100%);
+
+  .typo__h1 {
+    padding-top: rem(40px)
+  }
+
+  .typo__h3 {
+    padding: rem(20px 0)
+  }
+
+  @media #{$medium-up} {
+    min-height: 100vh;
+  }
+
+  .button {
+    margin-bottom: rem(24px);
+  }
+}
+
+.start__list {
+  padding-top: rem(30px)
 }
 
 .docs {
@@ -683,22 +736,20 @@ body {
 }
 
 .center-vertically {
-  position: absolute;
-  height: 600px;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
+  position: relative;
+
+  @media #{$medium-up} {
+    position: absolute;
+    height: 600px;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
 }
 
 .multiselect-example__container {
   margin: 0 auto 60px;
-}
-
-h1 {
-  font-size: 48px;
-  vertical-align: middle;
-  line-height: 40px;
 }
 
 .button {
@@ -706,9 +757,8 @@ h1 {
 }
 
 .logo {
-  width: 70px;
-  height: 70px;
-  margin-right: 10px;
+  height: rem(70px);
+  margin-right: rem(20px);
   vertical-align: middle;
   display: inline-block;
 }
@@ -722,4 +772,15 @@ h1 {
 .monterail-link {
   color: #D20C03
 }
+
+.button--github {
+  padding-left: rem(60px);
+
+  &:before {
+    content: url('./assets/github.svg');
+    left: rem(25px);
+    position: absolute;
+  }
+}
+
 </style>
