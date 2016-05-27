@@ -213,10 +213,14 @@
   border-radius: 0.3125rem;
   background: #fff;
   padding: 1px 0 0 0.3125rem;
-  width: auto;
+  width: calc(100%);
   transition: border 0.1s ease;
   box-sizing: border-box;
   margin-bottom: 0.5rem;
+}
+
+.multiselect__tag ~ .multiselect__input {
+  width: auto;
 }
 
 .multiselect__input:hover,
