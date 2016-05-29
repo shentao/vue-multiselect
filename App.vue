@@ -20,9 +20,13 @@ div
               :placeholder="placeholder",
               :on-change="afterChange",
               :show-labels="true",
-              :limit="3"
+              :limit="3",
+              :on-tagging="onTagging",
+              :tag-key-code="186"
               select-label="Enter to select"
             )
+              span(slot="noResult").
+                Tag not found. Press semi-colon <kbd>;</kbd> to create a tag from search query.
             .grid__row.start__list
               .grid__column.grid__unit--md-6.list
                 ul.list__ul
@@ -650,6 +654,9 @@ export default {
     },
     afterChange (selectValue) {
       this.selected = selectValue
+    },
+    onTagging (newTag) {
+      this.options.push(newTag)
     },
     dispatchAction (actionName) {
       switch (actionName) {
