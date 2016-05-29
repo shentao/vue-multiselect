@@ -35,6 +35,7 @@
           @keyup.up="pointerBackward()"
           @keydown.enter.stop.prevent.self="addPointerElement()"
           @keydown.delete="removeLastElement()"
+          @keyup.tag="tag()"
           class="multiselect__input"/>
           <span v-if="!searchable && !multiple" class="multiselect__single">{{ getOptionLabel(value) ? getOptionLabel(value) : placeholder }}</span>
       </div>
@@ -66,6 +67,9 @@
 <script>
   import multiselectMixin from './multiselectMixin'
   import pointerMixin from './pointerMixin'
+  import Vue from 'vue'
+
+  Vue.directive('on').keyCodes.semicolon = 186
 
   export default {
     mixins: [multiselectMixin, pointerMixin],
@@ -116,6 +120,25 @@
       limitText: {
         type: Function,
         default: count => `and ${count} more`
+      },
+      onTagging: {
+        type: Function,
+        default: false
+      },
+      tagKeyCode: {
+        type: Number,
+        coerce (val = 186) {
+          Vue.directive('on').keyCodes.tag = val
+          return val
+        }
+      }
+    },
+    methods: {
+      tag () {
+        this.search = this.search.slice(0, -1)
+        this.onTagging(this.search)
+        this.select(this.search)
+        this.search = ''
       }
     },
     ready () {
