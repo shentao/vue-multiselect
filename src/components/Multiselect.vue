@@ -16,7 +16,7 @@
           <i aria-hidden="true" tabindex="1" @keydown.enter.prevent="removeElement(option)" @mousedown.prevent="removeElement(option)" class="multiselect__tag-icon"></i>
         </span>
         <template v-if="value && value.length > limit">
-          <strong>{{ limitText(value.length - limit) }}</strong>
+          <strong>and {{ value.length - limit }} more</strong>
         </template>
         <div v-show="loading" transition="multiselect__loading" class="multiselect__spinner"></div>
         <input
@@ -105,17 +105,6 @@
       showLabels: {
         type: Boolean,
         default: true
-      },
-      /**
-       * Function that process the message shown when selected
-       * elements pass the defined limit.
-       * @default 'and * more'
-       * @param {Int} count Number of elements more than limit
-       * @type {Function}
-       */
-      limitText: {
-        type: Function,
-        default: count => `and ${count} more`
       }
     },
     ready () {
