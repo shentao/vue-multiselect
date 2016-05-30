@@ -291,6 +291,18 @@ module.exports = {
       }
     },
     /**
+     * Check for type property on option object for apply
+     * color to tags.
+     *
+     * @param  {Object||String||Integer} Passed option
+     * @returns {null||string}
+     */
+    getOptionAlternativeClass (option) {
+      if (typeof option === 'object' && option.type) {
+        return `multiselect__tag--${option.type}`
+      }
+    },
+    /**
      * Add the given option to the list of selected options
      * or sets the option as the selected option.
      * If option is already selected -> remove it from the results.

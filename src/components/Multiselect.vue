@@ -11,7 +11,7 @@
     class="multiselect">
       <div @mousedown.prevent="toggle()" class="multiselect__select"></div>
       <div v-el:tags="v-el:tags" class="multiselect__tags">
-        <span v-if="multiple" v-for="option in visibleValue" track-by="$index" onmousedown="event.preventDefault()" class="multiselect__tag">
+        <span v-if="multiple" v-for="option in visibleValue" track-by="$index" onmousedown="event.preventDefault()" class="multiselect__tag" :class="getOptionAlternativeClass(option)">
           {{ getOptionLabel(option) }}
           <i aria-hidden="true" tabindex="1" @keydown.enter.prevent="removeElement(option)" @mousedown.prevent="removeElement(option)" class="multiselect__tag-icon"></i>
         </span>
@@ -269,6 +269,33 @@
   line-height: 1;
   background: #41B883;
   margin-bottom: 0.5rem;
+}
+
+.multiselect__tag--success {
+  background: #4CAF50;
+}
+
+.multiselect__tag--success .multiselect__tag-icon:focus,
+.multiselect__tag--success .multiselect__tag-icon:hover {
+  background: #388E3C;
+}
+
+.multiselect__tag--danger {
+  background: #F44336;
+}
+
+.multiselect__tag--danger .multiselect__tag-icon:focus,
+.multiselect__tag--danger .multiselect__tag-icon:hover {
+  background: #D32F2F;
+}
+
+.multiselect__tag--warning {
+  background: #FFEB3B;
+}
+
+.multiselect__tag--warning .multiselect__tag-icon:focus,
+.multiselect__tag--warning .multiselect__tag-icon:hover {
+  background: #FBC02D;
 }
 
 .multiselect__tag-icon {
