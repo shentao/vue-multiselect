@@ -25,8 +25,8 @@ module.exports = {
     pointerForward () {
       if (this.pointer < this.filteredOptions.length - 1) {
         this.pointer++
-        let pointerPosition = this.pointer * 40
-        let visibleElements = this.maxHeight / 40
+        var pointerPosition = this.pointer * 40
+        var visibleElements = this.maxHeight / 40
         if (this.$els.list.scrollTop <= pointerPosition - visibleElements * 40) {
           this.$els.list.scrollTop = pointerPosition - (visibleElements - 1) * 40
         }
@@ -35,7 +35,7 @@ module.exports = {
     pointerBackward () {
       if (this.pointer > 0) {
         this.pointer--
-        let pointerPosition = this.pointer * 40
+        var pointerPosition = this.pointer * 40
         if (this.$els.list.scrollTop >= pointerPosition) {
           this.$els.list.scrollTop = pointerPosition
         }

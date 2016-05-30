@@ -201,14 +201,15 @@ module.exports = {
   },
   computed: {
     filteredOptions () {
-      let options = this.hideSelected
+      var options = this.hideSelected
         ? this.options.filter(this.isNotSelected)
         : this.options
       return this.$options.filters.filterBy(options, this.search)
     },
     allKeys () {
-      return this.value.map((element) => {
-        return element[this.key]
+      var key = this.key
+      return this.value.map(function (element) {
+        return element[key]
       })
     },
     visibleValue () {
