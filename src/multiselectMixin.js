@@ -224,7 +224,7 @@ module.exports = {
         return this.value
       }
     },
-    optionsKeys () {
+    optionKeys () {
       if (this.label) {
         var label = this.label
         if (this.multiple) {
@@ -286,9 +286,9 @@ module.exports = {
       if (!this.options) return false
 
       if (this.multiple) {
-        return this.optionsKeys.indexOf(query) > -1
+        return this.optionKeys.indexOf(query) > -1
       } else {
-        return this.optionsKeys === query
+        return this.optionKeys === query
       }
     },
     /**
@@ -348,25 +348,25 @@ module.exports = {
       if (option.isTag) {
         this.onTag(option.label)
         this.search = ''
-        return
-      }
-      if (this.multiple) {
-        if (!this.isNotSelected(option)) {
-          this.removeElement(option)
-        } else {
-          this.value.push(option)
-          if (this.clearOnSelect) { this.search = '' }
-        }
       } else {
-        this.$set('value',
-          !this.isNotSelected(option) && this.allowEmpty
-            ? null
-            : option
-        )
-        if (this.closeOnSelect) {
-          this.searchable
-            ? this.$els.search.blur()
-            : this.$el.blur()
+        if (this.multiple) {
+          if (!this.isNotSelected(option)) {
+            this.removeElement(option)
+          } else {
+            this.value.push(option)
+            if (this.clearOnSelect) { this.search = '' }
+          }
+        } else {
+          this.$set('value',
+            !this.isNotSelected(option) && this.allowEmpty
+              ? null
+              : option
+          )
+          if (this.closeOnSelect) {
+            this.searchable
+              ? this.$els.search.blur()
+              : this.$el.blur()
+          }
         }
       }
     },
