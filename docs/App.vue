@@ -21,8 +21,7 @@ div
               :on-change="afterChange",
               :show-labels="true",
               :limit="3",
-              :on-tagging="onTagging",
-              :tag-key-code="186"
+              :on-tag="onTagging"
               select-label="Enter to select"
             )
               span(slot="noResult").
@@ -110,7 +109,6 @@ div
               :show-labels="false"
               placeholder="Select one"
               label="name"
-              key="name"
             )
             pre.language-json
               code.
@@ -129,7 +127,6 @@ div
                   :show-labels="false"
                   placeholder="Select one"
                   label="name"
-                  key="name"
                 )
 
         h2.typo__h2 Single select dropdown (object)
@@ -657,6 +654,7 @@ export default {
     },
     onTagging (newTag) {
       this.options.push(newTag)
+      this.selected.push(newTag)
     },
     dispatchAction (actionName) {
       switch (actionName) {

@@ -47,7 +47,7 @@
             :class="{ 'multiselect__option--highlight': $index === pointer && this.showPointer, 'multiselect__option--selected': !isNotSelected(option) }"
             @mousedown.prevent="select(option)"
             @mouseover="pointerSet($index)"
-            :data-select="selectLabel"
+            :data-select="option.isTag ? tagPlaceholder : selectLabel"
             :data-selected="selectedLabel"
             :data-deselect="deselectLabel"
             class="multiselect__option">
@@ -121,16 +121,13 @@
         type: Function,
         default: count => `and ${count} more`
       },
-      onTagging: {
+      onTag: {
         type: Function,
         default: false
       },
-      tagKeyCode: {
-        type: Number,
-        coerce (val = 186) {
-          Vue.directive('on').keyCodes.tag = val
-          return val
-        }
+      tagPlaceholder: {
+        type: String,
+        default: 'Press enter to add tag'
       }
     },
     methods: {

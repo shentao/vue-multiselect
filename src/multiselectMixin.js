@@ -61,7 +61,7 @@ module.exports = {
      */
     key: {
       type: String,
-      default: 'id'
+      default: false
     },
     /**
      * Label to look for in option Object
@@ -70,7 +70,7 @@ module.exports = {
      */
     label: {
       type: String,
-      default: 'label'
+      default: false
     },
     /**
      * Label to look for in option Object
@@ -204,13 +204,39 @@ module.exports = {
       var options = this.hideSelected
         ? this.options.filter(this.isNotSelected)
         : this.options
-      return this.$options.filters.filterBy(options, this.search)
+      options = this.$options.filters.filterBy(options, this.search)
+      if (this.onTag && this.search.length > 0 && !this.isExistingOption(this.search)) {
+        options.unshift({ isTag: true, label: this.search })
+      }
+      return options
     },
-    allKeys () {
-      var key = this.key
-      return this.value.map(function (element) {
-        return element[key]
-      })
+    valueKeys () {
+      if (this.key) {
+        var key = this.key
+        if (this.multiple) {
+          return this.value.map(function (element) {
+            return element[key]
+          })
+        } else {
+          return this.value[key]
+        }
+      } else {
+        return this.value
+      }
+    },
+    optionsKeys () {
+      if (this.label) {
+        var label = this.label
+        if (this.multiple) {
+          return this.options.map(function (element) {
+            return element[label]
+          })
+        } else {
+          return this.options[label]
+        }
+      } else {
+        return this.options
+      }
     },
     visibleValue () {
       return this.multiple
@@ -251,26 +277,46 @@ module.exports = {
   },
   methods: {
     /**
-     * Finds out if the given element is NOT already present
+     * Finds out if the given element is already present
      * in the result value
      * @param  {Object||String||Integer} option passed element to check
      * @returns {Boolean} returns true if element is not selected
      */
-    isNotSelected (option) {
-      if (!this.value) return true
-      if (typeof option === 'object' && option !== null) {
-        if (this.value && this.multiple) {
-          return this.allKeys.indexOf(option[this.key]) === -1
-        } else {
-          return this.value[this.key] !== option[this.key]
-        }
+    isExistingOption (query) {
+      if (!this.options) return false
+
+      if (this.multiple) {
+        return this.optionsKeys.indexOf(query) > -1
       } else {
-        if (this.value && this.multiple) {
-          return this.value.indexOf(option) === -1
-        } else {
-          return this.value !== option
-        }
+        return this.optionsKeys === query
       }
+    },
+    /**
+     * Finds out if the given element is already present
+     * in the result value
+     * @param  {Object||String||Integer} option passed element to check
+     * @returns {Boolean} returns true if element is not selected
+     */
+    isSelected (option) {
+      if (!this.value) return false
+      const opt = this.key
+        ? option[this.key]
+        : option
+
+      if (this.multiple) {
+        return this.valueKeys.indexOf(opt) > -1
+      } else {
+        return this.valueKeys === opt
+      }
+    },
+    /**
+     * Finds out if the given element is NOT already present
+     * in the result value. Negated isSelected method.
+     * @param  {Object||String||Integer} option passed element to check
+     * @returns {Boolean} returns true if element is not selected
+     */
+    isNotSelected (option) {
+      return !this.isSelected(option)
     },
     /**
      * Returns the option[this.label]
@@ -299,6 +345,11 @@ module.exports = {
      * @param  {Object||String||Integer} option to select/deselect
      */
     select (option) {
+      if (option.isTag) {
+        this.onTag(option.label)
+        this.search = ''
+        return
+      }
       if (this.multiple) {
         if (!this.isNotSelected(option)) {
           this.removeElement(option)
@@ -330,7 +381,7 @@ module.exports = {
     removeElement (option) {
       if (this.allowEmpty || this.value.length > 1) {
         if (this.multiple && typeof option === 'object') {
-          const index = this.allKeys.indexOf(option[this.key])
+          const index = this.valueKeys.indexOf(option[this.key])
           this.value.splice(index, 1)
         } else {
           this.value.$remove(option)
