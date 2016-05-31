@@ -1,14 +1,14 @@
 {
   "name": "vue-multiselect",
-  "version": "0.2.0",
+  "version": "0.1.9",
   "description": "Multiselect component for vue.js",
   "author": "Damian Dulisz <damian.dulisz@monterail.com>",
   "private": false,
   "license": "MIT",
-  "main": "lib/vue-multiselect.js",
-  "jsnext:main": "lib/vue-multiselect.js",
+  "main": "src/components/Multiselect.vue",
+  "jsnext:main": "src/components/Multiselect.vue",
   "jspm": {
-    "main": "lib/vue-multiselect.js",
+    "main": "src/components/Multiselect.vue",
     "registry": "npm",
     "format": "esm"
   },
@@ -18,17 +18,13 @@
   },
   "scripts": {
     "dev": "node build/dev-server.js",
-    "docs": "rm -rf gh-pages && mkdir gh-pages && node build/build.js",
+    "build": "node build/build.js",
     "test": "karma start test/unit/karma.conf.js --single-run",
     "unit-watch": "karma start test/unit/karma.conf.js --watch",
-    "lint": "eslint --ext .js,.vue src test/unit/specs",
-    "bundle": "webpack --config build/webpack.bundle.conf.js"
+    "lint": "eslint --ext .js,.vue src test/unit/specs"
   },
   "browserify": {
-    "transform": [
-      "vueify",
-      "babelify"
-    ]
+    "transform": ["vueify", "babelify"]
   },
   "devDependencies": {
     "babel-core": "^6.7.7",
@@ -39,7 +35,6 @@
     "babel-runtime": "^6.0.0",
     "chai": "^3.5.0",
     "connect-history-api-fallback": "^1.1.0",
-    "copy-webpack-plugin": "^3.0.1",
     "cross-spawn": "^2.1.5",
     "css-loader": "^0.23.0",
     "eslint": "^2.0.0",

@@ -610,7 +610,7 @@ div
 </template>
 
 <script>
-import Multiselect from '../src/Multiselect'
+import Multiselect from './components/Multiselect'
 import countries from './data/countries.json'
 
 const SL = ', 100%, 87%'

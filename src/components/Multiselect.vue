@@ -64,8 +64,8 @@
 </template>
 
 <script>
-  import multiselectMixin from './multiselectMixin'
-  import pointerMixin from './pointerMixin'
+  import multiselectMixin from '../mixins/multiselectMixin'
+  import pointerMixin from '../mixins/pointerMixin'
 
   export default {
     mixins: [multiselectMixin, pointerMixin],
