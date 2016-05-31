@@ -15,8 +15,7 @@ module.exports = merge(baseWebpackConfig, {
     path: config.docs.assetsRoot,
     filename: utils.assetsPath('js/[name].[chunkhash].js'),
     chunkFilename: utils.assetsPath('js/[id].[chunkhash].js'),
-    assetsSubDirectory: config.docs.assetsSubDirectory,
-    assetsPublicPath: config.docs.assetsPublicPath
+    publicPath: config.docs.assetsPublicPath
   },
   vue: {
     loaders: utils.cssLoaders({
