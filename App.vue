@@ -594,19 +594,6 @@ div
                     default: true
                   }
                 }
-
-      section.utils--center
-        hr.typo__hr
-        h4.typo__h4 Created by Damian Dulisz
-          = ' '
-          strong
-            a.typo__link(href="https://twitter.com/DamianDulisz" target="_BLANK")  @DamianDulisz
-        h4.typo__h4 With love from
-          = ' '
-          strong
-            a.typo__link.monterail-link(href="http://monterail.com" target="_BLANK")  Monterail
-        a(href="http://monterail.com" target="_BLANK")
-          img.monterail-logo(src="/static/monterail-logo.png")
 </template>
 
 <script>
