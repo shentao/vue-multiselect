@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import Multiselect from 'src/components/Multiselect'
+import Multiselect from 'src/Multiselect'
 
 describe('Multiselect.vue', () => {
   describe('Accept options', () => {

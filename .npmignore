@@ -6,3 +6,9 @@ selenium-debug.log
 test/unit/coverage
 test/e2e/reports
 .babelrc
+.editorconfig
+.eslintrc.js
+.gitignore
+.tern-project
+docs/
+gh-pages/
