@@ -73,15 +73,6 @@ module.exports = {
       default: false
     },
     /**
-     * Label to look for in option Object
-     * @default 'label'
-     * @type {String}
-     */
-    limit: {
-      type: Number,
-      default: 99999
-    },
-    /**
      * Enable/disable search in options
      * @default true
      * @type {Boolean}
@@ -187,6 +178,46 @@ module.exports = {
     closeOnSelect: {
       type: Boolean,
       default: true
+    },
+    /**
+     * Function to interpolate the custom label
+     * @default false
+     * @type {Function}
+     */
+    customLabel: {
+      type: Function,
+      default: false
+    },
+    /**
+     * Disable / Enable tagging
+     * @default false
+     * @type {Boolean}
+     */
+    taggable: {
+      type: Boolean,
+      default: false
+    },
+    /**
+     * Callback function to run when attemting to add a tag
+     * @default suitable for primitive values
+     * @param {String} Tag string to build a tag
+     * @type {Function}
+     */
+    onTag: {
+      type: Function,
+      default: function (tag) {
+        this.options.push(tag)
+        this.value.push(tag)
+      }
+    },
+    /**
+     * String to show when highlighting a potential tag
+     * @default 'Press enter to create a tag'
+     * @type {String}
+    */
+    tagPlaceholder: {
+      type: String,
+      default: 'Press enter to create a tag'
     }
   },
   created () {
@@ -205,43 +236,24 @@ module.exports = {
         ? this.options.filter(this.isNotSelected)
         : this.options
       options = this.$options.filters.filterBy(options, this.search)
-      if (this.onTag && this.search.length > 0 && !this.isExistingOption(this.search)) {
+      if (this.taggable && this.search.length > 0 && !this.isExistingOption(this.search)) {
         options.unshift({ isTag: true, label: this.search })
       }
       return options
     },
     valueKeys () {
       if (this.key) {
-        var key = this.key
-        if (this.multiple) {
-          return this.value.map(function (element) {
-            return element[key]
-          })
-        } else {
-          return this.value[key]
-        }
+        return this.multiple
+          ? this.value.map(element => element[this.key])
+          : this.value[this.key]
       } else {
         return this.value
       }
     },
     optionKeys () {
-      if (this.label) {
-        var label = this.label
-        if (this.multiple) {
-          return this.options.map(function (element) {
-            return element[label]
-          })
-        } else {
-          return this.options[label]
-        }
-      } else {
-        return this.options
-      }
-    },
-    visibleValue () {
-      return this.multiple
-        ? this.value.slice(0, this.limit)
-        : this.value
+      return this.label
+        ? this.options.map(element => element[this.label])
+        : this.options
     }
   },
   watch: {
@@ -277,27 +289,24 @@ module.exports = {
   },
   methods: {
     /**
-     * Finds out if the given element is already present
-     * in the result value
-     * @param  {Object||String||Integer} option passed element to check
-     * @returns {Boolean} returns true if element is not selected
+     * Finds out if the given query is already present
+     * in the available options
+     * @param  {String}
+     * @returns {Boolean} returns true if element is available
      */
     isExistingOption (query) {
-      if (!this.options) return false
-
-      if (this.multiple) {
-        return this.optionKeys.indexOf(query) > -1
-      } else {
-        return this.optionKeys === query
-      }
+      return !this.options
+        ? false
+        : this.optionKeys.indexOf(query) > -1
     },
     /**
      * Finds out if the given element is already present
      * in the result value
      * @param  {Object||String||Integer} option passed element to check
-     * @returns {Boolean} returns true if element is not selected
+     * @returns {Boolean} returns true if element is selected
      */
     isSelected (option) {
+      /* istanbul ignore else */
       if (!this.value) return false
       const opt = this.key
         ? option[this.key]
@@ -328,10 +337,14 @@ module.exports = {
      */
     getOptionLabel (option) {
       if (typeof option === 'object' && option !== null) {
-        if (this.label && option[this.label]) {
-          return option[this.label]
-        } else if (option.label) {
-          return option.label
+        if (this.customLabel) {
+          return this.customLabel(option)
+        } else {
+          if (this.label && option[this.label]) {
+            return option[this.label]
+          } else if (option.label) {
+            return option.label
+          }
         }
       } else {
         return option
@@ -379,6 +392,7 @@ module.exports = {
      * @returns {type}        description
      */
     removeElement (option) {
+      /* istanbul ignore else */
       if (this.allowEmpty || this.value.length > 1) {
         if (this.multiple && typeof option === 'object') {
           const index = this.valueKeys.indexOf(option[this.key])
@@ -405,6 +419,7 @@ module.exports = {
      * Sets this.isOpen to TRUE
      */
     activate () {
+      /* istanbul ignore else */
       if (!this.isOpen) {
         this.isOpen = true
         /* istanbul ignore else  */
@@ -421,6 +436,7 @@ module.exports = {
      * Sets this.isOpen to FALSE
      */
     deactivate () {
+      /* istanbul ignore else */
       if (this.isOpen) {
         this.isOpen = false
         this.touched = true

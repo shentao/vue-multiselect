@@ -35,7 +35,6 @@
           @keyup.up="pointerBackward()"
           @keydown.enter.stop.prevent.self="addPointerElement()"
           @keydown.delete="removeLastElement()"
-          @keyup.tag="tag()"
           class="multiselect__input"/>
           <span v-if="!searchable && !multiple" class="multiselect__single">{{ getOptionLabel(value) ? getOptionLabel(value) : placeholder }}</span>
       </div>
@@ -111,6 +110,15 @@
         default: true
       },
       /**
+       * Label to look for in option Object
+       * @default 'label'
+       * @type {String}
+       */
+      limit: {
+        type: Number,
+        default: 99999
+      },
+      /**
        * Function that process the message shown when selected
        * elements pass the defined limit.
        * @default 'and * more'
@@ -120,25 +128,17 @@
       limitText: {
         type: Function,
         default: count => `and ${count} more`
-      },
-      onTag: {
-        type: Function,
-        default: false
-      },
-      tagPlaceholder: {
-        type: String,
-        default: 'Press enter to add tag'
       }
     },
-    methods: {
-      tag () {
-        this.search = this.search.slice(0, -1)
-        this.onTagging(this.search)
-        this.select(this.search)
-        this.search = ''
+    computed: {
+      visibleValue () {
+        return this.multiple
+          ? this.value.slice(0, this.limit)
+          : this.value
       }
     },
     ready () {
+      /* istanbul ignore else */
       if (!this.showLabels) {
         this.deselectLabel = this.selectedLabel = this.selectLabel = ''
       }

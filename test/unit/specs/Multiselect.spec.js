@@ -770,6 +770,33 @@ describe('Multiselect.vue', () => {
     })
   })
 
+  describe('#isExistingOption()', () => {
+    it('should return FALSE when there are no options to look into', () => {
+      const vm = new Vue({
+        template: '<multiselect :selected="value" :options="source" :multiple="true"></multiselect>',
+        components: { Multiselect },
+        data: {
+          value: null,
+          source: []
+        }
+      }).$mount()
+      expect(vm.$children[0].isExistingOption('test')).to.equal(false)
+    })
+
+    it('should return TRUE only when query has matching option', () => {
+      const vm = new Vue({
+        template: '<multiselect :selected="value" :options="source" :multiple="true"></multiselect>',
+        components: { Multiselect },
+        data: {
+          value: ['2'],
+          source: ['1', '2', '3']
+        }
+      }).$mount()
+      expect(vm.$children[0].isExistingOption('1')).to.equal(true)
+      expect(vm.$children[0].isExistingOption('4')).to.equal(false)
+    })
+  })
+
   describe('#isNotSelected()', () => {
     it('should return FALSE when passed option is selected when multiple == TRUE', () => {
       const vm = new Vue({
@@ -863,6 +890,86 @@ describe('Multiselect.vue', () => {
       const option = vm.$children[0].options[2]
       expect(vm.$children[0].getOptionLabel(option)).to.equal('3')
     })
+
+    it('should return customLabel’s interpolation if set', () => {
+      const vm = new Vue({
+        template: '<multiselect :selected="value" :options="source" :multiple="true" label="id" key="id" :custom-label="idWithId"></multiselect>',
+        components: { Multiselect },
+        data: {
+          value: [],
+          source: [{ id: '1' }, { id: '2' }, { id: '3' }],
+          idWithId ({id}) {
+            return `${id}+${id}`
+          }
+        }
+      }).$mount()
+      const option = vm.$children[0].options[2]
+      expect(vm.$children[0].getOptionLabel(option)).to.equal('3+3')
+    })
+  })
+
+  describe('valueKeys', () => {
+    it('should return primitive value Array when no :key is provided', () => {
+      const vm = new Vue({
+        template: '<multiselect :selected="value" :searchable="true" :options="source" :multiple="true"></multiselect>',
+        components: { Multiselect },
+        data: {
+          value: [1, 2],
+          source: [1, 2, 3]
+        }
+      }).$mount()
+      expect(vm.$children[0].valueKeys).to.deep.equal([1, 2])
+    })
+
+    it('should return an Array maped from option[key] values when multiple is TRUE', () => {
+      const vm = new Vue({
+        template: '<multiselect :selected="value" :searchable="true" :options="source" label="id" key="id" :multiple="true"></multiselect>',
+        components: { Multiselect },
+        data: {
+          value: [{ id: '1' }, { id: '2' }],
+          source: [{ id: '1' }, { id: '2' }, { id: '3' }]
+        }
+      }).$mount()
+      expect(vm.$children[0].valueKeys).to.deep.equal(['1', '2'])
+    })
+
+    it('should return option[key] value when multiple is FALSE', () => {
+      const vm = new Vue({
+        template: '<multiselect :selected="value" :searchable="true" :options="source" label="id" key="id" :multiple="false"></multiselect>',
+        components: { Multiselect },
+        data: {
+          value: { id: '2' },
+          source: [{ id: '1' }, { id: '2' }, { id: '3' }]
+        }
+      }).$mount()
+      expect(vm.$children[0].valueKeys).to.deep.equal('2')
+    })
+  })
+
+  describe('optionKeys', () => {
+    it('should return primitive value Array when no :label is provided', () => {
+      const vm = new Vue({
+        template: '<multiselect :selected="value" :searchable="true" :options="source" :multiple="true"></multiselect>',
+        components: { Multiselect },
+        data: {
+          value: [1, 2],
+          source: [1, 2, 3]
+        }
+      }).$mount()
+      expect(vm.$children[0].optionKeys).to.deep.equal([1, 2, 3])
+    })
+
+    it('should return an Array maped from option[label] values', () => {
+      const vm = new Vue({
+        template: '<multiselect :selected="value" :searchable="true" :options="source" label="id" key="id" :multiple="true"></multiselect>',
+        components: { Multiselect },
+        data: {
+          value: [{ id: '1' }, { id: '2' }],
+          source: [{ id: '1' }, { id: '2' }, { id: '3' }]
+        }
+      }).$mount()
+      expect(vm.$children[0].optionKeys).to.deep.equal(['1', '2', '3'])
+    })
   })
 
   describe('filteredOptions', () => {
@@ -906,6 +1013,94 @@ describe('Multiselect.vue', () => {
       expect(vm.$children[0].filteredOptions).to.deep.equal(vm.source)
       vm.$children[0].select(vm.source[1])
       expect(vm.$children[0].filteredOptions).to.deep.equal([{ id: '1' }, { id: '3' }])
+    })
+
+    it('should add additional option at the begining when search is filled and :taggable is TRUE', () => {
+      const vm = new Vue({
+        template: '<multiselect :selected="value" :searchable="true" :options="source" :multiple="true" :taggable="true"></multiselect>',
+        components: { Multiselect },
+        data: {
+          value: [],
+          source: [10, 20, 30]
+        }
+      }).$mount()
+      expect(vm.$children[0].filteredOptions).to.deep.equal([10, 20, 30])
+      expect(vm.$children[0].filteredOptions.length).to.equal(3)
+      vm.$children[0].search = 'test'
+      expect(vm.$children[0].filteredOptions).to.deep.equal([{ isTag: true, label: 'test' }])
+      expect(vm.$children[0].filteredOptions.length).to.equal(1)
+      vm.$children[0].search = '1'
+      expect(vm.$children[0].filteredOptions).to.deep.equal([{ isTag: true, label: '1' }, 10])
+      expect(vm.$children[0].filteredOptions.length).to.equal(2)
+    })
+  })
+
+  describe('#onTag', () => {
+    it('should should push to value and options with default settings and :taggable is TRUE', () => {
+      const vm = new Vue({
+        template: '<multiselect :selected="value" :searchable="true" :options="source" :multiple="true" :taggable="true"></multiselect>',
+        components: { Multiselect },
+        data: {
+          value: ['1'],
+          source: ['1', '2', '3']
+        }
+      }).$mount()
+      vm.$children[0].search = 'test'
+      vm.$children[0].select(vm.$children[0].filteredOptions[0])
+      expect(vm.$children[0].options.length).to.equal(4)
+      expect(vm.$children[0].options).to.deep.equal(['1', '2', '3', 'test'])
+      expect(vm.$children[0].value.length).to.equal(2)
+      expect(vm.$children[0].value).to.deep.equal(['1', 'test'])
+    })
+  })
+
+  describe('#limitText', () => {
+    it('should by default interpolate the limit text', () => {
+      const vm = new Vue({
+        template: '<multiselect :selected="value" :searchable="true" :options="source" :multiple="true" :limit="2"></multiselect>',
+        components: { Multiselect },
+        data: {
+          value: ['1', '2', '3'],
+          source: ['1', '2', '3', '4', '5']
+        }
+      }).$mount()
+      vm.$children[0].limitText(20)
+      expect(vm.$children[0].limitText(20)).to.equal('and 20 more')
+    })
+  })
+
+  describe('visibleValue', () => {
+    it('should by default interpolate the limit text', () => {
+      const vm = new Vue({
+        template: '<multiselect :selected="value" :searchable="true" :options="source" :multiple="true" :limit="1"></multiselect>',
+        components: { Multiselect },
+        data: {
+          value: ['1', '2', '3'],
+          source: ['1', '2', '3', '4', '5']
+        }
+      }).$mount()
+      expect(vm.$children[0].value.length).to.equal(3)
+      expect(vm.$children[0].visibleValue.length).to.equal(1)
+    })
+  })
+
+  describe('@ready:showLabels', () => {
+    beforeEach(function () {
+      document.body.insertAdjacentHTML('afterbegin', '<app></app>')
+    })
+    it('should hide all layers if :show-labels is FALSE', () => {
+      const vm = new Vue({
+        el: 'App',
+        template: '<multiselect :selected="value" :searchable="true" :options="source" :multiple="true" :limit="1" :show-labels="false"></multiselect>',
+        components: { Multiselect },
+        data: {
+          value: ['1', '2', '3'],
+          source: ['1', '2', '3', '4', '5']
+        }
+      })
+      expect(vm.$children[0].selectLabel).to.equal('')
+      expect(vm.$children[0].deselectLabel).to.equal('')
+      expect(vm.$children[0].selectedLabel).to.equal('')
     })
   })
 })
