@@ -46,7 +46,7 @@
             :class="{ 'multiselect__option--highlight': $index === pointer && this.showPointer, 'multiselect__option--selected': !isNotSelected(option) }"
             @mousedown.prevent="select(option)"
             @mouseover="pointerSet($index)"
-            :data-select="selectLabel"
+            :data-select="option.isTag ? tagPlaceholder : selectLabel"
             :data-selected="selectedLabel"
             :data-deselect="deselectLabel"
             class="multiselect__option">
@@ -66,6 +66,9 @@
 <script>
   import multiselectMixin from './multiselectMixin'
   import pointerMixin from './pointerMixin'
+  import Vue from 'vue'
+
+  Vue.directive('on').keyCodes.semicolon = 186
 
   export default {
     mixins: [multiselectMixin, pointerMixin],
@@ -107,6 +110,15 @@
         default: true
       },
       /**
+       * Label to look for in option Object
+       * @default 'label'
+       * @type {String}
+       */
+      limit: {
+        type: Number,
+        default: 99999
+      },
+      /**
        * Function that process the message shown when selected
        * elements pass the defined limit.
        * @default 'and * more'
@@ -118,7 +130,15 @@
         default: count => `and ${count} more`
       }
     },
+    computed: {
+      visibleValue () {
+        return this.multiple
+          ? this.value.slice(0, this.limit)
+          : this.value
+      }
+    },
     ready () {
+      /* istanbul ignore else */
       if (!this.showLabels) {
         this.deselectLabel = this.selectedLabel = this.selectLabel = ''
       }

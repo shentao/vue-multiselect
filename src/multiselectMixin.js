@@ -61,7 +61,7 @@ module.exports = {
      */
     key: {
       type: String,
-      default: 'id'
+      default: false
     },
     /**
      * Label to look for in option Object
@@ -70,16 +70,7 @@ module.exports = {
      */
     label: {
       type: String,
-      default: 'label'
-    },
-    /**
-     * Label to look for in option Object
-     * @default 'label'
-     * @type {String}
-     */
-    limit: {
-      type: Number,
-      default: 99999
+      default: false
     },
     /**
      * Enable/disable search in options
@@ -187,6 +178,46 @@ module.exports = {
     closeOnSelect: {
       type: Boolean,
       default: true
+    },
+    /**
+     * Function to interpolate the custom label
+     * @default false
+     * @type {Function}
+     */
+    customLabel: {
+      type: Function,
+      default: false
+    },
+    /**
+     * Disable / Enable tagging
+     * @default false
+     * @type {Boolean}
+     */
+    taggable: {
+      type: Boolean,
+      default: false
+    },
+    /**
+     * Callback function to run when attemting to add a tag
+     * @default suitable for primitive values
+     * @param {String} Tag string to build a tag
+     * @type {Function}
+     */
+    onTag: {
+      type: Function,
+      default: function (tag) {
+        this.options.push(tag)
+        this.value.push(tag)
+      }
+    },
+    /**
+     * String to show when highlighting a potential tag
+     * @default 'Press enter to create a tag'
+     * @type {String}
+    */
+    tagPlaceholder: {
+      type: String,
+      default: 'Press enter to create a tag'
     }
   },
   created () {
@@ -204,18 +235,25 @@ module.exports = {
       var options = this.hideSelected
         ? this.options.filter(this.isNotSelected)
         : this.options
-      return this.$options.filters.filterBy(options, this.search)
+      options = this.$options.filters.filterBy(options, this.search)
+      if (this.taggable && this.search.length > 0 && !this.isExistingOption(this.search)) {
+        options.unshift({ isTag: true, label: this.search })
+      }
+      return options
     },
-    allKeys () {
-      var key = this.key
-      return this.value.map(function (element) {
-        return element[key]
-      })
+    valueKeys () {
+      if (this.key) {
+        return this.multiple
+          ? this.value.map(element => element[this.key])
+          : this.value[this.key]
+      } else {
+        return this.value
+      }
     },
-    visibleValue () {
-      return this.multiple
-        ? this.value.slice(0, this.limit)
-        : this.value
+    optionKeys () {
+      return this.label
+        ? this.options.map(element => element[this.label])
+        : this.options
     }
   },
   watch: {
@@ -251,26 +289,43 @@ module.exports = {
   },
   methods: {
     /**
-     * Finds out if the given element is NOT already present
+     * Finds out if the given query is already present
+     * in the available options
+     * @param  {String}
+     * @returns {Boolean} returns true if element is available
+     */
+    isExistingOption (query) {
+      return !this.options
+        ? false
+        : this.optionKeys.indexOf(query) > -1
+    },
+    /**
+     * Finds out if the given element is already present
      * in the result value
+     * @param  {Object||String||Integer} option passed element to check
+     * @returns {Boolean} returns true if element is selected
+     */
+    isSelected (option) {
+      /* istanbul ignore else */
+      if (!this.value) return false
+      const opt = this.key
+        ? option[this.key]
+        : option
+
+      if (this.multiple) {
+        return this.valueKeys.indexOf(opt) > -1
+      } else {
+        return this.valueKeys === opt
+      }
+    },
+    /**
+     * Finds out if the given element is NOT already present
+     * in the result value. Negated isSelected method.
      * @param  {Object||String||Integer} option passed element to check
      * @returns {Boolean} returns true if element is not selected
      */
     isNotSelected (option) {
-      if (!this.value) return true
-      if (typeof option === 'object' && option !== null) {
-        if (this.value && this.multiple) {
-          return this.allKeys.indexOf(option[this.key]) === -1
-        } else {
-          return this.value[this.key] !== option[this.key]
-        }
-      } else {
-        if (this.value && this.multiple) {
-          return this.value.indexOf(option) === -1
-        } else {
-          return this.value !== option
-        }
-      }
+      return !this.isSelected(option)
     },
     /**
      * Returns the option[this.label]
@@ -282,10 +337,14 @@ module.exports = {
      */
     getOptionLabel (option) {
       if (typeof option === 'object' && option !== null) {
-        if (this.label && option[this.label]) {
-          return option[this.label]
-        } else if (option.label) {
-          return option.label
+        if (this.customLabel) {
+          return this.customLabel(option)
+        } else {
+          if (this.label && option[this.label]) {
+            return option[this.label]
+          } else if (option.label) {
+            return option.label
+          }
         }
       } else {
         return option
@@ -299,23 +358,28 @@ module.exports = {
      * @param  {Object||String||Integer} option to select/deselect
      */
     select (option) {
-      if (this.multiple) {
-        if (!this.isNotSelected(option)) {
-          this.removeElement(option)
-        } else {
-          this.value.push(option)
-          if (this.clearOnSelect) { this.search = '' }
-        }
+      if (option.isTag) {
+        this.onTag(option.label)
+        this.search = ''
       } else {
-        this.$set('value',
-          !this.isNotSelected(option) && this.allowEmpty
-            ? null
-            : option
-        )
-        if (this.closeOnSelect) {
-          this.searchable
-            ? this.$els.search.blur()
-            : this.$el.blur()
+        if (this.multiple) {
+          if (!this.isNotSelected(option)) {
+            this.removeElement(option)
+          } else {
+            this.value.push(option)
+            if (this.clearOnSelect) { this.search = '' }
+          }
+        } else {
+          this.$set('value',
+            !this.isNotSelected(option) && this.allowEmpty
+              ? null
+              : option
+          )
+          if (this.closeOnSelect) {
+            this.searchable
+              ? this.$els.search.blur()
+              : this.$el.blur()
+          }
         }
       }
     },
@@ -328,9 +392,10 @@ module.exports = {
      * @returns {type}        description
      */
     removeElement (option) {
+      /* istanbul ignore else */
       if (this.allowEmpty || this.value.length > 1) {
         if (this.multiple && typeof option === 'object') {
-          const index = this.allKeys.indexOf(option[this.key])
+          const index = this.valueKeys.indexOf(option[this.key])
           this.value.splice(index, 1)
         } else {
           this.value.$remove(option)
@@ -354,6 +419,7 @@ module.exports = {
      * Sets this.isOpen to TRUE
      */
     activate () {
+      /* istanbul ignore else */
       if (!this.isOpen) {
         this.isOpen = true
         /* istanbul ignore else  */
@@ -370,6 +436,7 @@ module.exports = {
      * Sets this.isOpen to FALSE
      */
     deactivate () {
+      /* istanbul ignore else */
       if (this.isOpen) {
         this.isOpen = false
         this.touched = true

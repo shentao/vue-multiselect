@@ -20,15 +20,20 @@ div
               :placeholder="placeholder",
               :on-change="afterChange",
               :show-labels="true",
-              :limit="3"
+              :limit="3",
+              :taggable="true",
+              :on-tag="onTagging"
               select-label="Enter to select"
             )
+              span(slot="noResult").
+                Tag not found. Press semi-colon <kbd>;</kbd> to create a tag from search query.
             .grid__row.start__list
               .grid__column.grid__unit--md-6.list
                 ul.list__ul
                   li.typo__li Single / multi select
                   li.typo__li Dropdowns
                   li.typo__li Searchable
+                  li.typo__li Tagging support
                   li.typo__li Custom components with Mixins
               .grid__column.grid__unit--md-6.list
                 ul.list__ul
@@ -106,7 +111,6 @@ div
               :show-labels="false"
               placeholder="Select one"
               label="name"
-              key="name"
             )
             pre.language-json
               code.
@@ -125,7 +129,6 @@ div
                   :show-labels="false"
                   placeholder="Select one"
                   label="name"
-                  key="name"
                 )
 
         h2.typo__h2 Single select dropdown (object)
@@ -140,7 +143,7 @@ div
               :multiple="false",
               :searchable="false",
               :close-on-select="false",
-              :allow-empty="false",
+              :allow-empty="false"
               deselect-label="Can’t remove this value"
               key="name"
               label="name"
@@ -178,6 +181,7 @@ div
               :selected.sync="value",
               :multiple="false",
               :searchable="true",
+              :custom-label="nameWithLang"
               placeholder="Select one",
               label="name",
               key="name"
@@ -195,6 +199,7 @@ div
                   :selected.sync="value",
                   :multiple="false",
                   :searchable="true",
+                  :custom-label="nameWithLang"
                   placeholder="Select one",
                   label="name",
                   key="name"
@@ -272,6 +277,49 @@ div
                 multiselect(
                   :options="countries",
                   :selected.sync="selectedCountries",
+                  :multiple="multiple",
+                  :searchable="searchable",
+                  placeholder="Type to search",
+                  :on-search-change="asyncFind",
+                  :clear-on-select="false",
+                  label="name"
+                  key="code"
+                )
+                  span(slot="noResult").
+                    Oops! No elements found. Consider changing the search query.
+
+        hr.typo__hr
+        h2.typo__h2 Tagging
+        p.typo__p
+          | Description.
+        .grid__row
+          .grid__column.grid__unit--md-5
+            label.typo__label Tagging
+            multiselect(
+              :options="taggingOptions",
+              :selected="taggingSelected",
+              :multiple="multiple",
+              :searchable="searchable",
+              :on-tag="addTag",
+              :on-change="updateSelectedTagging"
+              tag-placeholder="Add this as new tag"
+              placeholder="Type to search or add tag"
+              label="name"
+              key="code"
+            )
+              span(slot="noResult").
+                Oops! No elements found. Consider changing the search query.
+            pre.language-json
+              code.
+                {{ taggingSelected | json }}
+
+          .grid__column.grid__unit--md-7
+            label.typo__label Code sample
+            pre.language-jade
+              code.
+                multiselect(
+                  :options="countries",
+                  :selected="selectedCountries",
                   :multiple="multiple",
                   :searchable="searchable",
                   placeholder="Type to search",
@@ -379,14 +427,10 @@ div
                    */
                   options: {
                     type: Array,
-                    required: true,
-                    /* istanbul ignore next  */
-                    default () {
-                      return []
-                    }
+                    required: true
                   },
                   /**
-                   * Equivalent to the `multiple` attribute on a select input.
+                   * Equivalent to the `multiple` attribute on a `<select>` input.
                    * @default false
                    * @type {Boolean}
                    */
@@ -411,7 +455,7 @@ div
                    */
                   key: {
                     type: String,
-                    default: 'id'
+                    default: false
                   },
                   /**
                    * Label to look for in option Object
@@ -420,16 +464,7 @@ div
                    */
                   label: {
                     type: String,
-                    default: 'label'
-                  },
-                  /**
-                   * Label to look for in option Object
-                   * @default 'label'
-                   * @type {String}
-                   */
-                  limit: {
-                    type: Number,
-                    default: 99999
+                    default: false
                   },
                   /**
                    * Enable/disable search in options
@@ -459,7 +494,7 @@ div
                     default: false
                   },
                   /**
-                   * Equivalent to the placeholder attribute on a select input.
+                   * Equivalent to the `placeholder` attribute on a `<select>` input.
                    * @default 'Select option'
                    * @type {String}
                    */
@@ -537,6 +572,46 @@ div
                   closeOnSelect: {
                     type: Boolean,
                     default: true
+                  },
+                  /**
+                   * Function to interpolate the custom label
+                   * @default false
+                   * @type {Function}
+                   */
+                  customLabel: {
+                    type: Function,
+                    default: false
+                  },
+                  /**
+                   * Disable / Enable tagging
+                   * @default false
+                   * @type {Boolean}
+                   */
+                  taggable: {
+                    type: Boolean,
+                    default: false
+                  },
+                  /**
+                   * Callback function to run when attemting to add a tag
+                   * @default suitable for primitive values
+                   * @param {String} Tag string to build a tag
+                   * @type {Function}
+                   */
+                  onTag: {
+                    type: Function,
+                    default: function (tag) {
+                      this.options.push(tag)
+                      this.value.push(tag)
+                    }
+                  },
+                  /**
+                   * String to show when highlighting a potential tag
+                   * @default 'Press enter to create a tag'
+                   * @type {String}
+                  */
+                  tagPlaceholder: {
+                    type: String,
+                    default: 'Press enter to create a tag'
                   }
                 }
 
@@ -555,7 +630,7 @@ div
                 }
 
                 // Multiselect.vue
-                //
+
                 props: {
                   /**
                    * String to show when pointing to an option
@@ -592,6 +667,26 @@ div
                   showLabels: {
                     type: Boolean,
                     default: true
+                  },
+                  /**
+                   * Label to look for in option Object
+                   * @default 'label'
+                   * @type {String}
+                   */
+                  limit: {
+                    type: Number,
+                    default: 99999
+                  },
+                  /**
+                   * Function that process the message shown when selected
+                   * elements pass the defined limit.
+                   * @default 'and * more'
+                   * @param {Int} count Number of elements more than limit
+                   * @type {Function}
+                   */
+                  limitText: {
+                    type: Function,
+                    default: count => `and ${count} more`
                   }
                 }
 </template>
@@ -610,11 +705,19 @@ export default {
     return {
       options: ['Select option', 'options', 'selected', 'mulitple', 'label', 'searchable', 'clearOnSelect', 'hideSelected', 'maxHeight', 'allowEmpty', 'showLabels', 'onChange', 'touched'],
       selected: ['Select option'],
-      source: [{ name: 'Vue.js' }, { name: 'Javascript' }, { name: 'Monterail' }, { name: 'Open Source' }],
-      value: { name: 'Vue.js' },
+      source: [
+        { name: 'Vue.js', language: 'JavaScript' },
+        { name: 'Rails', language: 'Ruby' },
+        { name: 'Sinatra', language: 'Ruby' },
+        { name: 'Laravel', language: 'PHP' },
+        { name: 'Phoenix', language: 'Elixir' }
+      ],
+      value: { name: 'Vue.js', language: 'Javascript' },
       valuePrimitive: 'showLabels',
-      multiValue: [{ name: 'Vue.js' }],
+      multiValue: [{ name: 'Vue.js', language: 'Javascript' }],
       multiple: true,
+      taggingOptions: [{ name: 'Vue.js', code: 'vu' }, { name: 'Javascript', code: 'js' }, { name: 'Monterail', code: 'pl' }, { name: 'Open Source', code: 'os' }],
+      taggingSelected: [],
       searchable: true,
       placeholder: 'Select props',
       countries: [],
@@ -651,6 +754,21 @@ export default {
     afterChange (selectValue) {
       this.selected = selectValue
     },
+    onTagging (newTag) {
+      this.options.push(newTag)
+      this.selected.push(newTag)
+    },
+    addTag (newTag) {
+      const tag = {
+        name: newTag,
+        code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
+      }
+      this.taggingOptions.push(tag)
+      this.taggingSelected.push(tag)
+    },
+    updateSelectedTagging (value) {
+      this.taggingSelected = value
+    },
     dispatchAction (actionName) {
       switch (actionName) {
         case 'alert':
@@ -663,6 +781,9 @@ export default {
           window.scrollTo(0, 0)
           break
       }
+    },
+    nameWithLang ({ name, language }) {
+      return `${name} — [${language}]`
     }
   }
 }
