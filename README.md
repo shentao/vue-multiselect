@@ -46,6 +46,21 @@ export default {
 }
 ```
 
+You can now author custom components based on *vue-multiselect* mixins.
+
+``` javascript
+import { multiselectMixin, pointerMixin } from 'vue-multiselect'
+export default {
+  mixins: [multiselectMixin, pointerMixin],
+  data () {
+    return {
+      selected: null,
+      options: ['list', 'of', 'options']
+    }
+  }
+}
+```
+
 ## TODO:
 
 * Update docs: How to use available slots and configuration props
@@ -101,6 +116,36 @@ multiselect(
   :close-on-select="true"
   key="name"
 )
+```
+
+### Tagging
+with `:on-tag` and `:on-change` callback functions
+``` jade
+multiselect(
+  :options="taggingOptions",
+  :selected="taggingSelected",
+  :multiple="multiple",
+  :searchable="searchable",
+  :on-tag="addTag",
+  :on-change="updateSelectedTagging",
+  :taggable="true",
+  tag-placeholder="Add this as new tag"
+  placeholder="Type to search or add tag"
+  label="name"
+  key="code"
+)
+```
+
+``` javascript
+
+addTag (newTag) {
+  const tag = {
+    name: newTag,
+    code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
+  }
+  this.taggingOptions.push(tag)
+  this.taggingSelected.push(tag)
+},
 ```
 
 ### Vuex supporting example
@@ -163,14 +208,10 @@ props: {
    */
   options: {
     type: Array,
-    required: true,
-    /* istanbul ignore next  */
-    default () {
-      return []
-    }
+    required: true
   },
   /**
-   * Equivalent to the `multiple` attribute on a select input.
+   * Equivalent to the `multiple` attribute on a `<select>` input.
    * @default false
    * @type {Boolean}
    */
@@ -195,7 +236,7 @@ props: {
    */
   key: {
     type: String,
-    default: 'id'
+    default: false
   },
   /**
    * Label to look for in option Object
@@ -204,16 +245,7 @@ props: {
    */
   label: {
     type: String,
-    default: 'label'
-  },
-  /**
-   * Label to look for in option Object
-   * @default 'label'
-   * @type {String}
-   */
-  limit: {
-    type: Number,
-    default: 99999
+    default: false
   },
   /**
    * Enable/disable search in options
@@ -243,7 +275,7 @@ props: {
     default: false
   },
   /**
-   * Equivalent to the placeholder attribute on a select input.
+   * Equivalent to the `placeholder` attribute on a `<select>` input.
    * @default 'Select option'
    * @type {String}
    */
@@ -321,6 +353,46 @@ props: {
   closeOnSelect: {
     type: Boolean,
     default: true
+  },
+  /**
+   * Function to interpolate the custom label
+   * @default false
+   * @type {Function}
+   */
+  customLabel: {
+    type: Function,
+    default: false
+  },
+  /**
+   * Disable / Enable tagging
+   * @default false
+   * @type {Boolean}
+   */
+  taggable: {
+    type: Boolean,
+    default: false
+  },
+  /**
+   * Callback function to run when attemting to add a tag
+   * @default suitable for primitive values
+   * @param {String} Tag string to build a tag
+   * @type {Function}
+   */
+  onTag: {
+    type: Function,
+    default: function (tag) {
+      this.options.push(tag)
+      this.value.push(tag)
+    }
+  },
+  /**
+   * String to show when highlighting a potential tag
+   * @default 'Press enter to create a tag'
+   * @type {String}
+  */
+  tagPlaceholder: {
+    type: String,
+    default: 'Press enter to create a tag'
   }
 }
 
@@ -376,6 +448,26 @@ props: {
   showLabels: {
     type: Boolean,
     default: true
+  },
+  /**
+   * Label to look for in option Object
+   * @default 'label'
+   * @type {String}
+   */
+  limit: {
+    type: Number,
+    default: 99999
+  },
+  /**
+   * Function that process the message shown when selected
+   * elements pass the defined limit.
+   * @default 'and * more'
+   * @param {Int} count Number of elements more than limit
+   * @type {Function}
+   */
+  limitText: {
+    type: Function,
+    default: count => `and ${count} more`
   }
 }
 ```
