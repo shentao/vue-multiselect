@@ -143,7 +143,7 @@
   }
 </script>
 
-<style scoped>
+<style>
 .multiselect__spinner {
   position: absolute;
   right: 1px;
