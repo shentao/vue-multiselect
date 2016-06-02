@@ -66,9 +66,6 @@
 <script>
   import multiselectMixin from './multiselectMixin'
   import pointerMixin from './pointerMixin'
-  import Vue from 'vue'
-
-  Vue.directive('on').keyCodes.semicolon = 186
 
   export default {
     mixins: [multiselectMixin, pointerMixin],
@@ -146,7 +143,7 @@
   }
 </script>
 
-<style scoped>
+<style>
 .multiselect__spinner {
   position: absolute;
   right: 1px;
