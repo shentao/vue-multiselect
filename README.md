@@ -5,6 +5,7 @@ Probably the most complete *selecting* solution for Vue.js, without jQuery.
 * NO dependencies
 * Single select
 * Multiple select
+* Tagging
 * Dropdowns
 * Filtering
 * Search with suggestions
@@ -12,7 +13,7 @@ Probably the most complete *selecting* solution for Vue.js, without jQuery.
 * Basic component and support for custom components
 * Vuex support
 * Async options support
-* \> 90% test coverage
+* \> 95% test coverage
 * Fully configurable (see props list below)
 
 ## Demo & docs
@@ -61,12 +62,14 @@ export default {
 }
 ```
 
-## TODO:
+## Roadmap:
 
-* Update docs: How to use available slots and configuration props
-* Add option groups
-* Update docs: Add more examples
-* Create a headless and stateless dropdown component (could be attached to buttons or icons and act as a action trigger)
+* Option grouping
+* Better mobile support
+* Stateless dropdowns (with no selected prop, just action pickers / search boxes)
+* RTL support, accessibility
+* Examples of custom components / templates ready to use in project
+* Reworking the documentation to include much more examples and use cases
 * Fix problem with not counting the height of the option element when creating a custom element. This is important for scrolling the options viewport when using highlighting pointer.
 
 ## Examples
