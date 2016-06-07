@@ -259,7 +259,7 @@ div
               :multiple="multiple",
               :searchable="searchable",
               placeholder="Type to search",
-              :on-search-change="asyncFind",
+              :on-search-change="asyncFind | debounce 200",
               :clear-on-select="false",
               label="name"
               key="code"
@@ -280,7 +280,7 @@ div
                   :multiple="multiple",
                   :searchable="searchable",
                   placeholder="Type to search",
-                  :on-search-change="asyncFind",
+                  :on-search-change="asyncFind | debounce 200",
                   :clear-on-select="false",
                   label="name"
                   key="code"
