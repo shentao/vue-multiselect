@@ -401,7 +401,6 @@
   padding: 0.75rem;
   min-height: 2.5rem;
   line-height: 1rem;
-  font-weight: 300;
   text-decoration: none;
   text-transform: none;
   vertical-align: middle;
@@ -437,7 +436,6 @@
 
 .multiselect__option--selected:after {
   content: attr(data-selected);
-  font-weight: 300;
   color: silver;
 }
 

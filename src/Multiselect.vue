@@ -195,7 +195,6 @@
 .multiselect__single {
   font-family: inherit;
   font-size: 0.875rem;
-  font-weight: lighter;
 }
 
 .multiselect {
@@ -402,7 +401,6 @@
   padding: 0.75rem;
   min-height: 2.5rem;
   line-height: 1rem;
-  font-weight: 300;
   text-decoration: none;
   text-transform: none;
   vertical-align: middle;
@@ -438,14 +436,12 @@
 
 .multiselect__option--selected:after {
   content: attr(data-selected);
-  font-weight: 300;
   color: silver;
 }
 
 .multiselect__option--selected.multiselect__option--highlight {
   background: #FF6A6A;
   color: #fff;
-  font-weight: lighter;
 }
 
 .multiselect__option--selected.multiselect__option--highlight:after {
