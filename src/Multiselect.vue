@@ -38,7 +38,7 @@
           class="multiselect__input"/>
           <span v-if="!searchable && !multiple" class="multiselect__single">{{ getOptionLabel(value) ? getOptionLabel(value) : placeholder }}</span>
       </div>
-      <ul transition="multiselect" :style="{ maxHeight: maxHeight + 'px' }" v-el:list="v-el:list" v-show="isOpen" class="multiselect__content">
+      <ul transition="multiselect" :style="{ maxHeight: maxHeight + 'px' }" v-el:list="v-el:list" v-if="isOpen" class="multiselect__content">
         <slot name="beforeList"></slot>
         <li v-for="option in filteredOptions" track-by="$index">
           <span
