@@ -148,8 +148,8 @@
   position: absolute;
   right: 1px;
   top: 1px;
-  width: 3rem;
-  height: 2.1875rem;
+  width: 48px;
+  height: 35px;
   background: #fff;
   display: block;
 }
@@ -160,9 +160,9 @@
   content: "";
   top: 50%;
   left: 50%;
-  margin: -0.5rem 0 0 -0.5rem;
-  width: 1rem;
-  height: 1rem;
+  margin: -8px 0 0 -8px;
+  width: 16px;
+  height: 16px;
   border-radius: 100%;
   border-color: #41B883 transparent transparent;
   border-style: solid;
@@ -194,7 +194,7 @@
 .multiselect__input,
 .multiselect__single {
   font-family: inherit;
-  font-size: 0.875rem;
+  font-size: 14px;
 }
 
 .multiselect {
@@ -202,7 +202,7 @@
   display: block;
   position: relative;
   width: 100%;
-  min-height: 2.5rem;
+  min-height: 40px;
   text-align: left;
   color: #35495E;
 }
@@ -234,16 +234,16 @@
 .multiselect__single {
   position: relative;
   display: inline-block;
-  min-height: 1.25rem;
-  line-height: 1.25rem;
+  min-height: 20px;
+  line-height: 20px;
   border: none;
-  border-radius: 0.3125rem;
+  border-radius: 5px;
   background: #fff;
-  padding: 1px 0 0 0.3125rem;
+  padding: 1px 0 0 5px;
   width: calc(100%);
   transition: border 0.1s ease;
   box-sizing: border-box;
-  margin-bottom: 0.5rem;
+  margin-bottom: 8px;
 }
 
 .multiselect__tag ~ .multiselect__input {
@@ -262,15 +262,15 @@
 }
 
 .multiselect__single {
-  padding-left: 0.375rem;
-  margin-bottom: 0.5rem;
+  padding-left: 6px;
+  margin-bottom: 8px;
 }
 
 .multiselect__tags {
-  min-height: 2.5rem;
+  min-height: 40px;
   display: block;
-  padding: 0.5rem 2.5rem 0 0.5rem;
-  border-radius: 0.3125rem;
+  padding: 8px 40px 0 8px;
+  border-radius: 5px;
   border: 1px solid #E8E8E8;
   background: #fff;
 }
@@ -278,13 +278,13 @@
 .multiselect__tag {
   position: relative;
   display: inline-block;
-  padding: 0.25rem 1.625rem 0.25rem 0.625rem;
-  border-radius: 0.3125rem;
-  margin-right: 0.625rem;
+  padding: 4px 26px 4px 10px;
+  border-radius: 5px;
+  margin-right: 10px;
   color: #fff;
   line-height: 1;
   background: #41B883;
-  margin-bottom: 0.5rem;
+  margin-bottom: 8px;
 }
 
 .multiselect__tag-icon {
@@ -296,17 +296,17 @@
   bottom: 0;
   font-weight: 700;
   font-style: initial;
-  width: 1.375rem;
+  width: 22px;
   text-align: center;
-  line-height: 1.375rem;
+  line-height: 22px;
   transition: all 0.2s ease;
-  border-radius: 0.3125rem;
+  border-radius: 5px;
 }
 
 .multiselect__tag-icon:after {
   content: "×";
   color: #266d4d;
-  font-size: 0.875rem;
+  font-size: 14px;
 }
 
 .multiselect__tag-icon:focus,
@@ -320,31 +320,31 @@
 }
 
 .multiselect__current {
-  line-height: 1rem;
-  min-height: 2.5rem;
+  line-height: 16px;
+  min-height: 40px;
   box-sizing: border-box;
   display: block;
   overflow: hidden;
-  padding: 0.5rem 0.75rem 0;
-  padding-right: 1.875rem;
+  padding: 8px 12px 0;
+  padding-right: 30px;
   white-space: nowrap;
   margin: 0;
   text-decoration: none;
-  border-radius: 0.3125rem;
+  border-radius: 5px;
   border: 1px solid #E8E8E8;
   cursor: pointer;
 }
 
 .multiselect__select {
-  line-height: 1rem;
+  line-height: 16px;
   display: block;
   position: absolute;
   box-sizing: border-box;
-  width: 2.5rem;
-  height: 2.375rem;
+  width: 40px;
+  height: 38px;
   right: 1px;
   top: 1px;
-  padding: 0.25rem 0.5rem;
+  padding: 4px 8px;
   margin: 0;
   text-decoration: none;
   text-align: center;
@@ -357,9 +357,9 @@
   right: 0;
   top: 65%;
   color: #999;
-  margin-top: 0.25rem;
+  margin-top: 4px;
   border-style: solid;
-  border-width: 0.3125rem 0.3125rem 0 0.3125rem;
+  border-width: 5px 5px 0 5px;
   border-color: #999999 transparent transparent transparent;
   content: "";
 }
@@ -367,8 +367,8 @@
 .multiselect__placeholder {
   color: #ADADAD;
   display: inline-block;
-  margin-bottom: 0.625rem;
-  padding-top: 0.125rem;
+  margin-bottom: 10px;
+  padding-top: 2px;
 }
 
 .multiselect--active .multiselect__placeholder {
@@ -381,14 +381,14 @@
   display: block;
   background: #fff;
   width: 100%;
-  max-height: 15rem;
+  max-height: 240px;
   overflow: auto;
   padding: 0;
   margin: 0;
   border: 1px solid #E8E8E8;
   border-top: none;
-  border-bottom-left-radius: 0.3125rem;
-  border-bottom-right-radius: 0.3125rem;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
   z-index: 50;
 }
 
@@ -398,9 +398,9 @@
 
 .multiselect__option {
   display: block;
-  padding: 0.75rem;
-  min-height: 2.5rem;
-  line-height: 1rem;
+  padding: 12px;
+  min-height: 40px;
+  line-height: 16px;
   text-decoration: none;
   text-transform: none;
   vertical-align: middle;
@@ -412,9 +412,9 @@
   top: 0;
   right: 0;
   position: absolute;
-  line-height: 2.5rem;
-  padding-right: 0.75rem;
-  padding-left: 1.25rem;
+  line-height: 40px;
+  padding-right: 12px;
+  padding-left: 20px;
 }
 
 .multiselect__option--highlight {
