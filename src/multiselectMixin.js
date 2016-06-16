@@ -435,11 +435,7 @@ module.exports = {
      * Closes the multiselect’s dropdown.
      * Sets this.isOpen to FALSE
      */
-    deactivate (event) {
-      if (event && (event.relatedTarget || event.rangeOffset === 1 || (event.rangeParent && event.rangeParent.className === this.$els.tags.className))) {
-        setTimeout(() => this.$els.search.focus(), 0)
-        return
-      }
+    deactivate () {
       /* istanbul ignore else */
       if (this.isOpen) {
         this.isOpen = false
@@ -448,8 +444,8 @@ module.exports = {
         if (this.searchable) {
           this.$els.search.blur()
           this.search = this.multiple
-          ? ''
-          : this.getOptionLabel(this.value)
+            ? ''
+            : this.getOptionLabel(this.value)
         } else {
           this.$el.blur()
         }
