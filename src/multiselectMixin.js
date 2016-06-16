@@ -435,7 +435,14 @@ module.exports = {
      * Closes the multiselect’s dropdown.
      * Sets this.isOpen to FALSE
      */
-    deactivate () {
+    deactivate (event) {
+      // if the following conditions are true then they are clicking somewhere in the multi-select element (scroll bar, input, etc.)
+      // if so then we DONT want the deactivate function to run, however we MUST bring focus back to the search input.
+      //             CHROME (MULTISELECT)   FIREFOX (SCROLL BAR)                       FIREFOX (SEARCH BOX)
+      if (event && (event.relatedTarget || event.rangeOffset === 1 || (event.rangeParent && event.rangeParent.className === 'multiselect__tags'))) {
+        setTimeout(() => this.$els.search.focus(), 0) // reset focus to input, must use setTimeout for firefox
+        return
+      }
       /* istanbul ignore else */
       if (this.isOpen) {
         this.isOpen = false
