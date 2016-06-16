@@ -435,7 +435,11 @@ module.exports = {
      * Closes the multiselect’s dropdown.
      * Sets this.isOpen to FALSE
      */
-    deactivate () {
+    deactivate (event) {
+      if (event && (event.relatedTarget || event.rangeOffset === 1 || (event.rangeParent && event.rangeParent.className === this.$els.tags.className))) {
+        setTimeout(() => this.$els.search.focus(), 0)
+        return
+      }
       /* istanbul ignore else */
       if (this.isOpen) {
         this.isOpen = false
