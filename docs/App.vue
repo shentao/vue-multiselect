@@ -17,7 +17,7 @@ div
               :selected="selected",
               :multiple="multiple",
               :searchable="searchable",
-              :placeholder="placeholder",
+              placeholder="Select option",
               :on-change="afterChange",
               :show-labels="true",
               :limit="3",
@@ -371,7 +371,7 @@ div
         hr.typo__hr
 
         h2.typo__h2 Custom configuration
-        p.typo__p Can’t remove the last value.
+        p.typo__p Can’t remove the last value and only allow up to 5 selected options.
         p.typo__p Hides already selected options.
         p.typo__p Shows error when touched, but nothing is selected.
         .grid__row
@@ -386,7 +386,8 @@ div
                 :allow-empty="false",
                 :hide-selected="true",
                 :touched.sync="isTouched",
-                :max-height="400"
+                :max-height="400",
+                :max="5"
                 placeholder="Pick at least one"
               )
 
@@ -394,17 +395,38 @@ div
             label.typo__label Code sample
             pre.language-jade
               code.
-                multiselect(
-                  :options="options",
-                  :selected.sync="exampleValue6",
-                  :multiple="true",
-                  :searchable="true",
-                  :allow-empty="false",
-                  :hide-selected="true",
-                  :touched.sync="isTouched",
-                  :max-height="400"
-                  placeholder="Pick at least one"
-                )
+                // Template
+                div(:class="{ 'invalid': isInvalid }")
+                  label.typo__label Must have at least one value
+                  multiselect(
+                    :options="options",
+                    :selected.sync="exampleValue6",
+                    :multiple="true",
+                    :searchable="true",
+                    :allow-empty="false",
+                    :hide-selected="true",
+                    :touched.sync="isTouched",
+                    :max-height="400",
+                    :max="5"
+                    placeholder="Pick at least one"
+                  )
+
+                // Script
+                computed: {
+                  isInvalid () {
+                    return this.isTouched && this.exampleValue6.length === 0
+                  }
+                }
+
+                // Styles
+                .invalid {
+                  .typo__label {
+                    color: $error-color;
+                  }
+                  .multiselect__tags {
+                    border-color: $error-color !important;
+                  }
+                }
 
         hr.typo__hr
 
@@ -612,6 +634,15 @@ div
                   tagPlaceholder: {
                     type: String,
                     default: 'Press enter to create a tag'
+                  },
+                  /**
+                   * Number of allowed selected options. No limit if false.
+                   * @default False
+                   * @type {Number}
+                  */
+                  max: {
+                    type: Number,
+                    default: false
                   }
                 }
 

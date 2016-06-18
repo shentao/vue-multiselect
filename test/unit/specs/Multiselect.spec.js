@@ -260,6 +260,26 @@ describe('Multiselect.vue', () => {
         vm.$children[0].select(vm.source[0])
         expect(vm.$children[0].value).to.deep.equal([{ id: '2' }])
       })
+      describe('and when max == 3', () => {
+        it('should prevent from adding more than 3 elements', () => {
+          const vm = new Vue({
+            template: '<multiselect :selected="value" :options="source" label="id" key="id" :multiple="true" :max="3"></multiselect>',
+            components: { Multiselect },
+            data: {
+              value: [],
+              source: [{ id: '1' }, { id: '2' }, { id: '3' }, { id: '4' }]
+            }
+          }).$mount()
+          vm.$children[0].select(vm.source[0])
+          vm.$children[0].select(vm.source[1])
+          vm.$children[0].select(vm.source[2])
+          vm.$children[0].select(vm.source[3])
+          expect(vm.$children[0].value).to.deep.equal([{ id: '1' }, { id: '2' }, { id: '3' }])
+          vm.$children[0].removeLastElement()
+          vm.$children[0].select(vm.source[3])
+          expect(vm.$children[0].value).to.deep.equal([{ id: '1' }, { id: '2' }, { id: '4' }])
+        })
+      })
     })
     describe('when multiple == FALSE', () => {
       it('should change selected value to new one', () => {

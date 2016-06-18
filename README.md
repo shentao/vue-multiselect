@@ -394,6 +394,15 @@ props: {
   tagPlaceholder: {
     type: String,
     default: 'Press enter to create a tag'
+  },
+  /**
+   * Number of allowed selected options. No limit if false.
+   * @default False
+   * @type {Number}
+  */
+  max: {
+    type: Number,
+    default: false
   }
 }
 

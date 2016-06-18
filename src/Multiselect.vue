@@ -40,19 +40,26 @@
       </div>
       <ul transition="multiselect" :style="{ maxHeight: maxHeight + 'px' }" v-el:list="v-el:list" v-show="isOpen" class="multiselect__content">
         <slot name="beforeList"></slot>
-        <li v-for="option in filteredOptions" track-by="$index">
-          <span
-            tabindex="0"
-            :class="{ 'multiselect__option--highlight': $index === pointer && this.showPointer, 'multiselect__option--selected': !isNotSelected(option) }"
-            @mousedown.prevent="select(option)"
-            @mouseover="pointerSet($index)"
-            :data-select="option.isTag ? tagPlaceholder : selectLabel"
-            :data-selected="selectedLabel"
-            :data-deselect="deselectLabel"
-            class="multiselect__option">
-              {{ getOptionLabel(option) }}
+        <li v-if="multiple && max === value.length">
+          <span class="multiselect__option">
+            <slot name="maxElements">Maximum of {{ max }} options selected. First remove a selected option to select another.</slot>
           </span>
         </li>
+        <template v-if="!max || value.length < max">
+          <li v-for="option in filteredOptions" track-by="$index">
+            <span
+              tabindex="0"
+              :class="{ 'multiselect__option--highlight': $index === pointer && this.showPointer, 'multiselect__option--selected': !isNotSelected(option) }"
+              @mousedown.prevent="select(option)"
+              @mouseover="pointerSet($index)"
+              :data-select="option.isTag ? tagPlaceholder : selectLabel"
+              :data-selected="selectedLabel"
+              :data-deselect="deselectLabel"
+              class="multiselect__option">
+                {{ getOptionLabel(option) }}
+            </span>
+          </li>
+        </template>
         <li v-show="filteredOptions.length === 0">
           <span class="multiselect__option">
             <slot name="noResult">No elements found. Consider changing the search query.</slot>

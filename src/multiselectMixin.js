@@ -218,6 +218,15 @@ module.exports = {
     tagPlaceholder: {
       type: String,
       default: 'Press enter to create a tag'
+    },
+    /**
+     * Number of allowed selected options. No limit if false.
+     * @default False
+     * @type {Number}
+    */
+    max: {
+      type: Number,
+      default: false
     }
   },
   created () {
@@ -358,6 +367,7 @@ module.exports = {
      * @param  {Object||String||Integer} option to select/deselect
      */
     select (option) {
+      if (this.max && this.multiple && this.value.length === this.max) return
       if (option.isTag) {
         this.onTag(option.label)
         this.search = ''
