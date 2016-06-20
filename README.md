@@ -35,7 +35,7 @@ npm install vue-multiselect
 ```
 
 ``` javascript
-import Multiselect from 'vue-multiselect'
+import { Multiselect } from 'vue-multiselect'
 export default {
   components: { Multiselect },
   data () {
