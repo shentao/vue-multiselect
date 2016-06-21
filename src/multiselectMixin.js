@@ -246,7 +246,7 @@ module.exports = {
         ? this.options.filter(this.isNotSelected)
         : this.options
       options = this.$options.filters.filterBy(options, search)
-      if (this.taggable && search > 0 && !this.isExistingOption(search)) {
+      if (this.taggable && search.length > 0 && !this.isExistingOption(search)) {
         options.unshift({ isTag: true, label: search })
       }
       return options
