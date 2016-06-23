@@ -1,0 +1,43 @@
+h2.typo__h2#ajax Asynchronous dropdown
+p.typo__p
+  | Changing the search query calls the <kbd><code>:on-search-change=""</code></kbd> callback function,
+  | passing the search query as param. It also sets the <kbd><code>loading = true</code></kbd>.
+p.typo__p
+  | To disable <kbd><code>loading</code></kbd> options have to be updated.
+.grid__row
+  .grid__column.grid__unit--md-5
+    label.typo__label Async multiselect
+    multiselect(
+      :options="countries",
+      :selected.sync="selectedCountries",
+      :multiple="multiple",
+      :searchable="searchable",
+      placeholder="Type to search",
+      :on-search-change="asyncFind | debounce 200",
+      :clear-on-select="false",
+      label="name"
+      key="code"
+    )
+      span(slot="noResult").
+        Oops! No elements found. Consider changing the search query.
+    pre.language-json
+      code.
+        {{ selectedCountries | json }}
+
+  .grid__column.grid__unit--md-7
+    label.typo__label Code sample
+    pre.language-jade
+      code.
+        multiselect(
+          :options="countries",
+          :selected.sync="selectedCountries",
+          :multiple="multiple",
+          :searchable="searchable",
+          placeholder="Type to search",
+          :on-search-change="asyncFind | debounce 200",
+          :clear-on-select="false",
+          label="name"
+          key="code"
+        )
+          span(slot="noResult").
+            Oops! No elements found. Consider changing the search query.

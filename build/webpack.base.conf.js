@@ -58,6 +58,10 @@ module.exports = {
         loader: 'vue-html'
       },
       {
+        test: /\.jade$/,
+        loader: 'jade'
+      },
+      {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,
         loader: 'url',
         query: {

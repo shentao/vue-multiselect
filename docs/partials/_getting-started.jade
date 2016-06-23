@@ -1,0 +1,42 @@
+.grid__row
+  .grid__column
+    section.docs#getting-started
+      h1.typo__h1 Getting started
+      hr.typo__hr
+
+      .grid__row
+        .grid__column.grid__unit--md-6
+          h2.typo__h2 Installation
+          pre.language-bash
+            code.
+              npm install vue-multiselect --save
+
+          h2.typo__h2 Package content
+          p.typo__p
+            | The package consist of of multiple files:
+            strong  Multiselect.vue
+            |  which includes the template and styling of the default component. This component extends 2 additional mixins:
+            strong  multiselectMixin.js
+            |  and
+            strong  pointerMixin.js
+            |  , which contain the logic behind the multiselect. This way you can actually use the multiselect logic with your own template and styling.
+        .grid__column.grid__unit--md-6
+          h2.typo__h2 Basic usage
+          pre.language-jade
+            code.
+              multiselect(
+                :selected.sync="selected",
+                :options="options"
+              )
+          pre.language-javascript
+            code.
+              import Multiselect from 'vue-multiselect'
+              export default {
+                components: { Multiselect },
+                data () {
+                  return {
+                    selected: null,
+                    options: ['list', 'of', 'options']
+                  }
+                }
+              }

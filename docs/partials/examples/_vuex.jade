@@ -1,0 +1,35 @@
+h2.typo__h2#vuex Vuex support / on-change props
+p.typo__p
+  | If set triggers the passed callback function after value changes, passing the new value as param.
+p.typo__p
+  | For <strong>Vuex</strong> integration simply remove
+  <kbd><code>:reset-after="true"</code></kbd>
+  | prop.
+p.typo__p
+  | May also act as dispatcher for different actions, like in this example.
+.grid__row
+  .grid__column.grid__unit--md-5
+    label.typo__label Open console to see logs.
+    multiselect(
+      :options="actions",
+      :selected="action",
+      :multiple="false",
+      :searchable="false",
+      placeholder="Pick action",
+      :reset-after="true",
+      :on-change="dispatchAction"
+    )
+
+  .grid__column.grid__unit--md-7
+    label.typo__label Code sample
+    pre.language-jade
+      code.
+        multiselect(
+          :options="actions",
+          :selected="action",
+          :multiple="false",
+          :searchable="false",
+          placeholder="Pick action",
+          :reset-after="true",
+          :on-change="dispatchAction"
+        )
