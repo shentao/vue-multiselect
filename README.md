@@ -451,6 +451,15 @@ props: {
     default: 'Press enter to remove'
   },
   /**
+   * String to show when no elements were found or options is empty.
+   * @default 'No elements found. Consider changing the search query.'
+   * @type {String}
+   */
+  noResult: {
+    type: String,
+    default: 'No elements found. Consider changing the search query.'
+  },
+  /**
    * Decide whether to show pointer labels
    * @default true
    * @type {Boolean}
