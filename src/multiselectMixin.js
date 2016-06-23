@@ -241,12 +241,13 @@ module.exports = {
   },
   computed: {
     filteredOptions () {
+      let search = this.search ? this.search : ''
       var options = this.hideSelected
         ? this.options.filter(this.isNotSelected)
         : this.options
-      options = this.$options.filters.filterBy(options, this.search)
-      if (this.taggable && this.search.length > 0 && !this.isExistingOption(this.search)) {
-        options.unshift({ isTag: true, label: this.search })
+      options = this.$options.filters.filterBy(options, search)
+      if (this.taggable && search.length > 0 && !this.isExistingOption(search)) {
+        options.unshift({ isTag: true, label: search })
       }
       return options
     },
