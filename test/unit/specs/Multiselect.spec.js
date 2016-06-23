@@ -148,6 +148,18 @@ describe('Multiselect.vue', () => {
           expect(vm.$children[0].search).to.equal(2)
           expect(vm.$children[0].$els.search.value).to.equal('2')
         })
+        it('if selected is null should set search value to empty string', () => {
+          const vm = new Vue({
+            template: '<multiselect :selected="value" :options="source" label="id" key="id" :taggable="true"></multiselect>',
+            components: { Multiselect },
+            data: {
+              value: null,
+              source: [1, 2, 3]
+            }
+          }).$mount()
+          expect(vm.$children[0].search).to.equal(null)
+          expect(vm.$children[0].$els.search.value).to.equal('')
+        })
       })
     })
     describe('when searchable == FALSE', () => {
