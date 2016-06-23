@@ -1,9 +1,422 @@
-<!DOCTYPE html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Vue-Multiselect | A Vue.js library</title><link rel=icon href=static/vue-logo.png type=image/x-icon><meta name=description content="Probably the most complete selecting solution for Vue.js, without jQuery."><meta property=og:title content="Vue-Multiselect | A Vue.js library."><meta property=og:site_name content="Vue-Multiselect | A Vue.js library."><meta property=og:url content=http://monterail.github.io/vue-multiselect><meta property=og:description content="Probably the most complete selecting solution for Vue.js, without jQuery."><meta property=og:image content=http://monterail.github.io/vue-multiselect/static/vue-logo.png><meta property=twitter:image content=http://monterail.github.io/vue-multiselect/static/vue-logo.png><meta property=twitter:title content="Vue-Multiselect | A Vue.js library."><meta property=twitter:description content="Probably the most complete selecting solution for Vue.js, without jQuery."><link href=static/css/app.f6bd194aba36a675ee07c3dbec176001.css rel=stylesheet></head><body><app></app><section class=utils--center><hr class=typo__hr><h4 class=typo__h4>Created by Damian Dulisz <strong><a href=https://twitter.com/DamianDulisz target=_BLANK class=typo__link>@DamianDulisz</a></strong></h4><h4 class=typo__h4>With love from <strong><a href=http://monterail.com target=_BLANK class="typo__link monterail-link">Monterail</a></strong></h4><a href=http://monterail.com target=_BLANK><img src=static/img/monterail-logo.da236ce.png class=monterail-logo></a></section><script src=static/prism.js></script><script>/*eslint-disable */
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><title>Vue-Multiselect | A Vue.js library</title><link rel=icon href=static/vue-logo.png type=image/x-icon><meta name=description content="Probably the most complete selecting solution for Vue.js, without jQuery."><meta property=og:title content="Vue-Multiselect | A Vue.js library."><meta property=og:site_name content="Vue-Multiselect | A Vue.js library."><meta property=og:url content=http://monterail.github.io/vue-multiselect><meta property=og:description content="Probably the most complete selecting solution for Vue.js, without jQuery."><meta property=og:image content=http://monterail.github.io/vue-multiselect/static/vue-logo.png><meta property=twitter:image content=http://monterail.github.io/vue-multiselect/static/vue-logo.png><meta property=twitter:title content="Vue-Multiselect | A Vue.js library."><meta property=twitter:description content="Probably the most complete selecting solution for Vue.js, without jQuery."><link href=static/css/app.bb9e697e4d86b5ad0625ce1497e15411.css rel=stylesheet></head><body><section class=start><div class=center-vertically><h1 class=typo__h1><img src=./static/vue-logo.png class=logo>Vue-multiselect</h1><h3 class=typo__h3>The most complete selecting solution for <a href=http://vuejs.org target=_BLANK class=typo__link>Vue.js</a></h3><div class="grid__row grid__row--centered"><div class="grid__column grid__unit--md-6"><div class=multiselect-example__container><multiselect :options=options :selected=selected :multiple=multiple :searchable=searchable placeholder="Select option" :on-change=afterChange :show-labels=true :limit=3 :taggable=true :on-tag=onTagging select-label="Enter to select"><span slot=noResult>Tag not found. Press semi-colon <kbd>;</kbd> to create a tag from search query.</span></multiselect><div class="grid__row start__list"><div class="grid__column grid__unit--md-6 list"><ul class=list__ul><li class=typo__li>Single / multi select</li><li class=typo__li>Dropdowns</li><li class=typo__li>Searchable</li><li class=typo__li>Tagging support</li><li class=typo__li>Custom components with Mixins</li></ul></div><div class="grid__column grid__unit--md-6 list"><ul class=list__ul><li class=typo__li>Vuex support</li><li class=typo__li>Async options</li><li class=typo__li>Configurable</li><li class=typo__li>+90% test coverage</li><li class=typo__li>No dependencies</li></ul></div></div></div></div></div><div class="grid__row grid__row--centered"><div class="grid__column utils--center"><a href=https://github.com/monterail/vue-multiselect target=_BLANK class="button button--large button--secondary button--github">View on GitHub</a><a href=#getting-started class="button button--large">Getting started & examples</a></div></div></div></section><div class=grid__row><div class=grid__column><section id=getting-started class=docs><h1 class=typo__h1>Getting started</h1><hr class=typo__hr><div class=grid__row><div class="grid__column grid__unit--md-6"><h2 class=typo__h2>Installation</h2><pre class=language-bash><code>npm install vue-multiselect --save
+</code></pre><h2 class=typo__h2>Package content</h2><p class=typo__p>The package consist of of multiple files:<strong> Multiselect.vue</strong> which includes the template and styling of the default component. This component extends 2 additional mixins:<strong> multiselectMixin.js</strong> and<strong> pointerMixin.js</strong> , which contain the logic behind the multiselect. This way you can actually use the multiselect logic with your own template and styling.</p></div><div class="grid__column grid__unit--md-6"><h2 class=typo__h2>Basic usage</h2><pre class=language-jade><code>multiselect(
+  :selected.sync="selected",
+  :options="options"
+)</code></pre><pre class=language-javascript><code>import Multiselect from 'vue-multiselect'
+export default {
+  components: { Multiselect },
+  data () {
+    return {
+      selected: null,
+      options: ['list', 'of', 'options']
+    }
+  }
+}</code></pre></div></div></section></div></div><div class=grid__row><div class=grid__column><section class=docs><h1 class=typo__h1>Examples</h1><hr class=typo__hr><h2 class=typo__h2>Single select dropdown (primitive value)</h2><p class=typo__p>Disabled all highlight label text.</p><div class=grid__row><div class="grid__column grid__unit--md-5"><label class=typo__label>Single select / dropdown</label><multiselect :options=options :selected.sync=valuePrimitive :multiple=false :searchable=false :close-on-select=false :show-labels=false placeholder="Select one" label=name></multiselect><pre class=language-json><code>{{ valuePrimitive | json }}
+</code></pre></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><pre class=language-jade><code>multiselect(
+  :options="options",
+  :selected.sync="valuePrimitive",
+  :multiple="false",
+  :searchable="false",
+  :close-on-select="false",
+  :show-labels="false"
+  placeholder="Select one"
+  label="name"
+)</code></pre></div></div><h2 class=typo__h2>Single select dropdown (object)</h2><p class=typo__p>Can't become empty. Showing custom deselect label.</p><p class=typo__p>The selected value is referencing the same object as the next example, to show that dynamic preselection works.</p><div class=grid__row><div class="grid__column grid__unit--md-5"><label class=typo__label>Single select / dropdown</label><multiselect :options=source :selected.sync=value :multiple=false :searchable=false :close-on-select=false :allow-empty=false deselect-label="Can't remove this value" key=name label=name placeholder="Select one"></multiselect><pre class=language-json><code>{{ value | json }}
+</code></pre></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><pre class=language-jade><code>multiselect(
+  :options="source",
+  :selected.sync="value",
+  :multiple="false",
+  :searchable="false",
+  :close-on-select="false",
+  :allow-empty="false",
+  deselect-label="Can't remove this value"
+  key="name"
+  label="name"
+  placeholder="Select one"
+)</code></pre></div></div><hr class=typo__hr><h2 class=typo__h2>Single select with search</h2><p class=typo__p>The selected value is referencing the same object as the previous example, to show that dynamic preselection works.</p><div class=grid__row><div class="grid__column grid__unit--md-5"><label class=typo__label>Simple select / dropdown</label><multiselect :options=source :selected.sync=value :multiple=false :searchable=true :custom-label=nameWithLang placeholder="Select one" label=name key=name></multiselect><pre class=language-json><code>{{ value | json }}
+</code></pre></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><pre class=language-jade><code>multiselect(
+  :options="source",
+  :selected.sync="value",
+  :multiple="false",
+  :searchable="true",
+  :custom-label="nameWithLang"
+  placeholder="Select one",
+  label="name",
+  key="name"
+)</code></pre></div></div><hr class=typo__hr><h2 class=typo__h2>Multiple select with search</h2><p class=typo__p>Limit visible results to 2.</p><div class=grid__row><div class="grid__column grid__unit--md-5"><label class=typo__label>Simple select / dropdown</label><multiselect :options=source :selected.sync=multiValue :multiple=true :searchable=true :close-on-select=true :clear-on-select=false :limit=2 placeholder="Pick some" label=name key=name></multiselect><pre class=language-json><code>{{ multiValue | json }}
+</code></pre></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><pre class=language-jade><code>multiselect(
+  :options="source",
+  :selected.sync="multiValue",
+  :multiple="true",
+  :searchable="true",
+  :close-on-select="true",
+  :clear-on-select="false",
+  placeholder="Pick some"
+  label="name",
+  key="name"
+)</code></pre></div></div><hr class=typo__hr><h2 class=typo__h2>Asynchronous dropdown</h2><p class=typo__p>Changing the search query calls the <kbd><code>:on-search-change=""</code></kbd> callback function, passing the search query as param. It also sets the <kbd><code>loading = true</code></kbd>.</p><p class=typo__p>To disable <kbd><code>loading</code></kbd> options have to be updated.</p><div class=grid__row><div class="grid__column grid__unit--md-5"><label class=typo__label>Async multiselect</label><multiselect :options=countries :selected.sync=selectedCountries :multiple=multiple :searchable=searchable placeholder="Type to search" :on-search-change="asyncFind | debounce 200" :clear-on-select=false label=name key=code><span slot=noResult>Oops! No elements found. Consider changing the search query.</span></multiselect><pre class=language-json><code>{{ selectedCountries | json }}
+</code></pre></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><pre class=language-jade><code>multiselect(
+  :options="countries",
+  :selected.sync="selectedCountries",
+  :multiple="multiple",
+  :searchable="searchable",
+  placeholder="Type to search",
+  :on-search-change="asyncFind | debounce 200",
+  :clear-on-select="false",
+  label="name"
+  key="code"
+)
+  span(slot="noResult").
+    Oops! No elements found. Consider changing the search query.</code></pre></div></div><hr class=typo__hr><h2 class=typo__h2>Tagging</h2><p class=typo__p>To enable tagging you have to set up 2 props. <kbd>:taggable="true"</kbd> and <kbd>:on-tag="callback"</kbd> which should add the tag to both Options and Selected arrays.</p><div class=grid__row><div class="grid__column grid__unit--md-5"><label class=typo__label>Tagging</label><multiselect :options=taggingOptions :selected=taggingSelected :multiple=multiple :searchable=searchable :on-tag=addTag :on-change=updateSelectedTagging :taggable=true tag-placeholder="Add this as new tag" placeholder="Type to search or add tag" label=name key=code><span slot=noResult>Oops! No elements found. Consider changing the search query.</span></multiselect><pre class=language-json><code>{{ taggingSelected | json }}
+</code></pre></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><pre class=language-jade><code>multiselect(
+  :options="taggingOptions",
+  :selected="taggingSelected",
+  :multiple="multiple",
+  :searchable="searchable",
+  :on-tag="addTag",
+  :on-change="updateSelectedTagging",
+  :tagging="true"
+  tag-placeholder="Add this as new tag"
+  placeholder="Type to search or add tag"
+  label="name"
+  key="code"
+)
+  span(slot="noResult").
+    Oops! No elements found. Consider changing the search query.
+</code></pre><pre class=language-javascript><code>addTag (newTag) {
+  const tag = {
+    name: newTag,
+    // Just for example needs as we use Array of Objects that should have other properties filled.
+    // For primitive values you can simply push the tag into options and selected arrays.
+    code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
+  }
+  this.taggingOptions.push(tag)
+  this.taggingSelected.push(tag)
+},</code></pre></div></div><hr class=typo__hr><h2 class=typo__h2>Vuex support / on-change props</h2><p class=typo__p>If set triggers the passed callback function after value changes, passing the new value as param.</p><p class=typo__p>For <strong>Vuex</strong> integration simply remove <kbd><code>:reset-after="true"</code></kbd> prop.</p><p class=typo__p>May also act as dispatcher for different actions, like in this example.</p><div class=grid__row><div class="grid__column grid__unit--md-5"><label class=typo__label>Open console to see logs.</label><multiselect :options=actions :selected=action :multiple=false :searchable=false placeholder="Pick action" :reset-after=true :on-change=dispatchAction></multiselect></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><pre class=language-jade><code>multiselect(
+  :options="actions",
+  :selected="action",
+  :multiple="false",
+  :searchable="false",
+  placeholder="Pick action",
+  :reset-after="true",
+  :on-change="dispatchAction"
+)</code></pre></div></div><hr class=typo__hr><h2 class=typo__h2>Custom configuration</h2><p class=typo__p>Can't remove the last value and only allow up to 5 selected options.</p><p class=typo__p>Hides already selected options.</p><p class=typo__p>Shows error when touched, but nothing is selected.</p><div class=grid__row><div class="grid__column grid__unit--md-5"><div :class="{ 'invalid': isInvalid }"><label class=typo__label>Must have at least one value</label><multiselect :options=options :selected.sync=exampleValue6 :multiple=true :searchable=true :allow-empty=false :hide-selected=true :touched.sync=isTouched :max-height=400 :max=5 placeholder="Pick at least one"></multiselect></div></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><pre class=language-jade><code>// Template
+div(:class="{ 'invalid': isInvalid }")
+  label.typo__label Must have at least one value
+  multiselect(
+    :options="options",
+    :selected.sync="exampleValue6",
+    :multiple="true",
+    :searchable="true",
+    :allow-empty="false",
+    :hide-selected="true",
+    :touched.sync="isTouched",
+    :max-height="400",
+    :max="5"
+    placeholder="Pick at least one"
+  )
 
-      ga('create', 'UA-78373326-1', 'auto');
-      ga('send', 'pageview');
-      /*eslint-enable */</script><script type=text/javascript src=static/js/app.11cb3829ba6fcf283edb.js></script></body></html>
+// Script
+computed: {
+  isInvalid () {
+    return this.isTouched && this.exampleValue6.length === 0
+  }
+}
+
+// Styles
+.invalid {
+  .typo__label {
+    color: $error-color;
+  }
+  .multiselect__tags {
+    border-color: $error-color !important;
+  }
+}</code></pre></div></div></section><hr class=typo__hr><section class=docs><h1 class=typo__h1>Config</h1><hr class=typo__hr><h2 class=typo__h2>Props</h2><div class=grid__row><div class=grid__column><pre class=language-javascript><code>// multiselectMixin.js
+
+props: {
+  /**
+   * Array of available options: Objects, Strings or Integers.
+   * If array of objects, visible label will default to option.label.
+   * If `labal` prop is passed, label will equal option['label']
+   * @type {Array}
+   */
+  options: {
+    type: Array,
+    required: true
+  },
+  /**
+   * Equivalent to the `multiple` attribute on a `<select>` input.
+   * @default false
+   * @type {Boolean}
+   */
+  multiple: {
+    type: Boolean,
+    default: false
+  },
+  /**
+   * Required. Presets the selected options. Add `.sync` to
+   * update parent value. If this.onChange callback is present,
+   * this will not update. In that case, the parent is responsible
+   * for updating this value.
+   * @type {Object||Array||String||Integer}
+   */
+  selected: {
+    required: true
+  },
+  /**
+   * Key to compare objects
+   * @default 'id'
+   * @type {String}
+   */
+  key: {
+    type: String,
+    default: false
+  },
+  /**
+   * Label to look for in option Object
+   * @default 'label'
+   * @type {String}
+   */
+  label: {
+    type: String,
+    default: false
+  },
+  /**
+   * Enable/disable search in options
+   * @default true
+   * @type {Boolean}
+   */
+  searchable: {
+    type: Boolean,
+    default: true
+  },
+  /**
+   * Clear the search input after select()
+   * @default true
+   * @type {Boolean}
+   */
+  clearOnSelect: {
+    type: Boolean,
+    default: true
+  },
+  /**
+   * Hide already selected options
+   * @default false
+   * @type {Boolean}
+   */
+  hideSelected: {
+    type: Boolean,
+    default: false
+  },
+  /**
+   * Equivalent to the `placeholder` attribute on a `<select>` input.
+   * @default 'Select option'
+   * @type {String}
+   */
+  placeholder: {
+    type: String,
+    default: 'Select option'
+  },
+  /**
+   * Sets maxHeight style value of the dropdown
+   * @default 300
+   * @type {Integer}
+   */
+  maxHeight: {
+    type: Number,
+    default: 300
+  },
+  /**
+   * Allow to remove all selected values
+   * @default true
+   * @type {Boolean}
+   */
+  allowEmpty: {
+    type: Boolean,
+    default: true
+  },
+  /**
+   * Callback function to call after this.value changes
+   * @callback onChange
+   * @default false
+   * @param {Array||Object||String||Integer} Current this.value
+   * @param {Integer} $index of current selection
+   * @type {Function}
+   */
+  onChange: {
+    type: Function,
+    default: false
+  },
+  /**
+   * Callback function to call after this.search changes
+   * @callback onSearchChange
+   * @default false
+   * @param {String} Pass current search String
+   * @type {Function}
+   */
+  onSearchChange: {
+    type: Function,
+    default: false
+  },
+  /**
+   * Value that indicates if the dropdown has been used.
+   * Useful for validation.
+   * @default false
+   * @type {Boolean}
+   */
+  touched: {
+    type: Boolean,
+    default: false
+  },
+  /**
+   * Reset this.value, this.search, this.selected after this.value changes.
+   * Useful if want to create a stateless dropdown, that fires the this.onChange
+   * callback function with different params.
+   * @default false
+   * @type {Boolean}
+   */
+  resetAfter: {
+    type: Boolean,
+    default: false
+  },
+  /**
+   * Enable/disable closing after selecting an option
+   * @default true
+   * @type {Boolean}
+   */
+  closeOnSelect: {
+    type: Boolean,
+    default: true
+  },
+  /**
+   * Function to interpolate the custom label
+   * @default false
+   * @type {Function}
+   */
+  customLabel: {
+    type: Function,
+    default: false
+  },
+  /**
+   * Disable / Enable tagging
+   * @default false
+   * @type {Boolean}
+   */
+  taggable: {
+    type: Boolean,
+    default: false
+  },
+  /**
+   * Callback function to run when attemting to add a tag
+   * @default suitable for primitive values
+   * @param {String} Tag string to build a tag
+   * @type {Function}
+   */
+  onTag: {
+    type: Function,
+    default: function (tag) {
+      this.options.push(tag)
+      this.value.push(tag)
+    }
+  },
+  /**
+   * String to show when highlighting a potential tag
+   * @default 'Press enter to create a tag'
+   * @type {String}
+  */
+  tagPlaceholder: {
+    type: String,
+    default: 'Press enter to create a tag'
+  },
+  /**
+   * Number of allowed selected options. No limit if false.
+   * @default False
+   * @type {Number}
+  */
+  max: {
+    type: Number,
+    default: false
+  }
+}
+
+// pointerMixin.js
+
+props: {
+  /**
+   * Enable/disable highlighting of the pointed value.
+   * @type {Boolean}
+   * @default true
+   */
+  showPointer: {
+    type: Boolean,
+    default: true
+  }
+}
+
+// Multiselect.vue
+
+props: {
+  /**
+   * String to show when pointing to an option
+   * @default 'Press enter to select'
+   * @type {String}
+   */
+  selectLabel: {
+    type: String,
+    default: 'Press enter to select'
+  },
+  /**
+   * String to show next to selected option
+   * @default 'Selected'
+   * @type {String}
+  */
+  selectedLabel: {
+    type: String,
+    default: 'Selected'
+  },
+  /**
+   * String to show when pointing to an alredy selected option
+   * @default 'Press enter to remove'
+   * @type {String}
+  */
+  deselectLabel: {
+    type: String,
+    default: 'Press enter to remove'
+  },
+  /**
+   * Decide whether to show pointer labels
+   * @default true
+   * @type {Boolean}
+  */
+  showLabels: {
+    type: Boolean,
+    default: true
+  },
+  /**
+   * Label to look for in option Object
+   * @default 'label'
+   * @type {String}
+   */
+  limit: {
+    type: Number,
+    default: 99999
+  },
+  /**
+   * Function that process the message shown when selected
+   * elements pass the defined limit.
+   * @default 'and * more'
+   * @param {Int} count Number of elements more than limit
+   * @type {Function}
+   */
+  limitText: {
+    type: Function,
+    default: count => `and ${count} more`
+  }
+}</select></select></code></pre></div></div></section></div></div><section class=utils--center><hr class=typo__hr><h4 class=typo__h4>Created by Damian Dulisz<strong><a href=https://twitter.com/DamianDulisz target=_BLANK class=typo__link> @DamianDulisz</a></strong></h4><h4 class=typo__h4>With love from<strong><a href=http://monterail.com target=_BLANK class="typo__link monterail-link"> Monterail</a></strong></h4><a href=http://monterail.com target=_BLANK><img src=static/monterail-logo.png class=monterail-logo></a></section><script src=static/prism.js></script><script>/*eslint-disable */
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+ga('create', 'UA-78373326-1', 'auto');
+ga('send', 'pageview');
+/*eslint-enable */</script><script type=text/javascript src=static/js/app.dd988dc93474b6cb68a1.js></script></body></html>
