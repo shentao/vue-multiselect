@@ -1,0 +1,57 @@
+h2.typo__h2#custom Custom configuration
+p.typo__p Can't remove the last value and only allow up to 5 selected options.
+p.typo__p Hides already selected options.
+p.typo__p Shows error when touched, but nothing is selected.
+.grid__row
+  .grid__column.grid__unit--md-5
+    div(:class="{ 'invalid': isInvalid }")
+      label.typo__label Must have at least one value
+      multiselect(
+        :options="options",
+        :selected.sync="exampleValue6",
+        :multiple="true",
+        :searchable="true",
+        :allow-empty="false",
+        :hide-selected="true",
+        :touched.sync="isTouched",
+        :max-height="400",
+        :max="5"
+        placeholder="Pick at least one"
+      )
+
+  .grid__column.grid__unit--md-7
+    label.typo__label Code sample
+    pre.language-jade
+      code.
+        // Template
+        div(:class="{ 'invalid': isInvalid }")
+          label.typo__label Must have at least one value
+          multiselect(
+            :options="options",
+            :selected.sync="exampleValue6",
+            :multiple="true",
+            :searchable="true",
+            :allow-empty="false",
+            :hide-selected="true",
+            :touched.sync="isTouched",
+            :max-height="400",
+            :max="5"
+            placeholder="Pick at least one"
+          )
+
+        // Script
+        computed: {
+          isInvalid () {
+            return this.isTouched && this.exampleValue6.length === 0
+          }
+        }
+
+        // Styles
+        .invalid {
+          .typo__label {
+            color: $error-color;
+          }
+          .multiselect__tags {
+            border-color: $error-color !important;
+          }
+        }

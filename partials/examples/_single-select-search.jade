@@ -1,0 +1,33 @@
+h2.typo__h2#search Single select with search
+p.typo__p The selected value is referencing the same object as the previous example, to show that dynamic preselection works.
+.grid__row
+  .grid__column.grid__unit--md-5
+    label.typo__label Simple select / dropdown
+    multiselect(
+      :options="source",
+      :selected.sync="value",
+      :multiple="false",
+      :searchable="true",
+      :custom-label="nameWithLang"
+      placeholder="Select one",
+      label="name",
+      key="name"
+    )
+    pre.language-json
+      code.
+        {{ value | json }}
+
+  .grid__column.grid__unit--md-7
+    label.typo__label Code sample
+    pre.language-jade
+      code.
+        multiselect(
+          :options="source",
+          :selected.sync="value",
+          :multiple="false",
+          :searchable="true",
+          :custom-label="nameWithLang"
+          placeholder="Select one",
+          label="name",
+          key="name"
+        )

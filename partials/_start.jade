@@ -1,0 +1,47 @@
+section.start
+  .center-vertically
+    h1.typo__h1
+      img.logo(src="./static/vue-logo.png")
+      | Vue-multiselect
+    h3.typo__h3 The most complete selecting solution for
+      = ' '
+      a.typo__link(href="http://vuejs.org" target="_BLANK") Vue.js
+
+    .grid__row.grid__row--centered
+      .grid__column.grid__unit--md-6
+        .multiselect-example__container
+          multiselect(
+            :options="options",
+            :selected="selected",
+            :multiple="multiple",
+            :searchable="searchable",
+            placeholder="Select option",
+            :on-change="afterChange",
+            :show-labels="true",
+            :limit="3",
+            :taggable="true",
+            :on-tag="onTagging"
+            select-label="Enter to select"
+          )
+            span(slot="noResult").
+              Tag not found. Press semi-colon <kbd>;</kbd> to create a tag from search query.
+          .grid__row.start__list
+            .grid__column.grid__unit--md-6.list
+              ul.list__ul
+                li.typo__li Single / multi select
+                li.typo__li Dropdowns
+                li.typo__li: a.typo__link(href="#search") Searchable
+                li.typo__li: a.typo__link(href="#tagging") Tagging support
+                li.typo__li Custom components with Mixins
+            .grid__column.grid__unit--md-6.list
+              ul.list__ul
+                li.typo__li: a.typo__link(href="#vuex") Vuex support
+                li.typo__li: a.typo__link(href="#ajax") Ajax options
+                li.typo__li: a.typo__link(href="#custom") Configurable
+                li.typo__li +90% test coverage
+                li.typo__li No dependencies
+
+    .grid__row.grid__row--centered
+      .grid__column.utils--center
+        a.button.button--large.button--secondary.button--github(href="https://github.com/monterail/vue-multiselect" target="_BLANK") View on GitHub
+        a.button.button--large(href="#getting-started") Getting started & examples
