@@ -3,12 +3,10 @@
  * (c) 2016 Damian Dulisz
  * Released under the MIT License.
  */
-import _Multiselect from './Multiselect'
-import _multiselectMixin from './multiselectMixin'
-import _pointerMixin from './pointerMixin'
+import Multiselect from './Multiselect'
+import multiselectMixin from './multiselectMixin'
+import pointerMixin from './pointerMixin'
 
-export default _Multiselect
+export default Multiselect
 
-export var Multiselect = _Multiselect
-export var multiselectMixin = _multiselectMixin
-export var pointerMixin = _pointerMixin
+export { Multiselect, multiselectMixin, pointerMixin }
