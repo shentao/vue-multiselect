@@ -27,7 +27,14 @@
   "browserify": {
     "transform": [
       "vueify",
-      "babelify"
+      [
+        "babelify",
+        {
+          "presets": [
+            "es2015"
+          ]
+        }
+      ]
     ]
   },
   "devDependencies": {
