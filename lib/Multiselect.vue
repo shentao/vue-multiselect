@@ -492,4 +492,9 @@
   opacity: 0;
   max-height: 0 !important;
 }
+
+@keyframes spinning {
+  from { transform:rotate(0) }
+  to { transform:rotate(2turn) }
+}
 </style>
