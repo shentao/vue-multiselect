@@ -5,10 +5,11 @@ p.typo__p The selected value is referencing the same object as the previous exam
     label.typo__label Simple select / dropdown
     multiselect(
       :options="source",
-      :selected.sync="value",
+      :selected="value",
       :multiple="false",
       :searchable="true",
       :custom-label="nameWithLang"
+      @change="updateValue",
       placeholder="Select one",
       label="name",
       key="name"
@@ -23,10 +24,11 @@ p.typo__p The selected value is referencing the same object as the previous exam
       code.
         multiselect(
           :options="source",
-          :selected.sync="value",
+          :selected="value",
           :multiple="false",
           :searchable="true",
           :custom-label="nameWithLang"
+          @change="updateValue",
           placeholder="Select one",
           label="name",
           key="name"
