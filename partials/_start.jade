@@ -15,12 +15,12 @@ section.start
             :selected="selected",
             :multiple="multiple",
             :searchable="searchable",
-            placeholder="Select option",
-            :on-change="afterChange",
             :show-labels="true",
             :limit="3",
             :taggable="true",
-            :on-tag="onTagging"
+            @tag="onTagging"
+            @change="afterChange",
+            placeholder="Select option",
             select-label="Enter to select"
           )
             span(slot="noResult").
