@@ -127,29 +127,6 @@ module.exports = {
       default: true
     },
     /**
-     * Callback function to call after this.value changes
-     * @callback onChange
-     * @default false
-     * @param {Array||Object||String||Integer} Current this.value
-     * @param {Integer} $index of current selection
-     * @type {Function}
-     */
-    onChange: {
-      type: Function,
-      default: false
-    },
-    /**
-     * Callback function to call after this.search changes
-     * @callback onSearchChange
-     * @default false
-     * @param {String} Pass current search String
-     * @type {Function}
-     */
-    onSearchChange: {
-      type: Function,
-      default: false
-    },
-    /**
      * Value that indicates if the dropdown has been used.
      * Useful for validation.
      * @default false
@@ -198,19 +175,6 @@ module.exports = {
       default: false
     },
     /**
-     * Callback function to run when attemting to add a tag
-     * @default suitable for primitive values
-     * @param {String} Tag string to build a tag
-     * @type {Function}
-     */
-    onTag: {
-      type: Function,
-      default: function (tag) {
-        this.options.push(tag)
-        this.value.push(tag)
-      }
-    },
-    /**
      * String to show when highlighting a potential tag
      * @default 'Press enter to create a tag'
      * @type {String}
@@ -226,6 +190,10 @@ module.exports = {
     */
     max: {
       type: Number,
+      default: false
+    },
+    async: {
+      type: Boolean,
       default: false
     }
   },
@@ -268,10 +236,8 @@ module.exports = {
   },
   watch: {
     'value' () {
-      if (this.onChange && JSON.stringify(this.value) !== JSON.stringify(this.selected)) {
-        this.onChange(deepClone(this.value))
-      } else {
-        this.$set('selected', deepClone(this.value))
+      if (JSON.stringify(this.value) !== JSON.stringify(this.selected)) {
+        this.$emit('change', deepClone(this.value))
       }
       if (this.resetAfter) {
         this.$set('value', null)
@@ -283,13 +249,13 @@ module.exports = {
       }
     },
     'search' () {
-      if (this.onSearchChange) {
-        this.onSearchChange(this.search)
+      this.$emit('search-change', this.search)
+      if (this.async) {
         this.loading = true
       }
     },
     'options' () {
-      this.onSearchChange && (this.loading = false)
+      this.async && (this.loading = false)
     },
     'selected' (newVal, oldVal) {
       if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
@@ -370,17 +336,20 @@ module.exports = {
     select (option) {
       if (this.max && this.multiple && this.value.length === this.max) return
       if (option.isTag) {
-        this.onTag(option.label)
+        this.$emit('tag', option.label)
         this.search = ''
       } else {
         if (this.multiple) {
           if (!this.isNotSelected(option)) {
+            this.$emit('remove', deepClone(option))
             this.removeElement(option)
           } else {
+            this.$emit('select', deepClone(option))
             this.value.push(option)
             if (this.clearOnSelect) { this.search = '' }
           }
         } else {
+          this.$emit('select', deepClone(option))
           this.$set('value',
             !this.isNotSelected(option) && this.allowEmpty
               ? null

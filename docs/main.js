@@ -79,6 +79,7 @@ new Vue({
       this.taggingSelected.push(tag)
     },
     updateSelectedTagging (value) {
+      console.log('@tag: ', value)
       this.taggingSelected = value
     },
     dispatchAction (actionName) {
@@ -94,8 +95,30 @@ new Vue({
           break
       }
     },
+    updateExampleValue (value) {
+      console.log('@change: ', value)
+      this.exampleValue6 = value
+    },
+    updateValue (value) {
+      console.log('@change: ', value)
+      this.value = value
+    },
+    updateMultiValue (value) {
+      console.log('@change: ', value)
+      this.multiValue = value
+    },
+    updateValuePrimitive (value) {
+      console.log('@change: ', value)
+      this.valuePrimitive = value
+    },
     nameWithLang ({ name, language }) {
       return `${name} — [${language}]`
+    },
+    onSelect (option) {
+      console.log('@select: ', option)
+    },
+    onRemove (option) {
+      console.log('@remove: ', option)
     }
   }
 })
