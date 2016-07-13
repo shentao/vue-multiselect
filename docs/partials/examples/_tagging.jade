@@ -7,11 +7,11 @@ p.typo__p
     multiselect(
       :options="taggingOptions",
       :selected="taggingSelected",
-      :multiple="multiple",
+      :multiple="true",
       :searchable="searchable",
       :taggable="true",
       @tag="addTag",
-      @change="updateSelectedTagging",
+      @update="updateSelectedTagging",
       @select="onSelect",
       @remove="onRemove",
       tag-placeholder="Add this as new tag"
@@ -36,7 +36,7 @@ p.typo__p
           :searchable="searchable",
           :taggable="true",
           @tag="addTag",
-          @change="updateSelectedTagging",
+          @update="updateSelectedTagging",
           @select="onSelect",
           @remove="onRemove",
           tag-placeholder="Add this as new tag"

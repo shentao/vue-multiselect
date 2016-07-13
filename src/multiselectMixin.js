@@ -207,9 +207,7 @@ module.exports = {
     } else {
       this.value = deepClone(this.selected)
     }
-    if (this.searchable && !this.multiple) {
-      this.search = this.getOptionLabel(this.value)
-    }
+    if (this.searchable) this.adjustSearch()
   },
   computed: {
     filteredOptions () {
@@ -245,9 +243,7 @@ module.exports = {
         this.$set('search', null)
         this.$set('selected', null)
       }
-      if (!this.multiple && this.searchable && this.clearOnSelect) {
-        this.search = this.getOptionLabel(this.value)
-      }
+      this.adjustSearch()
     },
     'search' () {
       this.$emit('search-change', this.search, this.id)
@@ -343,9 +339,9 @@ module.exports = {
             this.removeElement(option)
           } else {
             this.value.push(option)
-            if (this.clearOnSelect) { this.search = '' }
+
             this.$emit('select', deepClone(option), this.id)
-            this.$emit('change', deepClone(this.value), this.id)
+            this.$emit('update', deepClone(this.value), this.id)
           }
         } else {
           const isSelected = this.isSelected(option)
@@ -354,14 +350,11 @@ module.exports = {
 
           this.value = isSelected ? null : option
 
-          if (this.closeOnSelect) this.deactivate()
-          //   this.searchable
-          //     ? this.$els.search.blur()
-          //     : this.$el.blur()
-          // }
           this.$emit('select', deepClone(option), this.id)
-          this.$emit('change', deepClone(this.value), this.id)
+          this.$emit('update', deepClone(this.value), this.id)
         }
+
+        if (this.closeOnSelect) this.deactivate()
       }
     },
     /**
@@ -382,7 +375,7 @@ module.exports = {
           this.value.$remove(option)
         }
         this.$emit('remove', deepClone(option), this.id)
-        this.$emit('change', deepClone(this.value), this.id)
+        this.$emit('update', deepClone(this.value), this.id)
       }
     },
     /**
@@ -427,12 +420,17 @@ module.exports = {
       /* istanbul ignore else  */
       if (this.searchable) {
         this.$els.search.blur()
-        this.search = this.multiple
-          ? ''
-          : this.getOptionLabel(this.value)
+        this.adjustSearch()
       } else {
         this.$el.blur()
       }
+    },
+    adjustSearch () {
+      if (!this.searchable || !this.clearOnSelect) return
+
+      this.search = this.multiple
+        ? ''
+        : this.getOptionLabel(this.value)
     },
     /**
      * Call this.activate() or this.deactivate()

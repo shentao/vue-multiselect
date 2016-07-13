@@ -14,9 +14,10 @@ p.typo__p Shows error when touched, but nothing is selected.
         :allow-empty="false",
         :hide-selected="true",
         :touched.sync="isTouched",
+        :close-on-select="false",
         :max-height="400",
         :max="5"
-        @change="updateExampleValue"
+        @update="updateExampleValue"
         placeholder="Pick at least one"
       )
 
@@ -35,9 +36,10 @@ p.typo__p Shows error when touched, but nothing is selected.
             :allow-empty="false",
             :hide-selected="true",
             :touched.sync="isTouched",
+            :close-on-select="false",
             :max-height="400",
             :max="5"
-            @change="updateExampleValue"
+            @update="updateExampleValue"
             placeholder="Pick at least one"
           )
 
