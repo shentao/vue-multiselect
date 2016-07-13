@@ -96,19 +96,19 @@ new Vue({
       }
     },
     updateExampleValue (value) {
-      console.log('@change: ', value)
+      console.log('@update: ', value)
       this.exampleValue6 = value
     },
     updateValue (value) {
-      console.log('@change: ', value)
+      console.log('@update: ', value)
       this.value = value
     },
     updateMultiValue (value) {
-      console.log('@change: ', value)
+      console.log('@update: ', value)
       this.multiValue = value
     },
     updateValuePrimitive (value) {
-      console.log('@change: ', value)
+      console.log('@update: ', value)
       this.valuePrimitive = value
     },
     nameWithLang ({ name, language }) {
