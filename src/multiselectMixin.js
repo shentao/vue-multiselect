@@ -195,6 +195,10 @@ module.exports = {
     async: {
       type: Boolean,
       default: false
+    },
+    id: {
+      type: String,
+      default: null
     }
   },
   created () {
@@ -236,9 +240,6 @@ module.exports = {
   },
   watch: {
     'value' () {
-      if (JSON.stringify(this.value) !== JSON.stringify(this.selected)) {
-        this.$emit('change', deepClone(this.value))
-      }
       if (this.resetAfter) {
         this.$set('value', null)
         this.$set('search', null)
@@ -249,7 +250,7 @@ module.exports = {
       }
     },
     'search' () {
-      this.$emit('search-change', this.search)
+      this.$emit('search-change', this.search, this.id)
       if (this.async) {
         this.loading = true
       }
@@ -258,9 +259,7 @@ module.exports = {
       this.async && (this.loading = false)
     },
     'selected' (newVal, oldVal) {
-      if (JSON.stringify(newVal) !== JSON.stringify(oldVal)) {
-        this.value = deepClone(this.selected)
-      }
+      this.value = deepClone(this.selected)
     }
   },
   methods: {
@@ -336,30 +335,32 @@ module.exports = {
     select (option) {
       if (this.max && this.multiple && this.value.length === this.max) return
       if (option.isTag) {
-        this.$emit('tag', option.label)
+        this.$emit('tag', option.label, this.id)
         this.search = ''
       } else {
         if (this.multiple) {
           if (!this.isNotSelected(option)) {
-            this.$emit('remove', deepClone(option))
             this.removeElement(option)
           } else {
-            this.$emit('select', deepClone(option))
             this.value.push(option)
             if (this.clearOnSelect) { this.search = '' }
+            this.$emit('select', deepClone(option), this.id)
+            this.$emit('change', deepClone(this.value), this.id)
           }
         } else {
-          this.$emit('select', deepClone(option))
-          this.$set('value',
-            !this.isNotSelected(option) && this.allowEmpty
-              ? null
-              : option
-          )
-          if (this.closeOnSelect) {
-            this.searchable
-              ? this.$els.search.blur()
-              : this.$el.blur()
-          }
+          const isSelected = this.isSelected(option)
+
+          if (isSelected && !this.allowEmpty) return
+
+          this.value = isSelected ? null : option
+
+          if (this.closeOnSelect) this.deactivate()
+          //   this.searchable
+          //     ? this.$els.search.blur()
+          //     : this.$el.blur()
+          // }
+          this.$emit('select', deepClone(option), this.id)
+          this.$emit('change', deepClone(this.value), this.id)
         }
       }
     },
@@ -380,6 +381,8 @@ module.exports = {
         } else {
           this.value.$remove(option)
         }
+        this.$emit('remove', deepClone(option), this.id)
+        this.$emit('change', deepClone(this.value), this.id)
       }
     },
     /**
@@ -417,18 +420,18 @@ module.exports = {
      */
     deactivate () {
       /* istanbul ignore else */
-      if (this.isOpen) {
-        this.isOpen = false
-        this.touched = true
-        /* istanbul ignore else  */
-        if (this.searchable) {
-          this.$els.search.blur()
-          this.search = this.multiple
-            ? ''
-            : this.getOptionLabel(this.value)
-        } else {
-          this.$el.blur()
-        }
+      if (!this.isOpen) return
+
+      this.isOpen = false
+      this.touched = true
+      /* istanbul ignore else  */
+      if (this.searchable) {
+        this.$els.search.blur()
+        this.search = this.multiple
+          ? ''
+          : this.getOptionLabel(this.value)
+      } else {
+        this.$el.blur()
       }
     },
     /**

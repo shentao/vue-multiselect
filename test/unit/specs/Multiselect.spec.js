@@ -509,7 +509,7 @@ describe('Multiselect.vue', () => {
   describe('#watch:options', () => {
     it('sets loading to FALSE after options update', (done) => {
       const vm = new Vue({
-        template: '<multiselect :selected="sel" :options="source" label="id" key="id" :searchable="true" :multiple="false" :on-search-change="onSearch"></multiselect>',
+        template: '<multiselect :selected="sel" :options="source" label="id" key="id" :searchable="true" :multiple="false" @search-change="onSearch" :async="true"></multiselect>',
         components: { Multiselect },
         data: {
           sel: { id: '2' },
@@ -534,7 +534,7 @@ describe('Multiselect.vue', () => {
   describe('#watch:selected', () => {
     it('updates multiselect private value when parent selected changes to a different value than private value', (done) => {
       const vm = new Vue({
-        template: '<multiselect :selected="sel" :options="source" label="id" key="id" :searchable="false" :on-change="addMore" :multiple="false"></multiselect>',
+        template: '<multiselect :selected="sel" :options="source" label="id" key="id" :searchable="false" @change="addMore" :multiple="false"></multiselect>',
         components: { Multiselect },
         data: {
           sel: { id: '2' },
@@ -557,7 +557,7 @@ describe('Multiselect.vue', () => {
   describe('#watch:value', () => {
     it('calls onChange(option) callback when onChange prop is set', (done) => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" label="id" key="id" :searchable="false" :on-change="afterSelect"></multiselect>',
+        template: '<multiselect :selected="value" :options="source" label="id" key="id" :searchable="false" @change="afterSelect"></multiselect>',
         components: { Multiselect },
         data: {
           value: null,
@@ -579,7 +579,7 @@ describe('Multiselect.vue', () => {
       })
     })
 
-    it('changes the selected value when NO onChange prop is set', (done) => {
+    it('not changing changes the selected value with no @change event listener', (done) => {
       const vm = new Vue({
         template: '<multiselect :selected.sync="value" :options="source" label="id" key="id" :searchable="false"></multiselect>',
         components: { Multiselect },
@@ -591,9 +591,9 @@ describe('Multiselect.vue', () => {
       }).$mount()
       vm.$children[0].select(vm.$children[0].options[0])
       Vue.nextTick(function () {
-        expect(vm.$children[0].selected).to.deep.equal({ id: '1' })
+        expect(vm.$children[0].selected).to.deep.equal(null)
         expect(vm.newValue).to.deep.equal(null)
-        expect(vm.value).to.deep.equal({ id: '1' })
+        expect(vm.value).to.deep.equal(null)
         done()
       })
     })
@@ -638,7 +638,7 @@ describe('Multiselect.vue', () => {
   describe('#watch:search', () => {
     it('calls onSearchChange(searchQuery) callback when onSearchChange prop is set', (done) => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" label="id" key="id" :searchable="true" :on-search-change="afterSearch" :clear-on-select="false"></multiselect>',
+        template: '<multiselect :selected="value" :options="source" label="id" key="id" :searchable="true" @search-change="afterSearch" :clear-on-select="false"></multiselect>',
         components: { Multiselect },
         data: {
           value: null,
@@ -659,7 +659,7 @@ describe('Multiselect.vue', () => {
     })
     it('sets loading status to TRUE until the options change', (done) => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" label="id" key="id" :searchable="true" :on-search-change="afterSearch"></multiselect>',
+        template: '<multiselect :selected="value" :options="source" label="id" key="id" :searchable="true" @search-change="afterSearch" :async="true"></multiselect>',
         components: { Multiselect },
         data: {
           value: null,
@@ -1070,19 +1070,27 @@ describe('Multiselect.vue', () => {
   describe('#onTag', () => {
     it('should should push to value and options with default settings and :taggable is TRUE', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :searchable="true" :options="source" :multiple="true" :taggable="true"></multiselect>',
+        template: '<multiselect :selected="value" :searchable="true" :options="source" :multiple="true" :taggable="true" @tag="addTag"></multiselect>',
         components: { Multiselect },
-        data: {
-          value: ['1'],
-          source: ['1', '2', '3']
+        data () {
+          return {
+            value: ['1'],
+            source: ['1', '2', '3']
+          }
+        },
+        methods: {
+          addTag (newTag) {
+            this.source.push(newTag)
+            this.value.push(newTag)
+          }
         }
       }).$mount()
       vm.$children[0].search = 'test'
       vm.$children[0].select(vm.$children[0].filteredOptions[0])
       expect(vm.$children[0].options.length).to.equal(4)
       expect(vm.$children[0].options).to.deep.equal(['1', '2', '3', 'test'])
-      expect(vm.$children[0].value.length).to.equal(2)
-      expect(vm.$children[0].value).to.deep.equal(['1', 'test'])
+      expect(vm.$children[0].selected.length).to.equal(2)
+      expect(vm.$children[0].selected).to.deep.equal(['1', 'test'])
     })
   })
 
