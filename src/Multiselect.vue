@@ -24,7 +24,7 @@
           type="text"
           autocomplete="off"
           :placeholder="placeholder"
-          v-el:search="v-el:search"
+          v-el:search
           v-if="searchable"
           v-model="search"
           @focus.prevent="activate()"
@@ -60,7 +60,7 @@
             </span>
           </li>
         </template>
-        <li v-show="filteredOptions.length === 0 && search.length">
+        <li v-show="filteredOptions.length === 0 && search">
           <span class="multiselect__option">
             <slot name="noResult">No elements found. Consider changing the search query.</slot>
           </span>
