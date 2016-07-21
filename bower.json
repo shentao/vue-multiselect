@@ -1,0 +1,25 @@
+{
+  "name": "vue-multiselect",
+  "description": "Multiselect component for vue.js",
+  "main": "./lib/vue-multiselect.js",
+  "authors": [
+    "Damian Dulisz <damian.dulisz@monterail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "vuejs",
+    "multiselect",
+    "selectize",
+    "ui-select",
+    "select2"
+  ],
+  "homepage": "https://github.com/monterail/vue-multiselect",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
