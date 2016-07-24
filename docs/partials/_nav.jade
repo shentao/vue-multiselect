@@ -1,0 +1,25 @@
+mixin nav-element(componentName, href)
+  li.list__element
+    a.link.list__link(href="##{href}", :class="{ 'list__link--active': currentPosition === '#{href}' }")= componentName
+
+ul.list(
+  :class="{ 'list--sticky': isNavSticky }"
+)
+  li.list__heading Setup
+  +nav-element('Getting Started', '#getting-started')
+
+  li.list__heading Examples
+  +nav-element('Select (primitive)', 'select-primitive')
+  +nav-element('Select (object)', 'select-object')
+  +nav-element('Select with search', 'select-search')
+  +nav-element('Multiselect', 'multiselect')
+  +nav-element('Multiselect with search', 'multiselect-search')
+  +nav-element('Asynchronous select', 'ajax')
+  +nav-element('Tagging', 'tagging')
+  +nav-element('Action select', 'vuex')
+  +nav-element('Custom configuration', 'custom')
+
+  li.list__heading API
+  //- +nav-element('Props', 'zindex.html')
+  //- +nav-element('Events', 'zindex.html')
+  //- +nav-element('Slots', 'zindex.html')

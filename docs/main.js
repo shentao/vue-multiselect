@@ -3,6 +3,19 @@ import Vue from 'vue'
 import Multiselect from '../src/Multiselect'
 import countries from './data/countries.json'
 
+function throttle (callback, limit) {
+  var wait = false
+  return function () {
+    if (!wait) {
+      callback.call()
+      wait = true
+      setTimeout(function () {
+        wait = false
+      }, limit)
+    }
+  }
+}
+
 require('./docs.scss')
 
 /* eslint-disable no-new */
@@ -38,12 +51,27 @@ new Vue({
       action: null,
       isTouched: false,
       exampleValue6: [],
-      isLoading: false
+      isLoading: false,
+      isNavSticky: false,
+      navPositions: [
+        ['getting-started', 0],
+        ['select-primitive', 0],
+        ['select-object', 0],
+        ['multiselect', 0],
+        ['multiselect-search', 0],
+        ['ajax', 0],
+        ['tagging', 0],
+        ['vuex', 0],
+        ['custom', 0]
+      ]
     }
   },
   computed: {
     isInvalid () {
       return this.isTouched && this.exampleValue6.length === 0
+    },
+    currentPosition () {
+      return '#getting-started'
     }
   },
   methods: {
@@ -116,6 +144,27 @@ new Vue({
     },
     onRemove (option) {
       console.log('@remove: ', option)
+    },
+    adjustStickyNav () {
+      this.isNavSticky = window.scrollY > window.innerHeight
+    },
+    calculateNavPositions () {
+      /*eslint-disable */
+      for (let position of this.navPositions) {
+        const elem = document.getElementById(position[0])
+        if (elem) position[1] = elem.offsetTop
+      }
+      console.log(this.navPositions)
+      this.navPositions.sort((a, b) => {
+        return a[1] - b[1]
+      })
+      console.log(this.navPositions)
+      /*eslint-enable */
     }
+  },
+  ready () {
+    this.adjustStickyNav()
+    window.addEventListener('scroll', throttle(this.adjustStickyNav, 50))
+    this.calculateNavPositions()
   }
 })
