@@ -648,31 +648,6 @@ describe('Multiselect.vue', () => {
     })
   })
 
-  describe('#watch:options', () => {
-    it('sets loading to FALSE after options update', (done) => {
-      const vm = new Vue({
-        template: '<multiselect :selected="sel" :options="source" label="id" key="id" :searchable="true" :multiple="false" @search-change="onSearch" :async="true"></multiselect>',
-        components: { Multiselect },
-        data: {
-          sel: { id: '2' },
-          source: [{ id: '1' }, { id: '2' }, { id: '3' }]
-        },
-        methods: {
-          onSearch (query) {
-            this.source.push({ id: query })
-          }
-        }
-      }).$mount()
-      vm.$children[0].loading = true
-      expect(vm.$children[0].loading).to.equal(true)
-      vm.$children[0].search = 'test'
-      Vue.nextTick(function () {
-        expect(vm.$children[0].loading).to.equal(false)
-        done()
-      })
-    })
-  })
-
   describe('#watch:selected', () => {
     it('updates multiselect private value when parent selected changes to a different value than private value', (done) => {
       const vm = new Vue({
@@ -799,35 +774,6 @@ describe('Multiselect.vue', () => {
         done()
       })
     })
-    it('sets loading status to TRUE until the options change', (done) => {
-      const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" label="id" key="id" :searchable="true" @search-change="afterSearch" :async="true"></multiselect>',
-        components: { Multiselect },
-        data: {
-          value: null,
-          source: [{ id: '1' }, { id: '2' }, { id: '3' }],
-          query: ''
-        },
-        methods: {
-          afterSearch (query) {
-            setTimeout(() => {
-              this.source = [{ id: '1' }]
-            }, 10)
-          }
-        }
-      }).$mount()
-      expect(vm.$children[0].options).to.deep.equal(vm.source)
-      vm.$children[0].search = '1'
-      Vue.nextTick(function () {
-        expect(vm.$children[0].loading).to.equal(true)
-      })
-
-      setTimeout(() => {
-        expect(vm.$children[0].loading).to.equal(false)
-        expect(vm.$children[0].options).to.deep.equal([{ id: '1' }])
-        done()
-      }, 20)
-    })
   })
 
   describe('#activate()', () => {
@@ -918,7 +864,6 @@ describe('Multiselect.vue', () => {
       vm.$children[0].search = '1'
       vm.$children[0].deactivate()
       Vue.nextTick(function () {
-        expect(vm.$children[0].loading).to.equal(false)
         expect(vm.$children[0].search).to.equal('')
         done()
       })
@@ -937,7 +882,6 @@ describe('Multiselect.vue', () => {
       vm.$children[0].search = '1'
       vm.$children[0].deactivate()
       Vue.nextTick(function () {
-        expect(vm.$children[0].loading).to.equal(false)
         expect(vm.$children[0].search).to.equal('2')
         done()
       })

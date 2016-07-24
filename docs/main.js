@@ -5,8 +5,6 @@ import countries from './data/countries.json'
 
 require('./docs.scss')
 
-const SL = ', 100%, 87%'
-
 /* eslint-disable no-new */
 new Vue({
   el: 'body',
@@ -39,14 +37,11 @@ new Vue({
       actions: ['alert', 'console.log', 'scrollTop'],
       action: null,
       isTouched: false,
-      exampleValue6: []
+      exampleValue6: [],
+      isLoading: false
     }
   },
   computed: {
-    gradient () {
-      // return 'linear-gradient(to left bottom, #C1C6FF 0%, #E7FFEB 100%) fixed'
-      return `linear-gradient(to left bottom, hsl(${this.first + SL}) 0%, hsl(${this.second + SL}) 100%)`
-    },
     isInvalid () {
       return this.isTouched && this.exampleValue6.length === 0
     }
@@ -56,10 +51,12 @@ new Vue({
       if (query.length === 0) {
         this.countries = []
       } else {
+        this.isLoading = true
         setTimeout(() => {
           this.countries = countries.filter((element, index, array) => {
             return element.name.toLowerCase().includes(query.toLowerCase())
           })
+          this.isLoading = false
         }, 1000)
       }
     },

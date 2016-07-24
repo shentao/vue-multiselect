@@ -1,27 +1,11 @@
-// Copied from Vuex’s util.js
-function deepClone (obj) {
-  if (Array.isArray(obj)) {
-    return obj.map(deepClone)
-  } else if (obj && typeof obj === 'object') {
-    var cloned = {}
-    var keys = Object.keys(obj)
-    for (var i = 0, l = keys.length; i < l; i++) {
-      var key = keys[i]
-      cloned[key] = deepClone(obj[key])
-    }
-    return cloned
-  } else {
-    return obj
-  }
-}
+import { deepClone } from './utils'
 
 module.exports = {
   data () {
     return {
       search: '',
       isOpen: false,
-      value: [],
-      loading: false
+      value: []
     }
   },
   props: {
@@ -192,12 +176,13 @@ module.exports = {
       type: Number,
       default: false
     },
-    async: {
-      type: Boolean,
-      default: false
-    },
+    /**
+     * Will be passed with all events as second param.
+     * Useful for identifying events origin.
+     * @default null
+     * @type {String|Integer}
+    */
     id: {
-      type: String,
       default: null
     }
   },
@@ -247,12 +232,6 @@ module.exports = {
     },
     'search' () {
       this.$emit('search-change', this.search, this.id)
-      if (this.async) {
-        this.loading = true
-      }
-    },
-    'options' () {
-      this.async && (this.loading = false)
     },
     'selected' (newVal, oldVal) {
       this.value = deepClone(this.selected)
@@ -346,6 +325,7 @@ module.exports = {
         } else {
           const isSelected = this.isSelected(option)
 
+          /* istanbul ignore else */
           if (isSelected && !this.allowEmpty) return
 
           this.value = isSelected ? null : option
@@ -367,16 +347,16 @@ module.exports = {
      */
     removeElement (option) {
       /* istanbul ignore else */
-      if (this.allowEmpty || this.value.length > 1) {
-        if (this.multiple && typeof option === 'object') {
-          const index = this.valueKeys.indexOf(option[this.key])
-          this.value.splice(index, 1)
-        } else {
-          this.value.$remove(option)
-        }
-        this.$emit('remove', deepClone(option), this.id)
-        this.$emit('update', deepClone(this.value), this.id)
+      if (!this.allowEmpty && this.value.length <= 1) return
+
+      if (this.multiple && typeof option === 'object') {
+        const index = this.valueKeys.indexOf(option[this.key])
+        this.value.splice(index, 1)
+      } else {
+        this.value.$remove(option)
       }
+      this.$emit('remove', deepClone(option), this.id)
+      this.$emit('update', deepClone(this.value), this.id)
     },
     /**
      * Calls this.removeElement() with the last element
@@ -425,6 +405,10 @@ module.exports = {
         this.$el.blur()
       }
     },
+    /**
+     * Adjusts the Search property to equal the correct value
+     * depending on the selected value.
+     */
     adjustSearch () {
       if (!this.searchable || !this.clearOnSelect) return
 
