@@ -14,11 +14,11 @@ p.typo__p
       :searchable="searchable",
       :clear-on-select="false",
       :close-on-select="false",
-      :async="true",
+      :loading="isLoading",
       @search-change="asyncFind",
       label="name"
       key="code"
-      placeholder="Type to search",
+      placeholder="Type to search"
     )
       span(slot="noResult").
         Oops! No elements found. Consider changing the search query.
@@ -37,11 +37,11 @@ p.typo__p
           :searchable="searchable",
           :clear-on-select="false",
           :close-on-select="false",
-          :async="true",
+          :loading="isLoading",
           @search-change="asyncFind",
           label="name"
           key="code"
-          placeholder="Type to search",
+          placeholder="Type to search"
         )
           span(slot="noResult").
             Oops! No elements found. Consider changing the search query.
