@@ -34,6 +34,8 @@ npm install vue-multiselect
 </template>
 ```
 
+> **It is very important not to mix `.sync` with `:on-change` prop. You have to either choose two-way binding or one way binding with `:on-change` callback as a way to update the `:selected` value**
+
 ``` javascript
 import Multiselect from 'vue-multiselect'
 export default {
