@@ -57,13 +57,14 @@ new Vue({
         ['getting-started', 0],
         ['select-primitive', 0],
         ['select-object', 0],
-        ['multiselect', 0],
+        ['select-search', 0],
         ['multiselect-search', 0],
         ['ajax', 0],
         ['tagging', 0],
         ['vuex', 0],
         ['custom', 0]
-      ]
+      ],
+      scroll: 0
     }
   },
   computed: {
@@ -71,7 +72,11 @@ new Vue({
       return this.isTouched && this.exampleValue6.length === 0
     },
     currentPosition () {
-      return '#getting-started'
+      for (let i = 1; i < this.navPositions.length - 1; i++) {
+        if (this.scroll >= this.navPositions[i][1] && this.scroll < this.navPositions[i + 1][1]) {
+          return this.navPositions[i - 1][0]
+        }
+      }
     }
   },
   methods: {
@@ -145,26 +150,26 @@ new Vue({
     onRemove (option) {
       console.log('@remove: ', option)
     },
-    adjustStickyNav () {
+    adjustNav () {
+      console.log('adjust')
+      this.scroll = window.scrollY
+      console.log(this.scroll)
+      console.log(this.currentPosition)
       this.isNavSticky = window.scrollY > window.innerHeight
     },
     calculateNavPositions () {
       /*eslint-disable */
       for (let position of this.navPositions) {
         const elem = document.getElementById(position[0])
-        if (elem) position[1] = elem.offsetTop
+        if (elem) position[1] = elem.offsetTop - 200
       }
-      console.log(this.navPositions)
-      this.navPositions.sort((a, b) => {
-        return a[1] - b[1]
-      })
-      console.log(this.navPositions)
+      this.navPositions = this.navPositions.sort((a, b) => a[1] - b[1])
       /*eslint-enable */
     }
   },
   ready () {
-    this.adjustStickyNav()
-    window.addEventListener('scroll', throttle(this.adjustStickyNav, 50))
+    this.adjustNav()
+    window.addEventListener('scroll', throttle(this.adjustNav, 50))
     this.calculateNavPositions()
   }
 })
