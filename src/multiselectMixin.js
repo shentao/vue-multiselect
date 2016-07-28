@@ -127,6 +127,16 @@ module.exports = {
       default: true
     },
     /**
+     * Data tag to distinguish multiple vue-multiselect components, which
+     * will be passed back to this.onChange callback.
+     * @default ''
+     * @type {String}
+     */
+    dataTag: {
+      type: String,
+      default: ''
+    },
+    /**
      * Callback function to call after this.value changes
      * @callback onChange
      * @default false
@@ -269,7 +279,7 @@ module.exports = {
   watch: {
     'value' () {
       if (this.onChange && JSON.stringify(this.value) !== JSON.stringify(this.selected)) {
-        this.onChange(deepClone(this.value))
+        this.onChange(deepClone(this.value), this.dataTag)
       } else {
         this.$set('selected', deepClone(this.value))
       }
