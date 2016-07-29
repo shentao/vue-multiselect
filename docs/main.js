@@ -20,13 +20,11 @@ require('./docs.scss')
 
 /* eslint-disable no-new */
 new Vue({
-  el: 'body',
-  components: {
-    Multiselect
-  },
+  render: h => h(Multiselect),
   data () {
     return {
-      options: ['Select option', 'options', 'selected', 'mulitple', 'label', 'searchable', 'clearOnSelect', 'hideSelected', 'maxHeight', 'allowEmpty', 'showLabels', 'onChange', 'touched'],
+      // TODO: Auto-Index
+      options: [{index: 0, value: 'Select option'}, {index: 1, value: 'options'}, {index: 2, value: 'selected'}, {index: 3, value: 'mulitple'}, {index: 4, value: 'label'}, {index: 6, value: 'searchable'}, {index: 7, value: 'clearOnSelect'}, {index: 8, value: 'hideSelected'}, {index: 9, value: 'maxHeight'}, {index: 10, value: 'allowEmpty'}, {index: 11, value: 'showLabels'}, {index: 12, value: 'onChange'}, {index: 13, value: 'touched'}],
       selected: ['Select option'],
       source: [
         { name: 'Vue.js', language: 'JavaScript' },
@@ -172,4 +170,4 @@ new Vue({
     window.addEventListener('scroll', throttle(this.adjustNav, 50))
     this.calculateNavPositions()
   }
-})
+}).$mount('#app')
