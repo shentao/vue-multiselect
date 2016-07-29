@@ -66,13 +66,9 @@ export default {
 
 ## Roadmap:
 
-* Option grouping
-* Better mobile support
-* Stateless dropdowns (with no selected prop, just action pickers / search boxes)
-* RTL support, accessibility
+* 1.0 Release – Event based, deprecate two-way binding, make it easy to migrate to Vue 2.0
 * Examples of custom components / templates ready to use in project
-* Reworking the documentation to include much more examples and use cases
-* Fix problem with not counting the height of the option element when creating a custom element. This is important for scrolling the options viewport when using highlighting pointer.
+* Better documentation
 
 ## Examples
 in jade-lang/pug-lang
