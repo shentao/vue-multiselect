@@ -10,11 +10,11 @@
     @keyup.esc="deactivate()"
     class="multiselect">
       <div @mousedown.prevent="toggle()" class="multiselect__select"></div>
-      <div v-el:tags class="multiselect__tags">
+      <div ref="tags" class="multiselect__tags">
         <span
           v-if="multiple"
           v-for="option in visibleValue"
-          track-by="$index"
+          :key="option.index"
           onmousedown="event.preventDefault()"
           class="multiselect__tag">
             <span v-text="getOptionLabel(option)"></span>
@@ -35,7 +35,7 @@
           type="text"
           autocomplete="off"
           :placeholder="placeholder"
-          v-el:search
+          ref="search"
           v-if="searchable"
           v-model="search"
           @focus.prevent="activate()"
@@ -55,7 +55,7 @@
       <ul
         transition="multiselect"
         :style="{ maxHeight: maxHeight + 'px' }"
-        v-el:list
+        ref="list"
         v-show="isOpen"
         class="multiselect__content">
         <slot name="beforeList"></slot>
@@ -65,17 +65,17 @@
           </span>
         </li>
         <template v-if="!max || value.length < max">
-          <li v-for="option in filteredOptions" track-by="$index">
+          <li v-for="option in filteredOptions" :key="option.index">
             <span
               tabindex="0"
-              :class="{ 'multiselect__option--highlight': $index === pointer && this.showPointer, 'multiselect__option--selected': !isNotSelected(option) }"
-              @mousedown.prevent="select(option)"
-              @mouseenter="pointerSet($index)"
+              :class="{ 'multiselect__option--highlight': option.index === pointer && showPointer, 'multiselect__option--selected': !isNotSelected(option.value) }"
+              @mousedown.prevent="select(option.value)"
+              @mouseenter="pointerSet(option.index)"
               :data-select="option.isTag ? tagPlaceholder : selectLabel"
               :data-selected="selectedLabel"
               :data-deselect="deselectLabel"
               class="multiselect__option"
-              v-text="getOptionLabel(option)">
+              v-text="getOptionLabel(option.value)">
             </span>
           </li>
         </template>

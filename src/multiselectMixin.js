@@ -1,11 +1,13 @@
 import { deepClone } from './utils'
+import Vue from 'vue'
 
 module.exports = {
   data () {
     return {
       search: '',
       isOpen: false,
-      value: []
+      value: [],
+      mTouched: this.touched
     }
   },
   props: {
@@ -44,8 +46,7 @@ module.exports = {
      * @type {String}
      */
     key: {
-      type: String,
-      default: false
+      type: String
     },
     /**
      * Label to look for in option Object
@@ -53,8 +54,7 @@ module.exports = {
      * @type {String}
      */
     label: {
-      type: String,
-      default: false
+      type: String
     },
     /**
      * Enable/disable search in options
@@ -63,7 +63,7 @@ module.exports = {
      */
     searchable: {
       type: Boolean,
-      default: true
+      default: false
     },
     /**
      * Clear the search input after select()
@@ -147,7 +147,9 @@ module.exports = {
      */
     customLabel: {
       type: Function,
-      default: false
+      default: function () {
+        return false
+      }
     },
     /**
      * Disable / Enable tagging
@@ -174,7 +176,7 @@ module.exports = {
     */
     max: {
       type: Number,
-      default: false
+      default: 0
     },
     /**
      * Will be passed with all events as second param.
@@ -188,7 +190,7 @@ module.exports = {
   },
   created () {
     if (!this.selected) {
-      this.$set('value', this.multiple ? [] : null)
+      Vue.set(this, 'value', this.multiple ? [] : null)
     } else {
       this.value = deepClone(this.selected)
     }
@@ -200,7 +202,15 @@ module.exports = {
       let options = this.hideSelected
         ? this.options.filter(this.isNotSelected)
         : this.options
-      options = this.$options.filters.filterBy(options, this.search)
+      // options = this.$options.filters.filterBy(options, this.search)
+      // if (search !== '') {
+      //   // TODO: Check Functionallity
+      //   options = options.filter(function (row) {
+      //     return Object.keys(row).some(function (key) {
+      //       return String(row[key]).toLowerCase().indexOf(search) > -1
+      //     })
+      //   })
+      // }
       if (this.taggable && search.length && !this.isExistingOption(search)) {
         options.unshift({ isTag: true, label: search })
       }
@@ -224,9 +234,9 @@ module.exports = {
   watch: {
     'value' () {
       if (this.resetAfter) {
-        this.$set('value', null)
-        this.$set('search', null)
-        this.$set('selected', null)
+        Vue.set('value', null)
+        Vue.set('search', null)
+        Vue.set('selected', null)
       }
       this.adjustSearch()
     },
@@ -381,7 +391,7 @@ module.exports = {
         /* istanbul ignore else  */
         if (this.searchable) {
           this.search = ''
-          this.$els.search.focus()
+          this.$refs.search.focus()
         } else {
           this.$el.focus()
         }
@@ -396,10 +406,10 @@ module.exports = {
       if (!this.isOpen) return
 
       this.isOpen = false
-      this.touched = true
+      this.mTouched = true
       /* istanbul ignore else  */
       if (this.searchable) {
-        this.$els.search.blur()
+        this.$refs.search.blur()
         this.adjustSearch()
       } else {
         this.$el.blur()

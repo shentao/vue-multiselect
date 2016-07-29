@@ -32,8 +32,8 @@ module.exports = {
         this.pointer++
         var pointerPosition = this.pointer * 40
         var visibleElements = this.maxHeight / 40
-        if (this.$els.list.scrollTop <= pointerPosition - visibleElements * 40) {
-          this.$els.list.scrollTop = pointerPosition - (visibleElements - 1) * 40
+        if (this.$refs.list.scrollTop <= pointerPosition - visibleElements * 40) {
+          this.$refs.list.scrollTop = pointerPosition - (visibleElements - 1) * 40
         }
       }
     },
@@ -41,8 +41,8 @@ module.exports = {
       if (this.pointer > 0) {
         this.pointer--
         var pointerPosition = this.pointer * 40
-        if (this.$els.list.scrollTop >= pointerPosition) {
-          this.$els.list.scrollTop = pointerPosition
+        if (this.$refs.list.scrollTop >= pointerPosition) {
+          this.$refs.list.scrollTop = pointerPosition
         }
       }
     },
@@ -50,8 +50,8 @@ module.exports = {
       if (!this.closeOnSelect) return
 
       this.pointer = 0
-      if (this.$els.list) {
-        this.$els.list.scrollTop = 0
+      if (this.$refs.list) {
+        this.$refs.list.scrollTop = 0
       }
     },
     pointerAdjust () {
