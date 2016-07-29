@@ -71,11 +71,11 @@ export default {
 </code></pre></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><pre class=language-jade><code>multiselect(
   :options="taggingOptions",
   :selected="taggingSelected",
-  :multiple="multiple",
-  :searchable="searchable",
+  :multiple="true",
+  :searchable="true",
   :on-tag="addTag",
   :on-change="updateSelectedTagging",
-  :tagging="true"
+  :taggable="true"
   tag-placeholder="Add this as new tag"
   placeholder="Type to search or add tag"
   label="name"
