@@ -4,7 +4,9 @@ p.typo__p Hides already selected options.
 p.typo__p Shows error when touched, but nothing is selected.
 .grid__row
   .grid__column.grid__unit--md-5
-    div(:class="{ 'invalid': isInvalid }")
+    div(
+      :class="{ 'invalid': isInvalid }"
+    )
       label.typo__label Must have at least one value
       multiselect(
         :options="options",
@@ -13,11 +15,11 @@ p.typo__p Shows error when touched, but nothing is selected.
         :searchable="true",
         :allow-empty="false",
         :hide-selected="true",
-        :touched.sync="isTouched",
         :close-on-select="false",
         :max-height="400",
-        :max="5"
-        @update="updateExampleValue"
+        :max="5",
+        @close="onTouch",
+        @update="updateExampleValue",
         placeholder="Pick at least one"
       )
 
@@ -35,11 +37,11 @@ p.typo__p Shows error when touched, but nothing is selected.
             :searchable="true",
             :allow-empty="false",
             :hide-selected="true",
-            :touched.sync="isTouched",
             :close-on-select="false",
             :max-height="400",
-            :max="5"
-            @update="updateExampleValue"
+            :max="5",
+            @close="onTouch",
+            @update="updateExampleValue",
             placeholder="Pick at least one"
           )
 
@@ -47,6 +49,14 @@ p.typo__p Shows error when touched, but nothing is selected.
         computed: {
           isInvalid () {
             return this.isTouched && this.exampleValue6.length === 0
+          }
+        },
+        methods: {
+          onTouch () {
+            this.isTouched = true
+          },
+          updateExampleValue (value) {
+            this.exampleValue6 = value
           }
         }
 

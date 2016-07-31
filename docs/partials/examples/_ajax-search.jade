@@ -1,9 +1,9 @@
 h2.typo__h2#ajax Asynchronous dropdown
 p.typo__p
-  | Changing the search query calls the <kbd><code>:on-search-change=""</code></kbd> callback function,
-  | passing the search query as param. It also sets the <kbd><code>loading = true</code></kbd>.
+  | Changing the search query emits the <kbd><code>@search-change</code></kbd> event,
+  | passing the search query as 1st param and the id as second.
 p.typo__p
-  | To disable <kbd><code>loading</code></kbd> options have to be updated.
+  | To show loading indicator (spinner) please set the <kbd>:loading</kbd> prop to true.
 .grid__row
   .grid__column.grid__unit--md-5
     label.typo__label Async multiselect
@@ -15,7 +15,9 @@ p.typo__p
       :clear-on-select="false",
       :close-on-select="false",
       :loading="isLoading",
+      id="ajax",
       @search-change="asyncFind",
+      @update="asyncUpdate",
       label="name"
       key="code"
       placeholder="Type to search"
@@ -38,10 +40,31 @@ p.typo__p
           :clear-on-select="false",
           :close-on-select="false",
           :loading="isLoading",
+          id="ajax",
           @search-change="asyncFind",
+          @update="asyncUpdate",
           label="name"
           key="code"
           placeholder="Type to search"
         )
           span(slot="noResult").
             Oops! No elements found. Consider changing the search query.
+
+    pre.language-javascript
+      code.
+        asyncFind (query) {
+          if (query.length === 0) {
+            this.countries = []
+          } else {
+            this.isLoading = true
+            setTimeout(() => {
+              this.countries = countries.filter((element, index, array) => {
+                return element.name.toLowerCase().includes(query.toLowerCase())
+              })
+              this.isLoading = false
+            }, 1000)
+          }
+        },
+        asyncUpdate (newVal) {
+          this.selectedCountries = newVal
+        }

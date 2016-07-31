@@ -29,10 +29,7 @@ module.exports = {
       default: false
     },
     /**
-     * Presets the selected options. Add `.sync` to
-     * update parent value. If this.onChange callback is present,
-     * this will not update. In that case, the parent is responsible
-     * for updating this value.
+     * Presets the selected options value.
      * @type {Object||Array||String||Integer}
      */
     selected: {},

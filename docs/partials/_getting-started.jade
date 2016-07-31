@@ -5,22 +5,13 @@
       hr.typo__hr
 
       .grid__row
-        .grid__column.grid__unit--md-6
+        .grid__column
           h2.typo__h2 Installation
           pre.language-bash
             code.
               npm install vue-multiselect --save
 
-          h2.typo__h2 Package content
-          p.typo__p
-            | The package consist of of multiple files:
-            strong  Multiselect.vue
-            |  which includes the template and styling of the default component. This component extends 2 additional mixins:
-            strong  multiselectMixin.js
-            |  and
-            strong  pointerMixin.js
-            |  , which contain the logic behind the multiselect. This way you can actually use the multiselect logic with your own template and styling.
-        .grid__column.grid__unit--md-6
+        .grid__column
           h2.typo__h2 Basic usage
           pre.language-jade
             code.
@@ -43,6 +34,37 @@
                 methods: {
                   updateSelected (newSelected) {
                     this.selected = newSelected
+                  }
+                }
+              }
+
+      .grid__row
+        .grid__column
+          h2.typo__h2 Package content
+
+        .grid__column.grid__unit--md-5
+          p.typo__p
+            | The package consist of of multiple files:
+            strong  Multiselect.vue
+            |  which includes the template and styling of the default component. This component extends 2 additional mixins:
+            strong  multiselectMixin.js
+            |  and
+            strong  pointerMixin.js
+            |  , which contain the logic behind the multiselect. This way you can actually use the multiselect logic with your own template and styling.
+          p.typo__p
+            | You can import vue-multiselect’s mixins to create your own custom components based on those mixins.
+          p.typo__p
+            | Additionally the package exports the <kbd>deepClone</kbd> function.
+        .grid__column.grid__unit--md-7
+          pre.language-javascript
+            code.
+              import { multiselectMixin, pointerMixin, deepClone } from 'vue-multiselect'
+              export default {
+                mixins: [multiselectMixin, pointerMixin],
+                data () {
+                  return {
+                    selected: null,
+                    options: ['list', 'of', 'options']
                   }
                 }
               }

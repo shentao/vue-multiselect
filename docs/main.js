@@ -81,6 +81,9 @@ new Vue({
         }, 1000)
       }
     },
+    asyncUpdate (newVal) {
+      this.selectedCountries = newVal
+    },
     afterChange (selectValue) {
       this.selected = selectValue
     },
@@ -119,6 +122,9 @@ new Vue({
     updateExampleValue (value) {
       console.log('@update: ', value)
       this.exampleValue6 = value
+    },
+    onTouch () {
+      this.isTouched = true
     },
     updateValue (value) {
       console.log('@update: ', value)

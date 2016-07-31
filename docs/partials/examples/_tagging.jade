@@ -12,9 +12,6 @@ p.typo__p
       :taggable="true",
       @tag="addTag",
       @update="updateSelectedTagging",
-      @select="onSelect",
-      @remove="onRemove",
-      @close="onClose",
       tag-placeholder="Add this as new tag"
       placeholder="Type to search or add tag"
       label="name"
@@ -33,14 +30,11 @@ p.typo__p
         multiselect(
           :options="taggingOptions",
           :selected="taggingSelected",
-          :multiple="multiple",
+          :multiple="true",
           :searchable="searchable",
           :taggable="true",
           @tag="addTag",
           @update="updateSelectedTagging",
-          @select="onSelect",
-          @remove="onRemove",
-          @close="onClose",
           tag-placeholder="Add this as new tag"
           placeholder="Type to search or add tag"
           label="name"
@@ -61,3 +55,7 @@ p.typo__p
           this.taggingOptions.push(tag)
           this.taggingSelected.push(tag)
         },
+        updateSelectedTagging (value) {
+          console.log('@tag: ', value)
+          this.taggingSelected = value
+        }
