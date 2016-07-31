@@ -25,9 +25,8 @@
           pre.language-jade
             code.
               multiselect(
-                :selected="selected",
-                :options="options",
-                @update="updateSelected"
+                :selected.sync="selected",
+                :options="options"
               )
           pre.language-javascript
             code.
@@ -38,11 +37,6 @@
                   return {
                     selected: null,
                     options: ['list', 'of', 'options']
-                  }
-                },
-                methods: {
-                  updateSelected (newSelected) {
-                    this.selected = newSelected
                   }
                 }
               }

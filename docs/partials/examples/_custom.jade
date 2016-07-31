@@ -8,16 +8,14 @@ p.typo__p Shows error when touched, but nothing is selected.
       label.typo__label Must have at least one value
       multiselect(
         :options="options",
-        :selected="exampleValue6",
+        :selected.sync="exampleValue6",
         :multiple="true",
         :searchable="true",
         :allow-empty="false",
         :hide-selected="true",
         :touched.sync="isTouched",
-        :close-on-select="false",
         :max-height="400",
         :max="5"
-        @update="updateExampleValue"
         placeholder="Pick at least one"
       )
 
@@ -30,16 +28,14 @@ p.typo__p Shows error when touched, but nothing is selected.
           label.typo__label Must have at least one value
           multiselect(
             :options="options",
-            :selected="exampleValue6",
+            :selected.sync="exampleValue6",
             :multiple="true",
             :searchable="true",
             :allow-empty="false",
             :hide-selected="true",
             :touched.sync="isTouched",
-            :close-on-select="false",
             :max-height="400",
             :max="5"
-            @update="updateExampleValue"
             placeholder="Pick at least one"
           )
 

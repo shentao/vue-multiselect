@@ -1,35 +1,34 @@
-@import url(https://fonts.googleapis.com/css?family=Lato:700,300);
-@import url('https://fonts.googleapis.com/css?family=Dosis:400')
+@import url('https://fonts.googleapis.com/css?family=Lato:400,700')
 
 // config
 $header-line-height: 1.2
 $header-color: $secondary-color
 
-$header-h1-family: $global-font-secondary
-$header-h1-size-ratio-lg: 2.5 // 48px
+$header-h1-family: $global-font
+$header-h1-size-ratio-lg: 3.75 // 48px
 $header-h1-size-ratio-md: 2.5 // 40px
 $header-h1-size-ratio-sm: 2 // 32px
 $header-h1-weight: $global-font-weight-bold
 
-$header-h2-family: $global-font-secondary
-$header-h2-size-ratio-lg: 1.8 // 36px
-$header-h2-size-ratio-md: 1.8 // 32px
+$header-h2-family: $global-font
+$header-h2-size-ratio-lg: 2.25 // 36px
+$header-h2-size-ratio-md: 2 // 32px
 $header-h2-size-ratio-sm: 1.625 // 26px
 $header-h2-weight: $global-font-weight-bold
 
 $header-h3-family: $global-font-secondary
-$header-h3-size-ratio-lg: 1.5 // 28px
+$header-h3-size-ratio-lg: 1.75 // 28px
 $header-h3-size-ratio-md: 1.5 // 24px
 $header-h3-size-ratio-sm: 1.375 // 22px
 $header-h3-weight: $global-font-weight-bold
 
 $header-h4-family: $global-font
-$header-h4-size-ratio-sm: 1.375
+$header-h4-size-ratio-sm: 1.5
 $header-h4-size-ratio-md: 1.375
 $header-h4-size-ratio-lg: 1.125
 $header-h4-weight: $global-font-weight-light
 
-$paragraph-family: $global-font
+$paragraph-family: $global-font-secondary
 $paragraph-font-size-ratio-lg: 1.125 // 18px
 $paragraph-font-size-ratio-md: 1.125 // 18px
 $paragraph-font-size-ratio-sm: 1 // 16px
@@ -85,7 +84,6 @@ body
     family: $header-h2-family
     weight: $header-h2-weight
     size: rem($header-h2-size-ratio-sm * $global-font-size)
-  padding-top: rem(60px)
 
   @media #{$medium-up}
     font-size: rem($header-h2-size-ratio-md * $global-font-size)
@@ -182,11 +180,5 @@ body
   margin: 0
   line-height: 1.4
 
-.typo--bold, strong
+.typo--bold
   font-weight: $global-font-weight-bold
-
-kbd
-  color: $primary-color
-  padding: 3px 5px
-  border-radius: 4px
-  background: $tertiary-color

@@ -1,11 +1,8 @@
-section.start(
-  :style="gradient"
-)
+section.start
   .center-vertically
     h1.typo__h1
       img.logo(src="./static/vue-logo.png")
       | Vue-multiselect
-      small.version (v1.0.0)
     h3.typo__h3 The most complete selecting solution for
       = ' '
       a.typo__link(href="http://vuejs.org" target="_BLANK") Vue.js
@@ -18,12 +15,12 @@ section.start(
             :selected="selected",
             :multiple="multiple",
             :searchable="searchable",
+            placeholder="Select option",
+            :on-change="afterChange",
             :show-labels="true",
             :limit="3",
             :taggable="true",
-            @tag="onTagging"
-            @update="afterChange",
-            placeholder="Select option",
+            :on-tag="onTagging"
             select-label="Enter to select"
           )
             span(slot="noResult").
