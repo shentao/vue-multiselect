@@ -16,6 +16,11 @@ module.exports = {
       default: true
     }
   },
+  computed: {
+    pointerPosition () {
+      return this.pointer * 40
+    }
+  },
   watch: {
     'filteredOptions' () {
       this.pointerAdjust()
@@ -31,18 +36,16 @@ module.exports = {
     pointerForward () {
       if (this.pointer < this.filteredOptions.length - 1) {
         this.pointer++
-        const pointerPosition = this.pointer * 40
-        if (this.$els.list.scrollTop <= pointerPosition - this.visibleElements * 40) {
-          this.$els.list.scrollTop = pointerPosition - (this.visibleElements - 1) * 40
+        if (this.$els.list.scrollTop <= this.pointerPosition - this.visibleElements * 40) {
+          this.$els.list.scrollTop = this.pointerPosition - (this.visibleElements - 1) * 40
         }
       }
     },
     pointerBackward () {
       if (this.pointer > 0) {
         this.pointer--
-        const pointerPosition = this.pointer * 40
-        if (this.$els.list.scrollTop >= pointerPosition) {
-          this.$els.list.scrollTop = pointerPosition
+        if (this.$els.list.scrollTop >= this.pointerPosition) {
+          this.$els.list.scrollTop = this.pointerPosition
         }
       }
     },
