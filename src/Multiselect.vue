@@ -35,6 +35,7 @@
           type="text"
           autocomplete="off"
           :placeholder="placeholder"
+          :disabled="disabled"
           v-el:search
           v-if="searchable"
           v-model="search"
@@ -97,6 +98,15 @@
   export default {
     mixins: [multiselectMixin, pointerMixin],
     props: {
+      /**
+       * Decide whether input is disabled or not
+       * @default true
+       * @type {Boolean}
+      */
+      disabled:{
+        type: Boolean,
+        default: false
+      },
       /**
        * String to show when pointing to an option
        * @default 'Press enter to select'
