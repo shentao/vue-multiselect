@@ -6,8 +6,8 @@
 import Multiselect from './Multiselect'
 import multiselectMixin from './multiselectMixin'
 import pointerMixin from './pointerMixin'
-import utils from './utils'
+import deepClone from './utils'
 
 export default Multiselect
 
-export { Multiselect, multiselectMixin, pointerMixin, utils }
+export { Multiselect, multiselectMixin, pointerMixin, deepClone }
