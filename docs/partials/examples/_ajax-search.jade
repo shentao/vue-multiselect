@@ -9,14 +9,16 @@ p.typo__p
     label.typo__label Async multiselect
     multiselect(
       :options="countries",
-      :selected.sync="selectedCountries",
+      :selected="selectedCountries",
       :multiple="multiple",
       :searchable="searchable",
-      placeholder="Type to search",
-      :on-search-change="asyncFind | debounce 200",
       :clear-on-select="false",
+      :close-on-select="false",
+      :loading="isLoading",
+      @search-change="asyncFind",
       label="name"
       key="code"
+      placeholder="Type to search"
     )
       span(slot="noResult").
         Oops! No elements found. Consider changing the search query.
@@ -30,14 +32,16 @@ p.typo__p
       code.
         multiselect(
           :options="countries",
-          :selected.sync="selectedCountries",
+          :selected="selectedCountries",
           :multiple="multiple",
           :searchable="searchable",
-          placeholder="Type to search",
-          :on-search-change="asyncFind | debounce 200",
           :clear-on-select="false",
+          :close-on-select="false",
+          :loading="isLoading",
+          @search-change="asyncFind",
           label="name"
           key="code"
+          placeholder="Type to search"
         )
           span(slot="noResult").
             Oops! No elements found. Consider changing the search query.

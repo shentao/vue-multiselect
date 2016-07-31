@@ -14,7 +14,7 @@ $multiselect-background: #000;
 }
 
 body {
-  background: #fafafa;
+  background: #fff;
   color: #35495E;
   font-family: 'Lato', Helvetica, sans-serif;
   text-decoration: none;
@@ -23,10 +23,11 @@ body {
 .start {
   text-align: center;
   display: block;
-  background: linear-gradient(to left bottom, #C1D6FF 0%, #E0FFE5 100%);
+  background: linear-gradient(to left bottom, #8cc1f7 0%, #9cffd3 100%);
 
   .typo__h1 {
-    padding-top: rem(40px)
+    padding-top: rem(40px);
+    position: relative;
   }
 
   .typo__h3 {
@@ -69,7 +70,7 @@ body {
 }
 
 .button {
-  margin-right: rem(20px)
+  margin: rem(0 10px)
 }
 
 .logo {
@@ -97,4 +98,12 @@ body {
     left: rem(25px);
     position: absolute;
   }
+}
+
+.version {
+  position: absolute;
+  bottom: rem(-7px);
+  font-size: rem(20px);
+  color: $secondary-color;
+  transform: translateX(-100%);
 }

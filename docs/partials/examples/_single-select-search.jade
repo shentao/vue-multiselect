@@ -1,14 +1,14 @@
-h2.typo__h2#search Single select with search
+h2.typo__h2#select-search Single select with search
 p.typo__p The selected value is referencing the same object as the previous example, to show that dynamic preselection works.
 .grid__row
   .grid__column.grid__unit--md-5
     label.typo__label Simple select / dropdown
     multiselect(
       :options="source",
-      :selected.sync="value",
       :multiple="false",
       :searchable="true",
       :custom-label="nameWithLang"
+      @update="updateValue",
       placeholder="Select one",
       label="name",
       key="name"
@@ -23,10 +23,11 @@ p.typo__p The selected value is referencing the same object as the previous exam
       code.
         multiselect(
           :options="source",
-          :selected.sync="value",
+          :selected="value",
           :multiple="false",
           :searchable="true",
           :custom-label="nameWithLang"
+          @update="updateValue",
           placeholder="Select one",
           label="name",
           key="name"

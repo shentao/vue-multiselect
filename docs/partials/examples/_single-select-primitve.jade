@@ -1,15 +1,16 @@
-h2.typo__h2 Single select dropdown (primitive value)
+h2.typo__h2#select-primitive Single select dropdown (primitive value)
 p.typo__p Disabled all highlight label text.
 .grid__row
   .grid__column.grid__unit--md-5
     label.typo__label Single select / dropdown
     multiselect(
       :options="options",
-      :selected.sync="valuePrimitive",
+      :selected="valuePrimitive",
       :multiple="false",
       :searchable="false",
       :close-on-select="false",
       :show-labels="false"
+      @update="updateValuePrimitive"
       placeholder="Select one"
       label="name"
     )
@@ -23,11 +24,12 @@ p.typo__p Disabled all highlight label text.
       code.
         multiselect(
           :options="options",
-          :selected.sync="valuePrimitive",
+          :selected="valuePrimitive",
           :multiple="false",
           :searchable="false",
           :close-on-select="false",
           :show-labels="false"
+          @update="updateValuePrimitive"
           placeholder="Select one"
           label="name"
         )
