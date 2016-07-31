@@ -3,22 +3,9 @@ import Vue from 'vue'
 import Multiselect from '../src/Multiselect'
 import countries from './data/countries.json'
 
-function throttle (callback, limit) {
-  var wait = false
-  return function () {
-    if (!wait) {
-      callback.call()
-      wait = true
-      setTimeout(function () {
-        wait = false
-      }, limit)
-    }
-  }
-}
-
-const SL = ', 100%, 85%'
-
 require('./docs.scss')
+
+const SL = ', 100%, 87%'
 
 /* eslint-disable no-new */
 new Vue({
@@ -47,21 +34,18 @@ new Vue({
       placeholder: 'Select props',
       countries: [],
       selectedCountries: [],
+      first: 230,
+      second: 197,
       actions: ['alert', 'console.log', 'scrollTop'],
       action: null,
       isTouched: false,
-      exampleValue6: [],
-      isLoading: false,
-      isNavSticky: false,
-      firstColor: Math.floor(Math.random() * 255),
-      secondColor: Math.floor(Math.random() * 255)
+      exampleValue6: []
     }
   },
   computed: {
     gradient () {
-      return {
-        background: `linear-gradient(to left bottom, hsl(${this.firstColor + SL}) 0%, hsl(${this.secondColor + SL}) 100%)`
-      }
+      // return 'linear-gradient(to left bottom, #C1C6FF 0%, #E7FFEB 100%) fixed'
+      return `linear-gradient(to left bottom, hsl(${this.first + SL}) 0%, hsl(${this.second + SL}) 100%)`
     },
     isInvalid () {
       return this.isTouched && this.exampleValue6.length === 0
@@ -72,12 +56,10 @@ new Vue({
       if (query.length === 0) {
         this.countries = []
       } else {
-        this.isLoading = true
         setTimeout(() => {
           this.countries = countries.filter((element, index, array) => {
             return element.name.toLowerCase().includes(query.toLowerCase())
           })
-          this.isLoading = false
         }, 1000)
       }
     },
@@ -88,9 +70,6 @@ new Vue({
       this.options.push(newTag)
       this.selected.push(newTag)
     },
-    onClose (val) {
-      console.log('close: ', val)
-    },
     addTag (newTag) {
       const tag = {
         name: newTag,
@@ -100,7 +79,6 @@ new Vue({
       this.taggingSelected.push(tag)
     },
     updateSelectedTagging (value) {
-      console.log('@tag: ', value)
       this.taggingSelected = value
     },
     dispatchAction (actionName) {
@@ -116,46 +94,8 @@ new Vue({
           break
       }
     },
-    updateExampleValue (value) {
-      console.log('@update: ', value)
-      this.exampleValue6 = value
-    },
-    updateValue (value) {
-      console.log('@update: ', value)
-      this.value = value
-    },
-    updateMultiValue (value) {
-      console.log('@update: ', value)
-      this.multiValue = value
-    },
-    updateValuePrimitive (value) {
-      console.log('@update: ', value)
-      this.valuePrimitive = value
-    },
     nameWithLang ({ name, language }) {
       return `${name} — [${language}]`
-    },
-    onSelect (option) {
-      console.log('@select: ', option)
-    },
-    onRemove (option) {
-      console.log('@remove: ', option)
-    },
-    adjustNav () {
-      this.isNavSticky = window.scrollY > window.innerHeight
     }
-    // calculateNavPositions () {
-    //   /*eslint-disable */
-    //   for (let position of this.navPositions) {
-    //     const elem = document.getElementById(position[0])
-    //     if (elem) position[1] = elem.offsetTop - 200
-    //   }
-    //   this.navPositions = this.navPositions.sort((a, b) => a[1] - b[1])
-    //   /*eslint-enable */
-    // }
-  },
-  ready () {
-    this.adjustNav()
-    window.addEventListener('scroll', throttle(this.adjustNav, 50))
   }
 })

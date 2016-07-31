@@ -1,17 +1,16 @@
-h2.typo__h2#multiselect-search Multiple select with search
+h2.typo__h2 Multiple select with search
 p.typo__p Limit visible results to 2.
 .grid__row
   .grid__column.grid__unit--md-5
     label.typo__label Simple select / dropdown
     multiselect(
       :options="source",
-      :selected="multiValue",
+      :selected.sync="multiValue",
       :multiple="true",
       :searchable="true",
-      :close-on-select="false",
+      :close-on-select="true",
       :clear-on-select="false",
       :limit="2"
-      @update="updateMultiValue",
       placeholder="Pick some"
       label="name",
       key="name"
@@ -26,13 +25,11 @@ p.typo__p Limit visible results to 2.
       code.
         multiselect(
           :options="source",
-          :selected="multiValue",
+          :selected.sync="multiValue",
           :multiple="true",
           :searchable="true",
-          :close-on-select="false",
+          :close-on-select="true",
           :clear-on-select="false",
-          :limit="2"
-          @update="updateMultiValue",
           placeholder="Pick some"
           label="name",
           key="name"

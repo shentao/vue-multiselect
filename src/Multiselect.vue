@@ -1,7 +1,7 @@
 <template>
   <div
     tabindex="0"
-    :class="{ 'multiselect--active': isOpen, 'multiselect--disabled': disabled }"
+    :class="{ 'multiselect--active': isOpen }"
     @focus="activate()"
     @blur="searchable ? false : deactivate()"
     @keydown.self.down.prevent="pointerForward()"
@@ -10,24 +10,13 @@
     @keyup.esc="deactivate()"
     class="multiselect">
       <div @mousedown.prevent="toggle()" class="multiselect__select"></div>
-      <div v-el:tags class="multiselect__tags">
-        <span
-          v-if="multiple"
-          v-for="option in visibleValue"
-          track-by="$index"
-          onmousedown="event.preventDefault()"
-          class="multiselect__tag">
-            <span v-text="getOptionLabel(option)"></span>
-            <i
-              aria-hidden="true"
-              tabindex="1"
-              @keydown.enter.prevent="removeElement(option)"
-              @mousedown.prevent="removeElement(option)"
-              class="multiselect__tag-icon">
-            </i>
+      <div v-el:tags="v-el:tags" class="multiselect__tags">
+        <span v-if="multiple" v-for="option in visibleValue" track-by="$index" onmousedown="event.preventDefault()" class="multiselect__tag">
+          {{ getOptionLabel(option) }}
+          <i aria-hidden="true" tabindex="1" @keydown.enter.prevent="removeElement(option)" @mousedown.prevent="removeElement(option)" class="multiselect__tag-icon"></i>
         </span>
         <template v-if="value && value.length > limit">
-          <strong v-text="limitText(value.length - limit)"></strong>
+          <strong>{{ limitText(value.length - limit) }}</strong>
         </template>
         <div v-show="loading" transition="multiselect__loading" class="multiselect__spinner"></div>
         <input
@@ -38,27 +27,18 @@
           v-el:search
           v-if="searchable"
           v-model="search"
-          :disabled="disabled"
           @focus.prevent="activate()"
           @blur.prevent="deactivate()"
+          @input="pointerReset()"
           @keyup.esc="deactivate()"
           @keyup.down="pointerForward()"
           @keyup.up="pointerBackward()"
           @keydown.enter.stop.prevent.self="addPointerElement()"
           @keydown.delete="removeLastElement()"
           class="multiselect__input"/>
-          <span
-            v-if="!searchable && !multiple"
-            class="multiselect__single"
-            v-text="currentOptionLabel || placeholder">
-          </span>
+          <span v-if="!searchable && !multiple" class="multiselect__single">{{ getOptionLabel(value) ? getOptionLabel(value) : placeholder }}</span>
       </div>
-      <ul
-        transition="multiselect"
-        :style="{ maxHeight: maxHeight + 'px' }"
-        v-el:list
-        v-show="isOpen"
-        class="multiselect__content">
+      <ul transition="multiselect" :style="{ maxHeight: maxHeight + 'px' }" v-el:list="v-el:list" v-show="isOpen" class="multiselect__content">
         <slot name="beforeList"></slot>
         <li v-if="multiple && max === value.length">
           <span class="multiselect__option">
@@ -71,12 +51,12 @@
               tabindex="0"
               :class="{ 'multiselect__option--highlight': $index === pointer && this.showPointer, 'multiselect__option--selected': !isNotSelected(option) }"
               @mousedown.prevent="select(option)"
-              @mouseenter="pointerSet($index)"
+              @mouseover="pointerSet($index)"
               :data-select="option.isTag ? tagPlaceholder : selectLabel"
               :data-selected="selectedLabel"
               :data-deselect="deselectLabel"
-              class="multiselect__option"
-              v-text="getOptionLabel(option)">
+              class="multiselect__option">
+                {{ getOptionLabel(option) }}
             </span>
           </li>
         </template>
@@ -134,7 +114,7 @@
         default: true
       },
       /**
-       * Limit the display of selected options. The rest will be hidden within the limitText string.
+       * Label to look for in option Object
        * @default 'label'
        * @type {String}
        */
@@ -152,24 +132,6 @@
       limitText: {
         type: Function,
         default: count => `and ${count} more`
-      },
-      /**
-       * Set true to trigger the loading spinner.
-       * @default False
-       * @type {Boolean}
-      */
-      loading: {
-        type: Boolean,
-        default: false
-      },
-      /**
-       * Disables the multiselect if true.
-       * @default false
-       * @type {Boolean}
-      */
-      disabled: {
-        type: Boolean,
-        default: false
       }
     },
     computed: {
@@ -189,10 +151,6 @@
 </script>
 
 <style>
-fieldset[disabled] .multiselect {
-  pointer-events: none;
-}
-
 .multiselect__spinner {
   position: absolute;
   right: 1px;
@@ -262,11 +220,6 @@ fieldset[disabled] .multiselect {
 
 .multiselect:focus {
   outline: none;
-}
-
-.multiselect--disabled {
-  pointer-events: none;
-  opacity: 0.6;
 }
 
 .multiselect--active {
@@ -479,7 +432,6 @@ fieldset[disabled] .multiselect {
 
 .multiselect__option--highlight:after {
   content: attr(data-select);
-  background: #41B883;
   color: white;
 }
 
@@ -500,7 +452,6 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect__option--selected.multiselect__option--highlight:after {
-  background: #FF6A6A;
   content: attr(data-deselect);
   color: #fff;
 }

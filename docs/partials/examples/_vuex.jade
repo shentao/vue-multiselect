@@ -15,9 +15,9 @@ p.typo__p
       :selected="action",
       :multiple="false",
       :searchable="false",
-      :reset-after="true",
-      @update="dispatchAction",
       placeholder="Pick action",
+      :reset-after="true",
+      :on-change="dispatchAction"
     )
 
   .grid__column.grid__unit--md-7
@@ -29,7 +29,7 @@ p.typo__p
           :selected="action",
           :multiple="false",
           :searchable="false",
-          :reset-after="true",
-          @update="dispatchAction",
           placeholder="Pick action",
+          :reset-after="true",
+          :on-change="dispatchAction"
         )

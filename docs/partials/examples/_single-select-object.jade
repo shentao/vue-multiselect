@@ -1,4 +1,4 @@
-h2.typo__h2#select-object Single select dropdown (object)
+h2.typo__h2 Single select dropdown (object)
 p.typo__p Can't become empty. Showing custom deselect label.
 p.typo__p The selected value is referencing the same object as the next example, to show that dynamic preselection works.
 .grid__row
@@ -6,12 +6,11 @@ p.typo__p The selected value is referencing the same object as the next example,
     label.typo__label Single select / dropdown
     multiselect(
       :options="source",
-      :selected="value",
+      :selected.sync="value",
       :multiple="false",
       :searchable="false",
       :close-on-select="false",
-      :allow-empty="false",
-      @update="updateValue",
+      :allow-empty="false"
       deselect-label="Can't remove this value"
       key="name"
       label="name"
@@ -27,12 +26,11 @@ p.typo__p The selected value is referencing the same object as the next example,
       code.
         multiselect(
           :options="source",
-          :selected="value",
+          :selected.sync="value",
           :multiple="false",
           :searchable="false",
           :close-on-select="false",
           :allow-empty="false",
-          @update="updateValue",
           deselect-label="Can't remove this value"
           key="name"
           label="name"
