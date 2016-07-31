@@ -1,7 +1,8 @@
 module.exports = {
   data () {
     return {
-      pointer: 0
+      pointer: 0,
+      visibleElements: this.maxHeight / 40
     }
   },
   props: {
@@ -30,17 +31,16 @@ module.exports = {
     pointerForward () {
       if (this.pointer < this.filteredOptions.length - 1) {
         this.pointer++
-        var pointerPosition = this.pointer * 40
-        var visibleElements = this.maxHeight / 40
-        if (this.$els.list.scrollTop <= pointerPosition - visibleElements * 40) {
-          this.$els.list.scrollTop = pointerPosition - (visibleElements - 1) * 40
+        const pointerPosition = this.pointer * 40
+        if (this.$els.list.scrollTop <= pointerPosition - this.visibleElements * 40) {
+          this.$els.list.scrollTop = pointerPosition - (this.visibleElements - 1) * 40
         }
       }
     },
     pointerBackward () {
       if (this.pointer > 0) {
         this.pointer--
-        var pointerPosition = this.pointer * 40
+        const pointerPosition = this.pointer * 40
         if (this.$els.list.scrollTop >= pointerPosition) {
           this.$els.list.scrollTop = pointerPosition
         }

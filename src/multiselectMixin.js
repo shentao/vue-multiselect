@@ -111,16 +111,6 @@ module.exports = {
       default: true
     },
     /**
-     * Value that indicates if the dropdown has been used.
-     * Useful for validation.
-     * @default false
-     * @type {Boolean}
-     */
-    touched: {
-      type: Boolean,
-      default: false
-    },
-    /**
      * Reset this.value, this.search, this.selected after this.value changes.
      * Useful if want to create a stateless dropdown, that fires the this.onChange
      * callback function with different params.
@@ -376,16 +366,17 @@ module.exports = {
      */
     activate () {
       /* istanbul ignore else */
-      if (!this.isOpen) {
-        this.isOpen = true
-        /* istanbul ignore else  */
-        if (this.searchable) {
-          this.search = ''
-          this.$els.search.focus()
-        } else {
-          this.$el.focus()
-        }
+      if (this.isOpen) return
+
+      this.isOpen = true
+      /* istanbul ignore else  */
+      if (this.searchable) {
+        this.search = ''
+        this.$els.search.focus()
+      } else {
+        this.$el.focus()
       }
+      this.$emit('open', this.id)
     },
     /**
      * Closes the multiselect’s dropdown.
@@ -396,7 +387,6 @@ module.exports = {
       if (!this.isOpen) return
 
       this.isOpen = false
-      this.touched = true
       /* istanbul ignore else  */
       if (this.searchable) {
         this.$els.search.blur()
@@ -404,6 +394,7 @@ module.exports = {
       } else {
         this.$el.blur()
       }
+      this.$emit('close', deepClone(this.value), this.id)
     },
     /**
      * Adjusts the Search property to equal the correct value

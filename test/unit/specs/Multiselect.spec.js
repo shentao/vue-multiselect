@@ -4,32 +4,35 @@ import Multiselect from 'src/Multiselect'
 describe('Multiselect.vue', () => {
   describe('Events emitting', () => {
     describe('@update', () => {
-      it('should be called whenever the value changes passing the new value', () => {
+      it('should be called whenever the value changes passing the new value and id', () => {
         let eventsLog = []
+        let calledId = null
 
         const vmSingle = new Vue({
-          template: '<multiselect :selected="value" :options="source" @update="onUpdate"></multiselect>',
+          template: '<multiselect :selected="value" :options="source" @update="onUpdate" id="single"></multiselect>',
           components: { Multiselect },
           data: {
             value: null,
             source: ['1', '2', '3']
           },
           methods: {
-            onUpdate (value) {
+            onUpdate (value, id) {
+              calledId = id
               eventsLog.push(value)
             }
           }
         }).$mount()
 
         const vmMulti = new Vue({
-          template: '<multiselect :selected="value" :options="source" @update="onUpdate" :multiple="true"></multiselect>',
+          template: '<multiselect :selected="value" :options="source" @update="onUpdate" :multiple="true" id="multi"></multiselect>',
           components: { Multiselect },
           data: {
             value: [],
             source: ['1', '2', '3']
           },
           methods: {
-            onUpdate (value) {
+            onUpdate (value, id) {
+              calledId = id
               eventsLog.push(value)
             }
           }
@@ -37,11 +40,13 @@ describe('Multiselect.vue', () => {
 
         vmSingle.$children[0].select(vmSingle.source[0])
         expect(eventsLog[0]).to.deep.equal('1')
+        expect(calledId).to.deep.equal('single')
         vmSingle.$children[0].select(vmSingle.source[1])
         expect(eventsLog[1]).to.deep.equal('2')
         vmSingle.$children[0].select(vmSingle.source[0])
         expect(eventsLog[2]).to.deep.equal('1')
         vmMulti.$children[0].select(vmMulti.source[0])
+        expect(calledId).to.deep.equal('multi')
         expect(eventsLog[3]).to.deep.equal(['1'])
         vmMulti.$children[0].select(vmMulti.source[1])
         expect(eventsLog[4]).to.deep.equal(['1', '2'])
@@ -56,32 +61,35 @@ describe('Multiselect.vue', () => {
     })
 
     describe('@select', () => {
-      it('should be called after each select passing the selected option', () => {
+      it('should be called after each select passing the selected option and id', () => {
         let eventsLog = []
+        let calledId = null
 
         const vmSingle = new Vue({
-          template: '<multiselect :selected="value" :options="source" @select="onSelect"></multiselect>',
+          template: '<multiselect :selected="value" :options="source" @select="onSelect" id="single"></multiselect>',
           components: { Multiselect },
           data: {
             value: null,
             source: ['1', '2', '3']
           },
           methods: {
-            onSelect (option) {
+            onSelect (option, id) {
+              calledId = id
               eventsLog.push(option)
             }
           }
         }).$mount()
 
         const vmMulti = new Vue({
-          template: '<multiselect :selected="value" :options="source" @select="onSelect" :multiple="true"></multiselect>',
+          template: '<multiselect :selected="value" :options="source" @select="onSelect" :multiple="true" id="multi"></multiselect>',
           components: { Multiselect },
           data: {
             value: [],
             source: ['1', '2', '3']
           },
           methods: {
-            onSelect (option) {
+            onSelect (option, id) {
+              calledId = id
               eventsLog.push(option)
             }
           }
@@ -89,11 +97,13 @@ describe('Multiselect.vue', () => {
 
         vmSingle.$children[0].select(vmSingle.source[0])
         expect(eventsLog[0]).to.deep.equal('1')
+        expect(calledId).to.deep.equal('single')
         vmSingle.$children[0].select(vmSingle.source[1])
         expect(eventsLog[1]).to.deep.equal('2')
         vmSingle.$children[0].select(vmSingle.source[0])
         expect(eventsLog[2]).to.deep.equal('1')
         vmMulti.$children[0].select(vmMulti.source[0])
+        expect(calledId).to.deep.equal('multi')
         expect(eventsLog[3]).to.deep.equal('1')
         vmMulti.$children[0].select(vmMulti.source[1])
         expect(eventsLog[4]).to.deep.equal('2')
@@ -112,19 +122,21 @@ describe('Multiselect.vue', () => {
     })
 
     describe('@remove', () => {
-      it('should be called after removing an option, passing the removed option', () => {
+      it('should be called after removing an option, passing the removed option and id', () => {
         let eventsLog = []
+        let calledId = null
 
         const vmMulti = new Vue({
-          template: '<multiselect :selected="value" :options="source" @remove="onRemove" :multiple="true"></multiselect>',
+          template: '<multiselect :selected="value" :options="source" @remove="onRemove" :multiple="true" :id="1"></multiselect>',
           components: { Multiselect },
           data: {
             value: [],
             source: ['1', '2', '3']
           },
           methods: {
-            onRemove (option) {
+            onRemove (option, id) {
               eventsLog.push(option)
+              calledId = id
             }
           }
         }).$mount()
@@ -140,6 +152,73 @@ describe('Multiselect.vue', () => {
         vmMulti.$children[0].removeLastElement()
         expect(eventsLog[2]).to.deep.equal('2')
         expect(eventsLog.length).to.equal(3)
+        expect(calledId).to.equal(1)
+      })
+    })
+
+    describe('@close', () => {
+      it('should be called after closing the dropdown with the current value and id', () => {
+        let eventsLog = []
+        let calledId = null
+
+        const vmMulti = new Vue({
+          template: '<multiselect :selected="value" :options="source" @close="onClose" :id="1"></multiselect>',
+          components: { Multiselect },
+          data: {
+            value: [],
+            source: ['1', '2', '3']
+          },
+          methods: {
+            onClose (option, id) {
+              eventsLog.push(option)
+              calledId = id
+            }
+          }
+        }).$mount()
+
+        vmMulti.$children[0].activate()
+        vmMulti.$children[0].select(vmMulti.source[1])
+        vmMulti.$children[0].select(vmMulti.source[0])
+        vmMulti.$children[0].deactivate()
+        expect(eventsLog[0]).to.deep.equal('2')
+        vmMulti.$children[0].activate()
+        vmMulti.$children[0].select(vmMulti.source[2])
+        vmMulti.$children[0].deactivate()
+        expect(eventsLog[1]).to.deep.equal('3')
+        expect(eventsLog.length).to.equal(2)
+        expect(calledId).to.equal(1)
+      })
+    })
+
+    describe('@open', () => {
+      it('should be called after opening the dropdown passing the id', () => {
+        let idLogs = []
+
+        const vmMulti = new Vue({
+          template: '<multiselect :selected="value" :options="source" @open="onOpen" :id="1"></multiselect><multiselect :selected="value" :options="source" @open="onOpen" :id="2"></multiselect>',
+          components: { Multiselect },
+          data: {
+            value: [],
+            source: ['1', '2', '3']
+          },
+          methods: {
+            onOpen (id) {
+              idLogs.push(id)
+            }
+          }
+        }).$mount()
+
+        vmMulti.$children[0].activate()
+        vmMulti.$children[1].activate()
+        vmMulti.$children[0].activate()
+        vmMulti.$children[1].activate()
+        expect(idLogs[0]).to.equal(1)
+        expect(idLogs[1]).to.equal(2)
+        expect(idLogs.length).to.equal(2)
+        vmMulti.$children[0].deactivate()
+        vmMulti.$children[0].activate()
+        expect(idLogs[2]).to.equal(1)
+        expect(idLogs.length).to.equal(3)
       })
     })
   })
@@ -829,24 +908,6 @@ describe('Multiselect.vue', () => {
       vm.$children[0].deactivate()
       Vue.nextTick(function () {
         expect(vm.$children[0].isOpen).to.equal(false)
-        done()
-      })
-    })
-
-    it('should set touched value to true', (done) => {
-      const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" label="id" key="id" :multiple="true"></multiselect>',
-        components: { Multiselect },
-        data: {
-          value: [],
-          source: [{ id: '1' }, { id: '2' }, { id: '3' }]
-        }
-      }).$mount()
-      vm.$children[0].activate()
-      vm.$children[0].touched = false
-      vm.$children[0].deactivate()
-      Vue.nextTick(function () {
-        expect(vm.$children[0].touched).to.equal(true)
         done()
       })
     })

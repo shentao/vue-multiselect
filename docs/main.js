@@ -63,8 +63,7 @@ new Vue({
         ['tagging', 0],
         ['vuex', 0],
         ['custom', 0]
-      ],
-      scroll: 0
+      ]
     }
   },
   computed: {
@@ -99,6 +98,9 @@ new Vue({
     onTagging (newTag) {
       this.options.push(newTag)
       this.selected.push(newTag)
+    },
+    onClose (val) {
+      console.log('close: ', val)
     },
     addTag (newTag) {
       const tag = {
@@ -151,25 +153,20 @@ new Vue({
       console.log('@remove: ', option)
     },
     adjustNav () {
-      console.log('adjust')
-      this.scroll = window.scrollY
-      console.log(this.scroll)
-      console.log(this.currentPosition)
       this.isNavSticky = window.scrollY > window.innerHeight
-    },
-    calculateNavPositions () {
-      /*eslint-disable */
-      for (let position of this.navPositions) {
-        const elem = document.getElementById(position[0])
-        if (elem) position[1] = elem.offsetTop - 200
-      }
-      this.navPositions = this.navPositions.sort((a, b) => a[1] - b[1])
-      /*eslint-enable */
     }
+    // calculateNavPositions () {
+    //   /*eslint-disable */
+    //   for (let position of this.navPositions) {
+    //     const elem = document.getElementById(position[0])
+    //     if (elem) position[1] = elem.offsetTop - 200
+    //   }
+    //   this.navPositions = this.navPositions.sort((a, b) => a[1] - b[1])
+    //   /*eslint-enable */
+    // }
   },
   ready () {
     this.adjustNav()
     window.addEventListener('scroll', throttle(this.adjustNav, 50))
-    this.calculateNavPositions()
   }
 })

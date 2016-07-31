@@ -1,7 +1,7 @@
 <template>
   <div
     tabindex="0"
-    :class="{ 'multiselect--active': isOpen }"
+    :class="{ 'multiselect--active': isOpen, 'multiselect--disabled': disabled }"
     @focus="activate()"
     @blur="searchable ? false : deactivate()"
     @keydown.self.down.prevent="pointerForward()"
@@ -38,6 +38,7 @@
           v-el:search
           v-if="searchable"
           v-model="search"
+          :disabled="disabled"
           @focus.prevent="activate()"
           @blur.prevent="deactivate()"
           @keyup.esc="deactivate()"
@@ -133,7 +134,7 @@
         default: true
       },
       /**
-       * Label to look for in option Object
+       * Limit the display of selected options. The rest will be hidden within the limitText string.
        * @default 'label'
        * @type {String}
        */
@@ -160,6 +161,15 @@
       loading: {
         type: Boolean,
         default: false
+      },
+      /**
+       * Disables the multiselect if true.
+       * @default false
+       * @type {Boolean}
+      */
+      disabled: {
+        type: Boolean,
+        default: false
       }
     },
     computed: {
@@ -179,6 +189,10 @@
 </script>
 
 <style>
+fieldset[disabled] .multiselect {
+  pointer-events: none;
+}
+
 .multiselect__spinner {
   position: absolute;
   right: 1px;
@@ -248,6 +262,11 @@
 
 .multiselect:focus {
   outline: none;
+}
+
+.multiselect--disabled {
+  pointer-events: none;
+  opacity: 0.6;
 }
 
 .multiselect--active {
