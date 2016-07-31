@@ -16,6 +16,8 @@ function throttle (callback, limit) {
   }
 }
 
+const SL = ', 100%, 85%'
+
 require('./docs.scss')
 
 /* eslint-disable no-new */
@@ -45,37 +47,24 @@ new Vue({
       placeholder: 'Select props',
       countries: [],
       selectedCountries: [],
-      first: 230,
-      second: 197,
       actions: ['alert', 'console.log', 'scrollTop'],
       action: null,
       isTouched: false,
       exampleValue6: [],
       isLoading: false,
       isNavSticky: false,
-      navPositions: [
-        ['getting-started', 0],
-        ['select-primitive', 0],
-        ['select-object', 0],
-        ['select-search', 0],
-        ['multiselect-search', 0],
-        ['ajax', 0],
-        ['tagging', 0],
-        ['vuex', 0],
-        ['custom', 0]
-      ]
+      firstColor: Math.floor(Math.random() * 255),
+      secondColor: Math.floor(Math.random() * 255)
     }
   },
   computed: {
+    gradient () {
+      return {
+        background: `linear-gradient(to left bottom, hsl(${this.firstColor + SL}) 0%, hsl(${this.secondColor + SL}) 100%)`
+      }
+    },
     isInvalid () {
       return this.isTouched && this.exampleValue6.length === 0
-    },
-    currentPosition () {
-      for (let i = 1; i < this.navPositions.length - 1; i++) {
-        if (this.scroll >= this.navPositions[i][1] && this.scroll < this.navPositions[i + 1][1]) {
-          return this.navPositions[i - 1][0]
-        }
-      }
     }
   },
   methods: {
