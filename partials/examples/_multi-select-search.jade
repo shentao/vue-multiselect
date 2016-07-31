@@ -1,5 +1,5 @@
 h2.typo__h2#multiselect-search Multiple select with search
-p.typo__p Limit visible results to 2.
+p.typo__p <kbd>:limit="2"</kbd> prop limits the visible results to 2.
 .grid__row
   .grid__column.grid__unit--md-5
     label.typo__label Simple select / dropdown
@@ -37,3 +37,8 @@ p.typo__p Limit visible results to 2.
           label="name",
           key="name"
         )
+    pre.language-javascript
+      code.
+        updateMultiValue (value) {
+          this.multiValue = value
+        },

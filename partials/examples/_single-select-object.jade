@@ -7,7 +7,6 @@ p.typo__p The selected value is referencing the same object as the next example,
     multiselect(
       :options="source",
       :selected="value",
-      :multiple="false",
       :searchable="false",
       :close-on-select="false",
       :allow-empty="false",
@@ -28,7 +27,6 @@ p.typo__p The selected value is referencing the same object as the next example,
         multiselect(
           :options="source",
           :selected="value",
-          :multiple="false",
           :searchable="false",
           :close-on-select="false",
           :allow-empty="false",
@@ -38,3 +36,8 @@ p.typo__p The selected value is referencing the same object as the next example,
           label="name"
           placeholder="Select one"
         )
+    pre.language-javascript
+      code.
+        updateValue (value) {
+          this.value = value
+        }
