@@ -10,7 +10,7 @@ base.entry = {
 base.output = {
   path: config.bundle.assetsRoot,
   publicPath: config.bundle.assetsPublicPath,
-  filename: 'vue-multiselect.js',
+  filename: 'vue-multiselect.min.js',
   library: 'VueMultiselect',
   libraryTarget: 'umd'
 }

@@ -5,10 +5,10 @@
   "author": "Damian Dulisz <damian.dulisz@monterail.com>",
   "private": false,
   "license": "MIT",
-  "main": "lib/vue-multiselect.js",
-  "jsnext:main": "lib/vue-multiselect.js",
+  "main": "lib/vue-multiselect.min.js",
+  "jsnext:main": "lib/vue-multiselect.min.js",
   "jspm": {
-    "main": "lib/vue-multiselect.js",
+    "main": "lib/vue-multiselect.min.js",
     "registry": "npm",
     "format": "esm"
   },
