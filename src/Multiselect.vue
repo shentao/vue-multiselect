@@ -339,6 +339,7 @@ fieldset[disabled] .multiselect {
   line-height: 1;
   background: #41B883;
   margin-bottom: 8px;
+  white-space: nowrap;
 }
 
 .multiselect__tag-icon {
@@ -460,6 +461,7 @@ fieldset[disabled] .multiselect {
   vertical-align: middle;
   position: relative;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .multiselect__option:after {
