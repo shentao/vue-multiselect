@@ -50,7 +50,7 @@
           <span
             v-if="!searchable && !multiple"
             class="multiselect__single"
-            v-text="getOptionLabel(value) ? getOptionLabel(value) : placeholder">
+            v-text="currentOptionLabel || placeholder">
           </span>
       </div>
       <ul

@@ -5,7 +5,7 @@ module.exports = {
     return {
       search: '',
       isOpen: false,
-      value: []
+      value: this.selected ? deepClone(this.selected) : this.multiple ? [] : null
     }
   },
   props: {
@@ -29,15 +29,13 @@ module.exports = {
       default: false
     },
     /**
-     * Required. Presets the selected options. Add `.sync` to
+     * Presets the selected options. Add `.sync` to
      * update parent value. If this.onChange callback is present,
      * this will not update. In that case, the parent is responsible
      * for updating this value.
      * @type {Object||Array||String||Integer}
      */
-    selected: {
-      required: true
-    },
+    selected: {},
     /**
      * Key to compare objects
      * @default 'id'
@@ -177,11 +175,6 @@ module.exports = {
     }
   },
   created () {
-    if (!this.selected) {
-      this.$set('value', this.multiple ? [] : null)
-    } else {
-      this.value = deepClone(this.selected)
-    }
     if (this.searchable) this.adjustSearch()
   },
   computed: {
@@ -209,6 +202,9 @@ module.exports = {
       return this.label
         ? this.options.map(element => element[this.label])
         : this.options
+    },
+    currentOptionLabel () {
+      return this.getOptionLabel(this.value)
     }
   },
   watch: {
@@ -221,7 +217,10 @@ module.exports = {
       this.adjustSearch()
     },
     'search' () {
-      this.$emit('search-change', this.search, this.id)
+      /* istanbul ignore else */
+      if (this.search !== this.currentOptionLabel) {
+        this.$emit('search-change', this.search, this.id)
+      }
     },
     'selected' (newVal, oldVal) {
       this.value = deepClone(this.selected)
@@ -405,7 +404,7 @@ module.exports = {
 
       this.search = this.multiple
         ? ''
-        : this.getOptionLabel(this.value)
+        : this.currentOptionLabel
     },
     /**
      * Call this.activate() or this.deactivate()

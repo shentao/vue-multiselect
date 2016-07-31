@@ -832,9 +832,9 @@ describe('Multiselect.vue', () => {
   })
 
   describe('#watch:search', () => {
-    it('calls onSearchChange(searchQuery) callback when onSearchChange prop is set', (done) => {
+    it('should call @search-change event callback wheneer search value changes', (done) => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" label="id" key="id" :searchable="true" @search-change="afterSearch" :clear-on-select="false"></multiselect>',
+        template: '<multiselect :selected="value" :options="source" label="id" key="id" @search-change="afterSearch" :clear-on-select="false"></multiselect>',
         components: { Multiselect },
         data: {
           value: null,
