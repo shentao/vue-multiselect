@@ -262,7 +262,7 @@ describe('Multiselect.vue', () => {
             }
           }).$mount()
           expect(vm.$children[0].selected).to.deep.equal(vm.value)
-          expect(vm.$children[0].$els.tags.querySelector('.multiselect__tag').textContent).to.contain('1')
+          expect(vm.$children[0].$refs.tags.querySelector('.multiselect__tag').textContent).to.contain('1')
         })
 
         it('should preselect passed array of objects', () => {
@@ -275,7 +275,7 @@ describe('Multiselect.vue', () => {
             }
           }).$mount()
           expect(vm.$children[0].selected).to.deep.equal(vm.value)
-          expect(vm.$children[0].$els.tags.querySelector('.multiselect__tag').textContent).to.contain('2')
+          expect(vm.$children[0].$refs.tags.querySelector('.multiselect__tag').textContent).to.contain('2')
         })
 
         it('should preselect passed array of objects in different order', () => {
@@ -288,7 +288,7 @@ describe('Multiselect.vue', () => {
             }
           }).$mount()
           expect(vm.$children[0].selected).to.deep.equal(vm.value)
-          expect(vm.$children[0].$els.tags.querySelector('.multiselect__tag').textContent).to.contain('3')
+          expect(vm.$children[0].$refs.tags.querySelector('.multiselect__tag').textContent).to.contain('3')
         })
         it('should set value to [] when passing null as selected', () => {
           const vm = new Vue({
@@ -300,7 +300,7 @@ describe('Multiselect.vue', () => {
             }
           }).$mount()
           expect(vm.$children[0].value).to.deep.equal([])
-          expect(vm.$children[0].$els.tags.querySelector('.multiselect__tag')).to.equal(null)
+          expect(vm.$children[0].$refs.tags.querySelector('.multiselect__tag')).to.equal(null)
         })
       })
 
@@ -315,7 +315,7 @@ describe('Multiselect.vue', () => {
             }
           }).$mount()
           expect(vm.$children[0].selected).to.deep.equal(vm.value)
-          expect(vm.$children[0].$els.tags.querySelector('input').value).to.contain('1')
+          expect(vm.$children[0].$refs.tags.querySelector('input').value).to.contain('1')
         })
 
         it('should preselect passed object', () => {
@@ -328,7 +328,7 @@ describe('Multiselect.vue', () => {
             }
           }).$mount()
           expect(vm.$children[0].selected).to.deep.equal(vm.value)
-          expect(vm.$children[0].$els.tags.querySelector('input').value).to.contain('2')
+          expect(vm.$children[0].$refs.tags.querySelector('input').value).to.contain('2')
         })
 
         it('should set value to null when passing null as selected', () => {
@@ -341,7 +341,7 @@ describe('Multiselect.vue', () => {
             }
           }).$mount()
           expect(vm.$children[0].value).to.deep.equal(null)
-          expect(vm.$children[0].$els.tags.querySelector('.multiselect__tag')).to.equal(null)
+          expect(vm.$children[0].$refs.tags.querySelector('.multiselect__tag')).to.equal(null)
         })
 
         it('should set search value to equal to passed object label', () => {
@@ -354,7 +354,7 @@ describe('Multiselect.vue', () => {
             }
           }).$mount()
           expect(vm.$children[0].search).to.equal('1')
-          expect(vm.$children[0].$els.search.value).to.equal('1')
+          expect(vm.$children[0].$refs.search.value).to.equal('1')
         })
 
         it('should set search value to equal to passed value', () => {
@@ -367,7 +367,7 @@ describe('Multiselect.vue', () => {
             }
           }).$mount()
           expect(vm.$children[0].search).to.equal(2)
-          expect(vm.$children[0].$els.search.value).to.equal('2')
+          expect(vm.$children[0].$refs.search.value).to.equal('2')
         })
         it('if selected is null should set search value to empty string', () => {
           const vm = new Vue({
@@ -379,7 +379,7 @@ describe('Multiselect.vue', () => {
             }
           }).$mount()
           expect(vm.$children[0].search).to.equal(null)
-          expect(vm.$children[0].$els.search.value).to.equal('')
+          expect(vm.$children[0].$refs.search.value).to.equal('')
         })
       })
     })
@@ -394,7 +394,7 @@ describe('Multiselect.vue', () => {
           }
         }).$mount()
         expect(vm.$children[0].selected).to.deep.equal(vm.value)
-        expect(vm.$children[0].$els.tags.querySelector('.multiselect__single').textContent).to.contain('1')
+        expect(vm.$children[0].$refs.tags.querySelector('.multiselect__single').textContent).to.contain('1')
       })
 
       it('should preselect passed object', () => {
@@ -407,7 +407,7 @@ describe('Multiselect.vue', () => {
           }
         }).$mount()
         expect(vm.$children[0].selected).to.deep.equal(vm.value)
-        expect(vm.$children[0].$els.tags.querySelector('.multiselect__single').textContent).to.contain('2')
+        expect(vm.$children[0].$refs.tags.querySelector('.multiselect__single').textContent).to.contain('2')
       })
     })
   })
@@ -422,11 +422,11 @@ describe('Multiselect.vue', () => {
           source: ['1', '2', '3']
         }
       }).$mount()
-      vm.$children[0].$els.search.focus()
+      vm.$children[0].$refs.search.focus()
       vm.$children[0].search = 'test'
       vm.$children[0].select(vm.source[0])
       Vue.nextTick(function () {
-        expect(vm.$children[0].$els.tags.querySelector('input').value).to.equal('')
+        expect(vm.$children[0].$refs.tags.querySelector('input').value).to.equal('')
         done()
       })
     })
@@ -440,11 +440,11 @@ describe('Multiselect.vue', () => {
           source: ['1', '2', '3']
         }
       }).$mount()
-      vm.$children[0].$els.search.focus()
+      vm.$children[0].$refs.search.focus()
       vm.$children[0].search = 'test'
       vm.$children[0].select(vm.source[0])
       Vue.nextTick(function () {
-        expect(vm.$children[0].$els.tags.querySelector('input').value).to.equal('test')
+        expect(vm.$children[0].$refs.tags.querySelector('input').value).to.equal('test')
         done()
       })
     })

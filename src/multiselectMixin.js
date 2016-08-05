@@ -39,8 +39,7 @@ module.exports = {
      * @type {String}
      */
     key: {
-      type: String,
-      default: false
+      type: String
     },
     /**
      * Label to look for in option Object
@@ -48,8 +47,7 @@ module.exports = {
      * @type {String}
      */
     label: {
-      type: String,
-      default: false
+      type: String
     },
     /**
      * Enable/disable search in options
@@ -131,8 +129,7 @@ module.exports = {
      * @type {Function}
      */
     customLabel: {
-      type: Function,
-      default: false
+      type: Function
     },
     /**
      * Disable / Enable tagging
@@ -158,8 +155,7 @@ module.exports = {
      * @type {Number}
     */
     max: {
-      type: Number,
-      default: false
+      type: Number
     },
     /**
      * Will be passed with all events as second param.
@@ -180,7 +176,9 @@ module.exports = {
       let options = this.hideSelected
         ? this.options.filter(this.isNotSelected)
         : this.options
-      options = this.$options.filters.filterBy(options, this.search)
+      options = this.label
+        ? options.filter((option) => option[this.label].includes(this.search))
+        : options.filter((option) => option.includes(this.search))
       if (this.taggable && search.length && !this.isExistingOption(search)) {
         options.unshift({ isTag: true, label: search })
       }
@@ -339,7 +337,8 @@ module.exports = {
         const index = this.valueKeys.indexOf(option[this.key])
         this.value.splice(index, 1)
       } else {
-        this.value.$remove(option)
+        const index = this.valueKeys.indexOf(option)
+        this.value.splice(index, 1)
       }
       this.$emit('remove', deepClone(option), this.id)
       this.$emit('update', deepClone(this.value), this.id)
@@ -368,7 +367,7 @@ module.exports = {
       /* istanbul ignore else  */
       if (this.searchable) {
         this.search = ''
-        this.$els.search.focus()
+        this.$refs.search.focus()
       } else {
         this.$el.focus()
       }
@@ -385,7 +384,7 @@ module.exports = {
       this.isOpen = false
       /* istanbul ignore else  */
       if (this.searchable) {
-        this.$els.search.blur()
+        this.$refs.search.blur()
         this.adjustSearch()
       } else {
         this.$el.blur()

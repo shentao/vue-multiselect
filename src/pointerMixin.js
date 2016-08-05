@@ -27,6 +27,12 @@ module.exports = {
     }
   },
   methods: {
+    optionHighlight (index, option) {
+      return {
+        'multiselect__option--highlight': index === this.pointer && this.showPointer,
+        'multiselect__option--selected': !this.isNotSelected(option)
+      }
+    },
     addPointerElement () {
       if (this.filteredOptions.length > 0) {
         this.select(this.filteredOptions[this.pointer])
@@ -36,16 +42,16 @@ module.exports = {
     pointerForward () {
       if (this.pointer < this.filteredOptions.length - 1) {
         this.pointer++
-        if (this.$els.list.scrollTop <= this.pointerPosition - this.visibleElements * 40) {
-          this.$els.list.scrollTop = this.pointerPosition - (this.visibleElements - 1) * 40
+        if (this.$refs.list.scrollTop <= this.pointerPosition - this.visibleElements * 40) {
+          this.$refs.list.scrollTop = this.pointerPosition - (this.visibleElements - 1) * 40
         }
       }
     },
     pointerBackward () {
       if (this.pointer > 0) {
         this.pointer--
-        if (this.$els.list.scrollTop >= this.pointerPosition) {
-          this.$els.list.scrollTop = this.pointerPosition
+        if (this.$refs.list.scrollTop >= this.pointerPosition) {
+          this.$refs.list.scrollTop = this.pointerPosition
         }
       }
     },
@@ -53,8 +59,8 @@ module.exports = {
       if (!this.closeOnSelect) return
 
       this.pointer = 0
-      if (this.$els.list) {
-        this.$els.list.scrollTop = 0
+      if (this.$refs.list) {
+        this.$refs.list.scrollTop = 0
       }
     },
     pointerAdjust () {
