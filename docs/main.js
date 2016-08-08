@@ -2,6 +2,9 @@ import Vue from 'vue'
 
 import Multiselect from '../src/Multiselect'
 import countries from './data/countries.json'
+import customOptionPartial from './partials/customOptionPartial.html'
+
+Vue.partial('customOptionPartial', customOptionPartial)
 
 function throttle (callback, limit) {
   var wait = false
@@ -54,7 +57,14 @@ new Vue({
       isLoading: false,
       isNavSticky: false,
       firstColor: Math.floor(Math.random() * 255),
-      secondColor: Math.floor(Math.random() * 255)
+      secondColor: Math.floor(Math.random() * 255),
+      styleList: [
+        { title: 'Space Pirate', desc: 'More space battles!', img: '/static/posters/fleet.png' },
+        { title: 'Merchant', desc: 'PROFIT!', img: '/static/posters/trading_post.png' },
+        { title: 'Explorer', desc: 'Discovering new species!', img: '/static/posters/creatures.png' },
+        { title: 'Miner', desc: 'We need to go deeper!', img: '/static/posters/resource_lab.png' }
+      ],
+      selectedStyle: { title: 'Explorer', desc: 'Discovering new species!', img: '/static/posters/creatures.png' }
     }
   },
   computed: {
@@ -138,8 +148,14 @@ new Vue({
       console.log('@update: ', value)
       this.valuePrimitive = value
     },
+    updateSelectedStyle (style) {
+      this.selectedStyle = style
+    },
     nameWithLang ({ name, language }) {
       return `${name} — [${language}]`
+    },
+    styleLabel ({ title, desc }) {
+      return `${title} – ${desc}`
     },
     onSelect (option) {
       console.log('@select: ', option)

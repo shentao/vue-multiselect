@@ -1290,4 +1290,20 @@ describe('Multiselect.vue', () => {
       expect(vm.$children[0].selectedLabel).to.equal('')
     })
   })
+
+  describe(':option-partial', () => {
+    it('should switch the option template to the one provided in the partial', () => {
+      Vue.partial('customPartial', '<span>test_test</span>')
+      const vm = new Vue({
+        template: '<multiselect :selected="value" :searchable="true" :options="source" :multiple="true" :limit="1" option-partial="customPartial"></multiselect>',
+        components: { Multiselect },
+        data: {
+          value: ['1', '2', '3'],
+          source: ['1', '2', '3', '4', '5']
+        }
+      }).$mount()
+      vm.$children[0].activate()
+      expect(vm.$children[0].$els.list.children[0].children[0].textContent).to.equal('test_test')
+    })
+  })
 })

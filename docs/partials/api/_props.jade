@@ -183,6 +183,12 @@ h2.typo__h2#props Props
           td.table__td: kbd false
           td.table__td
             | Enable/disable the multiselect.
+        tr.table__tr
+          td.table__td: strong OptionPartial
+          td.table__td String
+          td.table__td: kbd multiselectBasicOptionPartial
+          td.table__td
+            | Name of the registered custom option partial.
 
         tr.table__tr
           td.table__td.utils--center(colspan="4"): strong pointerMixin.js
@@ -193,3 +199,9 @@ h2.typo__h2#props Props
           td.table__td: kbd true
           td.table__td
             | Enable/disable highlighting of the pointed value.
+        tr.table__tr
+          td.table__td: strong OptionHeight
+          td.table__td Number
+          td.table__td: kbd 40
+          td.table__td
+            | Set the height of the option. Used for scroll calculations.

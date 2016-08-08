@@ -1,11 +1,14 @@
 # vue-multiselect ![Build Status](https://circleci.com/gh/monterail/vue-multiselect/tree/master.svg?style=shield&circle-token=5c931ff28fd12587610f835472becdd514d09cef)
 Probably the most complete *selecting* solution for Vue.js, without jQuery.
 
+#### Current version: v1.1.0
+
 ### Features & characteristics:
 * NO dependencies
 * Single select
 * Multiple select
 * Tagging
+* Custom option templates (1.1.0+)
 * Dropdowns
 * Filtering
 * Search with suggestions
@@ -74,7 +77,6 @@ export default {
 ## Roadmap:
 
 * Grouping
-* Support for partials
 * Examples of custom components / templates ready to use in project
 
 ## Examples
@@ -110,7 +112,7 @@ multiselect(
 ```
 
 ### Multiple select with search
-``` jade
+```jade
 multiselect(
   :options="source",
   :selected="multiValue",
@@ -125,7 +127,7 @@ multiselect(
 
 ### Tagging
 with `@tag` event
-``` jade
+```jade
 multiselect(
   :options="taggingOptions",
   :selected="taggingSelected",
@@ -140,8 +142,7 @@ multiselect(
 )
 ```
 
-``` javascript
-
+```javascript
 addTag (newTag) {
   const tag = {
     name: newTag,
@@ -150,6 +151,50 @@ addTag (newTag) {
   this.taggingOptions.push(tag)
   this.taggingSelected.push(tag)
 },
+```
+
+### Custom option template
+Using partial API
+```jade
+multiselect(
+  :options="styleList",
+  :selected="selectedStyle",
+  :option-height="130",
+  :custom-label="styleLabel",
+  @update="updateSelectedStyle",
+  option-partial="customOptionPartial"
+  placeholder="Fav No Man’s Sky path"
+  label="title"
+  key="title"
+)
+```
+
+``` javascript
+import customOptionPartial from './partials/customOptionPartial.html'
+Vue.partial('customOptionPartial', customOptionPartial)
+
+// ...Inside Vue component
+methods: {
+  styleLabel ({ title, desc }) {
+    return `${title} – ${desc}`
+  },
+  updateSelectedStyle (style) {
+    this.selectedStyle = style
+  }
+}
+```
+
+``` html
+<div>
+  <img class="option__image" :src="option.img" alt="No Man’s Sky" />
+  <div class="option__desc">
+    <span class="option__title">{{ option.title }}</span>
+    <span class="option__small">
+      {{ option.desc }}
+    </span>
+  </div>
+</div>
+
 ```
 
 ### Asynchronous dropdown
@@ -168,7 +213,7 @@ multiselect(
     Oops! No elements found. Consider changing the search query.
 ```
 
-``` javascript
+```javascript
 methods: {
   asyncFind (query) {
     this.countries = findService(query)

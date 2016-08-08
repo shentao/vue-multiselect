@@ -2,7 +2,7 @@ module.exports = {
   data () {
     return {
       pointer: 0,
-      visibleElements: this.maxHeight / 40
+      visibleElements: this.maxHeight / this.optionHeight
     }
   },
   props: {
@@ -14,11 +14,20 @@ module.exports = {
     showPointer: {
       type: Boolean,
       default: true
+    },
+    /**
+     * Sets the height of the option. Used for scroll calculations
+     * @type {Number}
+     * @default 40
+     */
+    optionHeight: {
+      type: Number,
+      default: 40
     }
   },
   computed: {
     pointerPosition () {
-      return this.pointer * 40
+      return this.pointer * this.optionHeight
     }
   },
   watch: {
@@ -36,8 +45,8 @@ module.exports = {
     pointerForward () {
       if (this.pointer < this.filteredOptions.length - 1) {
         this.pointer++
-        if (this.$els.list.scrollTop <= this.pointerPosition - this.visibleElements * 40) {
-          this.$els.list.scrollTop = this.pointerPosition - (this.visibleElements - 1) * 40
+        if (this.$els.list.scrollTop <= this.pointerPosition - this.visibleElements * this.optionHeight) {
+          this.$els.list.scrollTop = this.pointerPosition - (this.visibleElements - 1) * this.optionHeight
         }
       }
     },

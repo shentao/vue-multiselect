@@ -107,3 +107,30 @@ body {
   color: $secondary-color;
   transform: translateX(-100%);
 }
+
+.option__image {
+  max-height: 100px;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.option__desc {
+  display: inline-block;
+  vertical-align: middle;
+  padding: rem(10px);
+}
+
+.option__title {
+  font-size: rem(24px);
+}
+
+.option__small {
+  margin-top: rem(10px);
+  display: block;
+}
+
+.version--changed {
+  margin-right: rem(10px);
+  font-size: rem(20px);
+  color: $primary-color;
+}

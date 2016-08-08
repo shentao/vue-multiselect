@@ -66,18 +66,15 @@
           </span>
         </li>
         <template v-if="!max || value.length < max">
-          <li v-for="option in filteredOptions" track-by="$index">
-            <span
-              tabindex="0"
-              :class="{ 'multiselect__option--highlight': $index === pointer && this.showPointer, 'multiselect__option--selected': !isNotSelected(option) }"
-              @mousedown.prevent="select(option)"
-              @mouseenter="pointerSet($index)"
-              :data-select="option.isTag ? tagPlaceholder : selectLabel"
-              :data-selected="selectedLabel"
-              :data-deselect="deselectLabel"
-              class="multiselect__option"
-              v-text="getOptionLabel(option)">
-            </span>
+          <li
+            v-for="option in filteredOptions"
+            track-by="$index"
+            tabindex="0"
+            :class="{ 'multiselect__option--highlight': $index === pointer && this.showPointer, 'multiselect__option--selected': !isNotSelected(option) }"
+            @mousedown.prevent="select(option)"
+            @mouseenter="pointerSet($index)"
+            class="multiselect__option">
+            <partial :name="optionPartial"></partial>
           </li>
         </template>
         <li v-show="filteredOptions.length === 0 && search">
@@ -93,10 +90,23 @@
 <script>
   import multiselectMixin from './multiselectMixin'
   import pointerMixin from './pointerMixin'
+  import optionPartial from './optionPartial.html'
+  import Vue from 'vue'
+
+  Vue.partial('multiselectBasicOptionPartial', optionPartial)
 
   export default {
     mixins: [multiselectMixin, pointerMixin],
     props: {
+      /**
+       * Name of the registered custom option partial
+       * @default 'multiselectBasicOptionPartial'
+       * @type {String}
+       */
+      optionPartial: {
+        type: String,
+        default: 'multiselectBasicOptionPartial'
+      },
       /**
        * String to show when pointing to an option
        * @default 'Press enter to select'

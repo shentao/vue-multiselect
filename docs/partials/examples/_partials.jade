@@ -1,0 +1,70 @@
+h2.typo__h2#partials
+  small.version--changed v1.1.0+
+  | Custom option templates
+p.typo__p
+  | You can provide the name of a registered custom partial to use as a template for elements in the option list.
+p.typo__p
+  | If no partial is provided it will use the default one: <kbd>&lt;span v-text="getOptionLabel(option)"&gt;&lt;/span&gt;</kbd>
+p.typo__p
+  | To ensure the keyboard navigation works properly, remember to set the <kbd>:option-height</kbd> to equal the height of the option template. By default, the component assumes an option height of 40px.
+.grid__row
+  .grid__column.grid__unit--md-5
+    label.typo__label Fav No Man’s Sky path
+    multiselect(
+      :options="styleList",
+      :selected="selectedStyle",
+      :option-height="130",
+      :custom-label="styleLabel",
+      @update="updateSelectedStyle",
+      option-partial="customOptionPartial"
+      placeholder="Fav No Man’s Sky path"
+      label="title"
+      key="title"
+    )
+    pre.language-json
+      code.
+        {{ selectedStyle | json }}
+
+  .grid__column.grid__unit--md-7
+    label.typo__label Code sample
+    pre.language-jade
+      code.
+        multiselect(
+          :options="styleList",
+          :selected="selectedStyle",
+          :option-height="130",
+          :custom-label="styleLabel",
+          @update="updateSelectedStyle",
+          option-partial="customOptionPartial"
+          placeholder="Fav No Man’s Sky path"
+          label="title"
+          key="title"
+        )
+
+    pre.language-javascript
+      code.
+        import customOptionPartial from './partials/customOptionPartial.html'
+        Vue.partial('customOptionPartial', customOptionPartial)
+
+        // ...Inside Vue component
+        methods: {
+          styleLabel ({ title, desc }) {
+            return `${title} – ${desc}`
+          },
+          updateSelectedStyle (style) {
+            this.selectedStyle = style
+          }
+        }
+
+    pre.language-html
+      code.
+        &lt;!-- customOptionPartial.html --&gt;
+        &lt;div&gt;
+          &lt;img class="option__image" :src="option.img" alt="Poster" /&gt;
+          &lt;div class="option__desc"&gt;
+            &lt;span class="option__title"&gt;{&zwnj;{ option.title }}&lt;/span&gt;
+            &lt;span class="option__small"&gt;
+              {&zwnj;{ option.desc }}
+            &lt;/span&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;
