@@ -146,12 +146,13 @@ asyncUpdate (newVal) {
 updateSelectedTagging (value) {
   console.log('@tag: ', value)
   this.taggingSelected = value
-}</code></pre></div></div><hr class=typo__hr><h2 id=partials class=typo__h2><small class=version--changed>v1.1.0+</small>Custom option templates</h2><p class=typo__p>You can provide the name of a registered custom partial to use as a template for elements in the option list.</p><p class=typo__p>If no partial is provided it will use the default one: <kbd>&lt;span v-text="getOptionLabel(option)"&gt;&lt;/span&gt;</kbd></p><p class=typo__p>To ensure the keyboard navigation works properly, remember to set the <kbd>:option-height</kbd> to equal the height of the option template. By default, the component assumes an option height of 40px.</p><div class=grid__row><div class="grid__column grid__unit--md-5"><label class=typo__label>Fav No Man’s Sky path</label><multiselect :options=styleList :selected=selectedStyle :option-height=130 :custom-label=styleLabel @update=updateSelectedStyle option-partial=customOptionPartial placeholder="Fav No Man’s Sky path" label=title key=title></multiselect><pre class=language-json><code>{{ selectedStyle | json }}
+}</code></pre></div></div><hr class=typo__hr><h2 id=partials class=typo__h2><small class=version--changed>v1.1.0+</small>Custom option templates</h2><p class=typo__p>You can provide the name of a registered custom partial to use as a template for elements in the option list.</p><p class=typo__p>If no partial is provided it will use the default one: <kbd>&lt;span v-text="getOptionLabel(option)"&gt;&lt;/span&gt;</kbd></p><p class=typo__p>To ensure the keyboard navigation works properly, remember to set the <kbd>:option-height</kbd> to equal the height of the option template. By default, the component assumes an option height of 40px.</p><div class=grid__row><div class="grid__column grid__unit--md-5"><label class=typo__label>Fav No Man’s Sky path</label><multiselect :options=styleList :selected=selectedStyle :option-height=130 :custom-label=styleLabel :show-labels=false @update=updateSelectedStyle option-partial=customOptionPartial placeholder="Fav No Man’s Sky path" label=title key=title></multiselect><pre class=language-json><code>{{ selectedStyle | json }}
 </code></pre></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><pre class=language-jade><code>multiselect(
   :options="styleList",
   :selected="selectedStyle",
   :option-height="130",
   :custom-label="styleLabel",
+  :show-labels="false",
   @update="updateSelectedStyle",
   option-partial="customOptionPartial"
   placeholder="Fav No Man’s Sky path"
