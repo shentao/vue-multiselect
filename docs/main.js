@@ -59,12 +59,12 @@ new Vue({
       firstColor: Math.floor(Math.random() * 255),
       secondColor: Math.floor(Math.random() * 255),
       styleList: [
-        { title: 'Space Pirate', desc: 'More space battles!', img: '/static/posters/fleet.png' },
-        { title: 'Merchant', desc: 'PROFIT!', img: '/static/posters/trading_post.png' },
-        { title: 'Explorer', desc: 'Discovering new species!', img: '/static/posters/creatures.png' },
-        { title: 'Miner', desc: 'We need to go deeper!', img: '/static/posters/resource_lab.png' }
+        { title: 'Space Pirate', desc: 'More space battles!', img: 'static/posters/fleet.png' },
+        { title: 'Merchant', desc: 'PROFIT!', img: 'static/posters/trading_post.png' },
+        { title: 'Explorer', desc: 'Discovering new species!', img: 'static/posters/creatures.png' },
+        { title: 'Miner', desc: 'We need to go deeper!', img: 'static/posters/resource_lab.png' }
       ],
-      selectedStyle: { title: 'Explorer', desc: 'Discovering new species!', img: '/static/posters/creatures.png' }
+      selectedStyle: { title: 'Explorer', desc: 'Discovering new species!', img: 'static/posters/creatures.png' }
     }
   },
   computed: {

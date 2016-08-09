@@ -74,7 +74,8 @@
             @mousedown.prevent="select(option)"
             @mouseenter="pointerSet($index)"
             class="multiselect__option">
-            <partial :name="optionPartial"></partial>
+            <partial :name="optionPartial" v-if="optionPartial.length"></partial>
+            <span v-else v-text="getOptionLabel(option)"></span>
           </li>
         </template>
         <li v-show="filteredOptions.length === 0 && search">
@@ -90,10 +91,6 @@
 <script>
   import multiselectMixin from './multiselectMixin'
   import pointerMixin from './pointerMixin'
-  import optionPartial from './optionPartial.html'
-  import Vue from 'vue'
-
-  Vue.partial('multiselectBasicOptionPartial', optionPartial)
 
   export default {
     mixins: [multiselectMixin, pointerMixin],
@@ -105,7 +102,7 @@
        */
       optionPartial: {
         type: String,
-        default: 'multiselectBasicOptionPartial'
+        default: ''
       },
       /**
        * String to show when pointing to an option
