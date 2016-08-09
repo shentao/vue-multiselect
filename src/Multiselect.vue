@@ -71,9 +71,12 @@
             track-by="$index"
             tabindex="0"
             :class="{ 'multiselect__option--highlight': $index === pointer && this.showPointer, 'multiselect__option--selected': !isNotSelected(option) }"
+            class="multiselect__option"
             @mousedown.prevent="select(option)"
             @mouseenter="pointerSet($index)"
-            class="multiselect__option">
+            :data-select="option.isTag ? tagPlaceholder : selectLabel"
+            :data-selected="selectedLabel"
+            :data-deselect="deselectLabel">
             <partial :name="optionPartial" v-if="optionPartial.length"></partial>
             <span v-else v-text="getOptionLabel(option)"></span>
           </li>
