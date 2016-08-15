@@ -367,7 +367,7 @@ module.exports = {
       /* istanbul ignore else  */
       if (this.searchable) {
         this.search = ''
-        this.$refs.search.focus()
+        this.$el.children[1].children[2].focus()
       } else {
         this.$el.focus()
       }
@@ -384,7 +384,7 @@ module.exports = {
       this.isOpen = false
       /* istanbul ignore else  */
       if (this.searchable) {
-        this.$refs.search.blur()
+        this.$el.children[1].children[2].blur()
         this.adjustSearch()
       } else {
         this.$el.blur()

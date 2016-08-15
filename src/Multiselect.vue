@@ -34,7 +34,6 @@
           type="text"
           autocomplete="off"
           :placeholder="placeholder"
-          ref="search"
           v-if="searchable"
           v-model.trim="search"
           :disabled="disabled"
@@ -64,7 +63,7 @@
           </span>
         </li>
         <template v-if="!max || value.length < max">
-          <li v-for="(option, index) of filteredOptions">
+          <li v-for="(option, index) of filteredOptions" :key="index">
             <span
               tabindex="0"
               :class="optionHighlight(index, option)"
@@ -73,8 +72,12 @@
               :data-select="option.isTag ? tagPlaceholder : selectLabel"
               :data-selected="selectedLabel"
               :data-deselect="deselectLabel"
-              class="multiselect__option"
-              v-text="getOptionLabel(option)">
+              class="multiselect__option">
+                <multiselect-option
+                  :option-function="optionFunction"
+                  :label="getOptionLabel(option)"
+                  :option="option">
+                </multiselect-option>
             </span>
           </li>
         </template>
@@ -91,8 +94,12 @@
 <script>
   import multiselectMixin from './multiselectMixin'
   import pointerMixin from './pointerMixin'
+  import MultiselectOption from './MultiselectOption'
 
   export default {
+    components: {
+      MultiselectOption
+    },
     mixins: [multiselectMixin, pointerMixin],
     props: {
       /**
@@ -168,6 +175,12 @@
       disabled: {
         type: Boolean,
         default: false
+      },
+      optionFunction: {
+        type: Function,
+        default (h, option, label) {
+          return h('span', {}, label)
+        }
       }
     },
     computed: {
