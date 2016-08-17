@@ -5,7 +5,8 @@ module.exports = {
     return {
       search: '',
       isOpen: false,
-      value: this.selected ? deepClone(this.selected) : this.multiple ? [] : null
+      value: this.selected ? deepClone(this.selected) : this.multiple ? [] : null,
+      diacriticsMap: {}
     }
   },
   props: {
@@ -182,6 +183,44 @@ module.exports = {
   },
   created () {
     if (this.searchable) this.adjustSearch()
+
+    let defaultDiacriticsRemovalMap = [
+      {
+        'base': 'a',
+        'letters': 'ÀÁÂÃÄÅàáâãäåĀāąĄảãạẢÃẠăĂắằẳẵặẮẰẲẴẶâÂấầẩẫậẤẦẨẪẬ'
+      },
+      {
+        'base': 'e',
+        'letters': 'ÈÉÊËèéêëěĚĒēęĘẻẽẹẺẼẸêếềểễệÊẾỀỂỄỆ'
+      },
+      {
+        'base': 'i',
+        'letters': 'ÌÍÎÏìíîïĪīỉĩịỈĨỊ'
+      },
+      {
+        'base': 'o',
+        'letters': 'ÒÓÔÕÕÖØòóôõöøŌōọỏỎỌơớờởỡợƠỚỜỞỠỢôốồổỗộÔỐỒỔỖỘ'
+      },
+      {
+        'base': 'u',
+        'letters': 'ÙÚÛÜùúûüůŮŪūủũụỦŨỤưứừửữựƯỨỪỬỮỰ'
+      },
+      {
+        'base': 'y',
+        'letters': 'ŸÿýÝýỳỷỹỵÝỲỶỸỴ'
+      },
+      {
+        'base': 'd',
+        'letters': 'đĐ'
+      }
+    ]
+
+    for (let i = 0; i < defaultDiacriticsRemovalMap.length; i++){
+      let letters = defaultDiacriticsRemovalMap[i].letters;
+      for (let j = 0; j < letters.length; j++){
+        this.diacriticsMap[letters[j]] = defaultDiacriticsRemovalMap[i].base;
+      }
+    }
   },
   computed: {
     filteredOptions () {
@@ -189,7 +228,7 @@ module.exports = {
       let options = this.hideSelected
         ? this.options.filter(this.isNotSelected)
         : this.options
-      if (this.localSearch) options = this.$options.filters.filterBy(options, this.search)
+      if (this.localSearch) options = this.customFilter(options, search)
       if (this.taggable && search.length && !this.isExistingOption(search)) {
         options.unshift({ isTag: true, label: search })
       }
@@ -423,6 +462,27 @@ module.exports = {
       this.isOpen
         ? this.deactivate()
         : this.activate()
-    }
+    },
+    customFilter (options, search) {
+      var res = []
+      var searchRemoved = this.removeDiacritics(search)
+      for (var i in options) {
+        if (options[i][this.label].toLowerCase().indexOf(search.toLowerCase()) > -1
+          || this.removeDiacritics(options[i][this.label]).toLowerCase().indexOf(searchRemoved.toLowerCase()) > -1) {
+          res.push(options[i])
+        }
+      }
+      return res
+    },
+    removeDiacritics (str) {
+      var res = ''
+      for (var index = 0; index < str.length; index++){
+        if (this.diacriticsMap[str[index]])
+          res += this.diacriticsMap[str[index]]
+        else
+          res += str[index]
+      }
+      return res
+    },
   }
 }
