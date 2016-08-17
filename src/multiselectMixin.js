@@ -215,10 +215,10 @@ module.exports = {
       }
     ]
 
-    for (let i = 0; i < defaultDiacriticsRemovalMap.length; i++){
-      let letters = defaultDiacriticsRemovalMap[i].letters;
-      for (let j = 0; j < letters.length; j++){
-        this.diacriticsMap[letters[j]] = defaultDiacriticsRemovalMap[i].base;
+    for (let i = 0; i < defaultDiacriticsRemovalMap.length; i++) {
+      let letters = defaultDiacriticsRemovalMap[i].letters
+      for (let j = 0; j < letters.length; j++) {
+        this.diacriticsMap[letters[j]] = defaultDiacriticsRemovalMap[i].base
       }
     }
   },
@@ -467,8 +467,8 @@ module.exports = {
       var res = []
       var searchRemoved = this.removeDiacritics(search)
       for (var i in options) {
-        if (options[i][this.label].toLowerCase().indexOf(search.toLowerCase()) > -1
-          || this.removeDiacritics(options[i][this.label]).toLowerCase().indexOf(searchRemoved.toLowerCase()) > -1) {
+        if (options[i][this.label].toLowerCase().indexOf(search.toLowerCase()) > -1 ||
+          this.removeDiacritics(options[i][this.label]).toLowerCase().indexOf(searchRemoved.toLowerCase()) > -1) {
           res.push(options[i])
         }
       }
@@ -476,13 +476,14 @@ module.exports = {
     },
     removeDiacritics (str) {
       var res = ''
-      for (var index = 0; index < str.length; index++){
-        if (this.diacriticsMap[str[index]])
+      for (var index = 0; index < str.length; index++) {
+        if (this.diacriticsMap[str[index]]) {
           res += this.diacriticsMap[str[index]]
-        else
+        } else {
           res += str[index]
+        }
       }
       return res
-    },
+    }
   }
 }
