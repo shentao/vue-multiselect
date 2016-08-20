@@ -177,8 +177,8 @@ module.exports = {
         ? this.options.filter(this.isNotSelected)
         : this.options
       options = this.label
-        ? options.filter((option) => option[this.label].indexOf(this.search) !== -1)
-        : options.filter((option) => option.indexOf(this.search) !== -1)
+        ? options.filter((option) => option[this.label].includes(this.search))
+        : options.filter((option) => option.includes(this.search))
       if (this.taggable && search.length && !this.isExistingOption(search)) {
         options.unshift({ isTag: true, label: search })
       }
@@ -367,7 +367,7 @@ module.exports = {
       /* istanbul ignore else  */
       if (this.searchable) {
         this.search = ''
-        this.$el.children[1].children[2].focus()
+        this.$el.children[1].children[1].focus()
       } else {
         this.$el.focus()
       }
@@ -384,7 +384,7 @@ module.exports = {
       this.isOpen = false
       /* istanbul ignore else  */
       if (this.searchable) {
-        this.$el.children[1].children[2].blur()
+        this.$el.children[1].children[1].blur()
         this.adjustSearch()
       } else {
         this.$el.blur()
