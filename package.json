@@ -1,6 +1,6 @@
 {
   "name": "vue-multiselect",
-  "version": "1.0.1",
+  "version": "2.0.0-beta.1",
   "description": "Multiselect component for vue.js",
   "author": "Damian Dulisz <damian.dulisz@monterail.com>",
   "private": false,
@@ -91,7 +91,7 @@
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
     "url-loader": "^0.5.7",
-    "vue": "^2.0.0-rc.1",
+    "vue": "^2.0.0-rc.3",
     "vue-hot-reload-api": "^1.2.0",
     "vue-html-loader": "^1.0.0",
     "vue-loader": "^9.3.2",

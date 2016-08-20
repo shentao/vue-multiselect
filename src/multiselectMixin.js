@@ -177,8 +177,8 @@ module.exports = {
         ? this.options.filter(this.isNotSelected)
         : this.options
       options = this.label
-        ? options.filter((option) => option[this.label].includes(this.search))
-        : options.filter((option) => option.includes(this.search))
+        ? options.filter((option) => option[this.label].indexOf(this.search) !== -1)
+        : options.filter((option) => option.indexOf(this.search) !== -1)
       if (this.taggable && search.length && !this.isExistingOption(search)) {
         options.unshift({ isTag: true, label: search })
       }

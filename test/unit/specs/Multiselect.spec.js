@@ -9,7 +9,18 @@ describe('Multiselect.vue', () => {
         let calledId = null
 
         const vmSingle = new Vue({
-          template: '<multiselect :selected="value" :options="source" @update="onUpdate" id="single"></multiselect>',
+          render (h) {
+            return h(Multiselect, {
+              props: {
+                selected: this.value,
+                options: this.source,
+                id: 'single'
+              },
+              on: {
+                update: this.onUpdate
+              }
+            })
+          },
           components: { Multiselect },
           data: {
             value: null,
@@ -24,7 +35,19 @@ describe('Multiselect.vue', () => {
         }).$mount()
 
         const vmMulti = new Vue({
-          template: '<multiselect :selected="value" :options="source" @update="onUpdate" :multiple="true" id="multi"></multiselect>',
+          render (h) {
+            return h(Multiselect, {
+              props: {
+                selected: this.value,
+                options: this.source,
+                multiple: true,
+                id: 'multi'
+              },
+              on: {
+                update: this.onUpdate
+              }
+            })
+          },
           components: { Multiselect },
           data: {
             value: [],
@@ -66,7 +89,18 @@ describe('Multiselect.vue', () => {
         let calledId = null
 
         const vmSingle = new Vue({
-          template: '<multiselect :selected="value" :options="source" @select="onSelect" id="single"></multiselect>',
+          render (h) {
+            return h(Multiselect, {
+              props: {
+                selected: this.value,
+                options: this.source,
+                id: 'single'
+              },
+              on: {
+                select: this.onSelect
+              }
+            })
+          },
           components: { Multiselect },
           data: {
             value: null,
@@ -81,7 +115,19 @@ describe('Multiselect.vue', () => {
         }).$mount()
 
         const vmMulti = new Vue({
-          template: '<multiselect :selected="value" :options="source" @select="onSelect" :multiple="true" id="multi"></multiselect>',
+          render (h) {
+            return h(Multiselect, {
+              props: {
+                selected: this.value,
+                options: this.source,
+                id: 'multi',
+                multiple: true
+              },
+              on: {
+                select: this.onSelect
+              }
+            })
+          },
           components: { Multiselect },
           data: {
             value: [],
@@ -127,7 +173,19 @@ describe('Multiselect.vue', () => {
         let calledId = null
 
         const vmMulti = new Vue({
-          template: '<multiselect :selected="value" :options="source" @remove="onRemove" :multiple="true" :id="1"></multiselect>',
+          render (h) {
+            return h(Multiselect, {
+              props: {
+                selected: this.value,
+                options: this.source,
+                multiple: true,
+                id: '1'
+              },
+              on: {
+                remove: this.onRemove
+              }
+            })
+          },
           components: { Multiselect },
           data: {
             value: [],
@@ -162,7 +220,18 @@ describe('Multiselect.vue', () => {
         let calledId = null
 
         const vmMulti = new Vue({
-          template: '<multiselect :selected="value" :options="source" @close="onClose" :id="1"></multiselect>',
+          render (h) {
+            return h(Multiselect, {
+              props: {
+                selected: this.value,
+                options: this.source,
+                id: '1'
+              },
+              on: {
+                close: this.onClose
+              }
+            })
+          },
           components: { Multiselect },
           data: {
             value: [],
@@ -195,7 +264,30 @@ describe('Multiselect.vue', () => {
         let idLogs = []
 
         const vmMulti = new Vue({
-          template: '<multiselect :selected="value" :options="source" @open="onOpen" :id="1"></multiselect><multiselect :selected="value" :options="source" @open="onOpen" :id="2"></multiselect>',
+          render (h) {
+            return h('div', [
+              h(Multiselect, {
+                props: {
+                  selected: this.value,
+                  options: this.source,
+                  id: '1'
+                },
+                on: {
+                  open: this.onOpen
+                }
+              }),
+              h(Multiselect, {
+                props: {
+                  selected: this.value,
+                  options: this.source,
+                  id: '2'
+                },
+                on: {
+                  open: this.onOpen
+                }
+              })
+            ])
+          },
           components: { Multiselect },
           data: {
             value: [],
@@ -226,7 +318,14 @@ describe('Multiselect.vue', () => {
   describe('Accept options', () => {
     it('should accept options (array of values)', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: null,
@@ -238,7 +337,14 @@ describe('Multiselect.vue', () => {
 
     it('should accept options (array of objects)', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: null,
@@ -254,7 +360,15 @@ describe('Multiselect.vue', () => {
       describe('when multiple == TRUE', () => {
         it('should preselect passed array of values', () => {
           const vm = new Vue({
-            template: '<multiselect :selected="value" :options="source" :multiple="true"></multiselect>',
+            render (h) {
+              return h(Multiselect, {
+                props: {
+                  selected: this.value,
+                  options: this.source,
+                  multiple: true
+                }
+              })
+            },
             components: { Multiselect },
             data: {
               value: ['1', '2'],
@@ -267,7 +381,17 @@ describe('Multiselect.vue', () => {
 
         it('should preselect passed array of objects', () => {
           const vm = new Vue({
-            template: '<multiselect :selected="value" :options="source" label="id" key="id" :multiple="true"></multiselect>',
+            render (h) {
+              return h(Multiselect, {
+                props: {
+                  selected: this.value,
+                  options: this.source,
+                  label: 'id',
+                  key: 'id',
+                  multiple: true
+                }
+              })
+            },
             components: { Multiselect },
             data: {
               value: [{ id: '2' }, { id: '3' }],
@@ -280,7 +404,17 @@ describe('Multiselect.vue', () => {
 
         it('should preselect passed array of objects in different order', () => {
           const vm = new Vue({
-            template: '<multiselect :selected="value" :options="source" :multiple="true" label="id" key="id"></multiselect>',
+            render (h) {
+              return h(Multiselect, {
+                props: {
+                  selected: this.value,
+                  options: this.source,
+                  label: 'id',
+                  key: 'id',
+                  multiple: true
+                }
+              })
+            },
             components: { Multiselect },
             data: {
               value: [{ id: '3' }, { id: '2' }],
@@ -292,7 +426,17 @@ describe('Multiselect.vue', () => {
         })
         it('should set value to [] when passing null as selected', () => {
           const vm = new Vue({
-            template: '<multiselect :selected="value" :options="source" :multiple="true" label="id" key="id"></multiselect>',
+            render (h) {
+              return h(Multiselect, {
+                props: {
+                  selected: this.value,
+                  options: this.source,
+                  label: 'id',
+                  key: 'id',
+                  multiple: true
+                }
+              })
+            },
             components: { Multiselect },
             data: {
               value: null,
@@ -307,7 +451,14 @@ describe('Multiselect.vue', () => {
       describe('when multiple == FALSE', () => {
         it('should preselect passed simple value', () => {
           const vm = new Vue({
-            template: '<multiselect :selected="value" :options="source"></multiselect>',
+            render (h) {
+              return h(Multiselect, {
+                props: {
+                  selected: this.value,
+                  options: this.source
+                }
+              })
+            },
             components: { Multiselect },
             data: {
               value: '1',
@@ -320,7 +471,16 @@ describe('Multiselect.vue', () => {
 
         it('should preselect passed object', () => {
           const vm = new Vue({
-            template: '<multiselect :selected="value" :options="source" label="id" key="id"></multiselect>',
+            render (h) {
+              return h(Multiselect, {
+                props: {
+                  selected: this.value,
+                  options: this.source,
+                  label: 'id',
+                  key: 'id'
+                }
+              })
+            },
             components: { Multiselect },
             data: {
               value: { id: '2' },
@@ -333,7 +493,16 @@ describe('Multiselect.vue', () => {
 
         it('should set value to null when passing null as selected', () => {
           const vm = new Vue({
-            template: '<multiselect :selected="value" :options="source" label="id" key="id"></multiselect>',
+            render (h) {
+              return h(Multiselect, {
+                props: {
+                  selected: this.value,
+                  options: this.source,
+                  label: 'id',
+                  key: 'id'
+                }
+              })
+            },
             components: { Multiselect },
             data: {
               value: null,
@@ -346,7 +515,16 @@ describe('Multiselect.vue', () => {
 
         it('should set search value to equal to passed object label', () => {
           const vm = new Vue({
-            template: '<multiselect :selected="value" :options="source" label="id" key="id"></multiselect>',
+            render (h) {
+              return h(Multiselect, {
+                props: {
+                  selected: this.value,
+                  options: this.source,
+                  label: 'id',
+                  key: 'id'
+                }
+              })
+            },
             components: { Multiselect },
             data: {
               value: { id: '1' },
@@ -359,7 +537,16 @@ describe('Multiselect.vue', () => {
 
         it('should set search value to equal to passed value', () => {
           const vm = new Vue({
-            template: '<multiselect :selected="value" :options="source" label="id" key="id"></multiselect>',
+            render (h) {
+              return h(Multiselect, {
+                props: {
+                  selected: this.value,
+                  options: this.source,
+                  label: 'id',
+                  key: 'id'
+                }
+              })
+            },
             components: { Multiselect },
             data: {
               value: 2,
@@ -371,7 +558,17 @@ describe('Multiselect.vue', () => {
         })
         it('if selected is null should set search value to empty string', () => {
           const vm = new Vue({
-            template: '<multiselect :selected="value" :options="source" label="id" key="id" :taggable="true"></multiselect>',
+            render (h) {
+              return h(Multiselect, {
+                props: {
+                  selected: this.value,
+                  options: this.source,
+                  label: 'id',
+                  key: 'id',
+                  taggable: true
+                }
+              })
+            },
             components: { Multiselect },
             data: {
               value: null,
@@ -386,7 +583,15 @@ describe('Multiselect.vue', () => {
     describe('when searchable == FALSE', () => {
       it('should preselect passed simple value', () => {
         const vm = new Vue({
-          template: '<multiselect :selected="value" :options="source" :searchable="false"></multiselect>',
+          render (h) {
+            return h(Multiselect, {
+              props: {
+                selected: this.value,
+                options: this.source,
+                searchable: false
+              }
+            })
+          },
           components: { Multiselect },
           data: {
             value: '1',
@@ -399,7 +604,17 @@ describe('Multiselect.vue', () => {
 
       it('should preselect passed object', () => {
         const vm = new Vue({
-          template: '<multiselect :selected="value" :options="source" label="id" key="id" :searchable="false"></multiselect>',
+          render (h) {
+            return h(Multiselect, {
+              props: {
+                selected: this.value,
+                options: this.source,
+                label: 'id',
+                key: 'id',
+                searchable: false
+              }
+            })
+          },
           components: { Multiselect },
           data: {
             value: { id: '2' },
@@ -415,7 +630,15 @@ describe('Multiselect.vue', () => {
   describe('#select()', () => {
     it('should reset search input when clearOnSelect == TRUE', (done) => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" :multiple="true"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              multiple: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: [],
@@ -433,7 +656,16 @@ describe('Multiselect.vue', () => {
 
     it('should keep search input when clearOnSelect == FALSE', (done) => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" :multiple="true" :clear-on-select="false"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              multiple: true,
+              clearOnSelect: false
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: [],
@@ -452,7 +684,15 @@ describe('Multiselect.vue', () => {
     describe('when multiple == TRUE', () => {
       it('should add values to selected array', () => {
         const vm = new Vue({
-          template: '<multiselect :selected="value" :options="source" :multiple="true"></multiselect>',
+          render (h) {
+            return h(Multiselect, {
+              props: {
+                selected: this.value,
+                options: this.source,
+                multiple: true
+              }
+            })
+          },
           components: { Multiselect },
           data: {
             value: [],
@@ -466,7 +706,17 @@ describe('Multiselect.vue', () => {
 
       it('should add objects to selected array', () => {
         const vm = new Vue({
-          template: '<multiselect :selected="value" :options="source" :multiple="true" label="id" key="id"></multiselect>',
+          render (h) {
+            return h(Multiselect, {
+              props: {
+                selected: this.value,
+                options: this.source,
+                label: 'id',
+                key: 'id',
+                multiple: true
+              }
+            })
+          },
           components: { Multiselect },
           data: {
             value: [],
@@ -480,7 +730,17 @@ describe('Multiselect.vue', () => {
 
       it('should remove already selected object', () => {
         const vm = new Vue({
-          template: '<multiselect :selected="value" :options="source" label="id" key="id" :multiple="true"></multiselect>',
+          render (h) {
+            return h(Multiselect, {
+              props: {
+                selected: this.value,
+                options: this.source,
+                label: 'id',
+                key: 'id',
+                multiple: true
+              }
+            })
+          },
           components: { Multiselect },
           data: {
             value: [],
@@ -496,7 +756,18 @@ describe('Multiselect.vue', () => {
       describe('and when max == 3', () => {
         it('should prevent from adding more than 3 elements', () => {
           const vm = new Vue({
-            template: '<multiselect :selected="value" :options="source" label="id" key="id" :multiple="true" :max="3"></multiselect>',
+            render (h) {
+              return h(Multiselect, {
+                props: {
+                  selected: this.value,
+                  options: this.source,
+                  label: 'id',
+                  key: 'id',
+                  multiple: true,
+                  max: 3
+                }
+              })
+            },
             components: { Multiselect },
             data: {
               value: [],
@@ -517,7 +788,16 @@ describe('Multiselect.vue', () => {
     describe('when multiple == FALSE', () => {
       it('should change selected value to new one', () => {
         const vm = new Vue({
-          template: '<multiselect :selected="value" :options="source" label="id" key="id"></multiselect>',
+          render (h) {
+            return h(Multiselect, {
+              props: {
+                selected: this.value,
+                options: this.source,
+                label: 'id',
+                key: 'id'
+              }
+            })
+          },
           components: { Multiselect },
           data: {
             value: [],
@@ -533,7 +813,17 @@ describe('Multiselect.vue', () => {
     describe('when closeOnSelect == FALSE', () => {
       it('should not close the dropdown', () => {
         const vm = new Vue({
-          template: '<multiselect :selected="value" :options="source" label="id" key="id" :close-on-select="false"></multiselect>',
+          render (h) {
+            return h(Multiselect, {
+              props: {
+                selected: this.value,
+                options: this.source,
+                label: 'id',
+                key: 'id',
+                closeOnSelect: false
+              }
+            })
+          },
           components: { Multiselect },
           data: {
             value: [],
@@ -553,7 +843,16 @@ describe('Multiselect.vue', () => {
   describe('#removeElement()', () => {
     it('should remove passed element', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" label="id" key="id"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id'
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: [{ id: '1' }],
@@ -566,7 +865,17 @@ describe('Multiselect.vue', () => {
 
     it('should NOT remove passed element when allowEmpty == FALSE & 1 element is left', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" label="id" key="id" :allow-empty="false"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              allowEmpty: false
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: [{ id: '1' }, { id: '2' }],
@@ -583,7 +892,17 @@ describe('Multiselect.vue', () => {
   describe('#removeLastElement()', () => {
     it('should remove last selected element', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" label="id" key="id" :multiple="true"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              multiple: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: [{ id: '1' }, { id: '2' }],
@@ -598,7 +917,17 @@ describe('Multiselect.vue', () => {
   describe('#addPointerElement()', () => {
     it('should select() currently pointed option', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" label="id" key="id" :multiple="true"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              multiple: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: [],
@@ -614,7 +943,17 @@ describe('Multiselect.vue', () => {
   describe('#pointerForward()', () => {
     it('should increase the pointer value by 1', (done) => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" label="id" key="id" :multiple="true"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              multiple: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: [],
@@ -632,7 +971,17 @@ describe('Multiselect.vue', () => {
 
     it('should NOT increase the pointer value if pointed at last element', (done) => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" label="id" key="id" :multiple="true"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              multiple: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: [],
@@ -652,7 +1001,17 @@ describe('Multiselect.vue', () => {
   describe('#pointerBackward()', () => {
     it('should decrease the pointer value by 1', (done) => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" label="id" key="id" :multiple="true"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              multiple: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: [],
@@ -670,7 +1029,17 @@ describe('Multiselect.vue', () => {
 
     it('should NOT decrease the pointer value if pointed at first element', (done) => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" label="id" key="id" :multiple="true"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              multiple: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: [],
@@ -690,7 +1059,17 @@ describe('Multiselect.vue', () => {
   describe('#pointerReset()', () => {
     it('should reset the pointer value to 0', (done) => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" label="id" key="id" :multiple="true"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              multiple: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: [],
@@ -710,7 +1089,17 @@ describe('Multiselect.vue', () => {
   describe('#pointerSet(index)', () => {
     it('should set the pointer value to passed index', (done) => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" label="id" key="id" :multiple="true"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              multiple: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: [],
@@ -730,7 +1119,21 @@ describe('Multiselect.vue', () => {
   describe('#watch:selected', () => {
     it('updates multiselect private value when parent selected changes to a different value than private value', (done) => {
       const vm = new Vue({
-        template: '<multiselect :selected="sel" :options="source" label="id" key="id" :searchable="false" @update="addMore" :multiple="false"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.sel,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              multiple: false,
+              searchable: false
+            },
+            on: {
+              update: this.addMore
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           sel: { id: '2' },
@@ -753,7 +1156,20 @@ describe('Multiselect.vue', () => {
   describe('#watch:value', () => {
     it('calls onChange(option) callback when onChange prop is set', (done) => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" label="id" key="id" :searchable="false" @update="afterSelect"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              searchable: false
+            },
+            on: {
+              update: this.afterSelect
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: null,
@@ -777,7 +1193,17 @@ describe('Multiselect.vue', () => {
 
     it('not changing changes the selected value with no @update event listener', (done) => {
       const vm = new Vue({
-        template: '<multiselect :selected.sync="value" :options="source" label="id" key="id" :searchable="false"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              searchable: false
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: null,
@@ -796,7 +1222,18 @@ describe('Multiselect.vue', () => {
 
     it('resets value, search and selected when resetAfter is TRUE', (done) => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" label="id" key="id" :searchable="false" :reset-after="true"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              searchable: false,
+              resetAfter: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: null,
@@ -815,7 +1252,18 @@ describe('Multiselect.vue', () => {
 
     it('set search to value after change when clearOnSelect is TRUE and multiple is FALSE and searchable is TRUE', (done) => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" label="id" key="id" :searchable="true" :clear-on-select="true"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              searchable: true,
+              clearOnSelect: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: null,
@@ -834,6 +1282,20 @@ describe('Multiselect.vue', () => {
   describe('#watch:search', () => {
     it('should call @search-change event callback wheneer search value changes', (done) => {
       const vm = new Vue({
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              clearOnSelect: false
+            },
+            on: {
+              'search-change': this.afterSearch
+            }
+          })
+        },
         template: '<multiselect :selected="value" :options="source" label="id" key="id" @search-change="afterSearch" :clear-on-select="false"></multiselect>',
         components: { Multiselect },
         data: {
@@ -858,7 +1320,17 @@ describe('Multiselect.vue', () => {
   describe('#activate()', () => {
     it('should set isOpen value to true', (done) => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" label="id" key="id" :multiple="true"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              multiple: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: [],
@@ -877,7 +1349,17 @@ describe('Multiselect.vue', () => {
   describe('#toggle()', () => {
     it('should set isOpen value to FALSE when it is TRUE', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" label="id" key="id" :searchable="false"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              searchable: false
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: null,
@@ -897,7 +1379,17 @@ describe('Multiselect.vue', () => {
   describe('#deactivate()', () => {
     it('should set isOpen value to false', (done) => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" label="id" key="id" :multiple="true"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              multiple: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: [],
@@ -914,7 +1406,17 @@ describe('Multiselect.vue', () => {
 
     it('should reset search value when multiple == TRUE', (done) => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" label="id" key="id" :multiple="true"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              multiple: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: [],
@@ -932,7 +1434,17 @@ describe('Multiselect.vue', () => {
 
     it('should set the search value to selected value when multiple == FALSE', (done) => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" label="id" key="id" :multiple="false"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              multiple: false
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: { id: '2' },
@@ -952,7 +1464,15 @@ describe('Multiselect.vue', () => {
   describe('#isExistingOption()', () => {
     it('should return FALSE when there are no options to look into', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" :multiple="true"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              multiple: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: null,
@@ -964,7 +1484,15 @@ describe('Multiselect.vue', () => {
 
     it('should return TRUE only when query has matching option', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" :multiple="true"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              multiple: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: ['2'],
@@ -979,7 +1507,15 @@ describe('Multiselect.vue', () => {
   describe('#isNotSelected()', () => {
     it('should return FALSE when passed option is selected when multiple == TRUE', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" :multiple="true"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              multiple: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: ['2'],
@@ -992,7 +1528,15 @@ describe('Multiselect.vue', () => {
 
     it('should return TRUE when passed option is NOT selected when multiple == TRUE', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" :multiple="true"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              multiple: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: ['1'],
@@ -1005,7 +1549,14 @@ describe('Multiselect.vue', () => {
 
     it('should return FALSE when passed option is NOT selected when multiple == FALSE', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: '2',
@@ -1018,7 +1569,14 @@ describe('Multiselect.vue', () => {
 
     it('should return TRUE when passed option is NOT selected when multiple == FALSE', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: '2',
@@ -1033,7 +1591,15 @@ describe('Multiselect.vue', () => {
   describe('#getOptionLabel()', () => {
     it('should return value for passed option when simple value', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" :multiple="true"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              multiple: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: [],
@@ -1046,7 +1612,17 @@ describe('Multiselect.vue', () => {
 
     it('should return option.label for passed option', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" :multiple="true" label="id" key="id"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              multiple: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: [],
@@ -1059,7 +1635,17 @@ describe('Multiselect.vue', () => {
 
     it('should return option’s label when custom label is set', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" :multiple="true" label="id" key="id"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              multiple: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: [],
@@ -1072,7 +1658,18 @@ describe('Multiselect.vue', () => {
 
     it('should return customLabel’s interpolation if set', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" :multiple="true" label="id" key="id" :custom-label="idWithId"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              multiple: true,
+              customLabel: this.idWithId
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: [],
@@ -1090,7 +1687,15 @@ describe('Multiselect.vue', () => {
   describe('valueKeys', () => {
     it('should return primitive value Array when no :key is provided', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :searchable="true" :options="source" :multiple="true"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              multiple: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: [1, 2],
@@ -1102,7 +1707,18 @@ describe('Multiselect.vue', () => {
 
     it('should return an Array maped from option[key] values when multiple is TRUE', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :searchable="true" :options="source" label="id" key="id" :multiple="true"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              searchable: true,
+              multiple: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: [{ id: '1' }, { id: '2' }],
@@ -1114,7 +1730,18 @@ describe('Multiselect.vue', () => {
 
     it('should return option[key] value when multiple is FALSE', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :searchable="true" :options="source" label="id" key="id" :multiple="false"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              searchable: true,
+              multiple: false
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: { id: '2' },
@@ -1128,7 +1755,16 @@ describe('Multiselect.vue', () => {
   describe('optionKeys', () => {
     it('should return primitive value Array when no :label is provided', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :searchable="true" :options="source" :multiple="true"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              multiple: true,
+              searchable: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: [1, 2],
@@ -1140,7 +1776,18 @@ describe('Multiselect.vue', () => {
 
     it('should return an Array maped from option[label] values', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :searchable="true" :options="source" label="id" key="id" :multiple="true"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              searchable: true,
+              multiple: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: [{ id: '1' }, { id: '2' }],
@@ -1154,7 +1801,18 @@ describe('Multiselect.vue', () => {
   describe('filteredOptions', () => {
     it('should return matched options according to search value', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :searchable="true" :options="source" label="id" key="id" :multiple="true"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              searchable: true,
+              multiple: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: [],
@@ -1168,7 +1826,18 @@ describe('Multiselect.vue', () => {
 
     it('should return no options when there are no matches with search value', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :searchable="true" :options="source" label="id" key="id" :multiple="true"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              searchable: true,
+              multiple: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: [],
@@ -1182,7 +1851,19 @@ describe('Multiselect.vue', () => {
 
     it('should hide already selected elements when :hide-selected is set to true', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :searchable="true" :options="source" label="id" key="id" :multiple="true" :hide-selected="true"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              label: 'id',
+              key: 'id',
+              searchable: true,
+              hideSelected: true,
+              multiple: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: [],
@@ -1196,7 +1877,17 @@ describe('Multiselect.vue', () => {
 
     it('should add additional option at the begining when search is filled and :taggable is TRUE', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :searchable="true" :options="source" :multiple="true" :taggable="true"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              searchable: true,
+              multiple: true,
+              taggable: true
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: [],
@@ -1217,7 +1908,20 @@ describe('Multiselect.vue', () => {
   describe('#onTag', () => {
     it('should should push to value and options with default settings and :taggable is TRUE', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :searchable="true" :options="source" :multiple="true" :taggable="true" @tag="addTag"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              searchable: true,
+              multiple: true,
+              taggable: true
+            },
+            on: {
+              tag: this.addTag
+            }
+          })
+        },
         components: { Multiselect },
         data () {
           return {
@@ -1244,7 +1948,17 @@ describe('Multiselect.vue', () => {
   describe('#limitText', () => {
     it('should by default interpolate the limit text', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :searchable="true" :options="source" :multiple="true" :limit="2"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              searchable: true,
+              multiple: true,
+              limit: 2
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: ['1', '2', '3'],
@@ -1259,7 +1973,17 @@ describe('Multiselect.vue', () => {
   describe('visibleValue', () => {
     it('should by default interpolate the limit text', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :searchable="true" :options="source" :multiple="true" :limit="1"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              searchable: true,
+              multiple: true,
+              limit: 1
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: ['1', '2', '3'],
@@ -1277,8 +2001,19 @@ describe('Multiselect.vue', () => {
     })
     it('should hide all layers if :show-labels is FALSE', () => {
       const vm = new Vue({
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              searchable: true,
+              multiple: true,
+              limit: 1,
+              showLabels: false
+            }
+          })
+        },
         el: 'App',
-        template: '<multiselect :selected="value" :searchable="true" :options="source" :multiple="true" :limit="1" :show-labels="false"></multiselect>',
         components: { Multiselect },
         data: {
           value: ['1', '2', '3'],

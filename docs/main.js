@@ -1,5 +1,7 @@
 import Vue from 'vue'
 
+// require('./docs.scss')
+
 import App from './App'
 
 /* eslint-disable no-new */
