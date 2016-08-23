@@ -3,6 +3,9 @@ Probably the most complete *selecting* solution for Vue.js, without jQuery.
 
 #### Current version: v1.1.2
 
+#### For Vue 2.0 users:
+Vue-multiselect 2.0-beta is available: `npm install vue-multiselect@next`. The only API change is that now instead of Vue.partial for custom option templates you can use a custom render function.
+
 ### Features & characteristics:
 * NO dependencies
 * Single select
