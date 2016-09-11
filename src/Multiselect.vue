@@ -63,7 +63,7 @@
         @mousedown.stop.prevent=""
         class="multiselect__content">
         <slot name="beforeList"></slot>
-        <li v-if="multiple && max === value.length">
+        <li v-if="multiple && max !== 0 && max === value.length">
           <span class="multiselect__option">
             <slot name="maxElements">Maximum of {{ max }} options selected. First remove a selected option to select another.</slot>
           </span>

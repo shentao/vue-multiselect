@@ -168,7 +168,7 @@ module.exports = {
     */
     max: {
       type: Number,
-      default: false
+      default: 0
     },
     /**
      * Will be passed with all events as second param.
@@ -303,7 +303,7 @@ module.exports = {
      * @param  {Object||String||Integer} option to select/deselect
      */
     select (option) {
-      if (this.max && this.multiple && this.value.length === this.max) return
+      if (this.max !== 0 && this.multiple && this.value.length === this.max) return
       if (option.isTag) {
         this.$emit('tag', option.label, this.id)
         this.search = ''
