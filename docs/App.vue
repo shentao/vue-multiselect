@@ -13,13 +13,15 @@ section.start
       .grid__column.grid__unit--md-6
         .multiselect-example__container
           multiselect(
-            :options="options",
-            :selected="selected",
-            :multiple="multiple",
+            :options="source",
+            :selected="value",
+            :multiple="true",
             :searchable="searchable",
             :show-labels="true",
             :limit="3",
             :taggable="true",
+            label="name",
+            track-by="name",
             @tag="onTagging"
             @update="afterChange",
             placeholder="Select option",
@@ -83,7 +85,7 @@ export default {
         { name: 'Laravel', language: 'PHP' },
         { name: 'Phoenix', language: 'Elixir' }
       ],
-      value: { name: 'Vue.js', language: 'Javascript' },
+      value: [{ name: 'Vue.js', language: 'Javascript' }],
       valuePrimitive: 'showLabels',
       multiValue: [{ name: 'Vue.js', language: 'Javascript' }],
       multiple: true,
@@ -131,7 +133,7 @@ export default {
       this.selectedCountries = newVal
     },
     afterChange (selectValue) {
-      this.selected = selectValue
+      this.value = selectValue
     },
     onTagging (newTag) {
       this.options.push(newTag)

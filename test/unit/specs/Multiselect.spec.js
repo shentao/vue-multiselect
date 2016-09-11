@@ -1296,7 +1296,7 @@ describe('Multiselect.vue', () => {
             }
           })
         },
-        template: '<multiselect :selected="value" :options="source" label="id" key="id" @search-change="afterSearch" :clear-on-select="false"></multiselect>',
+        template: '<multiselect :selected="value" :options="source" label="id" track-by="id" @search-change="afterSearch" :clear-on-select="false"></multiselect>',
         components: { Multiselect },
         data: {
           value: null,
