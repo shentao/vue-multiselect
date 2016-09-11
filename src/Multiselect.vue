@@ -60,6 +60,7 @@
         :style="{ maxHeight: maxHeight + 'px' }"
         v-el:list
         v-show="isOpen"
+        @mousedown.stop.prevent=""
         class="multiselect__content">
         <slot name="beforeList"></slot>
         <li v-if="multiple && max === value.length">

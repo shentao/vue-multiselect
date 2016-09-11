@@ -252,7 +252,7 @@ module.exports = {
      */
     isSelected (option) {
       /* istanbul ignore else */
-      if (!this.value) return false
+      if (!this.value && this.value !== 0) return false
       const opt = this.key
         ? option[this.key]
         : option
