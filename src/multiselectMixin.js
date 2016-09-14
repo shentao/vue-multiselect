@@ -418,9 +418,11 @@ module.exports = {
     adjustSearch () {
       if (!this.searchable || !this.clearOnSelect) return
 
-      this.search = this.multiple
-        ? ''
-        : this.currentOptionLabel
+      this.$nextTick(() => {
+        this.search = this.multiple
+          ? ''
+          : this.currentOptionLabel
+      })
     },
     /**
      * Call this.activate() or this.deactivate()

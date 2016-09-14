@@ -261,8 +261,9 @@ describe('Multiselect.vue', () => {
               source: ['1', '2', '3']
             }
           }).$mount()
-          expect(vm.$children[0].selected).to.deep.equal(vm.value)
-          expect(vm.$children[0].$els.tags.querySelector('.multiselect__tag').textContent).to.contain('1')
+          const comp = vm.$children[0]
+          expect(comp.selected).to.deep.equal(vm.value)
+          expect(comp.$els.tags.querySelector('.multiselect__tag').textContent).to.contain('1')
         })
 
         it('should preselect passed array of objects', () => {
@@ -305,7 +306,7 @@ describe('Multiselect.vue', () => {
       })
 
       describe('when multiple == FALSE', () => {
-        it('should preselect passed simple value', () => {
+        it('should preselect passed simple value', (done) => {
           const vm = new Vue({
             template: '<multiselect :selected="value" :options="source"></multiselect>',
             components: { Multiselect },
@@ -314,11 +315,17 @@ describe('Multiselect.vue', () => {
               source: ['1', '2', '3']
             }
           }).$mount()
-          expect(vm.$children[0].selected).to.deep.equal(vm.value)
-          expect(vm.$children[0].$els.tags.querySelector('input').value).to.contain('1')
+          const comp = vm.$children[0]
+          comp.$nextTick(() => {
+            comp.$nextTick(() => {
+              expect(comp.selected).to.deep.equal(vm.value)
+              expect(comp.$els.tags.querySelector('input').value).to.contain('1')
+              done()
+            })
+          })
         })
 
-        it('should preselect passed object', () => {
+        it('should preselect passed object', (done) => {
           const vm = new Vue({
             template: '<multiselect :selected="value" :options="source" label="id" key="id"></multiselect>',
             components: { Multiselect },
@@ -327,8 +334,14 @@ describe('Multiselect.vue', () => {
               source: [{ id: '1' }, { id: '2' }, { id: '3' }]
             }
           }).$mount()
-          expect(vm.$children[0].selected).to.deep.equal(vm.value)
-          expect(vm.$children[0].$els.tags.querySelector('input').value).to.contain('2')
+          const comp = vm.$children[0]
+          comp.$nextTick(() => {
+            comp.$nextTick(() => {
+              expect(comp.selected).to.deep.equal(vm.value)
+              expect(comp.$els.tags.querySelector('input').value).to.contain('2')
+              done()
+            })
+          })
         })
 
         it('should set value to null when passing null as selected', () => {
@@ -344,7 +357,7 @@ describe('Multiselect.vue', () => {
           expect(vm.$children[0].$els.tags.querySelector('.multiselect__tag')).to.equal(null)
         })
 
-        it('should set search value to equal to passed object label', () => {
+        it('should set search value to equal to passed object label', (done) => {
           const vm = new Vue({
             template: '<multiselect :selected="value" :options="source" label="id" key="id"></multiselect>',
             components: { Multiselect },
@@ -353,11 +366,17 @@ describe('Multiselect.vue', () => {
               source: [{ id: '1' }, { id: '2' }, { id: '3' }]
             }
           }).$mount()
-          expect(vm.$children[0].search).to.equal('1')
-          expect(vm.$children[0].$els.search.value).to.equal('1')
+          const comp = vm.$children[0]
+          comp.$nextTick(() => {
+            comp.$nextTick(() => {
+              expect(comp.search).to.equal('1')
+              expect(comp.$els.search.value).to.equal('1')
+              done()
+            })
+          })
         })
 
-        it('should set search value to equal to passed value', () => {
+        it('should set search value to equal to passed value', (done) => {
           const vm = new Vue({
             template: '<multiselect :selected="value" :options="source" label="id" key="id"></multiselect>',
             components: { Multiselect },
@@ -366,10 +385,16 @@ describe('Multiselect.vue', () => {
               source: [1, 2, 3]
             }
           }).$mount()
-          expect(vm.$children[0].search).to.equal(2)
-          expect(vm.$children[0].$els.search.value).to.equal('2')
+          const comp = vm.$children[0]
+          comp.$nextTick(() => {
+            comp.$nextTick(() => {
+              expect(comp.search).to.equal(2)
+              expect(comp.$els.search.value).to.equal('2')
+              done()
+            })
+          })
         })
-        it('if selected is null should set search value to empty string', () => {
+        it('if selected is null should set search value to empty string', (done) => {
           const vm = new Vue({
             template: '<multiselect :selected="value" :options="source" label="id" key="id" :taggable="true"></multiselect>',
             components: { Multiselect },
@@ -378,8 +403,14 @@ describe('Multiselect.vue', () => {
               source: [1, 2, 3]
             }
           }).$mount()
-          expect(vm.$children[0].search).to.equal(null)
-          expect(vm.$children[0].$els.search.value).to.equal('')
+          const comp = vm.$children[0]
+          comp.$nextTick(() => {
+            comp.$nextTick(() => {
+              expect(comp.search).to.equal(null)
+              expect(comp.$els.search.value).to.equal('')
+              done()
+            })
+          })
         })
       })
     })
