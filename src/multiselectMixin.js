@@ -178,6 +178,16 @@ module.exports = {
     */
     id: {
       default: null
+    },
+    /**
+     * Limits the options displayed in the dropdown
+     * to the first X options.
+     * @default 1000
+     * @type {Integer}
+    */
+    optionsLimit: {
+      type: Number,
+      default: 1000
     }
   },
   created () {
@@ -193,7 +203,7 @@ module.exports = {
       if (this.taggable && search.length && !this.isExistingOption(search)) {
         options.unshift({ isTag: true, label: search })
       }
-      return options
+      return options.slice(0, this.optionsLimit)
     },
     valueKeys () {
       if (this.key) {
