@@ -1,3 +1,5 @@
+// @flow
+
 module.exports = {
   data () {
     return {
@@ -27,7 +29,7 @@ module.exports = {
     }
   },
   methods: {
-    optionHighlight (index, option) {
+    optionHighlight (index: number, option: Object): Object {
       return {
         'multiselect__option--highlight': index === this.pointer && this.showPointer,
         'multiselect__option--selected': !this.isNotSelected(option)
@@ -70,7 +72,7 @@ module.exports = {
           : 0
       }
     },
-    pointerSet (index) {
+    pointerSet (index: number) {
       this.pointer = index
     }
   }

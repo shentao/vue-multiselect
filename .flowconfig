@@ -1,0 +1,5 @@
+[include]
+./src/
+
+[ignore]
+./node_modules/

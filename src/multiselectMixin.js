@@ -1,3 +1,5 @@
+// @flow
+
 import deepClone from './utils'
 
 function includes (str, query) {
@@ -237,12 +239,12 @@ module.exports = {
         this.$emit('search-change', this.search, this.id)
       }
     },
-    'selected' (newVal, oldVal) {
+    'selected' (newVal: Object, oldVal: Object) {
       this.value = deepClone(this.selected)
     }
   },
   methods: {
-    updateSearch (query) {
+    updateSearch (query: string) {
       this.search = query.trim().toLowerCase()
     },
     /**
@@ -251,7 +253,7 @@ module.exports = {
      * @param  {String}
      * @returns {Boolean} returns true if element is available
      */
-    isExistingOption (query) {
+    isExistingOption (query: string) {
       return !this.options
         ? false
         : this.optionKeys.indexOf(query) > -1
@@ -262,7 +264,7 @@ module.exports = {
      * @param  {Object||String||Integer} option passed element to check
      * @returns {Boolean} returns true if element is selected
      */
-    isSelected (option) {
+    isSelected (option: Object) {
       /* istanbul ignore else */
       if (!this.value) return false
       const opt = this.trackBy
@@ -281,7 +283,7 @@ module.exports = {
      * @param  {Object||String||Integer} option passed element to check
      * @returns {Boolean} returns true if element is not selected
      */
-    isNotSelected (option) {
+    isNotSelected (option: Object) {
       return !this.isSelected(option)
     },
     /**
@@ -292,7 +294,7 @@ module.exports = {
      * @param  {Object||String||Integer} Passed option
      * @returns {Object||String}
      */
-    getOptionLabel (option) {
+    getOptionLabel (option: Object) {
       if (typeof option === 'object' && option !== null) {
         if (this.customLabel) {
           return this.customLabel(option)
@@ -314,7 +316,7 @@ module.exports = {
      *
      * @param  {Object||String||Integer} option to select/deselect
      */
-    select (option) {
+    select (option: Object) {
       if (this.max && this.multiple && this.value.length === this.max) return
       if (option.isTag) {
         this.$emit('tag', option.label, this.id)
@@ -352,7 +354,7 @@ module.exports = {
      * @param  {type} option description
      * @returns {type}        description
      */
-    removeElement (option) {
+    removeElement (option: Object) {
       /* istanbul ignore else */
       if (!this.allowEmpty && this.value.length <= 1) return
 
