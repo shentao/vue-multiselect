@@ -179,7 +179,7 @@ describe('Multiselect.vue', () => {
                 selected: this.value,
                 options: this.source,
                 multiple: true,
-                id: '1'
+                id: 1
               },
               on: {
                 remove: this.onRemove
@@ -225,7 +225,7 @@ describe('Multiselect.vue', () => {
               props: {
                 selected: this.value,
                 options: this.source,
-                id: '1'
+                id: 1
               },
               on: {
                 close: this.onClose
@@ -270,7 +270,7 @@ describe('Multiselect.vue', () => {
                 props: {
                   selected: this.value,
                   options: this.source,
-                  id: '1'
+                  id: 1
                 },
                 on: {
                   open: this.onOpen
@@ -280,7 +280,7 @@ describe('Multiselect.vue', () => {
                 props: {
                   selected: this.value,
                   options: this.source,
-                  id: '2'
+                  id: 2
                 },
                 on: {
                   open: this.onOpen
@@ -387,7 +387,7 @@ describe('Multiselect.vue', () => {
                   selected: this.value,
                   options: this.source,
                   label: 'id',
-                  key: 'id',
+                  trackBy: 'id',
                   multiple: true
                 }
               })
@@ -410,7 +410,7 @@ describe('Multiselect.vue', () => {
                   selected: this.value,
                   options: this.source,
                   label: 'id',
-                  key: 'id',
+                  trackBy: 'id',
                   multiple: true
                 }
               })
@@ -432,7 +432,7 @@ describe('Multiselect.vue', () => {
                   selected: this.value,
                   options: this.source,
                   label: 'id',
-                  key: 'id',
+                  trackBy: 'id',
                   multiple: true
                 }
               })
@@ -477,7 +477,7 @@ describe('Multiselect.vue', () => {
                   selected: this.value,
                   options: this.source,
                   label: 'id',
-                  key: 'id'
+                  trackBy: 'id'
                 }
               })
             },
@@ -499,7 +499,7 @@ describe('Multiselect.vue', () => {
                   selected: this.value,
                   options: this.source,
                   label: 'id',
-                  key: 'id'
+                  trackBy: 'id'
                 }
               })
             },
@@ -521,7 +521,7 @@ describe('Multiselect.vue', () => {
                   selected: this.value,
                   options: this.source,
                   label: 'id',
-                  key: 'id'
+                  trackBy: 'id'
                 }
               })
             },
@@ -543,7 +543,7 @@ describe('Multiselect.vue', () => {
                   selected: this.value,
                   options: this.source,
                   label: 'id',
-                  key: 'id'
+                  trackBy: 'id'
                 }
               })
             },
@@ -553,8 +553,9 @@ describe('Multiselect.vue', () => {
               source: [1, 2, 3]
             }
           }).$mount()
-          expect(vm.$children[0].search).to.equal(2)
-          expect(vm.$children[0].$refs.search.value).to.equal('2')
+          const comp = vm.$children[0]
+          expect(comp.search).to.equal('2')
+          expect(comp.$refs.search.value).to.equal('2')
         })
         it('if selected is null should set search value to empty string', () => {
           const vm = new Vue({
@@ -564,7 +565,7 @@ describe('Multiselect.vue', () => {
                   selected: this.value,
                   options: this.source,
                   label: 'id',
-                  key: 'id',
+                  trackBy: 'id',
                   taggable: true
                 }
               })
@@ -575,7 +576,7 @@ describe('Multiselect.vue', () => {
               source: [1, 2, 3]
             }
           }).$mount()
-          expect(vm.$children[0].search).to.equal(null)
+          expect(vm.$children[0].search).to.equal('')
           expect(vm.$children[0].$refs.search.value).to.equal('')
         })
       })
@@ -610,7 +611,7 @@ describe('Multiselect.vue', () => {
                 selected: this.value,
                 options: this.source,
                 label: 'id',
-                key: 'id',
+                trackBy: 'id',
                 searchable: false
               }
             })
@@ -712,7 +713,7 @@ describe('Multiselect.vue', () => {
                 selected: this.value,
                 options: this.source,
                 label: 'id',
-                key: 'id',
+                trackBy: 'id',
                 multiple: true
               }
             })
@@ -736,7 +737,7 @@ describe('Multiselect.vue', () => {
                 selected: this.value,
                 options: this.source,
                 label: 'id',
-                key: 'id',
+                trackBy: 'id',
                 multiple: true
               }
             })
@@ -762,7 +763,7 @@ describe('Multiselect.vue', () => {
                   selected: this.value,
                   options: this.source,
                   label: 'id',
-                  key: 'id',
+                  trackBy: 'id',
                   multiple: true,
                   max: 3
                 }
@@ -794,7 +795,7 @@ describe('Multiselect.vue', () => {
                 selected: this.value,
                 options: this.source,
                 label: 'id',
-                key: 'id'
+                trackBy: 'id'
               }
             })
           },
@@ -819,7 +820,7 @@ describe('Multiselect.vue', () => {
                 selected: this.value,
                 options: this.source,
                 label: 'id',
-                key: 'id',
+                trackBy: 'id',
                 closeOnSelect: false
               }
             })
@@ -848,8 +849,9 @@ describe('Multiselect.vue', () => {
             props: {
               selected: this.value,
               options: this.source,
+              multiple: true,
               label: 'id',
-              key: 'id'
+              trackBy: 'id'
             }
           })
         },
@@ -859,8 +861,10 @@ describe('Multiselect.vue', () => {
           source: [{ id: '1' }, { id: '2' }, { id: '3' }]
         }
       }).$mount()
-      vm.$children[0].removeElement(vm.$children[0].value[0])
-      expect(vm.$children[0].value).to.deep.equal([])
+      const comp = vm.$children[0]
+      console.log(comp.valueKeys)
+      comp.removeElement(comp.value[0])
+      expect(comp.value).to.deep.equal([])
     })
 
     it('should NOT remove passed element when allowEmpty == FALSE & 1 element is left', () => {
@@ -870,8 +874,9 @@ describe('Multiselect.vue', () => {
             props: {
               selected: this.value,
               options: this.source,
+              multiple: true,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               allowEmpty: false
             }
           })
@@ -898,7 +903,7 @@ describe('Multiselect.vue', () => {
               selected: this.value,
               options: this.source,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               multiple: true
             }
           })
@@ -923,7 +928,7 @@ describe('Multiselect.vue', () => {
               selected: this.value,
               options: this.source,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               multiple: true
             }
           })
@@ -949,7 +954,7 @@ describe('Multiselect.vue', () => {
               selected: this.value,
               options: this.source,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               multiple: true
             }
           })
@@ -977,7 +982,7 @@ describe('Multiselect.vue', () => {
               selected: this.value,
               options: this.source,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               multiple: true
             }
           })
@@ -1007,7 +1012,7 @@ describe('Multiselect.vue', () => {
               selected: this.value,
               options: this.source,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               multiple: true
             }
           })
@@ -1035,7 +1040,7 @@ describe('Multiselect.vue', () => {
               selected: this.value,
               options: this.source,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               multiple: true
             }
           })
@@ -1065,7 +1070,7 @@ describe('Multiselect.vue', () => {
               selected: this.value,
               options: this.source,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               multiple: true
             }
           })
@@ -1095,7 +1100,7 @@ describe('Multiselect.vue', () => {
               selected: this.value,
               options: this.source,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               multiple: true
             }
           })
@@ -1125,7 +1130,7 @@ describe('Multiselect.vue', () => {
               selected: this.sel,
               options: this.source,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               multiple: false,
               searchable: false
             },
@@ -1162,7 +1167,7 @@ describe('Multiselect.vue', () => {
               selected: this.value,
               options: this.source,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               searchable: false
             },
             on: {
@@ -1199,7 +1204,7 @@ describe('Multiselect.vue', () => {
               selected: this.value,
               options: this.source,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               searchable: false
             }
           })
@@ -1225,10 +1230,9 @@ describe('Multiselect.vue', () => {
         render (h) {
           return h(Multiselect, {
             props: {
-              selected: this.value,
               options: this.source,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               searchable: false,
               resetAfter: true
             }
@@ -1236,16 +1240,15 @@ describe('Multiselect.vue', () => {
         },
         components: { Multiselect },
         data: {
-          value: null,
           source: [{ id: '1' }, { id: '2' }, { id: '3' }],
           newValue: null
         }
       }).$mount()
-      vm.$children[0].select(vm.$children[0].options[2])
+      const comp = vm.$children[0]
+      comp.select(comp.options[2])
       Vue.nextTick(function () {
-        expect(vm.$children[0].selected).to.deep.equal(null)
-        expect(vm.$children[0].value).to.deep.equal(null)
-        expect(vm.$children[0].search).to.deep.equal(null)
+        expect(comp.value).to.deep.equal(null)
+        expect(comp.search).to.deep.equal('')
         done()
       })
     })
@@ -1258,7 +1261,7 @@ describe('Multiselect.vue', () => {
               selected: this.value,
               options: this.source,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               searchable: true,
               clearOnSelect: true
             }
@@ -1288,7 +1291,7 @@ describe('Multiselect.vue', () => {
               selected: this.value,
               options: this.source,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               clearOnSelect: false
             },
             on: {
@@ -1326,7 +1329,7 @@ describe('Multiselect.vue', () => {
               selected: this.value,
               options: this.source,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               multiple: true
             }
           })
@@ -1355,7 +1358,7 @@ describe('Multiselect.vue', () => {
               selected: this.value,
               options: this.source,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               searchable: false
             }
           })
@@ -1385,7 +1388,7 @@ describe('Multiselect.vue', () => {
               selected: this.value,
               options: this.source,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               multiple: true
             }
           })
@@ -1412,7 +1415,7 @@ describe('Multiselect.vue', () => {
               selected: this.value,
               options: this.source,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               multiple: true
             }
           })
@@ -1440,7 +1443,7 @@ describe('Multiselect.vue', () => {
               selected: this.value,
               options: this.source,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               multiple: false
             }
           })
@@ -1618,7 +1621,7 @@ describe('Multiselect.vue', () => {
               selected: this.value,
               options: this.source,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               multiple: true
             }
           })
@@ -1641,7 +1644,7 @@ describe('Multiselect.vue', () => {
               selected: this.value,
               options: this.source,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               multiple: true
             }
           })
@@ -1664,7 +1667,7 @@ describe('Multiselect.vue', () => {
               selected: this.value,
               options: this.source,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               multiple: true,
               customLabel: this.idWithId
             }
@@ -1713,7 +1716,7 @@ describe('Multiselect.vue', () => {
               selected: this.value,
               options: this.source,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               searchable: true,
               multiple: true
             }
@@ -1736,7 +1739,7 @@ describe('Multiselect.vue', () => {
               selected: this.value,
               options: this.source,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               searchable: true,
               multiple: false
             }
@@ -1748,7 +1751,8 @@ describe('Multiselect.vue', () => {
           source: [{ id: '1' }, { id: '2' }, { id: '3' }]
         }
       }).$mount()
-      expect(vm.$children[0].valueKeys).to.deep.equal('2')
+      const comp = vm.$children[0]
+      expect(comp.valueKeys).to.deep.equal('2')
     })
   })
 
@@ -1782,7 +1786,7 @@ describe('Multiselect.vue', () => {
               selected: this.value,
               options: this.source,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               searchable: true,
               multiple: true
             }
@@ -1807,7 +1811,7 @@ describe('Multiselect.vue', () => {
               selected: this.value,
               options: this.source,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               searchable: true,
               multiple: true
             }
@@ -1819,9 +1823,10 @@ describe('Multiselect.vue', () => {
           source: [{ id: '1' }, { id: '2' }, { id: '3' }]
         }
       }).$mount()
-      expect(vm.$children[0].filteredOptions).to.deep.equal([{ id: '1' }, { id: '2' }, { id: '3' }])
-      vm.$children[0].$set('search', '2')
-      expect(vm.$children[0].filteredOptions).to.deep.equal([{ id: '2' }])
+      const comp = vm.$children[0]
+      expect(comp.filteredOptions).to.deep.equal([{ id: '1' }, { id: '2' }, { id: '3' }])
+      comp.search = '2'
+      expect(comp.filteredOptions).to.deep.equal([{ id: '2' }])
     })
 
     it('should return no options when there are no matches with search value', () => {
@@ -1832,7 +1837,7 @@ describe('Multiselect.vue', () => {
               selected: this.value,
               options: this.source,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               searchable: true,
               multiple: true
             }
@@ -1844,9 +1849,10 @@ describe('Multiselect.vue', () => {
           source: [{ id: '1' }, { id: '2' }, { id: '3' }]
         }
       }).$mount()
-      expect(vm.$children[0].filteredOptions).to.deep.equal([{ id: '1' }, { id: '2' }, { id: '3' }])
-      vm.$children[0].$set('search', '4')
-      expect(vm.$children[0].filteredOptions).to.deep.equal([])
+      const comp = vm.$children[0]
+      expect(comp.filteredOptions).to.deep.equal([{ id: '1' }, { id: '2' }, { id: '3' }])
+      comp.search = '4'
+      expect(comp.filteredOptions).to.deep.equal([])
     })
 
     it('should hide already selected elements when :hide-selected is set to true', () => {
@@ -1857,7 +1863,7 @@ describe('Multiselect.vue', () => {
               selected: this.value,
               options: this.source,
               label: 'id',
-              key: 'id',
+              trackBy: 'id',
               searchable: true,
               hideSelected: true,
               multiple: true
@@ -1903,21 +1909,31 @@ describe('Multiselect.vue', () => {
       expect(vm.$children[0].filteredOptions).to.deep.equal([{ isTag: true, label: '1' }, 10])
       expect(vm.$children[0].filteredOptions.length).to.equal(2)
     })
-    
+
     it('should not alter the available options when :local-search is FALSE', () => {
       const vm = new Vue({
-        template: '<multiselect :selected="value" :options="source" :multiple="true" :local-search="false"></multiselect>',
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              multiple: true,
+              localSearch: false
+            }
+          })
+        },
         components: { Multiselect },
         data: {
           value: [],
           source: [10, 20, 30]
         }
       }).$mount()
-      expect(vm.$children[0].filteredOptions).to.deep.equal([10, 20, 30])
-      expect(vm.$children[0].filteredOptions.length).to.equal(3)
-      vm.$children[0].search = 'test'
-      expect(vm.$children[0].filteredOptions).to.deep.equal([10, 20, 30])
-      expect(vm.$children[0].filteredOptions.length).to.equal(3)
+      const comp = vm.$children[0]
+      expect(comp.filteredOptions).to.deep.equal([10, 20, 30])
+      expect(comp.filteredOptions.length).to.equal(3)
+      comp.search = 'test'
+      expect(comp.filteredOptions).to.deep.equal([10, 20, 30])
+      expect(comp.filteredOptions.length).to.equal(3)
     })
   })
 
@@ -2015,7 +2031,7 @@ describe('Multiselect.vue', () => {
     beforeEach(function () {
       document.body.insertAdjacentHTML('afterbegin', '<app></app>')
     })
-    it('should hide all layers if :show-labels is FALSE', () => {
+    it('should hide all labels if :show-labels is FALSE', () => {
       const vm = new Vue({
         render (h) {
           return h(Multiselect, {
@@ -2036,9 +2052,9 @@ describe('Multiselect.vue', () => {
           source: ['1', '2', '3', '4', '5']
         }
       })
-      expect(vm.$children[0].selectLabel).to.equal('')
-      expect(vm.$children[0].deselectLabel).to.equal('')
-      expect(vm.$children[0].selectedLabel).to.equal('')
+      expect(vm.$children[0].selectLabelText).to.equal('')
+      expect(vm.$children[0].deselectLabelText).to.equal('')
+      expect(vm.$children[0].selectedLabelText).to.equal('')
     })
   })
 })

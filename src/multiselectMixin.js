@@ -1,5 +1,11 @@
 import deepClone from './utils'
 
+function includes (str, query) {
+  if (!str) return false
+  const text = str.toString().toLowerCase()
+  return text.indexOf(query) !== -1
+}
+
 module.exports = {
   data () {
     return {
@@ -41,7 +47,10 @@ module.exports = {
      * Presets the selected options value.
      * @type {Object||Array||String||Integer}
      */
-    selected: {},
+    selected: {
+      type: null,
+      default: null
+    },
     /**
      * Key to compare objects
      * @default 'id'
@@ -187,8 +196,8 @@ module.exports = {
         : this.options
       if (this.localSearch) {
         options = this.label
-          ? options.filter((option) => option[this.label].includes(this.search))
-          : options.filter((option) => option.includes(this.search))
+          ? options.filter(option => includes(option[this.label], this.search))
+          : options.filter(option => includes(option, this.search))
       }
       if (this.taggable && search.length && !this.isExistingOption(search)) {
         options.unshift({ isTag: true, label: search })
@@ -210,15 +219,15 @@ module.exports = {
         : this.options
     },
     currentOptionLabel () {
-      return this.getOptionLabel(this.value)
+      const label = this.getOptionLabel(this.value)
+      return label ? label.toString() : ''
     }
   },
   watch: {
     'value' () {
       if (this.resetAfter) {
-        this.$set('value', null)
-        this.$set('search', null)
-        this.$set('selected', null)
+        this.value = null
+        this.search = ''
       }
       this.adjustSearch()
     },
@@ -233,6 +242,9 @@ module.exports = {
     }
   },
   methods: {
+    updateSearch (query) {
+      this.search = query.trim().toLowerCase()
+    },
     /**
      * Finds out if the given query is already present
      * in the available options
@@ -344,13 +356,11 @@ module.exports = {
       /* istanbul ignore else */
       if (!this.allowEmpty && this.value.length <= 1) return
 
-      if (this.multiple && typeof option === 'object') {
-        const index = this.valueKeys.indexOf(option[this.trackBy])
-        this.value.splice(index, 1)
-      } else {
-        const index = this.valueKeys.indexOf(option)
-        this.value.splice(index, 1)
-      }
+      const index = (this.multiple && typeof option === 'object')
+        ? this.valueKeys.indexOf(option[this.trackBy])
+        : this.valueKeys.indexOf(option)
+
+      this.value.splice(index, 1)
       this.$emit('remove', deepClone(option), this.id)
       this.$emit('update', deepClone(this.value), this.id)
     },
@@ -378,7 +388,7 @@ module.exports = {
       /* istanbul ignore else  */
       if (this.searchable) {
         this.search = ''
-        this.$el.children[1].children[1].focus()
+        this.$refs.search.focus()
       } else {
         this.$el.focus()
       }
@@ -395,7 +405,7 @@ module.exports = {
       this.isOpen = false
       /* istanbul ignore else  */
       if (this.searchable) {
-        this.$el.children[1].children[1].blur()
+        this.$refs.search.blur()
         this.adjustSearch()
       } else {
         this.$el.blur()

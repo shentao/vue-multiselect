@@ -31,12 +31,14 @@
         <div v-show="loading" class="multiselect__spinner"></div>
         <input
           name="search"
+          ref="search"
           type="text"
           autocomplete="off"
           :placeholder="placeholder"
           v-if="searchable"
-          v-model.trim="search"
+          :value="search"
           :disabled="disabled"
+          @input="updateSearch($event.target.value)"
           @focus.prevent="activate()"
           @blur.prevent="deactivate()"
           @keyup.esc="deactivate()"
@@ -69,9 +71,9 @@
               :class="optionHighlight(index, option)"
               @mousedown.prevent="select(option)"
               @mouseenter="pointerSet(index)"
-              :data-select="option.isTag ? tagPlaceholder : selectLabel"
-              :data-selected="selectedLabel"
-              :data-deselect="deselectLabel"
+              :data-select="option.isTag ? tagPlaceholder : selectLabelText"
+              :data-selected="selectedLabelText"
+              :data-deselect="deselectLabelText"
               class="multiselect__option">
                 <multiselect-option
                   :option-function="optionFunction"
@@ -97,6 +99,7 @@
   import MultiselectOption from './MultiselectOption'
 
   export default {
+    name: 'vue-multiselect',
     components: {
       MultiselectOption
     },
@@ -188,12 +191,21 @@
         return this.multiple
           ? this.value.slice(0, this.limit)
           : this.value
-      }
-    },
-    mounted () {
-      /* istanbul ignore else */
-      if (!this.showLabels) {
-        this.deselectLabel = this.selectedLabel = this.selectLabel = ''
+      },
+      deselectLabelText () {
+        return this.showLabels
+          ? this.deselectLabel
+          : ''
+      },
+      selectLabelText () {
+        return this.showLabels
+          ? this.selectLabel
+          : ''
+      },
+      selectedLabelText () {
+        return this.showLabels
+          ? this.selectedLabel
+          : ''
       }
     }
   }
