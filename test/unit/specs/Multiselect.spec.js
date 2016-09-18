@@ -1903,6 +1903,22 @@ describe('Multiselect.vue', () => {
       expect(vm.$children[0].filteredOptions).to.deep.equal([{ isTag: true, label: '1' }, 10])
       expect(vm.$children[0].filteredOptions.length).to.equal(2)
     })
+    
+    it('should not alter the available options when :local-search is FALSE', () => {
+      const vm = new Vue({
+        template: '<multiselect :selected="value" :options="source" :multiple="true" :local-search="false"></multiselect>',
+        components: { Multiselect },
+        data: {
+          value: [],
+          source: [10, 20, 30]
+        }
+      }).$mount()
+      expect(vm.$children[0].filteredOptions).to.deep.equal([10, 20, 30])
+      expect(vm.$children[0].filteredOptions.length).to.equal(3)
+      vm.$children[0].search = 'test'
+      expect(vm.$children[0].filteredOptions).to.deep.equal([10, 20, 30])
+      expect(vm.$children[0].filteredOptions.length).to.equal(3)
+    })
   })
 
   describe('#onTag', () => {

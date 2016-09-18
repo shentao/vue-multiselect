@@ -10,6 +10,15 @@ module.exports = {
   },
   props: {
     /**
+     * Decide whether to filter the results based on search query.
+     * Useful for async filtering, where we search through more complex data.
+     * @type {Boolean}
+     */
+    localSearch: {
+      type: Boolean,
+      default: true
+    },
+    /**
      * Array of available options: Objects, Strings or Integers.
      * If array of objects, visible label will default to option.label.
      * If `labal` prop is passed, label will equal option['label']
@@ -176,9 +185,11 @@ module.exports = {
       let options = this.hideSelected
         ? this.options.filter(this.isNotSelected)
         : this.options
-      options = this.label
-        ? options.filter((option) => option[this.label].includes(this.search))
-        : options.filter((option) => option.includes(this.search))
+      if (this.localSearch) {
+        options = this.label
+          ? options.filter((option) => option[this.label].includes(this.search))
+          : options.filter((option) => option.includes(this.search))
+      }
       if (this.taggable && search.length && !this.isExistingOption(search)) {
         options.unshift({ isTag: true, label: search })
       }
