@@ -11,9 +11,8 @@
     @keyup.esc="deactivate()"
     class="multiselect">
       <div @mousedown.prevent="toggle()" class="multiselect__select"></div>
-      <div v-el:tags class="multiselect__tags">
+      <div v-el:tags v-if="multiple" class="multiselect__tags">
         <span
-          v-if="multiple"
           v-for="option in visibleValue"
           track-by="$index"
           onmousedown="event.preventDefault()"
