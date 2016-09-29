@@ -11,20 +11,22 @@
     @keyup.esc="deactivate()"
     class="multiselect">
       <div @mousedown.prevent="toggle()" class="multiselect__select"></div>
-      <div v-el:tags v-if="multiple" class="multiselect__tags">
-        <span
-          v-for="option in visibleValue"
-          track-by="$index"
-          onmousedown="event.preventDefault()"
-          class="multiselect__tag">
-            <span v-text="getOptionLabel(option)"></span>
-            <i
-              aria-hidden="true"
-              tabindex="1"
-              @keydown.enter.prevent="removeElement(option)"
-              @mousedown.prevent="removeElement(option)"
-              class="multiselect__tag-icon">
-            </i>
+      <div v-el:tags class="multiselect__tags">
+        <span v-if="multiple">
+          <span
+            v-for="option in visibleValue"
+            track-by="$index"
+            onmousedown="event.preventDefault()"
+            class="multiselect__tag">
+              <span v-text="getOptionLabel(option)"></span>
+              <i
+                aria-hidden="true"
+                tabindex="1"
+                @keydown.enter.prevent="removeElement(option)"
+                @mousedown.prevent="removeElement(option)"
+                class="multiselect__tag-icon">
+              </i>
+          </span>
         </span>
         <template v-if="value && value.length > limit">
           <strong v-text="limitText(value.length - limit)"></strong>
