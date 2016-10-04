@@ -9,8 +9,8 @@ p.typo__p Shows error when touched, but nothing is selected.
     )
       label.typo__label Must have at least one value
       multiselect(
+        v-model="exampleValue6",
         :options="options",
-        :selected="exampleValue6",
         :multiple="true",
         :searchable="true",
         :allow-empty="false",
@@ -19,7 +19,6 @@ p.typo__p Shows error when touched, but nothing is selected.
         :max-height="400",
         :max="5",
         @close="onTouch",
-        @update="updateExampleValue",
         placeholder="Pick at least one"
       )
 
@@ -31,8 +30,8 @@ p.typo__p Shows error when touched, but nothing is selected.
         div(:class="{ 'invalid': isInvalid }")
           label.typo__label Must have at least one value
           multiselect(
+            v-model="exampleValue6"
             :options="options",
-            :selected="exampleValue6",
             :multiple="true",
             :searchable="true",
             :allow-empty="false",
@@ -41,7 +40,6 @@ p.typo__p Shows error when touched, but nothing is selected.
             :max-height="400",
             :max="5",
             @close="onTouch",
-            @update="updateExampleValue",
             placeholder="Pick at least one"
           )
 
@@ -54,9 +52,6 @@ p.typo__p Shows error when touched, but nothing is selected.
         methods: {
           onTouch () {
             this.isTouched = true
-          },
-          updateExampleValue (value) {
-            this.exampleValue6 = value
           }
         }
 

@@ -6,16 +6,15 @@ p.typo__p
     label.typo__label Tagging
     multiselect(
       :options="taggingOptions",
-      :selected="taggingSelected",
+      v-model="taggingSelected",
       :multiple="true",
       :searchable="searchable",
       :taggable="true",
       @tag="addTag",
-      @update="updateSelectedTagging",
       tag-placeholder="Add this as new tag"
       placeholder="Type to search or add tag"
       label="name"
-      key="code"
+      track-by="code"
     )
       span(slot="noResult").
         Oops! No elements found. Consider changing the search query.
@@ -29,16 +28,15 @@ p.typo__p
       code.
         multiselect(
           :options="taggingOptions",
-          :selected="taggingSelected",
+          v-model="taggingSelected",
           :multiple="true",
           :searchable="searchable",
           :taggable="true",
           @tag="addTag",
-          @update="updateSelectedTagging",
           tag-placeholder="Add this as new tag"
           placeholder="Type to search or add tag"
           label="name"
-          key="code"
+          track-by="code"
         )
           span(slot="noResult").
             Oops! No elements found. Consider changing the search query.
@@ -54,8 +52,4 @@ p.typo__p
           }
           this.taggingOptions.push(tag)
           this.taggingSelected.push(tag)
-        },
-        updateSelectedTagging (value) {
-          console.log('@tag: ', value)
-          this.taggingSelected = value
         }

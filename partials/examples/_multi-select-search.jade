@@ -4,17 +4,16 @@ p.typo__p <kbd>:limit="2"</kbd> prop limits the visible results to 2.
   .grid__column.grid__unit--md-5
     label.typo__label Simple select / dropdown
     multiselect(
+      v-model="multiValue",
       :options="source",
-      :selected="multiValue",
       :multiple="true",
       :searchable="true",
       :close-on-select="false",
       :clear-on-select="false",
       :limit="2"
-      @update="updateMultiValue",
       placeholder="Pick some"
       label="name",
-      key="name"
+      track-by="name"
     )
     pre.language-json
       code.
@@ -25,20 +24,14 @@ p.typo__p <kbd>:limit="2"</kbd> prop limits the visible results to 2.
     pre.language-jade
       code.
         multiselect(
+          v-model="multiValue",
           :options="source",
-          :selected="multiValue",
           :multiple="true",
           :searchable="true",
           :close-on-select="false",
           :clear-on-select="false",
           :limit="2"
-          @update="updateMultiValue",
           placeholder="Pick some"
           label="name",
-          key="name"
+          track-by="name"
         )
-    pre.language-javascript
-      code.
-        updateMultiValue (value) {
-          this.multiValue = value
-        },

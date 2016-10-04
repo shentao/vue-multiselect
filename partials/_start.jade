@@ -5,7 +5,7 @@ section.start(
     h1.typo__h1
       img.logo(src="./static/vue-logo.png")
       | Vue-multiselect
-      small.version (v1.0.1)
+      small.version (v2.0.0-beta)
     h3.typo__h3 The most complete selecting solution for
       = ' '
       a.typo__link(href="http://vuejs.org" target="_BLANK") Vue.js
@@ -14,15 +14,16 @@ section.start(
       .grid__column.grid__unit--md-6
         .multiselect-example__container
           multiselect(
-            :options="options",
-            :selected="selected",
-            :multiple="multiple",
+            v-model="value",
+            :options="source",
+            :multiple="true",
             :searchable="searchable",
             :show-labels="true",
             :limit="3",
             :taggable="true",
+            label="name",
+            track-by="name",
             @tag="onTagging"
-            @update="afterChange",
             placeholder="Select option",
             select-label="Enter to select"
           )

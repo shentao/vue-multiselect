@@ -4,13 +4,13 @@ p.typo__p The selected value is referencing the same object as the previous exam
   .grid__column.grid__unit--md-5
     label.typo__label Simple select / dropdown
     multiselect(
+      v-model="valueSearch",
       :options="source",
       :searchable="true",
       :custom-label="nameWithLang"
-      @update="updateValue",
       placeholder="Select one",
       label="name",
-      key="name"
+      track-by="name"
     )
     pre.language-json
       code.
@@ -21,20 +21,16 @@ p.typo__p The selected value is referencing the same object as the previous exam
     pre.language-jade
       code.
         multiselect(
+          v-model="valueSearch",
           :options="source",
-          :selected="value",
           :searchable="true",
           :custom-label="nameWithLang"
-          @update="updateValue",
           placeholder="Select one",
           label="name",
-          key="name"
+          track-by="name"
         )
     pre.language-javascript
       code.
-        updateValue (value) {
-          this.value = value
-        },
         nameWithLang ({ name, language }) {
           return `${name} — [${language}]`
         }

@@ -13,8 +13,8 @@ section.start
       .grid__column.grid__unit--md-6
         .multiselect-example__container
           multiselect(
+            v-model="value",
             :options="source",
-            :selected="value",
             :multiple="true",
             :searchable="searchable",
             :show-labels="true",
@@ -23,7 +23,6 @@ section.start
             label="name",
             track-by="name",
             @tag="onTagging"
-            @update="afterChange",
             placeholder="Select option",
             select-label="Enter to select"
           )
