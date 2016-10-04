@@ -12,7 +12,6 @@
       <div @mousedown.prevent="toggle()" class="multiselect__select"></div>
       <div ref="tags" class="multiselect__tags">
         <span
-          v-if="multiple"
           v-for="option of visibleValue"
           onmousedown="event.preventDefault()"
           class="multiselect__tag">
@@ -28,15 +27,19 @@
         <template v-if="value && value.length > limit">
           <strong v-text="limitText(value.length - limit)"></strong>
         </template>
-        <div v-show="loading" class="multiselect__spinner"></div>
+        <transition name="multiselect__loading">
+          <div v-show="loading" class="multiselect__spinner"></div>
+        </transition>
         <input
           name="search"
+          ref="search"
           type="text"
           autocomplete="off"
           :placeholder="placeholder"
           v-if="searchable"
-          v-model.trim="search"
+          :value="search"
           :disabled="disabled"
+          @input="updateSearch($event.target.value)"
           @focus.prevent="activate()"
           @blur.prevent="deactivate()"
           @keyup.esc="deactivate()"
@@ -51,43 +54,45 @@
             v-text="currentOptionLabel || placeholder">
           </span>
       </div>
-      <ul
-        :style="{ maxHeight: maxHeight + 'px' }"
-        ref="list"
-        v-show="isOpen"
-        class="multiselect__content">
-        <slot name="beforeList"></slot>
-        <li v-if="multiple && max === value.length">
-          <span class="multiselect__option">
-            <slot name="maxElements">Maximum of {{ max }} options selected. First remove a selected option to select another.</slot>
-          </span>
-        </li>
-        <template v-if="!max || value.length < max">
-          <li v-for="(option, index) of filteredOptions" :key="index">
-            <span
-              tabindex="0"
-              :class="optionHighlight(index, option)"
-              @mousedown.prevent="select(option)"
-              @mouseenter="pointerSet(index)"
-              :data-select="option.isTag ? tagPlaceholder : selectLabel"
-              :data-selected="selectedLabel"
-              :data-deselect="deselectLabel"
-              class="multiselect__option">
-                <multiselect-option
-                  :option-function="optionFunction"
-                  :label="getOptionLabel(option)"
-                  :option="option">
-                </multiselect-option>
+      <transition name="multiselect">
+        <ul
+          :style="{ maxHeight: maxHeight + 'px' }"
+          ref="list"
+          v-show="isOpen"
+          class="multiselect__content">
+          <slot name="beforeList"></slot>
+          <li v-if="multiple && max === value.length">
+            <span class="multiselect__option">
+              <slot name="maxElements">Maximum of {{ max }} options selected. First remove a selected option to select another.</slot>
             </span>
           </li>
-        </template>
-        <li v-show="filteredOptions.length === 0 && search">
-          <span class="multiselect__option">
-            <slot name="noResult">No elements found. Consider changing the search query.</slot>
-          </span>
-        </li>
-        <slot name="afterList"></slot>
-     </ul>
+          <template v-if="!max || value.length < max">
+            <li v-for="(option, index) of filteredOptions" :key="index">
+              <span
+                tabindex="0"
+                :class="optionHighlight(index, option)"
+                @mousedown.prevent="select(option)"
+                @mouseenter="pointerSet(index)"
+                :data-select="option.isTag ? tagPlaceholder : selectLabelText"
+                :data-selected="selectedLabelText"
+                :data-deselect="deselectLabelText"
+                class="multiselect__option">
+                  <multiselect-option
+                    :option-function="optionFunction"
+                    :label="getOptionLabel(option)"
+                    :option="option">
+                  </multiselect-option>
+              </span>
+            </li>
+          </template>
+          <li v-show="filteredOptions.length === 0 && search">
+            <span class="multiselect__option">
+              <slot name="noResult">No elements found. Consider changing the search query.</slot>
+            </span>
+          </li>
+          <slot name="afterList"></slot>
+        </ul>
+      </transition>
   </div>
 </template>
 
@@ -97,6 +102,7 @@
   import MultiselectOption from './MultiselectOption'
 
   export default {
+    name: 'vue-multiselect',
     components: {
       MultiselectOption
     },
@@ -187,13 +193,22 @@
       visibleValue () {
         return this.multiple
           ? this.value.slice(0, this.limit)
-          : this.value
-      }
-    },
-    mounted () {
-      /* istanbul ignore else */
-      if (!this.showLabels) {
-        this.deselectLabel = this.selectedLabel = this.selectLabel = ''
+          : []
+      },
+      deselectLabelText () {
+        return this.showLabels
+          ? this.deselectLabel
+          : ''
+      },
+      selectLabelText () {
+        return this.showLabels
+          ? this.selectLabel
+          : ''
+      },
+      selectedLabelText () {
+        return this.showLabels
+          ? this.selectedLabel
+          : ''
       }
     }
   }
@@ -240,13 +255,14 @@ fieldset[disabled] .multiselect {
   animation-iteration-count: infinite;
 }
 
-.multiselect__loading-transition {
+.multiselect__loading-enter-active,
+.multiselect__loading-leave-active, {
   transition: opacity 0.4s ease-in-out;
   opacity: 1;
 }
 
 .multiselect__loading-enter,
-.multiselect__loading-leave {
+.multiselect__loading-leave-active {
   opacity: 0;
 }
 
@@ -545,12 +561,13 @@ fieldset[disabled] .multiselect {
   background: #3dad7b;
 }
 
-.multiselect-transition {
+.multiselect-enter-active,
+.multiselect-leave-active {
   transition: all 0.3s ease;
 }
 
 .multiselect-enter,
-.multiselect-leave {
+.multiselect-leave-active {
   opacity: 0;
   max-height: 0 !important;
 }

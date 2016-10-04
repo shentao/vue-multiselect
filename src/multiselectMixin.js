@@ -1,5 +1,3 @@
-// @flow
-
 import deepClone from './utils'
 
 function includes (str, query) {
@@ -149,7 +147,11 @@ module.exports = {
      * @type {Function}
      */
     customLabel: {
-      type: Function
+      type: Function,
+      default (option, label) {
+        if (option && option.isTag) return option.label
+        return label ? option[label] : option
+      }
     },
     /**
      * Disable / Enable tagging
@@ -217,8 +219,8 @@ module.exports = {
     },
     optionKeys () {
       return this.label
-        ? this.options.map(element => element[this.label])
-        : this.options
+        ? this.options.map(element => element[this.label].toString().toLowerCase())
+        : this.options.map(element => element.toString().toLowerCase())
     },
     currentOptionLabel () {
       const label = this.getOptionLabel(this.value)
@@ -239,12 +241,12 @@ module.exports = {
         this.$emit('search-change', this.search, this.id)
       }
     },
-    'selected' (newVal: Object, oldVal: Object) {
+    'selected' (newVal, oldVal) {
       this.value = deepClone(this.selected)
     }
   },
   methods: {
-    updateSearch (query: string) {
+    updateSearch (query) {
       this.search = query.trim().toLowerCase()
     },
     /**
@@ -253,7 +255,7 @@ module.exports = {
      * @param  {String}
      * @returns {Boolean} returns true if element is available
      */
-    isExistingOption (query: string) {
+    isExistingOption (query) {
       return !this.options
         ? false
         : this.optionKeys.indexOf(query) > -1
@@ -264,7 +266,7 @@ module.exports = {
      * @param  {Object||String||Integer} option passed element to check
      * @returns {Boolean} returns true if element is selected
      */
-    isSelected (option: Object) {
+    isSelected (option) {
       /* istanbul ignore else */
       if (!this.value) return false
       const opt = this.trackBy
@@ -283,7 +285,7 @@ module.exports = {
      * @param  {Object||String||Integer} option passed element to check
      * @returns {Boolean} returns true if element is not selected
      */
-    isNotSelected (option: Object) {
+    isNotSelected (option) {
       return !this.isSelected(option)
     },
     /**
@@ -294,19 +296,11 @@ module.exports = {
      * @param  {Object||String||Integer} Passed option
      * @returns {Object||String}
      */
-    getOptionLabel (option: Object) {
+    getOptionLabel (option) {
       if (typeof option === 'object' && option !== null) {
-        if (this.customLabel) {
-          return this.customLabel(option)
-        } else {
-          if (this.label && option[this.label]) {
-            return option[this.label]
-          } else if (option.label) {
-            return option.label
-          }
-        }
+        return this.customLabel(option, this.label)
       } else {
-        return option
+        return this.customLabel(option)
       }
     },
     /**
@@ -316,20 +310,18 @@ module.exports = {
      *
      * @param  {Object||String||Integer} option to select/deselect
      */
-    select (option: Object) {
+    select (option) {
       if (this.max && this.multiple && this.value.length === this.max) return
       if (option.isTag) {
         this.$emit('tag', option.label, this.id)
         this.search = ''
       } else {
         if (this.multiple) {
-          if (!this.isNotSelected(option)) {
+          if (this.isSelected(option)) {
             this.removeElement(option)
+            return
           } else {
             this.value.push(option)
-
-            this.$emit('select', deepClone(option), this.id)
-            this.$emit('update', deepClone(this.value), this.id)
           }
         } else {
           const isSelected = this.isSelected(option)
@@ -338,10 +330,9 @@ module.exports = {
           if (isSelected && !this.allowEmpty) return
 
           this.value = isSelected ? null : option
-
-          this.$emit('select', deepClone(option), this.id)
-          this.$emit('update', deepClone(this.value), this.id)
         }
+        this.$emit('select', deepClone(option), this.id)
+        this.$emit('update', deepClone(this.value), this.id)
 
         if (this.closeOnSelect) this.deactivate()
       }
@@ -354,7 +345,7 @@ module.exports = {
      * @param  {type} option description
      * @returns {type}        description
      */
-    removeElement (option: Object) {
+    removeElement (option) {
       /* istanbul ignore else */
       if (!this.allowEmpty && this.value.length <= 1) return
 

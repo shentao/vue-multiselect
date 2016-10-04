@@ -1629,7 +1629,7 @@ describe('Multiselect.vue', () => {
         components: { Multiselect },
         data: {
           value: [],
-          source: [{ label: '1' }, { label: '2' }, { label: '3' }]
+          source: [{ id: '1' }, { id: '2' }, { id: '3' }]
         }
       }).$mount()
       const option = vm.$children[0].options[1]
@@ -1659,7 +1659,7 @@ describe('Multiselect.vue', () => {
       expect(vm.$children[0].getOptionLabel(option)).to.equal('3')
     })
 
-    it('should return customLabel’s interpolation if set', () => {
+    it('should return customLabel’s interpolation if set for objects options', () => {
       const vm = new Vue({
         render (h) {
           return h(Multiselect, {
@@ -1679,6 +1679,31 @@ describe('Multiselect.vue', () => {
           source: [{ id: '1' }, { id: '2' }, { id: '3' }],
           idWithId ({id}) {
             return `${id}+${id}`
+          }
+        }
+      }).$mount()
+      const option = vm.$children[0].options[2]
+      expect(vm.$children[0].getOptionLabel(option)).to.equal('3+3')
+    })
+
+    it('should return customLabel’s interpolation if set for primitive options', () => {
+      const vm = new Vue({
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              selected: this.value,
+              options: this.source,
+              multiple: true,
+              customLabel: this.idWithId
+            }
+          })
+        },
+        components: { Multiselect },
+        data: {
+          value: [],
+          source: [1, 2, 3],
+          idWithId (option) {
+            return `${option}+${option}`
           }
         }
       }).$mount()
@@ -1775,7 +1800,7 @@ describe('Multiselect.vue', () => {
           source: [1, 2, 3]
         }
       }).$mount()
-      expect(vm.$children[0].optionKeys).to.deep.equal([1, 2, 3])
+      expect(vm.$children[0].optionKeys).to.deep.equal(['1', '2', '3'])
     })
 
     it('should return an Array maped from option[label] values', () => {

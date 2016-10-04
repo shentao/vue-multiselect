@@ -4,7 +4,7 @@ const base = require('./webpack.base.conf')
 const config = require('../config')
 
 base.entry = {
-  lib: './src/'
+  lib: './src/index.js'
 }
 
 base.output = {
@@ -17,7 +17,6 @@ base.output = {
 
 var webpackConfig = Object.assign({}, base)
 
-webpackConfig.devtool = '#source-map'
 webpackConfig.plugins = (webpackConfig.plugins || []).concat([
   new webpack.DefinePlugin({
     'process.env': {
