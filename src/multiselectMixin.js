@@ -141,7 +141,10 @@ module.exports = {
      */
     customLabel: {
       type: Function,
-      default: false
+      default (option, label) {
+        if (option && option.isTag) return option.label
+        return label ? option[label] : option
+      }
     },
     /**
      * Disable / Enable tagging
@@ -220,7 +223,8 @@ module.exports = {
         : this.options
     },
     currentOptionLabel () {
-      return this.getOptionLabel(this.value)
+      const label = this.getOptionLabel(this.value)
+      return label ? label.toString() : ''
     }
   },
   watch: {
@@ -292,17 +296,9 @@ module.exports = {
      */
     getOptionLabel (option) {
       if (typeof option === 'object' && option !== null) {
-        if (this.customLabel) {
-          return this.customLabel(option)
-        } else {
-          if (this.label && option[this.label]) {
-            return option[this.label]
-          } else if (option.label) {
-            return option.label
-          }
-        }
+        return this.customLabel(option, this.label)
       } else {
-        return option
+        return option ? this.customLabel(option) : ''
       }
     },
     /**
@@ -319,13 +315,11 @@ module.exports = {
         this.search = ''
       } else {
         if (this.multiple) {
-          if (!this.isNotSelected(option)) {
+          if (this.isSelected(option)) {
             this.removeElement(option)
+            return
           } else {
             this.value.push(option)
-
-            this.$emit('select', deepClone(option), this.id)
-            this.$emit('update', deepClone(this.value), this.id)
           }
         } else {
           const isSelected = this.isSelected(option)
@@ -334,10 +328,9 @@ module.exports = {
           if (isSelected && !this.allowEmpty) return
 
           this.value = isSelected ? null : option
-
-          this.$emit('select', deepClone(option), this.id)
-          this.$emit('update', deepClone(this.value), this.id)
         }
+        this.$emit('select', deepClone(option), this.id)
+        this.$emit('update', deepClone(this.value), this.id)
 
         if (this.closeOnSelect) this.deactivate()
       }

@@ -388,7 +388,7 @@ describe('Multiselect.vue', () => {
           const comp = vm.$children[0]
           comp.$nextTick(() => {
             comp.$nextTick(() => {
-              expect(comp.search).to.equal(2)
+              expect(comp.search).to.equal('2')
               expect(comp.$els.search.value).to.equal('2')
               done()
             })
@@ -406,7 +406,7 @@ describe('Multiselect.vue', () => {
           const comp = vm.$children[0]
           comp.$nextTick(() => {
             comp.$nextTick(() => {
-              expect(comp.search).to.equal(null)
+              expect(comp.search).to.equal('')
               expect(comp.$els.search.value).to.equal('')
               done()
             })
@@ -1081,7 +1081,7 @@ describe('Multiselect.vue', () => {
         components: { Multiselect },
         data: {
           value: [],
-          source: [{ label: '1' }, { label: '2' }, { label: '3' }]
+          source: [{ id: '1' }, { id: '2' }, { id: '3' }]
         }
       }).$mount()
       const option = vm.$children[0].options[1]

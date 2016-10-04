@@ -13,7 +13,6 @@
       <div @mousedown.prevent="toggle()" class="multiselect__select"></div>
       <div v-el:tags class="multiselect__tags">
         <span
-          v-if="multiple"
           v-for="option in visibleValue"
           track-by="$index"
           onmousedown="event.preventDefault()"
@@ -189,7 +188,7 @@
       visibleValue () {
         return this.multiple
           ? this.value.slice(0, this.limit)
-          : this.value
+          : []
       }
     },
     ready () {
