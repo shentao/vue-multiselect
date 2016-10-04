@@ -136,8 +136,8 @@ export default {
       this.value = selectValue
     },
     onTagging (newTag) {
-      this.options.push(newTag)
-      this.selected.push(newTag)
+      this.source.push({ name: newTag, language: newTag })
+      this.value.push({ name: newTag, language: newTag })
     },
     onClose (val) {
       console.log('close: ', val)
