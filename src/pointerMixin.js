@@ -30,7 +30,7 @@ module.exports = {
     optionHighlight (index, option) {
       return {
         'multiselect__option--highlight': index === this.pointer && this.showPointer,
-        'multiselect__option--selected': !this.isNotSelected(option)
+        'multiselect__option--selected': this.isSelected(option)
       }
     },
     addPointerElement () {

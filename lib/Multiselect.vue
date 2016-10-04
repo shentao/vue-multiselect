@@ -7,6 +7,7 @@
     @keydown.self.down.prevent="pointerForward()"
     @keydown.self.up.prevent="pointerBackward()"
     @keydown.enter.stop.prevent.self="addPointerElement()"
+    @keydown.tab.stop.prevent.self="addPointerElement()"
     @keyup.esc="deactivate()"
     class="multiselect">
       <div @mousedown.prevent="toggle()" class="multiselect__select"></div>
@@ -24,8 +25,8 @@
               class="multiselect__tag-icon">
             </i>
         </span>
-        <template v-if="value && value.length > limit">
-          <strong v-text="limitText(value.length - limit)"></strong>
+        <template v-if="internalValue && internalValue.length > limit">
+          <strong v-text="limitText(internalValue.length - limit)"></strong>
         </template>
         <transition name="multiselect__loading">
           <div v-show="loading" class="multiselect__spinner"></div>
@@ -46,6 +47,7 @@
           @keyup.down="pointerForward()"
           @keyup.up="pointerBackward()"
           @keydown.enter.stop.prevent.self="addPointerElement()"
+          @keydown.tab.stop.prevent.self="addPointerElement()"
           @keydown.delete="removeLastElement()"
           class="multiselect__input"/>
           <span
@@ -61,12 +63,12 @@
           v-show="isOpen"
           class="multiselect__content">
           <slot name="beforeList"></slot>
-          <li v-if="multiple && max === value.length">
+          <li v-if="multiple && max === internalValue.length">
             <span class="multiselect__option">
               <slot name="maxElements">Maximum of {{ max }} options selected. First remove a selected option to select another.</slot>
             </span>
           </li>
-          <template v-if="!max || value.length < max">
+          <template v-if="!max || internalValue.length < max">
             <li v-for="(option, index) of filteredOptions" :key="index">
               <span
                 tabindex="0"
@@ -192,7 +194,7 @@
     computed: {
       visibleValue () {
         return this.multiple
-          ? this.value.slice(0, this.limit)
+          ? this.internalValue.slice(0, this.limit)
           : []
       },
       deselectLabelText () {

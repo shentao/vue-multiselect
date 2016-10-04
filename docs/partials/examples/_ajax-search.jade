@@ -9,7 +9,7 @@ p.typo__p
     label.typo__label Async multiselect
     multiselect(
       :options="countries",
-      :selected="selectedCountries",
+      :value="selectedCountries",
       :multiple="multiple",
       :searchable="searchable",
       :clear-on-select="false",
@@ -17,9 +17,8 @@ p.typo__p
       :loading="isLoading",
       id="ajax",
       @search-change="asyncFind",
-      @update="asyncUpdate",
       label="name"
-      key="code"
+      track-by="code"
       placeholder="Type to search"
     )
       span(slot="noResult").
@@ -33,8 +32,8 @@ p.typo__p
     pre.language-jade
       code.
         multiselect(
+          v-model="selectedCountries",
           :options="countries",
-          :selected="selectedCountries",
           :multiple="multiple",
           :searchable="searchable",
           :clear-on-select="false",
@@ -42,9 +41,8 @@ p.typo__p
           :loading="isLoading",
           id="ajax",
           @search-change="asyncFind",
-          @update="asyncUpdate",
           label="name"
-          key="code"
+          track-by="code"
           placeholder="Type to search"
         )
           span(slot="noResult").
@@ -64,7 +62,4 @@ p.typo__p
               this.isLoading = false
             }, 1000)
           }
-        },
-        asyncUpdate (newVal) {
-          this.selectedCountries = newVal
         }

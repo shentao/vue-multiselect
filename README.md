@@ -1,5 +1,5 @@
-# vue-multiselect ![Build Status](https://circleci.com/gh/monterail/vue-multiselect/tree/master.svg?style=shield&circle-token=5c931ff28fd12587610f835472becdd514d09cef)
-Probably the most complete *selecting* solution for Vue.js, without jQuery.
+# vue-multiselect ![Build Status](https://circleci.com/gh/monterail/vue-multiselect/tree/2.0.svg?style=shield&circle-token=5c931ff28fd12587610f835472becdd514d09cef)
+Probably the most complete *selecting* solution for Vue.js 2.0, without jQuery.
 
 ### Features & characteristics:
 * NO dependencies
@@ -11,14 +11,11 @@ Probably the most complete *selecting* solution for Vue.js, without jQuery.
 * Search with suggestions
 * Logic split into mixins
 * Basic component and support for custom components
+* V-model support
 * Vuex support
 * Async options support
 * \> 99% test coverage
 * Fully configurable (see props list below)
-
-## Demo & docs
-
-[http://monterail.github.io/vue-multiselect/](http://monterail.github.io/vue-multiselect/)
 
 ## Install & basic usage
 
@@ -30,9 +27,8 @@ npm install vue-multiselect
 <template>
   <div>
     <multiselect
-      :selected="selected"
-      :options="options"
-      @update="updateSelected">
+      v-model="selected"
+      :options="options">
     </multiselect>
   </div>
 </template>
@@ -46,11 +42,6 @@ export default {
     return {
       selected: null,
       options: ['list', 'of', 'options']
-    }
-  },
-  methods: {
-    updateSelected (newSelected) {
-      this.selected = newSelected
     }
   }
 }
@@ -83,43 +74,41 @@ in jade-lang/pug-lang
 ### Single select / dropdown
 ``` jade
 multiselect(
+  :value="value",
   :options="source",
-  :selected="value",
   :searchable="false",
   :close-on-select="false",
   :allow-empty="false",
-  @update="updateSelected",
+  @input="updateSelected",
   label="name",
   placeholder="Select one",
-  key="name"
+  track-by="name"
 )
 ```
 
 ### Single select with search
 ``` jade
 multiselect(
+  v-model="value",
   :options="source",
-  :selected="value",
   :close-on-select="true",
   :clear-on-select="false",
-  @update="updateValue",
   placeholder="Select one",
   label="name",
-  key="name"
+  track-by="name"
 )
 ```
 
 ### Multiple select with search
 ``` jade
 multiselect(
+  v-model="multiValue",
   :options="source",
-  :selected="multiValue",
   :multiple="true",
   :close-on-select="true",
-  @update="updateMultiValue",
   placeholder="Pick some",
   label="name",
-  key="name"
+  track-by="name"
 )
 ```
 
@@ -127,16 +116,15 @@ multiselect(
 with `@tag` event
 ``` jade
 multiselect(
+  v-model="taggingSelected",
   :options="taggingOptions",
-  :selected="taggingSelected",
   :multiple="true",
   :taggable="true",
   @tag="addTag",
-  @update="updateSelectedTagging",
   tag-placeholder="Add this as new tag",
   placeholder="Type to search or add tag",
   label="name",
-  key="code"
+  track-by="code"
 )
 ```
 
@@ -155,14 +143,14 @@ addTag (newTag) {
 ### Asynchronous dropdown
 ``` jade
 multiselect(
+  v-model="selectedCountries",
   :options="countries",
-  :selected="selectedCountries",
   :multiple="multiple",
   :searchable="searchable",
   @search-change="asyncFind",
   placeholder="Type to search",
   label="name"
-  key="code"
+  track-by="code"
 )
   span(slot="noResult").
     Oops! No elements found. Consider changing the search query.
@@ -205,13 +193,13 @@ props: {
    * Presets the selected options value.
    * @type {Object||Array||String||Integer}
    */
-  selected: {},
+  value: {},
   /**
    * Key to compare objects
    * @default 'id'
    * @type {String}
    */
-  key: {
+  track-by: {
     type: String,
     default: false
   },

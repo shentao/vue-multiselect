@@ -5,14 +5,13 @@ p.typo__p The selected value is referencing the same object as the next example,
   .grid__column.grid__unit--md-5
     label.typo__label Single select / dropdown
     multiselect(
+      v-model="valueObject",
       :options="source",
-      :selected="value",
       :searchable="false",
       :close-on-select="false",
       :allow-empty="false",
-      @update="updateValue",
       deselect-label="Can't remove this value"
-      key="name"
+      track-by="name"
       label="name"
       placeholder="Select one"
     )
@@ -25,19 +24,13 @@ p.typo__p The selected value is referencing the same object as the next example,
     pre.language-jade
       code.
         multiselect(
+          v-model="valueObject",
           :options="source",
-          :selected="value",
           :searchable="false",
           :close-on-select="false",
-          :allow-empty="false",
-          @update="updateValue",
+          :allow-empty="true",
           deselect-label="Can't remove this value"
-          key="name"
+          track-by="name"
           label="name"
           placeholder="Select one"
         )
-    pre.language-javascript
-      code.
-        updateValue (value) {
-          this.value = value
-        }

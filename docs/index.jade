@@ -16,48 +16,48 @@ html(lang="en")
     meta(property='twitter:description', content='The most complete selecting solution for Vue.js, without jQuery.')
   body
     #app
-      //- include ./partials/_start
+      include ./partials/_start
 
-      //- .grid__row.docs
-      //-   .grid__columns.grid__unit--sm-3.small--hidden
-      //-     include ./partials/_nav
-      //-   .grid__columns.grid__unit--sm-12.grid__unit--md-9
-      //-     include ./partials/_getting-started
-      //-
-      //-     hr.typo__hr
-      //-     h1.typo__h1 Examples
-      //-
-      //-     include ./partials/examples/_single-select-primitve
-      //-
-      //-     include ./partials/examples/_single-select-object
-      //-
-      //-     hr.typo__hr
-      //-
-      //-     include ./partials/examples/_single-select-search
-      //-
-      //-     hr.typo__hr
-      //-     include ./partials/examples/_multi-select-search
-      //-
-      //-     hr.typo__hr
-      //-     include ./partials/examples/_ajax-search
-      //-
-      //-     hr.typo__hr
-      //-     include ./partials/examples/_tagging
-      //-
-      //-     hr.typo__hr
-      //-     include ./partials/examples/_action
-      //-
-      //-     hr.typo__hr
-      //-     include ./partials/examples/_custom
-      //-
-      //-     hr.typo__hr
-      //-     include ./partials/api/_props
-      //-     include ./partials/api/_events
-      //-     include ./partials/api/_slots
+      .grid__row.docs
+        .grid__columns.grid__unit--sm-3.small--hidden
+          include ./partials/_nav
+        .grid__columns.grid__unit--sm-12.grid__unit--md-9
+          include ./partials/_getting-started
 
-      //- include ./partials/_footer
+          hr.typo__hr
+          h1.typo__h1 Examples
 
-    //- script(src='static/prism.js')
+          include ./partials/examples/_single-select-primitve
+
+          include ./partials/examples/_single-select-object
+
+          hr.typo__hr
+
+          include ./partials/examples/_single-select-search
+
+          hr.typo__hr
+          include ./partials/examples/_multi-select-search
+
+          hr.typo__hr
+          include ./partials/examples/_ajax-search
+
+          hr.typo__hr
+          include ./partials/examples/_tagging
+
+          hr.typo__hr
+          include ./partials/examples/_action
+
+          hr.typo__hr
+          include ./partials/examples/_custom
+
+          hr.typo__hr
+          include ./partials/api/_props
+          include ./partials/api/_events
+          include ./partials/api/_slots
+
+      include ./partials/_footer
+
+    script(src='static/prism.js')
     //- script.
     //-   /*eslint-disable */
     //-   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

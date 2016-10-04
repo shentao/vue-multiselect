@@ -4,15 +4,13 @@ p.typo__p Disabled all highlight label text.
   .grid__column.grid__unit--md-5
     label.typo__label Single select / dropdown
     multiselect(
+      v-model="valuePrimitive",
       :options="options",
-      :selected="valuePrimitive",
       :multiple="false",
       :searchable="false",
       :close-on-select="false",
       :show-labels="false"
-      @update="updateValuePrimitive"
       placeholder="Select one"
-      label="name"
     )
     pre.language-json
       code.
@@ -23,18 +21,11 @@ p.typo__p Disabled all highlight label text.
     pre.language-jade
       code.
         multiselect(
+          v-model="valuePrimitive",
           :options="options",
-          :selected="valuePrimitive",
           :multiple="false",
           :searchable="false",
           :close-on-select="false",
           :show-labels="false"
-          @update="updateValuePrimitive"
           placeholder="Select one"
-          label="name"
         )
-    pre.language-javascript
-      code.
-        updateValuePrimitive (value) {
-          this.valuePrimitive = value
-        }
