@@ -19,3 +19,4 @@ build/
 .eslintignore
 index.html
 config.js
+bower.json
