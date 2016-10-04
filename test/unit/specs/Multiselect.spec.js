@@ -378,18 +378,18 @@ describe('Multiselect.vue', () => {
 
         it('should set search value to equal to passed value', (done) => {
           const vm = new Vue({
-            template: '<multiselect :selected="value" :options="source" label="id" key="id"></multiselect>',
+            template: '<multiselect :selected="value" :options="source"></multiselect>',
             components: { Multiselect },
             data: {
-              value: 2,
-              source: [1, 2, 3]
+              value: 0,
+              source: [0, 1, 2, 3]
             }
           }).$mount()
           const comp = vm.$children[0]
           comp.$nextTick(() => {
             comp.$nextTick(() => {
-              expect(comp.search).to.equal('2')
-              expect(comp.$els.search.value).to.equal('2')
+              expect(comp.search).to.equal('0')
+              expect(comp.$els.search.value).to.equal('0')
               done()
             })
           })
@@ -1088,17 +1088,17 @@ describe('Multiselect.vue', () => {
       expect(vm.$children[0].getOptionLabel(option)).to.equal('2')
     })
 
-    it('should return option’s label when custom label is set', () => {
+    it('should return tag’s query when option is a tag', () => {
       const vm = new Vue({
         template: '<multiselect :selected="value" :options="source" :multiple="true" label="id" key="id"></multiselect>',
         components: { Multiselect },
         data: {
           value: [],
-          source: [{ id: '1' }, { id: '2' }, { id: '3' }]
+          source: [{ isTag: true, label: 'isTag' }, { id: '2' }, { id: '3' }]
         }
       }).$mount()
-      const option = vm.$children[0].options[2]
-      expect(vm.$children[0].getOptionLabel(option)).to.equal('3')
+      const option = vm.$children[0].options[0]
+      expect(vm.$children[0].getOptionLabel(option)).to.equal('isTag')
     })
 
     it('should return customLabel’s interpolation if set', () => {
