@@ -1,4 +1,4 @@
-# vue-multiselect ![Build Status](https://circleci.com/gh/monterail/vue-multiselect/tree/master.svg?style=shield&circle-token=5c931ff28fd12587610f835472becdd514d09cef)
+# vue-multiselect ![Build Status](https://circleci.com/gh/monterail/vue-multiselect/tree/master.svg?style=flat&circle-token=5c931ff28fd12587610f835472becdd514d09cef)![Current Release](https://img.shields.io/github/release/sagalbot/vue-select.svg?style=flat)![License](https://img.shields.io/badge/license-MIT-blue.svg?style=flat)
 The most complete *selecting* solution for Vue.js, without jQuery.
 
 #### Current version: 1.1.4
