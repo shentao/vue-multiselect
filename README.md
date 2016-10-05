@@ -1,7 +1,7 @@
 # vue-multiselect ![Build Status](https://circleci.com/gh/monterail/vue-multiselect/tree/master.svg?style=shield&circle-token=5c931ff28fd12587610f835472becdd514d09cef)
 Probably the most complete *selecting* solution for Vue.js, without jQuery.
 
-#### Current version: v1.1.4
+#### Current version: 1.1.4
 
 #### For Vue 2.0 users:
 Vue-multiselect 2.0-beta is available: `npm install vue-multiselect@next`.
