@@ -8,6 +8,9 @@ Vue-multiselect 2.0-beta is available: `npm install vue-multiselect@next`.
 API changes:
 * Instead of Vue.partial for custom option templates you can use a custom render function.
 * The `:key` props has changed to `:track-by`, due to conflicts with Vue 2.0.
+* Added support for `v-model`
+* `@update` has changed to `@input` to also work with v-model
+* `:selected` has changed to `:value` for the same reason
 
 ### Features & characteristics:
 * NO dependencies
