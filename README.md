@@ -17,6 +17,13 @@ Probably the most complete *selecting* solution for Vue.js 2.0, without jQuery.
 * \> 99% test coverage
 * Fully configurable (see props list below)
 
+## Breaking changes:
+* Instead of Vue.partial for custom option templates you can use a custom render function.
+* The `:key` props has changed to `:track-by`, due to conflicts with Vue 2.0.
+* Support for `v-model`
+* `@update` has changed to `@input` to also work with v-model
+* `:selected` has changed to `:value` for the same reason
+
 ## Install & basic usage
 
 ``` bash
@@ -65,8 +72,6 @@ export default {
 ## Roadmap:
 
 * Grouping
-* Support for partials
-* Examples of custom components / templates ready to use in project
 
 ## Examples
 in jade-lang/pug-lang
@@ -330,6 +335,16 @@ props: {
   */
   id: {
     default: null
+  },
+  /**
+   * Limits the options displayed in the dropdown
+   * to the first X options.
+   * @default 1000
+   * @type {Integer}
+  */
+  optionsLimit: {
+    type: Number,
+    default: 1000
   }
 }
 

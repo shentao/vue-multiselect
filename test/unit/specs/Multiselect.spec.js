@@ -1983,6 +1983,31 @@ describe('Multiselect.vue', () => {
       expect(comp.filteredOptions).to.deep.equal([10, 20, 30])
       expect(comp.filteredOptions.length).to.equal(3)
     })
+
+    it('should return only as many options as set in the :options-limit prop.', () => {
+      const vm = new Vue({
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              value: this.value,
+              options: this.source,
+              multiple: true,
+              optionsLimit: 2
+            }
+          })
+        },
+        components: { Multiselect },
+        data: {
+          value: [],
+          source: ['test', 'production', 'testing']
+        }
+      }).$mount()
+      expect(vm.$children[0].filteredOptions).to.deep.equal(['test', 'production'])
+      expect(vm.$children[0].filteredOptions.length).to.equal(2)
+      vm.$children[0].search = 'test'
+      expect(vm.$children[0].filteredOptions).to.deep.equal(['test', 'testing'])
+      expect(vm.$children[0].filteredOptions.length).to.equal(2)
+    })
   })
 
   describe('#onTag', () => {

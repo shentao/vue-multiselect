@@ -5,6 +5,12 @@ require('./docs.scss')
 import countries from './data/countries.json'
 import Multiselect from '../src/Multiselect'
 
+let moreCountries = []
+for (var i = 0; i < 100; i++) {
+  moreCountries = moreCountries.concat(countries)
+}
+console.log(moreCountries.length)
+
 function throttle (callback, limit) {
   var wait = false
   return function () {
@@ -47,7 +53,7 @@ new Vue({
       taggingSelected: [],
       searchable: true,
       placeholder: 'Select props',
-      countries: [],
+      countries: moreCountries,
       selectedCountries: [],
       actions: ['alert', 'console.log', 'scrollTop'],
       action: null,
@@ -71,17 +77,7 @@ new Vue({
   },
   methods: {
     asyncFind (query) {
-      if (query.length === 0) {
-        this.countries = []
-      } else {
-        this.isLoading = true
-        setTimeout(() => {
-          this.countries = countries.filter((element, index, array) => {
-            return element.name.toLowerCase().includes(query.toLowerCase())
-          })
-          this.isLoading = false
-        }, 1000)
-      }
+      this.countries = moreCountries.filter(country => country.name.toLowerCase().includes(query.toLowerCase()))
     },
     onTagging (newTag) {
       this.source.push({ name: newTag, language: newTag })

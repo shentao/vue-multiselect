@@ -8,13 +8,14 @@ p.typo__p
   .grid__column.grid__unit--md-5
     label.typo__label Async multiselect
     multiselect(
+      v-model="selectedCountries",
       :options="countries",
-      :value="selectedCountries",
       :multiple="multiple",
       :searchable="searchable",
       :clear-on-select="false",
       :close-on-select="false",
       :loading="isLoading",
+      :options-limit="300",
       id="ajax",
       @search-change="asyncFind",
       label="name"
@@ -40,7 +41,6 @@ p.typo__p
           :close-on-select="false",
           :loading="isLoading",
           id="ajax",
-          @search-change="asyncFind",
           label="name"
           track-by="code"
           placeholder="Type to search"
