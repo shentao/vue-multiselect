@@ -258,7 +258,7 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect__loading-enter-active,
-.multiselect__loading-leave-active, {
+.multiselect__loading-leave-active {
   transition: opacity 0.4s ease-in-out;
   opacity: 1;
 }
