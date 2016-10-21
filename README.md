@@ -112,7 +112,6 @@ multiselect(
   :options="source",
   :selected="value",
   :close-on-select="true",
-  :clear-on-select="false",
   @update="updateValue",
   placeholder="Select one",
   label="name",
