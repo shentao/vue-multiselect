@@ -34,6 +34,7 @@ module.exports = {
       }
     },
     addPointerElement () {
+      if (this.filteredOptions[this.pointer].isLabel) return
       if (this.filteredOptions.length > 0) {
         this.select(this.filteredOptions[this.pointer])
       }

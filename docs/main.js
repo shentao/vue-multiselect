@@ -34,6 +34,16 @@ new Vue({
   },
   data () {
     return {
+      groups: [
+        {
+          groupLabel: 'grupa 1',
+          values: ['1', '1a', '1b']
+        },
+        {
+          groupLabel: 'grupa 2',
+          values: ['2', '2a', '2b']
+        }
+      ],
       options: ['Select option', 'options', 'selected', 'mulitple', 'label', 'searchable', 'clearOnSelect', 'hideSelected', 'maxHeight', 'allowEmpty', 'showLabels', 'onChange', 'touched'],
       selected: ['Select option'],
       source: [

@@ -72,6 +72,7 @@
             <li v-for="(option, index) of filteredOptions" :key="index">
               <span
                 tabindex="0"
+                v-if="!option.isLabel"
                 :class="optionHighlight(index, option)"
                 @mousedown.prevent="select(option)"
                 @mouseenter="pointerSet(index)"
@@ -84,6 +85,13 @@
                     :label="getOptionLabel(option)"
                     :option="option">
                   </multiselect-option>
+              </span>
+              <span
+                v-if="option.isLabel"
+                :class="optionHighlight(index, option)"
+                class="multiselect__option multiselect__option--disabled"
+                @mouseenter="pointerSet(index)">
+                {{ option.label }}
               </span>
             </li>
           </template>
@@ -551,16 +559,11 @@ fieldset[disabled] .multiselect {
   background: #ededed;
   color: #a6a6a6;
   cursor: text;
-  pointer-events: none;
+  /*pointer-events: none;*/
 }
 
-.multiselect__option--disabled:visited {
-  color: #a6a6a6;
-}
-
-.multiselect__option--disabled:hover,
-.multiselect__option--disabled:focus {
-  background: #3dad7b;
+.multiselect__option--disabled.multiselect__option--highlight {
+  background: #dedede !important;
 }
 
 .multiselect-enter-active,

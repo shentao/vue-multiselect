@@ -197,6 +197,9 @@ module.exports = {
     optionsLimit: {
       type: Number,
       default: 1000
+    },
+    groupKey: {
+      type: String
     }
   },
   created () {
@@ -204,18 +207,47 @@ module.exports = {
   },
   computed: {
     filteredOptions () {
-      let search = this.search || ''
-      let options = this.hideSelected
-        ? this.options.filter(this.isNotSelected)
-        : this.options
+      // let search = this.search || ''
+
+      let options = []
+
       if (this.localSearch) {
-        options = this.label
-          ? options.filter(option => includes(option[this.label], this.search))
-          : options.filter(option => includes(option, this.search))
+        if (!this.groupKey) {
+          options = this.label
+            ? this.options.filter(option => includes(option[this.label], this.search))
+            : this.options.filter(option => includes(option, this.search))
+        } else {
+          options = this.options.map(group => {
+            const tmp = {
+              groupLabel: group.groupLabel,
+              [this.groupKey]: this.label
+                ? group[this.groupKey].filter(option => includes(option[this.label], this.search))
+                : group[this.groupKey].filter(option => includes(option, this.search))
+            }
+            return tmp[this.groupKey].length
+              ? tmp
+              : []
+          })
+        }
+        console.log(options)
       }
-      if (this.taggable && search.length && !this.isExistingOption(search)) {
-        options.unshift({ isTag: true, label: search })
+      options = this.hideSelected
+        ? options.filter(this.isNotSelected)
+        : options
+      // if (this.taggable && search.length && !this.isExistingOption(search)) {
+      //   options.unshift({ isTag: true, label: search })
+      // }
+
+      if (this.groupKey) {
+        options = options.reduce((prev, curr) => {
+          prev.push({
+            label: curr.groupLabel,
+            isLabel: true
+          })
+          return prev.concat(curr[this.groupKey])
+        }, [])
       }
+
       return options.slice(0, this.optionsLimit)
     },
     valueKeys () {
