@@ -15,14 +15,13 @@ section.start(
         .multiselect-example__container
           multiselect(
             v-model="value",
-            :options="source",
+            :options="groups",
             :multiple="true",
             :searchable="searchable",
             :show-labels="true",
             :limit="3",
             :taggable="true",
-            label="name",
-            track-by="name",
+            group-key="values",
             @tag="onTagging"
             placeholder="Select option",
             select-label="Enter to select"
