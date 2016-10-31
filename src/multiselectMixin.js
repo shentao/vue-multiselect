@@ -6,6 +6,12 @@ function includes (str, query) {
   return text.indexOf(query) !== -1
 }
 
+function filterOptions (options, search, label) {
+  return label
+    ? options.filter(option => includes(option[label], search))
+    : options.filter(option => includes(option, search))
+}
+
 module.exports = {
   data () {
     return {
@@ -207,45 +213,22 @@ module.exports = {
   },
   computed: {
     filteredOptions () {
-      // let search = this.search || ''
+      let search = this.search || ''
 
-      let options = []
+      let options = this.options
 
       if (this.localSearch) {
-        if (!this.groupKey) {
-          options = this.label
-            ? this.options.filter(option => includes(option[this.label], this.search))
-            : this.options.filter(option => includes(option, this.search))
-        } else {
-          options = this.options.map(group => {
-            const tmp = {
-              groupLabel: group.groupLabel,
-              [this.groupKey]: this.label
-                ? group[this.groupKey].filter(option => includes(option[this.label], this.search))
-                : group[this.groupKey].filter(option => includes(option, this.search))
-            }
-            return tmp[this.groupKey].length
-              ? tmp
-              : []
-          })
-        }
-        console.log(options)
-      }
-      options = this.hideSelected
-        ? options.filter(this.isNotSelected)
-        : options
-      // if (this.taggable && search.length && !this.isExistingOption(search)) {
-      //   options.unshift({ isTag: true, label: search })
-      // }
+        options = this.groupKey
+          ? this.filterAndFlat(options)
+          : filterOptions(options, search, this.label)
 
-      if (this.groupKey) {
-        options = options.reduce((prev, curr) => {
-          prev.push({
-            label: curr.groupLabel,
-            isLabel: true
-          })
-          return prev.concat(curr[this.groupKey])
-        }, [])
+        options = this.hideSelected
+          ? options.filter(this.isNotSelected)
+          : options
+      }
+
+      if (this.taggable && search.length && !this.isExistingOption(search)) {
+        options.unshift({ isTag: true, label: search })
       }
 
       return options.slice(0, this.optionsLimit)
@@ -287,8 +270,34 @@ module.exports = {
     }
   },
   methods: {
+    filterAndFlat (options) {
+      return this.flattenOptions(
+        this.filterGroups(options)
+      )
+    },
+    filterGroups (groups) {
+      return groups.map(group => {
+        const groupOptions = filterOptions(group[this.groupKey], this.search, this.label)
+
+        return groupOptions.length
+          ? { groupLabel: group.groupLabel, groupOptions }
+          : []
+      })
+    },
+    flattenOptions (options) {
+      return options.reduce((prev, curr) => {
+        if (curr.groupOptions && curr.groupOptions.length) {
+          prev.push({
+            label: curr.groupLabel,
+            isLabel: true
+          })
+          return prev.concat(curr.groupOptions)
+        }
+        return prev.concat(curr)
+      }, [])
+    },
     updateSearch (query) {
-      this.search = query.trim().toLowerCase()
+      this.search = query.trim().toLowerCase().toString()
     },
     /**
      * Finds out if the given query is already present

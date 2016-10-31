@@ -44,8 +44,8 @@
           @focus.prevent="activate()"
           @blur.prevent="deactivate()"
           @keyup.esc="deactivate()"
-          @keyup.down="pointerForward()"
-          @keyup.up="pointerBackward()"
+          @keydown.down.prevent="pointerForward()"
+          @keydown.up.prevent="pointerBackward()"
           @keydown.enter.stop.prevent.self="addPointerElement()"
           @keydown.tab.stop.prevent.self="addPointerElement()"
           @keydown.delete="removeLastElement()"
@@ -89,8 +89,7 @@
               <span
                 v-if="option.isLabel"
                 :class="optionHighlight(index, option)"
-                class="multiselect__option multiselect__option--disabled"
-                @mouseenter="pointerSet(index)">
+                class="multiselect__option multiselect__option--disabled">
                 {{ option.label }}
               </span>
             </li>

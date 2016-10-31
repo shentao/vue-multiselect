@@ -1851,6 +1851,151 @@ describe('Multiselect.vue', () => {
   })
 
   describe('filteredOptions', () => {
+    describe('when groupKey is passed', () => {
+      it('should return a flat options list', () => {
+        const vm = new Vue({
+          render (h) {
+            return h(Multiselect, {
+              props: {
+                value: this.value,
+                options: this.groups,
+                groupKey: 'values',
+                searchable: true
+              }
+            })
+          },
+          components: { Multiselect },
+          data: {
+            value: [],
+            groups: [
+              {
+                groupLabel: 'GroupX',
+                values: ['1', '1x', '1y']
+              },
+              {
+                groupLabel: 'GroupY',
+                values: ['2', '2x', '2y']
+              }
+            ]
+          }
+        }).$mount()
+        const flatList = [
+          { label: 'GroupX', isLabel: true },
+          '1',
+          '1x',
+          '1y',
+          { label: 'GroupY', isLabel: true },
+          '2',
+          '2x',
+          '2y'
+        ]
+        const comp = vm.$children[0]
+        expect(comp.filteredOptions).to.deep.equal(flatList)
+      })
+      it('should return a filtered flat options list', () => {
+        const vm = new Vue({
+          render (h) {
+            return h(Multiselect, {
+              props: {
+                value: this.value,
+                options: this.groups,
+                groupKey: 'values',
+                searchable: true
+              }
+            })
+          },
+          components: { Multiselect },
+          data: {
+            value: [],
+            groups: [
+              {
+                groupLabel: 'GroupX',
+                values: ['1', '1x', '1y', '2z']
+              },
+              {
+                groupLabel: 'GroupY',
+                values: ['2', '2x', '2y', '1z']
+              }
+            ]
+          }
+        }).$mount()
+        const flatList = [
+          { label: 'GroupX', isLabel: true },
+          '1',
+          '1x',
+          '1y',
+          { label: 'GroupY', isLabel: true },
+          '1z'
+        ]
+        const comp = vm.$children[0]
+        comp.search = '1'
+        expect(comp.filteredOptions).to.deep.equal(flatList)
+      })
+      it('should remove groups without matching results', () => {
+        const vm = new Vue({
+          render (h) {
+            return h(Multiselect, {
+              props: {
+                value: this.value,
+                options: this.groups,
+                groupKey: 'values',
+                searchable: true
+              }
+            })
+          },
+          components: { Multiselect },
+          data: {
+            value: [],
+            groups: [
+              {
+                groupLabel: 'GroupX',
+                values: ['1', '1x', '1y']
+              },
+              {
+                groupLabel: 'GroupY',
+                values: ['2', '2x', '2y']
+              }
+            ]
+          }
+        }).$mount()
+        const flatList = [
+          { label: 'GroupY', isLabel: true },
+          '2',
+          '2x',
+          '2y'
+        ]
+        const comp = vm.$children[0]
+        comp.search = '2'
+        console.log(comp.filteredOptions)
+        expect(comp.filteredOptions).to.deep.equal(flatList)
+      })
+    })
+    it('should return matched options according to search value', () => {
+      const vm = new Vue({
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              value: this.value,
+              options: this.source,
+              label: 'id',
+              trackBy: 'id',
+              searchable: true,
+              multiple: true
+            }
+          })
+        },
+        components: { Multiselect },
+        data: {
+          value: [],
+          source: [{ id: '1' }, { id: '2' }, { id: '3' }]
+        }
+      }).$mount()
+      const comp = vm.$children[0]
+      expect(comp.filteredOptions).to.deep.equal([{ id: '1' }, { id: '2' }, { id: '3' }])
+      comp.search = '2'
+      expect(comp.filteredOptions).to.deep.equal([{ id: '2' }])
+    })
+
     it('should return matched options according to search value', () => {
       const vm = new Vue({
         render (h) {
