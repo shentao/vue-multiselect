@@ -9,7 +9,6 @@ let moreCountries = []
 for (var i = 0; i < 100; i++) {
   moreCountries = moreCountries.concat(countries)
 }
-console.log(moreCountries.length)
 
 function throttle (callback, limit) {
   var wait = false
@@ -37,13 +36,14 @@ new Vue({
       groups: [
         {
           groupLabel: 'grupa 1',
-          values: ['1', '1a', '1b']
+          values: ['1', '1a', '1b', 'bc', 'cd', 'ee3']
         },
         {
           groupLabel: 'grupa 2',
-          values: ['2', '2a', '2b']
+          values: ['2', '2a', '2b', 'bc', 'aa', 'ee2', 'ee3']
         }
       ],
+      groupsSelected: [],
       options: ['Select option', 'options', 'selected', 'mulitple', 'label', 'searchable', 'clearOnSelect', 'hideSelected', 'maxHeight', 'allowEmpty', 'showLabels', 'onChange', 'touched'],
       selected: ['Select option'],
       source: [
