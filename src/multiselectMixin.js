@@ -12,6 +12,40 @@ function filterOptions (options, search, label) {
     : options.filter(option => includes(option, search))
 }
 
+function stripGroups (options) {
+  return options.filter(option => !option.$isLabel)
+}
+
+function flattenOptions (values, label) {
+  return (options) =>
+    options.reduce((prev, curr) => {
+      if (curr[values] && curr[values].length) {
+        prev.push({
+          $groupLabel: curr[label],
+          $isLabel: true
+        })
+        return prev.concat(curr[values])
+      }
+      return prev.concat(curr)
+    }, [])
+}
+
+function filterGroups (search, label, values, groupLabel) {
+  return (groups) =>
+    groups.map(group => {
+      const groupOptions = filterOptions(group[values], search, label)
+
+      return groupOptions.length
+        ? {
+          [groupLabel]: group[groupLabel],
+          [values]: groupOptions
+        }
+        : []
+    })
+}
+
+const flow = (...fns) => x => fns.reduce((v, f) => f(v), x)
+
 module.exports = {
   data () {
     return {
@@ -206,6 +240,9 @@ module.exports = {
     },
     groupKey: {
       type: String
+    },
+    groupLabel: {
+      type: String
     }
   },
   created () {
@@ -219,7 +256,7 @@ module.exports = {
 
       if (this.localSearch) {
         options = this.groupKey
-          ? this.filterAndFlat(options)
+          ? this.filterAndFlat(options, search, this.label)
           : filterOptions(options, search, this.label)
 
         options = this.hideSelected
@@ -243,12 +280,13 @@ module.exports = {
       }
     },
     optionKeys () {
+      const options = this.groupKey ? this.flatAndStrip(this.options) : this.options
       return this.label
-        ? this.options.map(element => element[this.label].toString().toLowerCase())
-        : this.options.map(element => element.toString().toLowerCase())
+        ? options.map(element => element[this.label].toString().toLowerCase())
+        : options.map(element => element.toString().toLowerCase())
     },
     currentOptionLabel () {
-      return this.getOptionLabel(this.internalValue)
+      return this.getOptionLabel(this.internalValue) + ''
     }
   },
   watch: {
@@ -271,30 +309,16 @@ module.exports = {
   },
   methods: {
     filterAndFlat (options) {
-      return this.flattenOptions(
-        this.filterGroups(options)
-      )
+      return flow(
+        filterGroups(this.search, this.label, this.groupKey, this.groupLabel),
+        flattenOptions(this.groupKey, this.groupLabel)
+      )(options)
     },
-    filterGroups (groups) {
-      return groups.map(group => {
-        const groupOptions = filterOptions(group[this.groupKey], this.search, this.label)
-
-        return groupOptions.length
-          ? { groupLabel: group.groupLabel, groupOptions }
-          : []
-      })
-    },
-    flattenOptions (options) {
-      return options.reduce((prev, curr) => {
-        if (curr.groupOptions && curr.groupOptions.length) {
-          prev.push({
-            label: curr.groupLabel,
-            isLabel: true
-          })
-          return prev.concat(curr.groupOptions)
-        }
-        return prev.concat(curr)
-      }, [])
+    flatAndStrip (options) {
+      return flow(
+        flattenOptions(this.groupKey, this.groupLabel),
+        stripGroups
+      )(options)
     },
     updateSearch (query) {
       this.search = query.trim().toLowerCase().toString()
@@ -349,7 +373,7 @@ module.exports = {
     getOptionLabel (option) {
       if (!option && option !== 0) return ''
       if (option.isTag) return option.label
-      return this.customLabel(option, this.label) + ''
+      return this.customLabel(option, this.label) || ''
     },
     /**
      * Add the given option to the list of selected options

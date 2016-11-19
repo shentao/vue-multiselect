@@ -6,11 +6,15 @@ p.typo__p
     label.typo__label Groups
     multiselect(
       v-model="groupsSelected",
-      :options="groups",
+      :options="groups2",
       :multiple="true",
       :searchable="true",
+      :close-on-select="false",
       group-key="values",
-      placeholder="Type to search"
+      group-label="groupLabel",
+      placeholder="Type to search",
+      track-by="id",
+      label="label",
     )
       span(slot="noResult").
         Oops! No elements found. Consider changing the search query.

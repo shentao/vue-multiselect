@@ -1848,6 +1848,44 @@ describe('Multiselect.vue', () => {
       }).$mount()
       expect(vm.$children[0].optionKeys).to.deep.equal(['1', '2', '3'])
     })
+
+    it('should return an flat Array maped from option[label] of group values', () => {
+      const vm = new Vue({
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              value: this.value,
+              options: this.source,
+              label: 'label',
+              trackBy: 'id',
+              groupKey: 'values',
+              groupLabel: 'groupLabel',
+              searchable: true,
+              multiple: true
+            }
+          })
+        },
+        components: { Multiselect },
+        data: {
+          source: [
+            {
+              groupLabel: 'group1',
+              values: [
+                { label: 'aa', id: '1' }
+              ]
+            },
+            {
+              groupLabel: 'group2',
+              values: [
+                { label: 'bb1', id: '2' },
+                { label: 'bb2', id: '3' }
+              ]
+            }
+          ]
+        }
+      }).$mount()
+      expect(vm.$children[0].optionKeys).to.deep.equal(['aa', 'bb1', 'bb2'])
+    })
   })
 
   describe('filteredOptions', () => {
@@ -1860,6 +1898,7 @@ describe('Multiselect.vue', () => {
                 value: this.value,
                 options: this.groups,
                 groupKey: 'values',
+                groupLabel: 'groupLabel',
                 searchable: true
               }
             })
@@ -1880,14 +1919,59 @@ describe('Multiselect.vue', () => {
           }
         }).$mount()
         const flatList = [
-          { label: 'GroupX', isLabel: true },
+          { $groupLabel: 'GroupX', $isLabel: true },
           '1',
           '1x',
           '1y',
-          { label: 'GroupY', isLabel: true },
+          { $groupLabel: 'GroupY', $isLabel: true },
           '2',
           '2x',
           '2y'
+        ]
+        const comp = vm.$children[0]
+        expect(comp.filteredOptions).to.deep.equal(flatList)
+      })
+      it('should return a flat options list when options are objects', () => {
+        const vm = new Vue({
+          render (h) {
+            return h(Multiselect, {
+              props: {
+                value: this.value,
+                options: this.groups,
+                groupKey: 'values',
+                groupLabel: 'groupLabel',
+                searchable: true,
+                trackBy: 'id',
+                label: 'label'
+              }
+            })
+          },
+          components: { Multiselect },
+          data: {
+            value: [],
+            groups: [
+              {
+                groupLabel: 'GroupX',
+                values: [
+                  { label: 'aa', id: '1' }
+                ]
+              },
+              {
+                groupLabel: 'GroupY',
+                values: [
+                  { label: 'bb1', id: '2' },
+                  { label: 'bb2', id: '3' }
+                ]
+              }
+            ]
+          }
+        }).$mount()
+        const flatList = [
+          { $groupLabel: 'GroupX', $isLabel: true },
+          { label: 'aa', id: '1' },
+          { $groupLabel: 'GroupY', $isLabel: true },
+          { label: 'bb1', id: '2' },
+          { label: 'bb2', id: '3' }
         ]
         const comp = vm.$children[0]
         expect(comp.filteredOptions).to.deep.equal(flatList)
@@ -1900,6 +1984,7 @@ describe('Multiselect.vue', () => {
                 value: this.value,
                 options: this.groups,
                 groupKey: 'values',
+                groupLabel: 'groupLabel',
                 searchable: true
               }
             })
@@ -1920,11 +2005,11 @@ describe('Multiselect.vue', () => {
           }
         }).$mount()
         const flatList = [
-          { label: 'GroupX', isLabel: true },
+          { $groupLabel: 'GroupX', $isLabel: true },
           '1',
           '1x',
           '1y',
-          { label: 'GroupY', isLabel: true },
+          { $groupLabel: 'GroupY', $isLabel: true },
           '1z'
         ]
         const comp = vm.$children[0]
@@ -1939,6 +2024,7 @@ describe('Multiselect.vue', () => {
                 value: this.value,
                 options: this.groups,
                 groupKey: 'values',
+                groupLabel: 'groupLabel',
                 searchable: true
               }
             })
@@ -1959,14 +2045,62 @@ describe('Multiselect.vue', () => {
           }
         }).$mount()
         const flatList = [
-          { label: 'GroupY', isLabel: true },
+          { $groupLabel: 'GroupY', $isLabel: true },
           '2',
           '2x',
           '2y'
         ]
         const comp = vm.$children[0]
         comp.search = '2'
-        console.log(comp.filteredOptions)
+        expect(comp.filteredOptions).to.deep.equal(flatList)
+      })
+      it('should filter options objects matching query', () => {
+        const vm = new Vue({
+          render (h) {
+            return h(Multiselect, {
+              props: {
+                value: this.value,
+                options: this.groups,
+                groupKey: 'values',
+                groupLabel: 'groupLabel',
+                searchable: true,
+                trackBy: 'value',
+                label: 'label'
+              }
+            })
+          },
+          components: { Multiselect },
+          data: {
+            value: [],
+            groups: [
+              {
+                groupLabel: 'GroupX',
+                values: [
+                  { value: 1, label: 'One' },
+                  { value: 2, label: 'Two' },
+                  { value: 3, label: 'Three' }
+                ]
+              },
+              {
+                groupLabel: 'GroupY',
+                values: [
+                  { value: 4, label: 'OneTwo' },
+                  { value: 5, label: 'TwoThree' },
+                  { value: 6, label: 'ThreeFour' }
+                ]
+              }
+            ]
+          }
+        }).$mount()
+        const flatList = [
+          { $groupLabel: 'GroupX', $isLabel: true },
+          { value: 2, label: 'Two' },
+          { $groupLabel: 'GroupY', $isLabel: true },
+          { value: 4, label: 'OneTwo' },
+          { value: 5, label: 'TwoThree' }
+        ]
+        const comp = vm.$children[0]
+        comp.search = 'two'
         expect(comp.filteredOptions).to.deep.equal(flatList)
       })
     })

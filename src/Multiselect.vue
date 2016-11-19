@@ -50,11 +50,11 @@
           @keydown.tab.stop.prevent.self="addPointerElement()"
           @keydown.delete="removeLastElement()"
           class="multiselect__input"/>
-          <span
-            v-if="!searchable && !multiple"
-            class="multiselect__single"
-            v-text="currentOptionLabel || placeholder">
-          </span>
+        <span
+          v-if="!searchable"
+          class="multiselect__single"
+          v-text="currentOptionLabel || placeholder">
+        </span>
       </div>
       <transition name="multiselect">
         <ul
@@ -72,7 +72,7 @@
             <li v-for="(option, index) of filteredOptions" :key="index">
               <span
                 tabindex="0"
-                v-if="!option.isLabel"
+                v-if="!option.$isLabel"
                 :class="optionHighlight(index, option)"
                 @mousedown.prevent="select(option)"
                 @mouseenter="pointerSet(index)"
@@ -87,10 +87,10 @@
                   </multiselect-option>
               </span>
               <span
-                v-if="option.isLabel"
+                v-if="option.$isLabel"
                 :class="optionHighlight(index, option)"
                 class="multiselect__option multiselect__option--disabled">
-                {{ option.label }}
+                {{ option.$groupLabel }}
               </span>
             </li>
           </template>
@@ -336,7 +336,8 @@ fieldset[disabled] .multiselect {
   margin-bottom: 8px;
 }
 
-.multiselect__tag ~ .multiselect__input {
+.multiselect__tag ~ .multiselect__input,
+.multiselect__tag ~ .multiselect__single {
   width: auto;
 }
 
