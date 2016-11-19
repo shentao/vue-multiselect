@@ -40,7 +40,25 @@ new Vue({
         },
         {
           groupLabel: 'grupa 2',
-          values: ['2', '2a', '2b', 'bc', 'aa', 'ee2', 'ee3']
+          values: ['2', '2a', '2b', 'bcc', 'aa', 'ee2', 'ee33']
+        }
+      ],
+      groups2: [
+        {
+          groupLabel: 'grupa 1',
+          values: [
+            { label: 'aa1', id: '1' },
+            { label: 'aa2', id: '2' },
+            { label: 'ab', id: '3' }
+          ]
+        },
+        {
+          groupLabel: 'grupa 2',
+          values: [
+            { label: 'bb1', id: '4' },
+            { label: 'bb2', id: '5' },
+            { label: 'ab', id: '6' }
+          ]
         }
       ],
       groupsSelected: [],
