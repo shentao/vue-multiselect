@@ -237,8 +237,6 @@ methods: {
 props: {
   /**
    * Array of available options: Objects, Strings or Integers.
-   * If array of objects, visible label will default to option.label.
-   * If `label` prop is passed, label will equal option['label']
    * @type {Array}
    */
   options: {
@@ -260,8 +258,7 @@ props: {
    */
   selected: {},
   /**
-   * Key to compare objects
-   * @default 'id'
+   * Key to compare objects.
    * @type {String}
    */
   key: {
@@ -270,7 +267,6 @@ props: {
   },
   /**
    * Label to look for in option Object
-   * @default 'label'
    * @type {String}
    */
   label: {
