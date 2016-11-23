@@ -197,6 +197,15 @@ module.exports = {
     optionsLimit: {
       type: Number,
       default: 1000
+    },
+    /**
+     * Define a regular expression for characters to filter out.
+     * @default null
+     * @type {String}
+     */
+    inputFilter: {
+      type: String,
+      default: null
     }
   },
   created () {
@@ -245,6 +254,11 @@ module.exports = {
       this.adjustSearch()
     },
     'search' () {
+      if (this.inputFilter !== null) {
+        var inputFilterRegEx = new RegExp(this.inputFilter)
+        this.search = this.search.replace(inputFilterRegEx, '')
+      }
+
       /* istanbul ignore else */
       if (this.search === this.currentOptionLabel) return
 
