@@ -345,6 +345,15 @@ props: {
   optionsLimit: {
     type: Number,
     default: 1000
+  },
+  /**
+    * Define a regular expression for characters to filter out.
+    * @default null
+    * @type {String}
+  */
+  inputFilter: {
+    type: String,
+    default: null
   }
 }
 

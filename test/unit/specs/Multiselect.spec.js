@@ -885,7 +885,6 @@ describe('Multiselect.vue', () => {
         }
       }).$mount()
       const comp = vm.$children[0]
-      console.log(comp.valueKeys)
       comp.removeElement(comp.value[0])
       expect(comp.internalValue).to.deep.equal([])
     })
@@ -2128,6 +2127,41 @@ describe('Multiselect.vue', () => {
       expect(vm.$children[0].selectLabelText).to.equal('')
       expect(vm.$children[0].deselectLabelText).to.equal('')
       expect(vm.$children[0].selectedLabelText).to.equal('')
+    })
+  })
+
+  describe('inputFilter', () => {
+    beforeEach(function () {
+      document.body.insertAdjacentHTML('afterbegin', '<app></app>')
+    })
+    it('should filter out characters that are defined in a regular expression', (done) => {
+      const vm = new Vue({
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              value: this.value,
+              options: this.source,
+              inputFilter: this.inputFilter
+            }
+          })
+        },
+        el: 'App',
+        components: { Multiselect },
+        data: {
+          value: 'a1B2c3',
+          source: [],
+          inputFilter: '[^a-zA-Z]'
+        }
+      })
+
+      const comp = vm.$children[0]
+
+      comp.$nextTick(function () {
+        comp.$nextTick(function () {
+          expect(comp.search).to.equal('aBc')
+          done()
+        })
+      })
     })
   })
 })
