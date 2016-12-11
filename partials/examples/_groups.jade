@@ -1,4 +1,4 @@
-h2.typo__h2#tagging Groups
+h2.typo__h2#groups Groups
 p.typo__p
   | To enable groups...
 .grid__row
@@ -6,7 +6,7 @@ p.typo__p
     label.typo__label Groups
     multiselect(
       v-model="groupsSelected",
-      :options="groups2",
+      :options="groupsWithObjects",
       :multiple="true",
       :searchable="true",
       :close-on-select="false",
