@@ -243,6 +243,12 @@ module.exports = {
     },
     groupLabel: {
       type: String
+    },
+    blockKeys: {
+      type: Array,
+      default () {
+        return []
+      }
     }
   },
   created () {
@@ -308,12 +314,22 @@ module.exports = {
     }
   },
   methods: {
+    /**
+     * Filters and then flattens the options list
+     * @param  {Array}
+     * @returns {Array} returns a filtered and flat options list
+     */
     filterAndFlat (options) {
       return flow(
         filterGroups(this.search, this.label, this.groupKey, this.groupLabel),
         flattenOptions(this.groupKey, this.groupLabel)
       )(options)
     },
+    /**
+     * Flattens and then strips the group labels from the options list
+     * @param  {Array}
+     * @returns {Array} returns a flat options list without group labels
+     */
     flatAndStrip (options) {
       return flow(
         flattenOptions(this.groupKey, this.groupLabel),
@@ -381,8 +397,10 @@ module.exports = {
      * If option is already selected -> remove it from the results.
      *
      * @param  {Object||String||Integer} option to select/deselect
+     * @param  {Boolean} block removing
      */
-    select (option) {
+    select (option, key) {
+      if (this.blockKeys.indexOf(key) !== -1) return
       if (this.max && this.multiple && this.internalValue.length === this.max) return
       if (option.isTag) {
         this.$emit('tag', option.label, this.id)
@@ -390,7 +408,7 @@ module.exports = {
       } else {
         if (this.multiple) {
           if (this.isSelected(option)) {
-            this.removeElement(option)
+            if (key !== 'Tab') this.removeElement(option)
             return
           } else {
             this.internalValue.push(option)
@@ -399,7 +417,7 @@ module.exports = {
           const isSelected = this.isSelected(option)
 
           /* istanbul ignore else */
-          if (isSelected && !this.allowEmpty) return
+          if (isSelected && (!this.allowEmpty || key === 'Tab')) return
 
           this.internalValue = isSelected ? null : option
         }
@@ -437,6 +455,7 @@ module.exports = {
      */
     removeLastElement () {
       /* istanbul ignore else */
+      if (this.blockKeys.indexOf('Delete') !== -1) return
       if (this.search.length === 0 && Array.isArray(this.internalValue)) {
         this.removeElement(this.internalValue[this.internalValue.length - 1])
       }

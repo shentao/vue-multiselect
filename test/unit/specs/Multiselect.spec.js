@@ -777,6 +777,32 @@ describe('Multiselect.vue', () => {
         vm.$children[0].select(vm.source[0])
         expect(vm.$children[0].internalValue).to.deep.equal([{ id: '2' }])
       })
+
+      it('should NOT remove already selected object when called with Tab key', () => {
+        const vm = new Vue({
+          render (h) {
+            return h(Multiselect, {
+              props: {
+                value: this.value,
+                options: this.source,
+                label: 'id',
+                trackBy: 'id',
+                multiple: true
+              }
+            })
+          },
+          components: { Multiselect },
+          data: {
+            value: [],
+            source: [{ id: '1' }, { id: '2' }, { id: '3' }]
+          }
+        }).$mount()
+        vm.$children[0].select(vm.source[0])
+        vm.$children[0].select(vm.source[1])
+        expect(vm.$children[0].internalValue).to.deep.equal([{ id: '1' }, { id: '2' }])
+        vm.$children[0].select(vm.source[0], 'Tab')
+        expect(vm.$children[0].internalValue).to.deep.equal([{ id: '1' }, { id: '2' }])
+      })
       describe('and when max == 3', () => {
         it('should prevent from adding more than 3 elements', () => {
           const vm = new Vue({
@@ -832,6 +858,29 @@ describe('Multiselect.vue', () => {
         expect(vm.$children[0].internalValue).to.deep.equal({ id: '1' })
         vm.$children[0].select(vm.source[1])
         expect(vm.$children[0].internalValue).to.deep.equal({ id: '2' })
+      })
+      it('should not deselect a value when called with Tab key', () => {
+        const vm = new Vue({
+          render (h) {
+            return h(Multiselect, {
+              props: {
+                value: this.value,
+                options: this.source,
+                label: 'id',
+                trackBy: 'id'
+              }
+            })
+          },
+          components: { Multiselect },
+          data: {
+            value: [],
+            source: [{ id: '1' }, { id: '2' }, { id: '3' }]
+          }
+        }).$mount()
+        vm.$children[0].select(vm.source[0])
+        expect(vm.$children[0].internalValue).to.deep.equal({ id: '1' })
+        vm.$children[0].select(vm.source[0], 'Tab')
+        expect(vm.$children[0].internalValue).to.deep.equal({ id: '1' })
       })
     })
     describe('when closeOnSelect == FALSE', () => {

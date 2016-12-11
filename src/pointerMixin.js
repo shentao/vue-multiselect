@@ -33,10 +33,10 @@ module.exports = {
         'multiselect__option--selected': this.isSelected(option)
       }
     },
-    addPointerElement () {
+    addPointerElement (e = 'Enter') {
       if (this.filteredOptions[this.pointer].isLabel) return
       if (this.filteredOptions.length > 0) {
-        this.select(this.filteredOptions[this.pointer])
+        this.select(this.filteredOptions[this.pointer], e.key)
       }
       this.pointerReset()
     },

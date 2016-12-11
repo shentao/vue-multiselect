@@ -6,8 +6,7 @@
     @blur="searchable ? false : deactivate()"
     @keydown.self.down.prevent="pointerForward()"
     @keydown.self.up.prevent="pointerBackward()"
-    @keydown.enter.stop.prevent.self="addPointerElement()"
-    @keydown.tab.stop.prevent.self="addPointerElement()"
+    @keydown.enter.tab.stop.prevent.self="addPointerElement($event)"
     @keyup.esc="deactivate()"
     class="multiselect">
       <div @mousedown.prevent="toggle()" class="multiselect__select"></div>
@@ -32,7 +31,6 @@
           <div v-show="loading" class="multiselect__spinner"></div>
         </transition>
         <input
-          name="search"
           ref="search"
           type="text"
           autocomplete="off"
@@ -46,8 +44,7 @@
           @keyup.esc="deactivate()"
           @keydown.down.prevent="pointerForward()"
           @keydown.up.prevent="pointerBackward()"
-          @keydown.enter.stop.prevent.self="addPointerElement()"
-          @keydown.tab.stop.prevent.self="addPointerElement()"
+          @keydown.enter.tab.stop.prevent.self="addPointerElement($event)"
           @keydown.delete="removeLastElement()"
           class="multiselect__input"/>
         <span

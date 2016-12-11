@@ -43,7 +43,7 @@ new Vue({
           values: ['2', '2a', '2b', 'bcc', 'aa', 'ee2', 'ee33']
         }
       ],
-      groups2: [
+      groupsWithObjects: [
         {
           groupLabel: 'grupa 1',
           values: [
