@@ -78,7 +78,7 @@ new Vue({
       multiValue: [{ name: 'Vue.js', language: 'JavaScript' }],
       multiple: true,
       taggingOptions: [{ name: 'Vue.js', code: 'vu' }, { name: 'Javascript', code: 'js' }, { name: 'Monterail', code: 'pl' }, { name: 'Open Source', code: 'os' }],
-      taggingSelected: [],
+      taggingSelected: [{ name: 'Javascript', code: 'js' }, { name: 'Custom', code: 'cstm' }],
       searchable: true,
       placeholder: 'Select props',
       countries: moreCountries,
