@@ -23,6 +23,7 @@ Probably the most complete *selecting* solution for Vue.js 2.0, without jQuery.
 * Support for `v-model`
 * `@update` has changed to `@input` to also work with v-model
 * `:selected` has changed to `:value` for the same reason
+* Browserify users: if you wish to import `.vue` files, please add `vueify` transform.
 
 ## Install & basic usage
 

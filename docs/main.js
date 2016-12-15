@@ -9,7 +9,6 @@ let moreCountries = []
 for (var i = 0; i < 100; i++) {
   moreCountries = moreCountries.concat(countries)
 }
-console.log(moreCountries.length)
 
 function throttle (callback, limit) {
   var wait = false
@@ -34,6 +33,35 @@ new Vue({
   },
   data () {
     return {
+      groups: [
+        {
+          groupLabel: 'grupa 1',
+          values: ['1', '1a', '1b', 'bc', 'cd', 'ee3']
+        },
+        {
+          groupLabel: 'grupa 2',
+          values: ['2', '2a', '2b', 'bcc', 'aa', 'ee2', 'ee33']
+        }
+      ],
+      groupsWithObjects: [
+        {
+          groupLabel: 'grupa 1',
+          values: [
+            { label: 'aa1', id: '1' },
+            { label: 'aa2', id: '2' },
+            { label: 'ab', id: '3' }
+          ]
+        },
+        {
+          groupLabel: 'grupa 2',
+          values: [
+            { label: 'bb1', id: '4' },
+            { label: 'bb2', id: '5' },
+            { label: 'ab', id: '6' }
+          ]
+        }
+      ],
+      groupsSelected: [],
       options: ['Select option', 'options', 'selected', 'mulitple', 'label', 'searchable', 'clearOnSelect', 'hideSelected', 'maxHeight', 'allowEmpty', 'showLabels', 'onChange', 'touched'],
       selected: ['Select option'],
       source: [
@@ -50,7 +78,7 @@ new Vue({
       multiValue: [{ name: 'Vue.js', language: 'JavaScript' }],
       multiple: true,
       taggingOptions: [{ name: 'Vue.js', code: 'vu' }, { name: 'Javascript', code: 'js' }, { name: 'Monterail', code: 'pl' }, { name: 'Open Source', code: 'os' }],
-      taggingSelected: [],
+      taggingSelected: [{ name: 'Javascript', code: 'js' }, { name: 'Custom', code: 'cstm' }],
       searchable: true,
       placeholder: 'Select props',
       countries: moreCountries,

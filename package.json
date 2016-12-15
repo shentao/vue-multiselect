@@ -1,6 +1,6 @@
 {
   "name": "vue-multiselect",
-  "version": "2.0.0-beta.10",
+  "version": "2.0.0-beta.11",
   "description": "Multiselect component for vue.js",
   "author": "Damian Dulisz <damian.dulisz@monterail.com>",
   "private": false,
@@ -23,19 +23,6 @@
     "unit-watch": "karma start test/unit/karma.conf.js --watch",
     "lint": "eslint --ext .js,.vue src test/unit/specs",
     "bundle": "webpack --config build/webpack.bundle.conf.js"
-  },
-  "browserify": {
-    "transform": [
-      "vueify",
-      [
-        "babelify",
-        {
-          "presets": [
-            "es2015"
-          ]
-        }
-      ]
-    ]
   },
   "devDependencies": {
     "babel-core": "^6.7.7",
@@ -91,11 +78,12 @@
     "sinon": "^1.17.3",
     "sinon-chai": "^2.8.0",
     "url-loader": "^0.5.7",
-    "vue": "^2.0.0-rc.6",
+    "vue": "2.1.6",
     "vue-hot-reload-api": "^1.2.0",
     "vue-html-loader": "^1.0.0",
-    "vue-loader": "^9.3.2",
+    "vue-loader": "^10.0.0",
     "vue-style-loader": "^1.0.0",
+    "vue-template-compiler": "2.1.6",
     "webpack": "^1.13.0",
     "webpack-dev-middleware": "^1.4.0",
     "webpack-hot-middleware": "^2.6.0",

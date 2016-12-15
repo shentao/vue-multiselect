@@ -14,7 +14,7 @@ section.start
         .multiselect-example__container
           multiselect(
             v-model="value",
-            :options="source",
+            :options="groups",
             :multiple="true",
             :searchable="searchable",
             :show-labels="true",
