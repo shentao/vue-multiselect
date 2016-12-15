@@ -1,12 +1,12 @@
 <template>
   <div
-    tabindex="0"
+    :tabindex="searchable ? -1 : 0"
     :class="{ 'multiselect--active': isOpen, 'multiselect--disabled': disabled }"
     @focus="activate()"
     @blur="searchable ? false : deactivate()"
     @keydown.self.down.prevent="pointerForward()"
     @keydown.self.up.prevent="pointerBackward()"
-    @keydown.enter.tab.stop.prevent.self="addPointerElement($event)"
+    @keydown.enter.tab.stop.self="addPointerElement($event)"
     @keyup.esc="deactivate()"
     class="multiselect">
       <div @mousedown.prevent="toggle()" class="multiselect__select"></div>
@@ -31,7 +31,6 @@
           <div v-show="loading" class="multiselect__spinner"></div>
         </transition>
         <input
-          name="search"
           ref="search"
           type="text"
           autocomplete="off"
@@ -45,7 +44,7 @@
           @keyup.esc="deactivate()"
           @keydown.down.prevent="pointerForward()"
           @keydown.up.prevent="pointerBackward()"
-          @keydown.enter.tab.stop.prevent.self="addPointerElement($event)"
+          @keydown.enter.tab.stop.self="addPointerElement($event)"
           @keydown.delete="removeLastElement()"
           class="multiselect__input"/>
         <span
@@ -67,7 +66,7 @@
             </span>
           </li>
           <template v-if="!max || internalValue.length < max">
-            <li v-for="(option, index) of filteredOptions" :key="index">
+            <li class="multiselect__element" v-for="(option, index) of filteredOptions" :key="index">
               <span
                 tabindex="0"
                 v-if="!option.$isLabel"
@@ -278,6 +277,7 @@ fieldset[disabled] .multiselect {
 .multiselect__single {
   font-family: inherit;
   font-size: 14px;
+  touch-action: manipulation;
 }
 
 .multiselect {
@@ -486,6 +486,10 @@ fieldset[disabled] .multiselect {
   display: none;
 }
 
+.multiselect__element {
+  display: block;
+}
+
 .multiselect__option {
   display: block;
   padding: 12px;
@@ -557,7 +561,7 @@ fieldset[disabled] .multiselect {
   background: #ededed;
   color: #a6a6a6;
   cursor: text;
-  /*pointer-events: none;*/
+  pointer-events: none;
 }
 
 .multiselect__option--disabled.multiselect__option--highlight {
@@ -572,7 +576,6 @@ fieldset[disabled] .multiselect {
 .multiselect-enter,
 .multiselect-leave-active {
   opacity: 0;
-  max-height: 0 !important;
 }
 
 @keyframes spinning {

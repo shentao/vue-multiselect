@@ -934,7 +934,6 @@ describe('Multiselect.vue', () => {
         }
       }).$mount()
       const comp = vm.$children[0]
-      console.log(comp.valueKeys)
       comp.removeElement(comp.value[0])
       expect(comp.internalValue).to.deep.equal([])
     })
@@ -1907,7 +1906,7 @@ describe('Multiselect.vue', () => {
               options: this.source,
               label: 'label',
               trackBy: 'id',
-              groupKey: 'values',
+              groupValues: 'values',
               groupLabel: 'groupLabel',
               searchable: true,
               multiple: true
@@ -1938,7 +1937,7 @@ describe('Multiselect.vue', () => {
   })
 
   describe('filteredOptions', () => {
-    describe('when groupKey is passed', () => {
+    describe('when groupValues is passed', () => {
       it('should return a flat options list', () => {
         const vm = new Vue({
           render (h) {
@@ -1946,7 +1945,7 @@ describe('Multiselect.vue', () => {
               props: {
                 value: this.value,
                 options: this.groups,
-                groupKey: 'values',
+                groupValues: 'values',
                 groupLabel: 'groupLabel',
                 searchable: true
               }
@@ -1987,7 +1986,7 @@ describe('Multiselect.vue', () => {
               props: {
                 value: this.value,
                 options: this.groups,
-                groupKey: 'values',
+                groupValues: 'values',
                 groupLabel: 'groupLabel',
                 searchable: true,
                 trackBy: 'id',
@@ -2032,7 +2031,7 @@ describe('Multiselect.vue', () => {
               props: {
                 value: this.value,
                 options: this.groups,
-                groupKey: 'values',
+                groupValues: 'values',
                 groupLabel: 'groupLabel',
                 searchable: true
               }
@@ -2072,7 +2071,7 @@ describe('Multiselect.vue', () => {
               props: {
                 value: this.value,
                 options: this.groups,
-                groupKey: 'values',
+                groupValues: 'values',
                 groupLabel: 'groupLabel',
                 searchable: true
               }
@@ -2110,7 +2109,7 @@ describe('Multiselect.vue', () => {
               props: {
                 value: this.value,
                 options: this.groups,
-                groupKey: 'values',
+                groupValues: 'values',
                 groupLabel: 'groupLabel',
                 searchable: true,
                 trackBy: 'value',

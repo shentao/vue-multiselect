@@ -238,12 +238,30 @@ module.exports = {
       type: Number,
       default: 1000
     },
-    groupKey: {
+    /**
+     * Name of the property containing
+     * the group values
+     * @default 1000
+     * @type {String}
+    */
+    groupValues: {
       type: String
     },
+    /**
+     * Name of the property containing
+     * the group label
+     * @default 1000
+     * @type {String}
+    */
     groupLabel: {
       type: String
     },
+    /**
+     * Array of keyboard keys to block
+     * when selecting
+     * @default 1000
+     * @type {String}
+    */
     blockKeys: {
       type: Array,
       default () {
@@ -256,12 +274,12 @@ module.exports = {
   },
   computed: {
     filteredOptions () {
-      let search = this.search || ''
+      let search = this.search.toLowerCase() || ''
 
       let options = this.options
 
       if (this.localSearch) {
-        options = this.groupKey
+        options = this.groupValues
           ? this.filterAndFlat(options, search, this.label)
           : filterOptions(options, search, this.label)
 
@@ -286,7 +304,7 @@ module.exports = {
       }
     },
     optionKeys () {
-      const options = this.groupKey ? this.flatAndStrip(this.options) : this.options
+      const options = this.groupValues ? this.flatAndStrip(this.options) : this.options
       return this.label
         ? options.map(element => element[this.label].toString().toLowerCase())
         : options.map(element => element.toString().toLowerCase())
@@ -321,8 +339,8 @@ module.exports = {
      */
     filterAndFlat (options) {
       return flow(
-        filterGroups(this.search, this.label, this.groupKey, this.groupLabel),
-        flattenOptions(this.groupKey, this.groupLabel)
+        filterGroups(this.search, this.label, this.groupValues, this.groupLabel),
+        flattenOptions(this.groupValues, this.groupLabel)
       )(options)
     },
     /**
@@ -332,12 +350,12 @@ module.exports = {
      */
     flatAndStrip (options) {
       return flow(
-        flattenOptions(this.groupKey, this.groupLabel),
+        flattenOptions(this.groupValues, this.groupLabel),
         stripGroups
       )(options)
     },
     updateSearch (query) {
-      this.search = query.trim().toLowerCase().toString()
+      this.search = query.trim().toString()
     },
     /**
      * Finds out if the given query is already present
@@ -400,7 +418,7 @@ module.exports = {
      * @param  {Boolean} block removing
      */
     select (option, key) {
-      if (this.blockKeys.indexOf(key) !== -1) return
+      if (this.blockKeys.indexOf(key) !== -1 || this.disabled) return
       if (this.max && this.multiple && this.internalValue.length === this.max) return
       if (option.isTag) {
         this.$emit('tag', option.label, this.id)
@@ -437,6 +455,7 @@ module.exports = {
      */
     removeElement (option) {
       /* istanbul ignore else */
+      if (this.disabled) return
       if (!this.allowEmpty && this.internalValue.length <= 1) return
 
       const index = (this.multiple && typeof option === 'object')
@@ -467,6 +486,7 @@ module.exports = {
     activate () {
       /* istanbul ignore else */
       if (this.isOpen) return
+      if (this.disabled) return
 
       this.isOpen = true
       /* istanbul ignore else  */
