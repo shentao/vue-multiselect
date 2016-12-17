@@ -160,6 +160,15 @@
         default: 99999
       },
       /**
+       * Sets maxHeight style value of the dropdown
+       * @default 300
+       * @type {Integer}
+       */
+      maxHeight: {
+        type: Number,
+        default: 300
+      },
+      /**
        * Function that process the message shown when selected
        * elements pass the defined limit.
        * @default 'and * more'

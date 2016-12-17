@@ -2285,7 +2285,7 @@ describe('Multiselect.vue', () => {
       expect(vm.$children[0].filteredOptions.length).to.equal(2)
     })
 
-    it('should not alter the available options when :local-search is FALSE', () => {
+    it('should not alter the available options when :internal-search is FALSE', () => {
       const vm = new Vue({
         render (h) {
           return h(Multiselect, {
@@ -2293,7 +2293,7 @@ describe('Multiselect.vue', () => {
               value: this.value,
               options: this.source,
               multiple: true,
-              localSearch: false
+              internalSearch: false
             }
           })
         },
