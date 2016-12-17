@@ -10,6 +10,8 @@
 .list--sticky
   position: fixed
   top: 0
+  width: calc(25% - 40px)
+  max-width: rem(310px)
 
 .list__heading
   font:
@@ -20,15 +22,16 @@
   color: $primary-color
   text-transform: uppercase
   letter-spacing: 0.4px
-  margin: rem($global-v-gutter 0 10px)
+  margin: rem(20px 0 0)
 
 .list__link
   color: $secondary-color
   text-decoration: none
   display: block
-  padding: rem(0 10px)
+  padding: rem(7px 10px)
   margin-left: rem(-10px)
   border-radius: 5px
+  line-height: 1.3
 
   &--active
     background: $tertiary-color
@@ -36,6 +39,19 @@
   &--disabled
     color: $secondary-lighten-color
     pointer-events: none
+
+.list__desc
+  display: block
+  font-size: rem(14px)
+  color: $secondary-lighten-color
+  line-height: 1.4
+  max-width: 200px
+  margin-top: 3px
+
+.list__img
+  display: inline-block
+  vertical-align: sub
+  margin-left: 5px
 
 .list__dl
   font-family: $global-font

@@ -1,0 +1,111 @@
++section('Examples')
+  +subsection('Single select')
+    :markdown-it
+      The basic single select / dropdown doesn’t require much configuration.
+
+      The `options` prop must be an `Array`.
+
+      #### Optional configuration flags:
+      - `:searchable="false"` – disables the seach functionality
+      - `:close-on-select="false"` – the dropdown stays open after selecting an option
+      - `:show-labels="false"` – the highlighted option doesn’t have a label on it
+    +example('SingleSelectPrimitive')
+  +subsection('Single select (object)')
+    :markdown-it
+      When working with objects, you must provide additional props: `label` and `track-by`.
+
+      `track-by` is used to identify the option within the options list thus it’s value has to be unique. In this example the `name` property is unique across all options, so it can be used as `track-by` value.
+
+      `label` is used to display the option.
+
+      #### Optional configuration flags:
+      - `:searchable="false"` – disables the seach functionality
+      - `:allow-empty="false"` – once there is a value it can’t be deselected
+      - `deselect-label="Can't remove this value"` – when highlighted, the already selected option will have the _Can't remove this value_ helper label. Useful for single selects that don’t allow empty selection.
+    +example('SingleSelectObject')
+  +subsection('Select with search')
+    :markdown-it
+      By default `searchable` is set to true, thus using search doesn’t require any prop.
+
+      The internal search engine is based on the `label` prop. In other words – when searching, vue-multiselect only compares the option labels with the current search query. If you want to search inside other object properties look at the [ajax search example](#sub-asynchronous-select).
+
+      `custom-label` accepts a function with the `option` object as the first param. It should return a string which is then used to display a custom label.
+    +example('SingleSelectSearch')
+  +subsection('Multiple select')
+    :markdown-it
+      To allow multiple selections pass the `:multiple="true"` prop.
+
+      #### Optional configuration flags:
+      - `:close-on-select="false"` – the dropdown stays open after selecting an option
+      - `:hide-selected="true"` – already selected options will not be displayed in the dropdown
+      - `:clear-on-select="false"` – the search query stays the same after selecting an option
+    +example('MultiSelect')
+  +subsection('Asynchronous select')
+    :markdown-it
+      Vue-Multiselect supports changing the option list on the fly, thus can be also used a type-a-head search box.
+
+      To react to the seach query changes, set a handler function on the `@search-change` event. It receives the `searchQuery` as the first param, which can be used to make an asynchronous API call.
+
+      It is convenient to set the `:loading` prop to `true`, whenever a request is in progress. Look at the provided `asyncFind` method for an example usage.
+
+      #### Optional configuration flags:
+      - `:internal-search="false"` – disables the multiselect’s internal search engine. If you do that, you have to manually update the available `:options`.
+      - `id="ajax"` – every event is emitted with this as the second param. Useful for identification which component instance triggered the method (in loops for example)
+      - `:limit="3"` – limits the visible results to 3.
+      - `:limit-text="limitText"` – function that receives the current selected options count and should return a string to show when the `:limit` count is exceed
+      - `:options-limit="300"` – limits the displayed options to `300`. Useful for optimisations purposes.
+    +example('AjaxSearch')
+  +subsection('Tagging')
+    :markdown-it
+      To add tagging functionality to single/multiple selects, set the `:taggable` prop to `true`. This will add an additional option at the beginning of the options list whenever you type a phrase that doesn’t have an exact match in the available options. Selecting this temporary option will emit the `@tag` event with the current typed search query as the first param. The event handler should add the received **tag** to both the options list and the value.
+
+      Remember that when working with objects as options, you have to transform the received tag string to an object that matches the objects structure of the options list. In this example, the `addTag` method generates an object with a unique `code` property.
+
+      #### Optional configuration flags:
+      - `tag-placeholder="Add this as new tag"` – A helper label that will be displayed when highlighting the just typed tag suggestion.
+    +example('Tagging')
+  +subsection('Custom option template')
+    :markdown-it
+      Vue-Multiselect can use custom render functions for option elements. This makes it possible to render different kind of data inside like images or even other components! For this to happen, pass a custom render function to the `:option-function` prop.
+
+      The `option-function` always receives the following `h`, `option`, `label` params. Please look at the `customRender` method for an example with JSX.
+
+      To ensure the keyboard navigation works properly, remember to set the `:option-height` so it equals the height of the option template. By default, the component assumes an option height of 40px.
+
+      #### Optional configuration flags:
+      - `:option-height="104"` – The height of the custom option template.
+    +example('CustomOption')
+  +subsection('Option groups')
+    :markdown-it
+      The options list can also contain groups. It requires passing 2 additional props: `group-label` and `group-values`. `group-label` is used to locate the group label. `group-values` should point to the group’s option list.
+
+      Despite that the available options are grouped, the selected options are stored as a flat array of objects.
+
+      Please look at the provided example for a example options list structure.
+    +example('Groups')
+  +subsection('Vuex support')
+    :markdown-it
+      Due to the one-way data-flow enforced by Vuex you should not be using `v-model` for manipulating the currently selected value.
+      Because Vue-Multiselect always uses it’s own internal copy of the value it never mutates the `:value` by itself, which means it can can safely used with Vuex or even Redux.
+
+      In Vue 2.0 `v-model` is just a syntax sugar for `:value` and `@input`. Because of this we can use the `@input` event to trigger Vuex actions or mutations. Whenever we mutate the `:value` in Vuex, Multiselect’s internal value will update.
+    +example('VuexActions')
+  +subsection('Action dispatcher')
+    :markdown-it
+      The component may also act as dispatcher for different actions/methods. In this case there is no need for the `:value` prop.
+      Instead of `@input` you can listen on the `@select` event. The difference between the two is that `@select` only receives the currently selected value instead of the whole list of selected values (if select is multiple).
+
+      #### Optional configuration flags:
+      - `:reset-after="true"` – Resets the internal value after each select action inside the component.
+    +example('ActionDispatcher')
+  +subsection('Custom configuration')
+    :markdown-it
+      Shows error when touched, but nothing is selected.
+
+      #### Optional configuration flags:
+      - `:max-height="150"` – Set the dropdown height to 150px
+      - `:max="3"` – Set the maximal number of selections
+      - `:allow-empty="false"` – Doesn’t allow to remove the last option if it exists
+      - `:block-keys="['Tab', 'Enter']"` – Block the `Tab` and `Enter` keys from triggering their default behaviour
+      - `@close="onTouch"` – Event emitted when closing the dropdown
+    +example('CustomConfig')
