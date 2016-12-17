@@ -1,0 +1,28 @@
+ul.list(
+  :class="{ 'list--sticky': isNavSticky }"
+)
+  multiselect.list__multiselect(
+    :options="versions",
+    :value="version",
+    :allow-empty="false",
+    :searchable="false",
+    @input="pickVersion",
+    select-label="Go to",
+    deselect-label="",
+    selected-label=""
+  )
+  li.list__heading Setup
+  +tocSubsection('Getting Started')
+  //- replaced later in _mixins.pug:renderToc()
+  ='%%_TOC_%%'
+
+  li.list__heading API
+  +tocSubsection('Props')
+  +tocSubsection('Events')
+  +tocSubsection('Slots')
+  li.list__heading Our other libraries
+  li.list__element
+    a.link.list__link(target="_BLANK", href="https://monterail.github.io/vuelidate/?ref=multiselect")
+      | Vuelidate
+      img.list__img(src="https://img.shields.io/github/stars/monterail/vuelidate.svg?style=social&label=Stars")
+      span.list__desc Simple model-based validation plugin for Vue.js

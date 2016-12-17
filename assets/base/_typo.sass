@@ -25,9 +25,9 @@ $header-h3-weight: $global-font-weight-bold
 
 $header-h4-family: $global-font
 $header-h4-size-ratio-sm: 1.375
-$header-h4-size-ratio-md: 1.375
+$header-h4-size-ratio-md: 1.25
 $header-h4-size-ratio-lg: 1.125
-$header-h4-weight: $global-font-weight-light
+$header-h4-weight: $global-font-weight-bold
 
 $paragraph-family: $global-font
 $paragraph-font-size-ratio-lg: 1.125 // 18px
@@ -68,12 +68,13 @@ body
   color: $header-color
   line-height: $header-line-height
 
+h1,
 .typo__h1
   font:
     family: $header-h1-family
     weight: $header-h1-weight
     size: rem($header-h1-size-ratio-sm * $global-font-size)
-  margin-bottom: rem(40px)
+  margin: rem(10px 0 40px)
 
   @media #{$medium-up}
     font-size: rem($header-h1-size-ratio-md * $global-font-size)
@@ -81,12 +82,13 @@ body
   @media #{$large-up}
     font-size: rem($header-h1-size-ratio-lg * $global-font-size)
 
+h2,
 .typo__h2
   font:
     family: $header-h2-family
     weight: $header-h2-weight
     size: rem($header-h2-size-ratio-sm * $global-font-size)
-  padding-top: rem(60px)
+  padding-top: rem(20px)
 
   @media #{$medium-up}
     font-size: rem($header-h2-size-ratio-md * $global-font-size)
@@ -94,6 +96,7 @@ body
   @media #{$large-up}
     font-size: rem($header-h2-size-ratio-lg * $global-font-size)
 
+h3,
 .typo__h3
   font:
     family: $header-h3-family
@@ -106,18 +109,20 @@ body
   @media #{$large-up}
     font-size: rem($header-h3-size-ratio-lg * $global-font-size)
 
+h4,
 .typo__h4
   font:
     family: $header-h4-family
     weight: $header-h4-weight
     size: rem($header-h4-size-ratio-sm * $global-font-size)
+  margin: rem(10px 0 0)
 
   @media #{$medium-up}
     font-size: rem($header-h4-size-ratio-md * $global-font-size)
 
   @media #{$large-up}
     font-size: rem($header-h4-size-ratio-lg * $global-font-size)
-
+p,
 .typo__p
   margin-top: 0
   margin-bottom: rem($paragraph-font-size-ratio-sm * $global-font-size)
@@ -157,6 +162,7 @@ body
     &:before
       content: "\2014 \0020"
 
+hr,
 .typo__hr
   border: none
   border-bottom: $hr-border
@@ -186,8 +192,13 @@ body
 .typo--bold, strong
   font-weight: $global-font-weight-bold
 
-kbd
+kbd,
+code:not([class*="language-"])
   color: $primary-color
   padding: 3px 5px
   border-radius: 4px
   background: $tertiary-color
+  font-size: rem(15px)
+
+pre
+  font-size: rem(14px)

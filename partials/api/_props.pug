@@ -1,4 +1,4 @@
-h2.typo__h2#props Props
+h2.typo__h2#sub-props(data-section) Props
 .grid__row
   .table__container
     table.table.table--full-size.table--fixed
@@ -41,7 +41,7 @@ h2.typo__h2#props Props
             kbd multiple
             |  attribute on a &lt;select&gt; input.
         tr.table__tr
-          td.table__td: strong Key
+          td.table__td: strong TrackBy
           td.table__td String
           td.table__td
           td.table__td
@@ -84,12 +84,6 @@ h2.typo__h2#props Props
             kbd placeholder
             |  attribute on a &lt;select&gt; input.
         tr.table__tr
-          td.table__td: strong MaxHeight
-          td.table__td Integer
-          td.table__td: kbd 300
-          td.table__td
-            | Sets max-height style value of the dropdown
-        tr.table__tr
           td.table__td: strong AllowEmpty
           td.table__td Boolean
           td.table__td: kbd true
@@ -131,6 +125,37 @@ h2.typo__h2#props Props
           td.table__td
           td.table__td
             | Number of allowed selected options.
+        tr.table__tr
+          td.table__td: strong optionsLimit
+          td.table__td Number
+          td.table__td 1000
+          td.table__td
+            | Limits the options displayed in the dropdown to the first X options.
+        tr.table__tr
+          td.table__td: strong groupValues
+          td.table__td String
+          td.table__td
+          td.table__td
+            | ame of the property containing the group values
+        tr.table__tr
+          td.table__td: strong groupLabel
+          td.table__td String
+          td.table__td
+          td.table__td
+            | Name of the property containing the group label
+        tr.table__tr
+          td.table__td: strong blockKeys
+          td.table__td Array
+          td.table__td []
+          td.table__td
+            | Array of keyboard key aliases to block when selecting
+        tr.table__tr
+          td.table__td: strong internalSearch
+          td.table__td Boolean
+          td.table__td true
+          td.table__td
+            | Decide whether to filter the results internally based on search query.
+            | Useful for async filtering, where we search through more complex data.
 
         tr.table__tr
           td.table__td.utils--center(colspan="4"): strong Multiselect.vue
@@ -183,6 +208,12 @@ h2.typo__h2#props Props
           td.table__td: kbd false
           td.table__td
             | Enable/disable the multiselect.
+        tr.table__tr
+          td.table__td: strong MaxHeight
+          td.table__td Integer
+          td.table__td: kbd 300
+          td.table__td
+            | Sets max-height style value of the dropdown
 
         tr.table__tr
           td.table__td.utils--center(colspan="4"): strong pointerMixin.js
