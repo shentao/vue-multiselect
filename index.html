@@ -1,215 +1,573 @@
-<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><title>Vue-Multiselect | A Vue.js library</title><link rel=icon href=static/vue-logo.png type=image/x-icon><meta name=description content="Probably the most complete selecting solution for Vue.js, without jQuery."><meta property=og:title content="Vue-Multiselect | A Vue.js library."><meta property=og:site_name content="Vue-Multiselect | A Vue.js library."><meta property=og:url content=http://monterail.github.io/vue-multiselect><meta property=og:description content="Probably the most complete selecting solution for Vue.js, without jQuery."><meta property=og:image content=http://monterail.github.io/vue-multiselect/static/vue-logo.png><meta property=twitter:image content=http://monterail.github.io/vue-multiselect/static/vue-logo.png><meta property=twitter:title content="Vue-Multiselect | A Vue.js library."><meta property=twitter:description content="The most complete selecting solution for Vue.js, without jQuery."><link href=static/css/app.71fa9b9a50de90734ee4ea3f005a28d0.css rel=stylesheet></head><body><section :style=gradient class=start><div class=center-vertically><h1 class=typo__h1><img src=./static/vue-logo.png class=logo>Vue-multiselect<small class=version>(v1.0.1)</small></h1><h3 class=typo__h3>The most complete selecting solution for <a href=http://vuejs.org target=_BLANK class=typo__link>Vue.js</a></h3><div class="grid__row grid__row--centered"><div class="grid__column grid__unit--md-6"><div class=multiselect-example__container><multiselect :options=options :selected=selected :multiple=multiple :searchable=searchable :show-labels=true :limit=3 :taggable=true @tag=onTagging @update=afterChange placeholder="Select option" select-label="Enter to select"><span slot=noResult>Tag not found. Press semi-colon <kbd>;</kbd> to create a tag from search query.</span></multiselect><div class="grid__row start__list"><div class="grid__column grid__unit--md-6 list"><ul class=list__ul><li class=typo__li>Single / multi select</li><li class=typo__li>Dropdowns</li><li class=typo__li><a href=#search class=typo__link>Searchable</a></li><li class=typo__li><a href=#tagging class=typo__link>Tagging</a></li><li class=typo__li><a href=#action class=typo__link>Action dispatcher</a></li></ul></div><div class="grid__column grid__unit--md-6 list"><ul class=list__ul><li class=typo__li>Vuex support by default</li><li class=typo__li><a href=#ajax class=typo__link>Ajax options</a></li><li class=typo__li><a href=#custom class=typo__link>Fully configurable</a></li><li class=typo__li>+99% test coverage</li><li class=typo__li>No dependencies</li></ul></div></div></div></div></div><div class="grid__row grid__row--centered"><div class="grid__column utils--center"><a href=https://github.com/monterail/vue-multiselect target=_BLANK class="button button--large button--secondary button--github">View on GitHub</a><a href=#getting-started class="button button--large">Getting started & examples</a></div></div></div></section><div class="grid__row docs"><div class="grid__columns grid__unit--sm-3 small--hidden"><ul :class="{ 'list--sticky': isNavSticky }" class=list><li class=list__heading>Setup</li><li class=list__element><a href=##getting-started :class="{ 'list__link--active': currentPosition === '#getting-started' }" class="link list__link">Getting Started</a></li><li class=list__heading>Examples</li><li class=list__element><a href=#select-primitive :class="{ 'list__link--active': currentPosition === 'select-primitive' }" class="link list__link">Select (primitive)</a></li><li class=list__element><a href=#select-object :class="{ 'list__link--active': currentPosition === 'select-object' }" class="link list__link">Select (object)</a></li><li class=list__element><a href=#select-search :class="{ 'list__link--active': currentPosition === 'select-search' }" class="link list__link">Select with search</a></li><li class=list__element><a href=#multiselect-search :class="{ 'list__link--active': currentPosition === 'multiselect-search' }" class="link list__link">Multiselect with search</a></li><li class=list__element><a href=#ajax :class="{ 'list__link--active': currentPosition === 'ajax' }" class="link list__link">Asynchronous select</a></li><li class=list__element><a href=#tagging :class="{ 'list__link--active': currentPosition === 'tagging' }" class="link list__link">Tagging</a></li><li class=list__element><a href=#action :class="{ 'list__link--active': currentPosition === 'action' }" class="link list__link">Action select</a></li><li class=list__element><a href=#custom :class="{ 'list__link--active': currentPosition === 'custom' }" class="link list__link">Custom configuration</a></li><li class=list__heading>API</li><li class=list__element><a href=#props :class="{ 'list__link--active': currentPosition === 'props' }" class="link list__link">Props</a></li><li class=list__element><a href=#events :class="{ 'list__link--active': currentPosition === 'events' }" class="link list__link">Events</a></li><li class=list__element><a href=#slots :class="{ 'list__link--active': currentPosition === 'slots' }" class="link list__link">Slots</a></li></ul></div><div class="grid__columns grid__unit--sm-12 grid__unit--md-9"><div class=grid__row><div class=grid__column><section id=getting-started class=docs><h1 class=typo__h1>Getting started</h1><hr class=typo__hr><div class=grid__row><div class=grid__column><h2 class=typo__h2>Installation</h2><pre class=language-bash><code>npm install vue-multiselect --save
-</code></pre></div><div class=grid__column><h2 class=typo__h2>Basic usage</h2><pre class=language-jade><code>multiselect(
-  :selected="selected",
-  :options="options",
-  @update="updateSelected"
-)</code></pre><pre class=language-javascript><code>import Multiselect from 'vue-multiselect'
+<!DOCTYPE html><html lang=en><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1"><title>Vue-Multiselect | A Vue.js library</title><link rel=icon href=static/vue-logo.png type=image/x-icon><meta name=description content="Probably the most complete selecting solution for Vue.js, without jQuery."><meta property=og:title content="Vue-Multiselect | A Vue.js library."><meta property=og:site_name content="Vue-Multiselect | A Vue.js library."><meta property=og:url content=http://monterail.github.io/vue-multiselect><meta property=og:description content="Probably the most complete selecting solution for Vue.js, without jQuery."><meta property=og:image content=http://monterail.github.io/vue-multiselect/static/vue-logo.png><meta property=twitter:image content=http://monterail.github.io/vue-multiselect/static/vue-logo.png><meta property=twitter:title content="Vue-Multiselect | A Vue.js library."><meta property=twitter:description content="The most complete selecting solution for Vue.js, without jQuery."><link href=static/css/app.1aa953e07012337542c8d9d563cf3523.css rel=stylesheet></head><body><div id=app><section class=start :style=gradient><div class=center-vertically><h1 class=typo__h1><img class=logo src=static/img/vue-logo.e1ea82c.png>Vue-multiselect<small class=version>(2.0.0-beta.12)</small></h1><h3 class=typo__h3>The most complete selecting solution for <a class=typo__link href=http://vuejs.org target=_BLANK>Vue.js</a></h3><div class=badges><img src="https://img.shields.io/github/stars/monterail/vue-multiselect.svg?label=Stars"><img src=https://camo.githubusercontent.com/d0e25b09a82bc4bfde9f1e048a092752eebbb4f3/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6c6963656e73652d4d49542d626c75652e7376673f7374796c653d666c6174 alt=License data-canonical-src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat"><img src=https://camo.githubusercontent.com/64f9a2333bb303d34b1587e1436b24dee6a8e134/68747470733a2f2f696d672e736869656c64732e696f2f6e706d2f646d2f7675652d6d756c746973656c6563742e737667 alt=npm data-canonical-src=https://img.shields.io/npm/dm/vue-multiselect.svg style=max-width:100%><img src=https://camo.githubusercontent.com/47ff0923e959e736113988e900268dfc7a601d3b/68747470733a2f2f636972636c6563692e636f6d2f67682f6d6f6e74657261696c2f7675652d6d756c746973656c6563742f747265652f6d61737465722e7376673f7374796c653d736869656c6426636972636c652d746f6b656e3d35633933316666323866643132353837363130663833353437326265636464353134643039636566 alt="Build Status" data-canonical-src="https://circleci.com/gh/monterail/vue-multiselect/tree/master.svg?style=shield&amp;amp;circle-token=5c931ff28fd12587610f835472becdd514d09cef" style=max-width:100%><img src=https://camo.githubusercontent.com/51bc9432092f4def26f97d24824c857ad5891c1c/68747470733a2f2f696d672e736869656c64732e696f2f67656d6e617369756d2f6d6f6e74657261696c2f7675652d6d756c746973656c6563742e7376673f7374796c653d666c6174 alt="No Dependencies" data-canonical-src="https://img.shields.io/gemnasium/monterail/vue-multiselect.svg?style=flat" style=max-width:100%></div><div class="grid__row grid__row--centered"><div class="grid__column grid__unit--md-6"><div class=multiselect-example__container><multiselect-example></multiselect-example><div class="grid__row start__list"><div class="grid__column grid__unit--md-6 list"><ul class=list__ul><li class=typo__li>Single / multiple select</li><li class=typo__li>Dropdowns</li><li class=typo__li><a class=typo__link href=#sub-select-with-search>Searchable</a></li><li class=typo__li><a class=typo__link href=#sub-tagging>Tagging</a></li><li class=typo__li>Action dispatcher</li></ul></div><div class="grid__column grid__unit--md-6 list"><ul class=list__ul><li class=typo__li><a class=typo__link href=#sub-vuex-support>Vuex support by default</a></li><li class=typo__li><a class=typo__link href=#sub-asynchronous-select>Ajax support</a></li><li class=typo__li><a class=typo__link href=#sub-custom-configuration>Fully configurable</a></li><li class=typo__li>+99% test coverage</li><li class=typo__li>No dependencies</li></ul></div></div></div></div></div><div class="grid__row grid__row--centered"><div class="grid__column utils--center"><a class="button button--large button--secondary button--github" href=https://github.com/monterail/vue-multiselect target=_BLANK>View on GitHub</a><a class="button button--large" href=#sub-getting-started>Getting started & examples</a></div></div></div></section><div class="grid__row docs"><div class="grid__columns grid__unit--sm-3 small--hidden"><ul class=list :class="{ 'list--sticky': isNavSticky }"><multiselect class=list__multiselect :options=versions :value=version :allow-empty=false :searchable=false @input=pickVersion select-label="Go to" deselect-label="" selected-label=""></multiselect><li class=list__heading>Setup</li><li class=list__element><a class="link list__link" :class="{ 'list__link--active': currentPosition === 'sub-getting-started' }" href=#sub-getting-started>Getting Started</a></li><li class=list__heading><a class="link blank__link" href=#examples>Examples</a></li><li class=list__element><a class="link list__link" :class="{ 'list__link--active': currentPosition === 'sub-single-select' }" href=#sub-single-select>Single select</a></li><li class=list__element><a class="link list__link" :class="{ 'list__link--active': currentPosition === 'sub-single-select-object' }" href=#sub-single-select-object>Single select (object)</a></li><li class=list__element><a class="link list__link" :class="{ 'list__link--active': currentPosition === 'sub-select-with-search' }" href=#sub-select-with-search>Select with search</a></li><li class=list__element><a class="link list__link" :class="{ 'list__link--active': currentPosition === 'sub-multiple-select' }" href=#sub-multiple-select>Multiple select</a></li><li class=list__element><a class="link list__link" :class="{ 'list__link--active': currentPosition === 'sub-asynchronous-select' }" href=#sub-asynchronous-select>Asynchronous select</a></li><li class=list__element><a class="link list__link" :class="{ 'list__link--active': currentPosition === 'sub-tagging' }" href=#sub-tagging>Tagging</a></li><li class=list__element><a class="link list__link" :class="{ 'list__link--active': currentPosition === 'sub-custom-option-template' }" href=#sub-custom-option-template>Custom option template</a></li><li class=list__element><a class="link list__link" :class="{ 'list__link--active': currentPosition === 'sub-option-groups' }" href=#sub-option-groups>Option groups</a></li><li class=list__element><a class="link list__link" :class="{ 'list__link--active': currentPosition === 'sub-vuex-support' }" href=#sub-vuex-support>Vuex support</a></li><li class=list__element><a class="link list__link" :class="{ 'list__link--active': currentPosition === 'sub-action-dispatcher' }" href=#sub-action-dispatcher>Action dispatcher</a></li><li class=list__element><a class="link list__link" :class="{ 'list__link--active': currentPosition === 'sub-custom-configuration' }" href=#sub-custom-configuration>Custom configuration</a></li><li class=list__heading>API</li><li class=list__element><a class="link list__link" :class="{ 'list__link--active': currentPosition === 'sub-props' }" href=#sub-props>Props</a></li><li class=list__element><a class="link list__link" :class="{ 'list__link--active': currentPosition === 'sub-events' }" href=#sub-events>Events</a></li><li class=list__element><a class="link list__link" :class="{ 'list__link--active': currentPosition === 'sub-slots' }" href=#sub-slots>Slots</a></li><li class=list__heading>Our other libraries</li><li class=list__element><a class="link list__link" target=_BLANK href="https://monterail.github.io/vuelidate/?ref=multiselect">Vuelidate<img class=list__img src="https://img.shields.io/github/stars/monterail/vuelidate.svg?style=social&amp;label=Stars"><span class=list__desc>Simple model-based validation plugin for Vue.js</span></a></li></ul></div><div class="grid__columns grid__unit--sm-12 grid__unit--md-9"><div class=grid__row><div class=grid__column><section id=sub-getting-started data-section><h1 class=typo__h1>Getting started</h1><hr class=typo__hr><div class=grid__row><div class=grid__column><h2 class=typo__h2>Installation</h2><h3 class=typo__h3>via npm</h3><pre class=language-bash><code>npm install vue-multiselect --save
+</code></pre></div><div class=grid__column><h2 class=typo__h2>Basic usage</h2><pre class=language-html><code>&lt;multiselect v-model="value" :options="options"></code></pre><pre class=language-javascript><code>import Multiselect from 'vue-multiselect'
+
+// register globally
+Vue.component(Multiselect)
+
 export default {
+  // OR register locally
   components: { Multiselect },
   data () {
     return {
-      selected: null,
+      value: null,
       options: ['list', 'of', 'options']
+    }
+  }
+}
+</code></pre></div></div></section></div></div><div class=grid__row><div class=grid__column><section id=examples><h1 class=typo__h1>Examples</h1><hr class=typo__hr><div class=grid__row><div class=grid__column><h2 class=typo__h2 id=sub-single-select data-section>Single select</h2><p>The basic single select / dropdown doesn’t require much configuration.</p><p>The <code>options</code> prop must be an <code>Array</code>.</p><h4>Optional configuration flags:</h4><ul><li><code>:searchable=&quot;false&quot;</code> – disables the seach functionality</li><li><code>:close-on-select=&quot;false&quot;</code> – the dropdown stays open after selecting an option</li><li><code>:show-labels=&quot;false&quot;</code> – the highlighted option doesn’t have a label on it</li></ul><div class="example grid__row"><div class="grid__column grid__unit--md-5"><single-select-primitive></single-select-primitive></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><div><pre class=language-javascript v-pre><code>import Multiselect from 'vue-multiselect'
+
+export default {
+  components: {
+    Multiselect
+  },
+  data () {
+    return {
+      value: '',
+      options: ['Select option', 'options', 'selected', 'mulitple', 'label', 'searchable', 'clearOnSelect', 'hideSelected', 'maxHeight', 'allowEmpty', 'showLabels', 'onChange', 'touched']
+    }
+  }
+}
+</code></pre></div><lang-switcher v-bind:langs=markupLangs v-bind:current=markupLanguage v-on:select=selectLanguage></lang-switcher><div v-show="markupLanguage === 'pug'"><pre class=language-pug v-pre><code>
+div
+  label.typo__label Single select
+  multiselect(
+    v-model=&quot;value&quot;,
+    :options=&quot;options&quot;,
+    :searchable=&quot;false&quot;,
+    :close-on-select=&quot;false&quot;,
+    :show-labels=&quot;false&quot;
+    placeholder=&quot;Pick a value&quot;
+  )
+  pre.language-json
+    code.
+      {{ value  }}
+</code></pre></div><div v-show="markupLanguage === 'html'"><pre class=language-html v-pre><code>
+&lt;div&gt;
+  &lt;label class=&quot;typo__label&quot;&gt;Single select&lt;/label&gt;
+  &lt;multiselect v-model=&quot;value&quot; :options=&quot;options&quot; :searchable=&quot;false&quot; :close-on-select=&quot;false&quot; :show-labels=&quot;false&quot; placeholder=&quot;Pick a value&quot;&gt;&lt;/multiselect&gt;
+  &lt;pre class=&quot;language-json&quot;&gt;&lt;code&gt;{{ value  }}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;</code></pre></div></div></div></div></div><div class=grid__row><div class=grid__column><h2 class=typo__h2 id=sub-single-select-object data-section>Single select (object)</h2><p>When working with objects, you must provide additional props: <code>label</code> and <code>track-by</code>.</p><p><code>track-by</code> is used to identify the option within the options list thus it’s value has to be unique. In this example the <code>name</code> property is unique across all options, so it can be used as <code>track-by</code> value.</p><p><code>label</code> is used to display the option.</p><h4>Optional configuration flags:</h4><ul><li><code>:searchable=&quot;false&quot;</code> – disables the seach functionality</li><li><code>:allow-empty=&quot;false&quot;</code> – once there is a value it can’t be deselected</li><li><code>deselect-label=&quot;Can't remove this value&quot;</code> – when highlighted, the already selected option will have the <em>Can't remove this value</em> helper label. Useful for single selects that don’t allow empty selection.</li></ul><div class="example grid__row"><div class="grid__column grid__unit--md-5"><single-select-object></single-select-object></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><div><pre class=language-javascript v-pre><code>import Multiselect from 'vue-multiselect'
+
+export default {
+  components: {
+    Multiselect
+  },
+  data () {
+    return {
+      value: { name: 'Vue.js', language: 'JavaScript' },
+      options: [
+        { name: 'Vue.js', language: 'JavaScript' },
+        { name: 'Rails', language: 'Ruby' },
+        { name: 'Sinatra', language: 'Ruby' },
+        { name: 'Laravel', language: 'PHP' },
+        { name: 'Phoenix', language: 'Elixir' }
+      ]
+    }
+  }
+}
+</code></pre></div><lang-switcher v-bind:langs=markupLangs v-bind:current=markupLanguage v-on:select=selectLanguage></lang-switcher><div v-show="markupLanguage === 'pug'"><pre class=language-pug v-pre><code>
+div
+  label.typo__label Single select / dropdown
+  multiselect(
+    v-model=&quot;value&quot;,
+    deselect-label=&quot;Can't remove this value&quot;,
+    track-by=&quot;name&quot;,
+    label=&quot;name&quot;,
+    placeholder=&quot;Select one&quot;,
+    :options=&quot;options&quot;,
+    :searchable=&quot;false&quot;,
+    :allow-empty=&quot;false&quot;
+  )
+  pre.language-json
+    code.
+      {{ value  }}
+
+</code></pre></div><div v-show="markupLanguage === 'html'"><pre class=language-html v-pre><code>
+&lt;div&gt;
+  &lt;label class=&quot;typo__label&quot;&gt;Single select / dropdown&lt;/label&gt;
+  &lt;multiselect v-model=&quot;value&quot; deselect-label=&quot;Can't remove this value&quot; track-by=&quot;name&quot; label=&quot;name&quot; placeholder=&quot;Select one&quot; :options=&quot;options&quot; :searchable=&quot;false&quot; :allow-empty=&quot;false&quot;&gt;&lt;/multiselect&gt;
+  &lt;pre class=&quot;language-json&quot;&gt;&lt;code&gt;{{ value  }}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;</code></pre></div></div></div></div></div><div class=grid__row><div class=grid__column><h2 class=typo__h2 id=sub-select-with-search data-section>Select with search</h2><p>By default <code>searchable</code> is set to true, thus using search doesn’t require any prop.</p><p>The internal search engine is based on the <code>label</code> prop. In other words – when searching, vue-multiselect only compares the option labels with the current search query. If you want to search inside other object properties look at the <a href=#sub-asynchronous-select>ajax search example</a>.</p><p><code>custom-label</code> accepts a function with the <code>option</code> object as the first param. It should return a string which is then used to display a custom label.</p><div class="example grid__row"><div class="grid__column grid__unit--md-5"><single-select-search></single-select-search></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><div><pre class=language-javascript v-pre><code>import Multiselect from 'vue-multiselect'
+
+export default {
+  components: {
+    Multiselect
+  },
+  data () {
+    return {
+      value: { name: 'Vue.js', language: 'JavaScript' },
+      options: [
+        { name: 'Vue.js', language: 'JavaScript' },
+        { name: 'Rails', language: 'Ruby' },
+        { name: 'Sinatra', language: 'Ruby' },
+        { name: 'Laravel', language: 'PHP' },
+        { name: 'Phoenix', language: 'Elixir' }
+      ]
     }
   },
   methods: {
-    updateSelected (newSelected) {
-      this.selected = newSelected
+    nameWithLang ({ name, language }) {
+      return `${name} — [${language}]`
     }
   }
 }
-</code></pre></div></div><div class=grid__row><div class=grid__column><h2 class=typo__h2>Package content</h2></div><div class="grid__column grid__unit--md-5"><p class=typo__p>The package consist of of multiple files:<strong> Multiselect.vue</strong> which includes the template and styling of the default component. This component extends 2 additional mixins:<strong> multiselectMixin.js</strong> and<strong> pointerMixin.js</strong> , which contain the logic behind the multiselect. This way you can actually use the multiselect logic with your own template and styling.</p><p class=typo__p>You can import vue-multiselect’s mixins to create your own custom components based on those mixins.</p><p class=typo__p>Additionally the package exports the <kbd>deepClone</kbd> function.</p></div><div class="grid__column grid__unit--md-7"><pre class=language-javascript><code>import { multiselectMixin, pointerMixin, deepClone } from 'vue-multiselect'
+</code></pre></div><lang-switcher v-bind:langs=markupLangs v-bind:current=markupLanguage v-on:select=selectLanguage></lang-switcher><div v-show="markupLanguage === 'pug'"><pre class=language-pug v-pre><code>
+div
+  label.typo__label Select with search
+  multiselect(
+    v-model=&quot;value&quot;,
+    :options=&quot;options&quot;,
+    :custom-label=&quot;nameWithLang&quot;
+    placeholder=&quot;Select one&quot;,
+    label=&quot;name&quot;,
+    track-by=&quot;name&quot;
+  )
+  pre.language-json
+    code.
+      {{ value  }}
+</code></pre></div><div v-show="markupLanguage === 'html'"><pre class=language-html v-pre><code>
+&lt;div&gt;
+  &lt;label class=&quot;typo__label&quot;&gt;Select with search&lt;/label&gt;
+  &lt;multiselect v-model=&quot;value&quot; :options=&quot;options&quot; :custom-label=&quot;nameWithLang&quot; placeholder=&quot;Select one&quot; label=&quot;name&quot; track-by=&quot;name&quot;&gt;&lt;/multiselect&gt;
+  &lt;pre class=&quot;language-json&quot;&gt;&lt;code&gt;{{ value  }}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;</code></pre></div></div></div></div></div><div class=grid__row><div class=grid__column><h2 class=typo__h2 id=sub-multiple-select data-section>Multiple select</h2><p>To allow multiple selections pass the <code>:multiple=&quot;true&quot;</code> prop.</p><h4>Optional configuration flags:</h4><ul><li><code>:close-on-select=&quot;false&quot;</code> – the dropdown stays open after selecting an option</li><li><code>:hide-selected=&quot;true&quot;</code> – already selected options will not be displayed in the dropdown</li><li><code>:clear-on-select=&quot;false&quot;</code> – the search query stays the same after selecting an option</li></ul><div class="example grid__row"><div class="grid__column grid__unit--md-5"><multi-select></multi-select></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><div><pre class=language-javascript v-pre><code>import Multiselect from 'vue-multiselect'
+
 export default {
-  mixins: [multiselectMixin, pointerMixin],
+  components: {
+    Multiselect
+  },
   data () {
     return {
-      selected: null,
-      options: ['list', 'of', 'options']
+      value: [
+        { name: 'Vue.js', language: 'JavaScript' }
+      ],
+      options: [
+        { name: 'Vue.js', language: 'JavaScript' },
+        { name: 'Adonis', language: 'JavaScript' },
+        { name: 'Rails', language: 'Ruby' },
+        { name: 'Sinatra', language: 'Ruby' },
+        { name: 'Laravel', language: 'PHP' },
+        { name: 'Phoenix', language: 'Elixir' }
+      ]
     }
   }
-}</code></pre></div></div></section></div></div><hr class=typo__hr><h1 class=typo__h1>Examples</h1><h2 id=select-primitive class=typo__h2>Single select dropdown (primitive value)</h2><p class=typo__p>Disabled all highlight label text.</p><div class=grid__row><div class="grid__column grid__unit--md-5"><label class=typo__label>Single select / dropdown</label><multiselect :options=options :selected=valuePrimitive :multiple=false :searchable=false :close-on-select=false :show-labels=false @update=updateValuePrimitive placeholder="Select one" label=name></multiselect><pre class=language-json><code>{{ valuePrimitive | json }}
-</code></pre></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><pre class=language-jade><code>multiselect(
-  :options="options",
-  :selected="valuePrimitive",
-  :multiple="false",
-  :searchable="false",
-  :close-on-select="false",
-  :show-labels="false"
-  @update="updateValuePrimitive"
-  placeholder="Select one"
-  label="name"
-)</code></pre><pre class=language-javascript><code>updateValuePrimitive (value) {
-  this.valuePrimitive = value
-}</code></pre></div></div><h2 id=select-object class=typo__h2>Single select dropdown (object)</h2><p class=typo__p>Can't become empty. Showing custom deselect label.</p><p class=typo__p>The selected value is referencing the same object as the next example, to show that dynamic preselection works.</p><div class=grid__row><div class="grid__column grid__unit--md-5"><label class=typo__label>Single select / dropdown</label><multiselect :options=source :selected=value :searchable=false :close-on-select=false :allow-empty=false @update=updateValue deselect-label="Can't remove this value" key=name label=name placeholder="Select one"></multiselect><pre class=language-json><code>{{ value | json }}
-</code></pre></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><pre class=language-jade><code>multiselect(
-  :options="source",
-  :selected="value",
-  :searchable="false",
-  :close-on-select="false",
-  :allow-empty="false",
-  @update="updateValue",
-  deselect-label="Can't remove this value"
-  key="name"
-  label="name"
-  placeholder="Select one"
-)</code></pre><pre class=language-javascript><code>updateValue (value) {
-  this.value = value
-}</code></pre></div></div><hr class=typo__hr><h2 id=select-search class=typo__h2>Single select with search</h2><p class=typo__p>The selected value is referencing the same object as the previous example, to show that dynamic preselection works.</p><div class=grid__row><div class="grid__column grid__unit--md-5"><label class=typo__label>Simple select / dropdown</label><multiselect :options=source :searchable=true :custom-label=nameWithLang @update=updateValue placeholder="Select one" label=name key=name></multiselect><pre class=language-json><code>{{ value | json }}
-</code></pre></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><pre class=language-jade><code>multiselect(
-  :options="source",
-  :selected="value",
-  :searchable="true",
-  :custom-label="nameWithLang"
-  @update="updateValue",
-  placeholder="Select one",
-  label="name",
-  key="name"
-)</code></pre><pre class=language-javascript><code>updateValue (value) {
-  this.value = value
-},
-nameWithLang ({ name, language }) {
-  return `${name} — [${language}]`
-}</code></pre></div></div><hr class=typo__hr><h2 id=multiselect-search class=typo__h2>Multiple select with search</h2><p class=typo__p><kbd>:limit="2"</kbd> prop limits the visible results to 2.</p><div class=grid__row><div class="grid__column grid__unit--md-5"><label class=typo__label>Simple select / dropdown</label><multiselect :options=source :selected=multiValue :multiple=true :searchable=true :close-on-select=false :clear-on-select=false :limit=2 @update=updateMultiValue placeholder="Pick some" label=name key=name></multiselect><pre class=language-json><code>{{ multiValue | json }}
-</code></pre></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><pre class=language-jade><code>multiselect(
-  :options="source",
-  :selected="multiValue",
-  :multiple="true",
-  :searchable="true",
-  :close-on-select="false",
-  :clear-on-select="false",
-  :limit="2"
-  @update="updateMultiValue",
-  placeholder="Pick some"
-  label="name",
-  key="name"
-)</code></pre><pre class=language-javascript><code>updateMultiValue (value) {
-  this.multiValue = value
-},</code></pre></div></div><hr class=typo__hr><h2 id=ajax class=typo__h2>Asynchronous dropdown</h2><p class=typo__p>Changing the search query emits the <kbd><code>@search-change</code></kbd> event, passing the search query as 1st param and the id as second.</p><p class=typo__p>To show loading indicator (spinner) please set the <kbd>:loading</kbd> prop to true.</p><div class=grid__row><div class="grid__column grid__unit--md-5"><label class=typo__label>Async multiselect</label><multiselect :options=countries :selected=selectedCountries :multiple=multiple :searchable=searchable :clear-on-select=false :close-on-select=false :loading=isLoading id=ajax @search-change=asyncFind @update=asyncUpdate label=name key=code placeholder="Type to search"><span slot=noResult>Oops! No elements found. Consider changing the search query.</span></multiselect><pre class=language-json><code>{{ selectedCountries | json }}
-</code></pre></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><pre class=language-jade><code>multiselect(
-  :options="countries",
-  :selected="selectedCountries",
-  :multiple="multiple",
-  :searchable="searchable",
-  :clear-on-select="false",
-  :close-on-select="false",
-  :loading="isLoading",
-  id="ajax",
-  @search-change="asyncFind",
-  @update="asyncUpdate",
-  label="name"
-  key="code"
-  placeholder="Type to search"
-)
-  span(slot="noResult").
-    Oops! No elements found. Consider changing the search query.
-</code></pre><pre class=language-javascript><code>asyncFind (query) {
-  if (query.length === 0) {
-    this.countries = []
-  } else {
-    this.isLoading = true
-    setTimeout(() => {
-      this.countries = countries.filter((element, index, array) => {
-        return element.name.toLowerCase().includes(query.toLowerCase())
-      })
-      this.isLoading = false
-    }, 1000)
-  }
-},
-asyncUpdate (newVal) {
-  this.selectedCountries = newVal
-}</code></pre></div></div><hr class=typo__hr><h2 id=tagging class=typo__h2>Tagging</h2><p class=typo__p>To enable tagging you have to set up 2 props. <kbd>:taggable="true"</kbd> and <kbd>:on-tag="callback"</kbd> which should add the tag to both Options and Selected arrays.</p><div class=grid__row><div class="grid__column grid__unit--md-5"><label class=typo__label>Tagging</label><multiselect :options=taggingOptions :selected=taggingSelected :multiple=true :searchable=searchable :taggable=true @tag=addTag @update=updateSelectedTagging tag-placeholder="Add this as new tag" placeholder="Type to search or add tag" label=name key=code><span slot=noResult>Oops! No elements found. Consider changing the search query.</span></multiselect><pre class=language-json><code>{{ taggingSelected | json }}
-</code></pre></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><pre class=language-jade><code>multiselect(
-  :options="taggingOptions",
-  :selected="taggingSelected",
-  :multiple="true",
-  :searchable="searchable",
-  :taggable="true",
-  @tag="addTag",
-  @update="updateSelectedTagging",
-  tag-placeholder="Add this as new tag"
-  placeholder="Type to search or add tag"
-  label="name"
-  key="code"
-)
-  span(slot="noResult").
-    Oops! No elements found. Consider changing the search query.
-</code></pre><pre class=language-javascript><code>addTag (newTag) {
-  const tag = {
-    name: newTag,
-    // Just for example needs as we use Array of Objects that should have other properties filled.
-    // For primitive values you can simply push the tag into options and selected arrays.
-    code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
-  }
-  this.taggingOptions.push(tag)
-  this.taggingSelected.push(tag)
-},
-updateSelectedTagging (value) {
-  console.log('@tag: ', value)
-  this.taggingSelected = value
-}</code></pre></div></div><hr class=typo__hr><h2 id=action class=typo__h2>Action dispatcher</h2><p class=typo__p>Multiselect may also act as dispatcher for different actions, like in this example. No need for <kbd>:selected</kbd> prop.</p><p class=typo__p>Emits the <kbd>@select</kbd> after selecting an option.</p><p class=typo__p>Set <kbd>:reset-after</kbd> prop to true, to clear the value after each change.</p><div class=grid__row><div class="grid__column grid__unit--md-5"><label class=typo__label>Open console to see logs.</label><multiselect :options=actions :searchable=false :reset-after=true @select=dispatchAction placeholder="Pick action"></multiselect></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><pre class=language-jade><code>multiselect(
-  :options="actions",
-  :searchable="false",
-  :reset-after="true",
-  @select="dispatchAction",
-  placeholder="Pick action",
-)</code></pre><pre class=language-javascript><code>dispatchAction (actionName) {
-  switch (actionName) {
-    case 'alert':
-      window.alert('You just dispatched "alert" action!')
-      break
-    case 'console.log':
-      console.log('You just dispatched "console.log" action!')
-      break
-    case 'scrollTop':
-      window.scrollTo(0, 0)
-      break
-  }
-}</code></pre></div></div><hr class=typo__hr><h2 id=custom class=typo__h2>Custom configuration</h2><p class=typo__p>Can't remove the last value and only allow up to 5 selected options.</p><p class=typo__p>Hides already selected options.</p><p class=typo__p>Shows error when touched, but nothing is selected.</p><div class=grid__row><div class="grid__column grid__unit--md-5"><div :class="{ 'invalid': isInvalid }"><label class=typo__label>Must have at least one value</label><multiselect :options=options :selected=exampleValue6 :multiple=true :searchable=true :allow-empty=false :hide-selected=true :close-on-select=false :max-height=400 :max=5 @close=onTouch @update=updateExampleValue placeholder="Pick at least one"></multiselect></div></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><pre class=language-jade><code>// Template
-div(:class="{ 'invalid': isInvalid }")
-  label.typo__label Must have at least one value
+}
+</code></pre></div><lang-switcher v-bind:langs=markupLangs v-bind:current=markupLanguage v-on:select=selectLanguage></lang-switcher><div v-show="markupLanguage === 'pug'"><pre class=language-pug v-pre><code>
+div
+  label.typo__label Simple select / dropdown
   multiselect(
-    :options="options",
-    :selected="exampleValue6",
-    :multiple="true",
-    :searchable="true",
-    :allow-empty="false",
-    :hide-selected="true",
-    :close-on-select="false",
-    :max-height="400",
-    :max="5",
-    @close="onTouch",
-    @update="updateExampleValue",
-    placeholder="Pick at least one"
+    v-model=&quot;value&quot;,
+    :options=&quot;options&quot;,
+    :multiple=&quot;true&quot;,
+    :close-on-select=&quot;false&quot;,
+    :clear-on-select=&quot;false&quot;,
+    :hide-selected=&quot;true&quot;,
+    placeholder=&quot;Pick some&quot;
+    label=&quot;name&quot;,
+    track-by=&quot;name&quot;
   )
+  pre.language-json
+    code.
+      {{ value  }}
 
-// Script
-computed: {
-  isInvalid () {
-    return this.isTouched && this.exampleValue6.length === 0
-  }
-},
-methods: {
-  onTouch () {
-    this.isTouched = true
+</code></pre></div><div v-show="markupLanguage === 'html'"><pre class=language-html v-pre><code>
+&lt;div&gt;
+  &lt;label class=&quot;typo__label&quot;&gt;Simple select / dropdown&lt;/label&gt;
+  &lt;multiselect v-model=&quot;value&quot; :options=&quot;options&quot; :multiple=&quot;true&quot; :close-on-select=&quot;false&quot; :clear-on-select=&quot;false&quot; :hide-selected=&quot;true&quot; placeholder=&quot;Pick some&quot; label=&quot;name&quot; track-by=&quot;name&quot;&gt;&lt;/multiselect&gt;
+  &lt;pre class=&quot;language-json&quot;&gt;&lt;code&gt;{{ value  }}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;</code></pre></div></div></div></div></div><div class=grid__row><div class=grid__column><h2 class=typo__h2 id=sub-asynchronous-select data-section>Asynchronous select</h2><p>Vue-Multiselect supports changing the option list on the fly, thus can be also used a type-a-head search box.</p><p>To react to the seach query changes, set a handler function on the <code>@search-change</code> event. It receives the <code>searchQuery</code> as the first param, which can be used to make an asynchronous API call.</p><p>It is convenient to set the <code>:loading</code> prop to <code>true</code>, whenever a request is in progress. Look at the provided <code>asyncFind</code> method for an example usage.</p><h4>Optional configuration flags:</h4><ul><li><code>:internal-search=&quot;false&quot;</code> – disables the multiselect’s internal search engine. If you do that, you have to manually update the available <code>:options</code>.</li><li><code>id=&quot;ajax&quot;</code> – every event is emitted with this as the second param. Useful for identification which component instance triggered the method (in loops for example)</li><li><code>:limit=&quot;3&quot;</code> – limits the visible results to 3.</li><li><code>:limit-text=&quot;limitText&quot;</code> – function that receives the current selected options count and should return a string to show when the <code>:limit</code> count is exceed</li><li><code>:options-limit=&quot;300&quot;</code> – limits the displayed options to <code>300</code>. Useful for optimisations purposes.</li></ul><div class="example grid__row"><div class="grid__column grid__unit--md-5"><ajax-search></ajax-search></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><div><pre class=language-javascript v-pre><code>import Multiselect from 'vue-multiselect'
+import { ajaxFindCountry } from './countriesApi'
+
+export default {
+  components: {
+    Multiselect
   },
-  updateExampleValue (value) {
-    this.exampleValue6 = value
+  data () {
+    return {
+      selectedCountries: [],
+      countries: [],
+      isLoading: false
+    }
+  },
+  methods: {
+    limitText (count) {
+      return `and ${count} other countries`
+    },
+    asyncFind (query) {
+      this.isLoading = true
+      ajaxFindCountry(query).then(response =&gt; {
+        this.countries = response
+        this.isLoading = false
+      })
+    }
   }
 }
+</code></pre></div><lang-switcher v-bind:langs=markupLangs v-bind:current=markupLanguage v-on:select=selectLanguage></lang-switcher><div v-show="markupLanguage === 'pug'"><pre class=language-pug v-pre><code>
+div
+  label.typo__label Async multiselect
+  multiselect(
+    v-model=&quot;selectedCountries&quot;,
+    id=&quot;ajax&quot;,
+    label=&quot;name&quot;,
+    track-by=&quot;code&quot;,
+    placeholder=&quot;Type to search&quot;,
+    :options=&quot;countries&quot;,
+    :multiple=&quot;true&quot;,
+    :searchable=&quot;true&quot;,
+    :loading=&quot;isLoading&quot;,
+    :internal-search=&quot;false&quot;,
+    :clear-on-select=&quot;false&quot;,
+    :close-on-select=&quot;false&quot;,
+    :options-limit=&quot;300&quot;,
+    :limit=&quot;3&quot;,
+    :limit-text=&quot;limitText&quot;,
+    @search-change=&quot;asyncFind&quot;
+  )
+    span(slot=&quot;noResult&quot;).
+      Oops! No elements found. Consider changing the search query.
+  pre.language-json
+    code.
+      {{ selectedCountries  }}
+</code></pre></div><div v-show="markupLanguage === 'html'"><pre class=language-html v-pre><code>
+&lt;div&gt;
+  &lt;label class=&quot;typo__label&quot;&gt;Async multiselect&lt;/label&gt;
+  &lt;multiselect v-model=&quot;selectedCountries&quot; id=&quot;ajax&quot; label=&quot;name&quot; track-by=&quot;code&quot; placeholder=&quot;Type to search&quot; :options=&quot;countries&quot; :multiple=&quot;true&quot; :searchable=&quot;true&quot; :loading=&quot;isLoading&quot; :internal-search=&quot;false&quot; :clear-on-select=&quot;false&quot; :close-on-select=&quot;false&quot; :options-limit=&quot;300&quot; :limit=&quot;3&quot; :limit-text=&quot;limitText&quot; @search-change=&quot;asyncFind&quot;&gt;&lt;span slot=&quot;noResult&quot;&gt;Oops! No elements found. Consider changing the search query.&lt;/span&gt;&lt;/multiselect&gt;
+  &lt;pre class=&quot;language-json&quot;&gt;&lt;code&gt;{{ selectedCountries  }}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;</code></pre></div></div></div></div></div><div class=grid__row><div class=grid__column><h2 class=typo__h2 id=sub-tagging data-section>Tagging</h2><p>To add tagging functionality to single/multiple selects, set the <code>:taggable</code> prop to <code>true</code>. This will add an additional option at the beginning of the options list whenever you type a phrase that doesn’t have an exact match in the available options. Selecting this temporary option will emit the <code>@tag</code> event with the current typed search query as the first param. The event handler should add the received <strong>tag</strong> to both the options list and the value.</p><p>Remember that when working with objects as options, you have to transform the received tag string to an object that matches the objects structure of the options list. In this example, the <code>addTag</code> method generates an object with a unique <code>code</code> property.</p><h4>Optional configuration flags:</h4><ul><li><code>tag-placeholder=&quot;Add this as new tag&quot;</code> – A helper label that will be displayed when highlighting the just typed tag suggestion.</li></ul><div class="example grid__row"><div class="grid__column grid__unit--md-5"><tagging></tagging></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><div><pre class=language-javascript v-pre><code>import Multiselect from 'vue-multiselect'
 
-// Styles
-.invalid {
-  .typo__label {
-    color: $error-color;
+export default {
+  components: {
+    Multiselect
+  },
+  data () {
+    return {
+      value: [
+        { name: 'Javascript', code: 'js' }
+      ],
+      options: [
+        { name: 'Vue.js', code: 'vu' },
+        { name: 'Javascript', code: 'js' },
+        { name: 'Monterail', code: 'pl' },
+        { name: 'Open Source', code: 'os' }
+      ]
+    }
+  },
+  methods: {
+    addTag (newTag) {
+      const tag = {
+        name: newTag,
+        code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
+      }
+      this.options.push(tag)
+      this.value.push(tag)
+    }
   }
-  .multiselect__tags {
-    border-color: $error-color !important;
+}
+</code></pre></div><lang-switcher v-bind:langs=markupLangs v-bind:current=markupLanguage v-on:select=selectLanguage></lang-switcher><div v-show="markupLanguage === 'pug'"><pre class=language-pug v-pre><code>
+div
+  label.typo__label Tagging
+  multiselect(
+    v-model=&quot;value&quot;,
+    tag-placeholder=&quot;Add this as new tag&quot;,
+    placeholder=&quot;Search or add a tag&quot;,
+    label=&quot;name&quot;,
+    track-by=&quot;code&quot;,
+    :options=&quot;options&quot;,
+    :multiple=&quot;true&quot;,
+    :taggable=&quot;true&quot;,
+    @tag=&quot;addTag&quot;
+  )
+  pre.language-json
+    code.
+      {{ value  }}
+</code></pre></div><div v-show="markupLanguage === 'html'"><pre class=language-html v-pre><code>
+&lt;div&gt;
+  &lt;label class=&quot;typo__label&quot;&gt;Tagging&lt;/label&gt;
+  &lt;multiselect v-model=&quot;value&quot; tag-placeholder=&quot;Add this as new tag&quot; placeholder=&quot;Search or add a tag&quot; label=&quot;name&quot; track-by=&quot;code&quot; :options=&quot;options&quot; :multiple=&quot;true&quot; :taggable=&quot;true&quot; @tag=&quot;addTag&quot;&gt;&lt;/multiselect&gt;
+  &lt;pre class=&quot;language-json&quot;&gt;&lt;code&gt;{{ value  }}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;</code></pre></div></div></div></div></div><div class=grid__row><div class=grid__column><h2 class=typo__h2 id=sub-custom-option-template data-section>Custom option template</h2><p>Vue-Multiselect can use custom render functions for option elements. This makes it possible to render different kind of data inside like images or even other components! For this to happen, pass a custom render function to the <code>:option-function</code> prop.</p><p>The <code>option-function</code> always receives the following <code>h</code>, <code>option</code>, <code>label</code> params. Please look at the <code>customRender</code> method for an example with JSX.</p><p>To ensure the keyboard navigation works properly, remember to set the <code>:option-height</code> so it equals the height of the option template. By default, the component assumes an option height of 40px.</p><h4>Optional configuration flags:</h4><ul><li><code>:option-height=&quot;104&quot;</code> – The height of the custom option template.</li></ul><div class="example grid__row"><div class="grid__column grid__unit--md-5"><custom-option></custom-option></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><div><pre class=language-javascript v-pre><code>import Multiselect from 'vue-multiselect'
+
+export default {
+  components: {
+    Multiselect
+  },
+  data () {
+    return {
+      value: { title: 'Explorer', desc: 'Discovering new species!', img: 'static/posters/creatures.png' },
+      options: [
+        { title: 'Space Pirate', desc: 'More space battles!', img: 'static/posters/fleet.png' },
+        { title: 'Merchant', desc: 'PROFIT!', img: 'static/posters/trading_post.png' },
+        { title: 'Explorer', desc: 'Discovering new species!', img: 'static/posters/creatures.png' },
+        { title: 'Miner', desc: 'We need to go deeper!', img: 'static/posters/resource_lab.png' }
+      ]
+    }
+  },
+  methods: {
+    customLabel ({ title, desc }) {
+      return `${title} – ${desc}`
+    },
+    customRender (h, option) {
+      return &lt;div&gt;
+        &lt;img class=&quot;option__image&quot; src={ option.img } alt=&quot;No Man’s Sky&quot; /&gt;
+        &lt;div class=&quot;option__desc&quot;&gt;
+          &lt;span class=&quot;option__title&quot;&gt;{ option.title }&lt;/span&gt;
+          &lt;span class=&quot;option__small&quot;&gt;{ option.desc }&lt;/span&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;
+    }
   }
-}</code></pre></div></div><hr class=typo__hr><h2 id=props class=typo__h2>Props</h2><div class=grid__row><div class=table__container><table class="table table--full-size table--fixed"><thead><tr class=table__tr><th width=100 class=table__th>Name</th><th width=80 class=table__th>Type</th><th width=180 class=table__th>Default</th><th width=200 class=table__th>Description</th></tr></thead><tbody><tr class=table__tr><td colspan=4 class="table__td utils--center"><strong>multiselectMixin.js</strong></td></tr><tr class=table__tr><td class=table__td><strong>Id</strong></td><td class=table__td>Integer||String</td><td class=table__td></td><td class=table__td>Used to identify the component in events.</td></tr><tr class=table__tr><td class=table__td><strong>Options</strong></td><td class=table__td>Array</td><td class=table__td></td><td class=table__td>Array of available options: Objects, Strings or Integers. If array of objects, visible label will default to option.label.</td></tr><tr class=table__tr><td class=table__td><strong>Selected</strong></td><td class=table__td>Object||Array||String||Integer</td><td class=table__td></td><td class=table__td>Presets the selected options.</td></tr><tr class=table__tr><td class=table__td><strong>Multiple</strong></td><td class=table__td>Boolean</td><td class=table__td><kbd>false</kbd></td><td class=table__td>Equivalent to the <kbd>multiple</kbd> attribute on a &lt;select&gt; input.</td></tr><tr class=table__tr><td class=table__td><strong>Key</strong></td><td class=table__td>String</td><td class=table__td></td><td class=table__td>Used to compare objects.<strong> Only use if options are objects.</strong></td></tr><tr class=table__tr><td class=table__td><strong>Label</strong></td><td class=table__td>String</td><td class=table__td></td><td class=table__td>Label from option Object, that will be visible in the dropdown.</td></tr><tr class=table__tr><td class=table__td><strong>Searchable</strong></td><td class=table__td>Boolean</td><td class=table__td><kbd>true</kbd></td><td class=table__td>Add / removes search input.</td></tr><tr class=table__tr><td class=table__td><strong>ClearOnSelect</strong></td><td class=table__td>Boolean</td><td class=table__td><kbd>true</kbd></td><td class=table__td>Clear the search input after <kbd>select()</kbd>. Use only when multiple is true.</td></tr><tr class=table__tr><td class=table__td><strong>HideSelected</strong></td><td class=table__td>Boolean</td><td class=table__td><kbd>false</kbd></td><td class=table__td>Hide already selected options</td></tr><tr class=table__tr><td class=table__td><strong>Placeholder</strong></td><td class=table__td>String</td><td class=table__td><kbd>'Select option'</kbd></td><td class=table__td>Equivalent to the <kbd>placeholder</kbd> attribute on a &lt;select&gt; input.</td></tr><tr class=table__tr><td class=table__td><strong>MaxHeight</strong></td><td class=table__td>Integer</td><td class=table__td><kbd>300</kbd></td><td class=table__td>Sets max-height style value of the dropdown</td></tr><tr class=table__tr><td class=table__td><strong>AllowEmpty</strong></td><td class=table__td>Boolean</td><td class=table__td><kbd>true</kbd></td><td class=table__td>Allows to remove all selected values. Otherwise one must be left selected.</td></tr><tr class=table__tr><td class=table__td><strong>ResetAfter</strong></td><td class=table__td>Boolean</td><td class=table__td><kbd>false</kbd></td><td class=table__td>Reset <kbd>this.value</kbd>, <kbd>this.search</kbd>, <kbd>this.selected</kbd> after <kbd>this.value</kbd> changes.</td></tr><tr class=table__tr><td class=table__td><strong>CloseOnSelect</strong></td><td class=table__td>Boolean</td><td class=table__td><kbd>true</kbd></td><td class=table__td>Enable/disable closing after selecting an option</td></tr><tr class=table__tr><td class=table__td><strong>CustomLabel</strong></td><td class=table__td>Function => String</td><td class=table__td></td><td class=table__td>Function used to create a custom label</td></tr><tr class=table__tr><td class=table__td><strong>Taggable</strong></td><td class=table__td>Boolean</td><td class=table__td><kbd>false</kbd></td><td class=table__td>Disable / Enable tagging</td></tr><tr class=table__tr><td class=table__td><strong>TagPlaceholder</strong></td><td class=table__td>String</td><td class=table__td><kbd>'Press enter to create a tag'</kbd></td><td class=table__td>String to show when highlighting a potential tag</td></tr><tr class=table__tr><td class=table__td><strong>Max</strong></td><td class=table__td>Number</td><td class=table__td></td><td class=table__td>Number of allowed selected options.</td></tr><tr class=table__tr><td colspan=4 class="table__td utils--center"><strong>Multiselect.vue</strong></td></tr><tr class=table__tr><td class=table__td><strong>SelectLabel</strong></td><td class=table__td>String</td><td class=table__td><kbd>'Press enter to select'</kbd></td><td class=table__td>String to show when pointing to an option</td></tr><tr class=table__tr><td class=table__td><strong>SelectedLabel</strong></td><td class=table__td>String</td><td class=table__td><kbd>'Selected'</kbd></td><td class=table__td>String to show next to selected option</td></tr><tr class=table__tr><td class=table__td><strong>DeselectLabel</strong></td><td class=table__td>String</td><td class=table__td><kbd>'Press enter to remove'</kbd></td><td class=table__td>String to show when pointing to an alredy selected option</td></tr><tr class=table__tr><td class=table__td><strong>ShowLabels</strong></td><td class=table__td>Boolean</td><td class=table__td><kbd>true</kbd></td><td class=table__td>Decide whether to show labels on highlighted options</td></tr><tr class=table__tr><td class=table__td><strong>Limit</strong></td><td class=table__td>Number</td><td class=table__td><kbd>99999</kbd></td><td class=table__td>Limit the display of selected options. The rest will be hidden within the limitText string.</td></tr><tr class=table__tr><td class=table__td><strong>LimitText</strong></td><td class=table__td>Function => String</td><td class=table__td><kbd>count => `and ${count} more`</kbd></td><td class=table__td>Function that process the message shown when selected elements pass the defined limit.</td></tr><tr class=table__tr><td class=table__td><strong>Loading</strong></td><td class=table__td>Boolean</td><td class=table__td><kbd>false</kbd></td><td class=table__td>Show/hide the loading spinner.</td></tr><tr class=table__tr><td class=table__td><strong>Disabled</strong></td><td class=table__td>Boolean</td><td class=table__td><kbd>false</kbd></td><td class=table__td>Enable/disable the multiselect.</td></tr><tr class=table__tr><td colspan=4 class="table__td utils--center"><strong>pointerMixin.js</strong></td></tr><tr class=table__tr><td class=table__td><strong>ShowPointer</strong></td><td class=table__td>Boolean</td><td class=table__td><kbd>true</kbd></td><td class=table__td>Enable/disable highlighting of the pointed value.</td></tr></tbody></table></div></div><h2 id=events class=typo__h2>Events</h2><div class=grid__row><div class=table__container><table class="table table--full-size"><thead><tr class=table__tr><th width=150 class=table__th>Name</th><th width=100 class=table__th>Attributes</th><th width=150 class=table__th>Listen to</th><th width=250 class=table__th>Description</th></tr></thead><tbody><tr class=table__tr><td class=table__td><strong>Update</strong></td><td class=table__td><kbd>(value, id)</kbd></td><td class=table__td><kbd>@update</kbd></td><td class=table__td>Emitted after <kbd>this.value</kbd> changes</td></tr><tr class=table__tr><td class=table__td><strong>Select</strong></td><td class=table__td><kbd>(selectedOption, id)</kbd></td><td class=table__td><kbd>@select</kbd></td><td class=table__td>Emitted after selecting an option</td></tr><tr class=table__tr><td class=table__td><strong>Remove</strong></td><td class=table__td><kbd>(removedOption, id)</kbd></td><td class=table__td><kbd>@remove</kbd></td><td class=table__td>Emitted after removing an option</td></tr><tr class=table__tr><td class=table__td><strong>SearchChange</strong></td><td class=table__td><kbd>(searchQuery, id)</kbd></td><td class=table__td><kbd>@search-change</kbd></td><td class=table__td>Emitted after the search query changes</td></tr><tr class=table__tr><td class=table__td><strong>Tag</strong></td><td class=table__td><kbd>(searchQuery, id)</kbd></td><td class=table__td><kbd>@tag</kbd></td><td class=table__td>Emitted after user attemts to add a tag</td></tr><tr class=table__tr><td class=table__td><strong>Open</strong></td><td class=table__td><kbd>(id)</kbd></td><td class=table__td><kbd>@open</kbd></td><td class=table__td>Emitted when the dropdown opens. Useful for detecting when touched.</td></tr><tr class=table__tr><td class=table__td><strong>Close</strong></td><td class=table__td><kbd>(value, id)</kbd></td><td class=table__td><kbd>@close</kbd></td><td class=table__td>Emitted when the dropdown closes</td></tr></tbody></table></div></div><h2 id=slots class=typo__h2>Slots</h2><div class=grid__row><div class=table__container><table class="table table--full-size table--fixed"><thead><tr class=table__tr><th width=200 class=table__th>Name</th><th class=table__th>Description</th></tr></thead><tbody><tr class=table__tr><td class=table__td><strong>MaxElements</strong></td><td class=table__td>Shows when the maximum options have been selected. Defaults to string:<strong> Maximum of &lt;max&gt; options selected. First remove a selected option to select another.</strong></td></tr><tr class=table__tr><td class=table__td><strong>NoResult</strong></td><td class=table__td>Shows when no elements match the search query. Defaults to string:<strong> No elements found. Consider changing the search query.</strong></td></tr><tr class=table__tr><td class=table__td><strong>BeforeList</strong></td><td class=table__td>Shows before the list, when dropdown is open.</td></tr><tr class=table__tr><td class=table__td><strong>AfterList</strong></td><td class=table__td>Shows after the list, when dropdown is open.</td></tr></tbody></table></div></div></div></div><section class=utils--center><h4 class=typo__h4>Created by Damian Dulisz<strong><a href=https://twitter.com/DamianDulisz target=_BLANK class=typo__link> @DamianDulisz</a></strong></h4><h4 class=typo__h4>With love from<strong><a href=http://monterail.com target=_BLANK class="typo__link monterail-link"> Monterail</a></strong></h4><a href=http://monterail.com target=_BLANK><img src=static/monterail-logo.png class=monterail-logo></a></section><script src=static/prism.js></script><script>/*eslint-disable */
-(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+}
+</code></pre></div><lang-switcher v-bind:langs=markupLangs v-bind:current=markupLanguage v-on:select=selectLanguage></lang-switcher><div v-show="markupLanguage === 'pug'"><pre class=language-pug v-pre><code>
+div
+  label.typo__label Custom option template
+  multiselect(
+    v-model=&quot;value&quot;,
+    placeholder=&quot;Fav No Man’s Sky path&quot;,
+    label=&quot;title&quot;,
+    track-by=&quot;title&quot;,
+    :options=&quot;options&quot;,
+    :option-height=&quot;104&quot;,
+    :custom-label=&quot;customLabel&quot;,
+    :show-labels=&quot;false&quot;,
+    :option-function=&quot;customRender&quot;
+  )
+    span(slot=&quot;noResult&quot;).
+      Oops! No elements found. Consider changing the search query.
+  pre.language-json
+    code.
+      {{ value  }}
+</code></pre></div><div v-show="markupLanguage === 'html'"><pre class=language-html v-pre><code>
+&lt;div&gt;
+  &lt;label class=&quot;typo__label&quot;&gt;Custom option template&lt;/label&gt;
+  &lt;multiselect v-model=&quot;value&quot; placeholder=&quot;Fav No Man’s Sky path&quot; label=&quot;title&quot; track-by=&quot;title&quot; :options=&quot;options&quot; :option-height=&quot;104&quot; :custom-label=&quot;customLabel&quot; :show-labels=&quot;false&quot; :option-function=&quot;customRender&quot;&gt;&lt;span slot=&quot;noResult&quot;&gt;Oops! No elements found. Consider changing the search query.&lt;/span&gt;&lt;/multiselect&gt;
+  &lt;pre class=&quot;language-json&quot;&gt;&lt;code&gt;{{ value  }}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;</code></pre></div></div></div></div></div><div class=grid__row><div class=grid__column><h2 class=typo__h2 id=sub-option-groups data-section>Option groups</h2><p>The options list can also contain groups. It requires passing 2 additional props: <code>group-label</code> and <code>group-values</code>. <code>group-label</code> is used to locate the group label. <code>group-values</code> should point to the group’s option list.</p><p>Despite that the available options are grouped, the selected options are stored as a flat array of objects.</p><p>Please look at the provided example for a example options list structure.</p><div class="example grid__row"><div class="grid__column grid__unit--md-5"><groups></groups></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><div><pre class=language-javascript v-pre><code>import Multiselect from 'vue-multiselect'
+
+export default {
+  components: {
+    Multiselect
+  },
+  data () {
+    return {
+      options: [
+        {
+          language: 'Javascript',
+          libs: [
+            { name: 'Vue.js', category: 'Front-end' },
+            { name: 'Adonis', category: 'Backend' }
+          ]
+        },
+        {
+          language: 'Ruby',
+          libs: [
+            { name: 'Rails', category: 'Backend' },
+            { name: 'Sinatra', category: 'Backend' }
+          ]
+        },
+        {
+          language: 'Other',
+          libs: [
+            { name: 'Laravel', category: 'Backend' },
+            { name: 'Phoenix', category: 'Backend' }
+          ]
+        }
+      ],
+      value: []
+    }
+  }
+}
+</code></pre></div><lang-switcher v-bind:langs=markupLangs v-bind:current=markupLanguage v-on:select=selectLanguage></lang-switcher><div v-show="markupLanguage === 'pug'"><pre class=language-pug v-pre><code>
+div
+  label.typo__label Groups
+  multiselect(
+    v-model=&quot;value&quot;,
+    :options=&quot;options&quot;,
+    :multiple=&quot;true&quot;,
+    group-values=&quot;libs&quot;,
+    group-label=&quot;language&quot;,
+    placeholder=&quot;Type to search&quot;,
+    track-by=&quot;name&quot;,
+    label=&quot;name&quot;,
+  )
+    span(slot=&quot;noResult&quot;).
+      Oops! No elements found. Consider changing the search query.
+  pre.language-json
+    code.
+      {{ value  }}
+</code></pre></div><div v-show="markupLanguage === 'html'"><pre class=language-html v-pre><code>
+&lt;div&gt;
+  &lt;label class=&quot;typo__label&quot;&gt;Groups&lt;/label&gt;
+  &lt;multiselect v-model=&quot;value&quot; :options=&quot;options&quot; :multiple=&quot;true&quot; group-values=&quot;libs&quot; group-label=&quot;language&quot; placeholder=&quot;Type to search&quot; track-by=&quot;name&quot; label=&quot;name&quot;&gt;&lt;span slot=&quot;noResult&quot;&gt;Oops! No elements found. Consider changing the search query.&lt;/span&gt;&lt;/multiselect&gt;
+  &lt;pre class=&quot;language-json&quot;&gt;&lt;code&gt;{{ value  }}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;</code></pre></div></div></div></div></div><div class=grid__row><div class=grid__column><h2 class=typo__h2 id=sub-vuex-support data-section>Vuex support</h2><p>Due to the one-way data-flow enforced by Vuex you should not be using <code>v-model</code> for manipulating the currently selected value. Because Vue-Multiselect always uses it’s own internal copy of the value it never mutates the <code>:value</code> by itself, which means it can can safely used with Vuex or even Redux.</p><p>In Vue 2.0 <code>v-model</code> is just a syntax sugar for <code>:value</code> and <code>@input</code>. Because of this we can use the <code>@input</code> event to trigger Vuex actions or mutations. Whenever we mutate the <code>:value</code> in Vuex, Multiselect’s internal value will update.</p><div class="example grid__row"><div class="grid__column grid__unit--md-5"><vuex-actions></vuex-actions></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><div><pre class=language-javascript v-pre><code>import Vue from 'vue'
+import Vuex from 'vuex'
+import Multiselect from 'vue-multiselect'
+
+const { mapActions, mapState } = Vuex
+
+Vue.use(Vuex)
+
+const store = new Vuex.Store({
+  state: {
+    value: 'Vuex',
+    options: ['Vuex', 'Vue', 'Vuelidate', 'Vue-Multiselect', 'Vue-Router']
+  },
+  mutations: {
+    updateValue (state, value) {
+      state.value = value
+    }
+  },
+  actions: {
+    updateValueAction ({ commit }, value) {
+      commit('updateValue', value)
+    }
+  }
+})
+
+export default {
+  store,
+  components: {
+    Multiselect
+  },
+  computed: {
+    ...mapState(['value', 'options'])
+  },
+  methods: {
+    ...mapActions(['updateValueAction'])
+  }
+}
+</code></pre></div><lang-switcher v-bind:langs=markupLangs v-bind:current=markupLanguage v-on:select=selectLanguage></lang-switcher><div v-show="markupLanguage === 'pug'"><pre class=language-pug v-pre><code>
+div
+  label.typo__label Vuex example.
+  multiselect(
+    placeholder=&quot;Pick action&quot;,
+    :value=&quot;value&quot;,
+    :options=&quot;options&quot;,
+    :searchable=&quot;false&quot;,
+    @input=&quot;updateValueAction&quot;,
+  )
+</code></pre></div><div v-show="markupLanguage === 'html'"><pre class=language-html v-pre><code>
+&lt;div&gt;
+  &lt;label class=&quot;typo__label&quot;&gt;Vuex example.&lt;/label&gt;
+  &lt;multiselect placeholder=&quot;Pick action&quot; :value=&quot;value&quot; :options=&quot;options&quot; :searchable=&quot;false&quot; @input=&quot;updateValueAction&quot;&gt;&lt;/multiselect&gt;
+&lt;/div&gt;</code></pre></div></div></div></div></div><div class=grid__row><div class=grid__column><h2 class=typo__h2 id=sub-action-dispatcher data-section>Action dispatcher</h2><p>The component may also act as dispatcher for different actions/methods. In this case there is no need for the <code>:value</code> prop. Instead of <code>@input</code> you can listen on the <code>@select</code> event. The difference between the two is that <code>@select</code> only receives the currently selected value instead of the whole list of selected values (if select is multiple).</p><h4>Optional configuration flags:</h4><ul><li><code>:reset-after=&quot;true&quot;</code> – Resets the internal value after each select action inside the component.</li></ul><div class="example grid__row"><div class="grid__column grid__unit--md-5"><action-dispatcher></action-dispatcher></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><div><pre class=language-javascript v-pre><code>import Multiselect from 'vue-multiselect'
+
+export default {
+  components: {
+    Multiselect
+  },
+  data () {
+    return {
+      actions: ['alert', 'console.log', 'scrollTop']
+    }
+  },
+  methods: {
+    dispatchAction (actionName) {
+      switch (actionName) {
+        case 'alert':
+          window.alert('You just dispatched &quot;alert&quot; action!')
+          break
+        case 'console.log':
+          console.log('You just dispatched &quot;console.log&quot; action!')
+          break
+        case 'scrollTop':
+          window.scrollTo(0, 0)
+          break
+      }
+    }
+  }
+}
+</code></pre></div><lang-switcher v-bind:langs=markupLangs v-bind:current=markupLanguage v-on:select=selectLanguage></lang-switcher><div v-show="markupLanguage === 'pug'"><pre class=language-pug v-pre><code>
+div
+  label.typo__label Open console to see logs.
+  multiselect(
+    placeholder=&quot;Pick action&quot;,
+    :options=&quot;actions&quot;,
+    :searchable=&quot;false&quot;,
+    :reset-after=&quot;true&quot;,
+    @select=&quot;dispatchAction&quot;
+  )
+</code></pre></div><div v-show="markupLanguage === 'html'"><pre class=language-html v-pre><code>
+&lt;div&gt;
+  &lt;label class=&quot;typo__label&quot;&gt;Open console to see logs.&lt;/label&gt;
+  &lt;multiselect placeholder=&quot;Pick action&quot; :options=&quot;actions&quot; :searchable=&quot;false&quot; :reset-after=&quot;true&quot; @select=&quot;dispatchAction&quot;&gt;&lt;/multiselect&gt;
+&lt;/div&gt;</code></pre></div></div></div></div></div><div class=grid__row><div class=grid__column><h2 class=typo__h2 id=sub-custom-configuration data-section>Custom configuration</h2><p>Shows error when touched, but nothing is selected.</p><h4>Optional configuration flags:</h4><ul><li><code>:max-height=&quot;150&quot;</code> – Set the dropdown height to 150px</li><li><code>:max=&quot;3&quot;</code> – Set the maximal number of selections</li><li><code>:allow-empty=&quot;false&quot;</code> – Doesn’t allow to remove the last option if it exists</li><li><code>:block-keys=&quot;['Tab', 'Enter']&quot;</code> – Block the <code>Tab</code> and <code>Enter</code> keys from triggering their default behaviour</li><li><code>@close=&quot;onTouch&quot;</code> – Event emitted when closing the dropdown</li></ul><div class="example grid__row"><div class="grid__column grid__unit--md-5"><custom-config></custom-config></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><div><pre class=language-javascript v-pre><code>import Multiselect from 'vue-multiselect'
+
+export default {
+  components: {
+    Multiselect
+  },
+  data () {
+    return {
+      isDisabled: false,
+      isTouched: false,
+      value: [],
+      options: ['Select option', 'Disable me!', 'Reset me!', 'mulitple', 'label', 'searchable']
+    }
+  },
+  computed: {
+    isInvalid () {
+      return this.isTouched &amp;&amp; this.value.length === 0
+    }
+  },
+  methods: {
+    onChange (value) {
+      this.value = value
+      if (value.indexOf('Reset me!') !== -1) this.value = []
+    },
+    onSelect (option) {
+      if (option === 'Disable me!') this.isDisabled = true
+    },
+    onTouch () {
+      this.isTouched = true
+    }
+  }
+}
+</code></pre></div><lang-switcher v-bind:langs=markupLangs v-bind:current=markupLanguage v-on:select=selectLanguage></lang-switcher><div v-show="markupLanguage === 'pug'"><pre class=language-pug v-pre><code>
+div(
+  :class=&quot;{ 'invalid': isInvalid }&quot;
+)
+  label.typo__label Customized multiselect
+  multiselect(
+    placeholder=&quot;Pick at least one&quot;,
+    select-label=&quot;Enter doesn’t work here!&quot;,
+    :value=&quot;value&quot;,
+    :options=&quot;options&quot;,
+    :multiple=&quot;true&quot;,
+    :searchable=&quot;true&quot;,
+    :allow-empty=&quot;false&quot;,
+    :hide-selected=&quot;true&quot;,
+    :max-height=&quot;150&quot;,
+    :max=&quot;3&quot;,
+    :disabled=&quot;isDisabled&quot;,
+    :block-keys=&quot;['Tab', 'Enter']&quot;,
+    @input=&quot;onChange&quot;,
+    @close=&quot;onTouch&quot;,
+    @select=&quot;onSelect&quot;
+  )
+  label.typo__label.form__label(v-show=&quot;isInvalid&quot;) Must have at least one value
+</code></pre></div><div v-show="markupLanguage === 'html'"><pre class=language-html v-pre><code>
+&lt;div :class=&quot;{ 'invalid': isInvalid }&quot;&gt;
+  &lt;label class=&quot;typo__label&quot;&gt;Customized multiselect&lt;/label&gt;
+  &lt;multiselect placeholder=&quot;Pick at least one&quot; select-label=&quot;Enter doesn’t work here!&quot; :value=&quot;value&quot; :options=&quot;options&quot; :multiple=&quot;true&quot; :searchable=&quot;true&quot; :allow-empty=&quot;false&quot; :hide-selected=&quot;true&quot; :max-height=&quot;150&quot; :max=&quot;3&quot; :disabled=&quot;isDisabled&quot; :block-keys=&quot;['Tab', 'Enter']&quot; @input=&quot;onChange&quot; @close=&quot;onTouch&quot; @select=&quot;onSelect&quot;&gt;&lt;/multiselect&gt;
+  &lt;label class=&quot;typo__label form__label&quot; v-show=&quot;isInvalid&quot;&gt;Must have at least one value&lt;/label&gt;
+&lt;/div&gt;</code></pre></div></div></div></div></div></section></div></div><hr class=typo__hr><h2 class=typo__h2 id=sub-props data-section>Props</h2><div class=grid__row><div class=table__container><table class="table table--full-size table--fixed"><thead><tr class=table__tr><th class=table__th width=100>Name</th><th class=table__th width=80>Type</th><th class=table__th width=180>Default</th><th class=table__th width=200>Description</th></tr></thead><tbody><tr class=table__tr><td class="table__td utils--center" colspan=4><strong>multiselectMixin.js</strong></td></tr><tr class=table__tr><td class=table__td><strong>Id</strong></td><td class=table__td>Integer||String</td><td class=table__td></td><td class=table__td>Used to identify the component in events.</td></tr><tr class=table__tr><td class=table__td><strong>Options</strong></td><td class=table__td>Array</td><td class=table__td></td><td class=table__td>Array of available options: Objects, Strings or Integers. If array of objects, visible label will default to option.label.</td></tr><tr class=table__tr><td class=table__td><strong>Value</strong></td><td class=table__td>Object||Array||String||Integer</td><td class=table__td></td><td class=table__td>Presets the selected options.</td></tr><tr class=table__tr><td class=table__td><strong>Multiple</strong></td><td class=table__td>Boolean</td><td class=table__td><kbd>false</kbd></td><td class=table__td>Equivalent to the <kbd>multiple</kbd> attribute on a &lt;select&gt; input.</td></tr><tr class=table__tr><td class=table__td><strong>TrackBy</strong></td><td class=table__td>String</td><td class=table__td></td><td class=table__td>Used to compare objects.<strong> Only use if options are objects.</strong></td></tr><tr class=table__tr><td class=table__td><strong>Label</strong></td><td class=table__td>String</td><td class=table__td></td><td class=table__td>Label from option Object, that will be visible in the dropdown.</td></tr><tr class=table__tr><td class=table__td><strong>Searchable</strong></td><td class=table__td>Boolean</td><td class=table__td><kbd>true</kbd></td><td class=table__td>Add / removes search input.</td></tr><tr class=table__tr><td class=table__td><strong>ClearOnSelect</strong></td><td class=table__td>Boolean</td><td class=table__td><kbd>true</kbd></td><td class=table__td>Clear the search input after <kbd>select()</kbd>. Use only when multiple is true.</td></tr><tr class=table__tr><td class=table__td><strong>HideSelected</strong></td><td class=table__td>Boolean</td><td class=table__td><kbd>false</kbd></td><td class=table__td>Hide already selected options</td></tr><tr class=table__tr><td class=table__td><strong>Placeholder</strong></td><td class=table__td>String</td><td class=table__td><kbd>'Select option'</kbd></td><td class=table__td>Equivalent to the <kbd>placeholder</kbd> attribute on a &lt;select&gt; input.</td></tr><tr class=table__tr><td class=table__td><strong>AllowEmpty</strong></td><td class=table__td>Boolean</td><td class=table__td><kbd>true</kbd></td><td class=table__td>Allows to remove all selected values. Otherwise one must be left selected.</td></tr><tr class=table__tr><td class=table__td><strong>ResetAfter</strong></td><td class=table__td>Boolean</td><td class=table__td><kbd>false</kbd></td><td class=table__td>Reset <kbd>this.value</kbd>, <kbd>this.search</kbd>, <kbd>this.selected</kbd> after <kbd>this.value</kbd> changes.</td></tr><tr class=table__tr><td class=table__td><strong>CloseOnSelect</strong></td><td class=table__td>Boolean</td><td class=table__td><kbd>true</kbd></td><td class=table__td>Enable/disable closing after selecting an option</td></tr><tr class=table__tr><td class=table__td><strong>CustomLabel</strong></td><td class=table__td>Function => String</td><td class=table__td></td><td class=table__td>Function used to create a custom label</td></tr><tr class=table__tr><td class=table__td><strong>Taggable</strong></td><td class=table__td>Boolean</td><td class=table__td><kbd>false</kbd></td><td class=table__td>Disable / Enable tagging</td></tr><tr class=table__tr><td class=table__td><strong>TagPlaceholder</strong></td><td class=table__td>String</td><td class=table__td><kbd>'Press enter to create a tag'</kbd></td><td class=table__td>String to show when highlighting a potential tag</td></tr><tr class=table__tr><td class=table__td><strong>Max</strong></td><td class=table__td>Number</td><td class=table__td></td><td class=table__td>Number of allowed selected options.</td></tr><tr class=table__tr><td class=table__td><strong>optionsLimit</strong></td><td class=table__td>Number</td><td class=table__td>1000</td><td class=table__td>Limits the options displayed in the dropdown to the first X options.</td></tr><tr class=table__tr><td class=table__td><strong>groupValues</strong></td><td class=table__td>String</td><td class=table__td></td><td class=table__td>ame of the property containing the group values</td></tr><tr class=table__tr><td class=table__td><strong>groupLabel</strong></td><td class=table__td>String</td><td class=table__td></td><td class=table__td>Name of the property containing the group label</td></tr><tr class=table__tr><td class=table__td><strong>blockKeys</strong></td><td class=table__td>Array</td><td class=table__td>[]</td><td class=table__td>Array of keyboard key aliases to block when selecting</td></tr><tr class=table__tr><td class=table__td><strong>internalSearch</strong></td><td class=table__td>Boolean</td><td class=table__td>true</td><td class=table__td>Decide whether to filter the results internally based on search query. Useful for async filtering, where we search through more complex data.</td></tr><tr class=table__tr><td class="table__td utils--center" colspan=4><strong>Multiselect.vue</strong></td></tr><tr class=table__tr><td class=table__td><strong>SelectLabel</strong></td><td class=table__td>String</td><td class=table__td><kbd>'Press enter to select'</kbd></td><td class=table__td>String to show when pointing to an option</td></tr><tr class=table__tr><td class=table__td><strong>SelectedLabel</strong></td><td class=table__td>String</td><td class=table__td><kbd>'Selected'</kbd></td><td class=table__td>String to show next to selected option</td></tr><tr class=table__tr><td class=table__td><strong>DeselectLabel</strong></td><td class=table__td>String</td><td class=table__td><kbd>'Press enter to remove'</kbd></td><td class=table__td>String to show when pointing to an alredy selected option</td></tr><tr class=table__tr><td class=table__td><strong>ShowLabels</strong></td><td class=table__td>Boolean</td><td class=table__td><kbd>true</kbd></td><td class=table__td>Decide whether to show labels on highlighted options</td></tr><tr class=table__tr><td class=table__td><strong>Limit</strong></td><td class=table__td>Number</td><td class=table__td><kbd>99999</kbd></td><td class=table__td>Limit the display of selected options. The rest will be hidden within the limitText string.</td></tr><tr class=table__tr><td class=table__td><strong>LimitText</strong></td><td class=table__td>Function => String</td><td class=table__td><kbd>count => `and ${count} more`</kbd></td><td class=table__td>Function that process the message shown when selected elements pass the defined limit.</td></tr><tr class=table__tr><td class=table__td><strong>Loading</strong></td><td class=table__td>Boolean</td><td class=table__td><kbd>false</kbd></td><td class=table__td>Show/hide the loading spinner.</td></tr><tr class=table__tr><td class=table__td><strong>Disabled</strong></td><td class=table__td>Boolean</td><td class=table__td><kbd>false</kbd></td><td class=table__td>Enable/disable the multiselect.</td></tr><tr class=table__tr><td class=table__td><strong>MaxHeight</strong></td><td class=table__td>Integer</td><td class=table__td><kbd>300</kbd></td><td class=table__td>Sets max-height style value of the dropdown</td></tr><tr class=table__tr><td class="table__td utils--center" colspan=4><strong>pointerMixin.js</strong></td></tr><tr class=table__tr><td class=table__td><strong>ShowPointer</strong></td><td class=table__td>Boolean</td><td class=table__td><kbd>true</kbd></td><td class=table__td>Enable/disable highlighting of the pointed value.</td></tr></tbody></table></div></div><h2 class=typo__h2 id=sub-events data-section>Events</h2><div class=grid__row><div class=table__container><table class="table table--full-size"><thead><tr class=table__tr><th class=table__th width=150>Name</th><th class=table__th width=100>Attributes</th><th class=table__th width=150>Listen to</th><th class=table__th width=250>Description</th></tr></thead><tbody><tr class=table__tr><td class=table__td><strong>Input</strong></td><td class=table__td><kbd>(value, id)</kbd></td><td class=table__td><kbd>@input</kbd></td><td class=table__td>Emitted after <kbd>this.value</kbd> changes</td></tr><tr class=table__tr><td class=table__td><strong>Select</strong></td><td class=table__td><kbd>(selectedOption, id)</kbd></td><td class=table__td><kbd>@select</kbd></td><td class=table__td>Emitted after selecting an option</td></tr><tr class=table__tr><td class=table__td><strong>Remove</strong></td><td class=table__td><kbd>(removedOption, id)</kbd></td><td class=table__td><kbd>@remove</kbd></td><td class=table__td>Emitted after removing an option</td></tr><tr class=table__tr><td class=table__td><strong>SearchChange</strong></td><td class=table__td><kbd>(searchQuery, id)</kbd></td><td class=table__td><kbd>@search-change</kbd></td><td class=table__td>Emitted after the search query changes</td></tr><tr class=table__tr><td class=table__td><strong>Tag</strong></td><td class=table__td><kbd>(searchQuery, id)</kbd></td><td class=table__td><kbd>@tag</kbd></td><td class=table__td>Emitted after user attemts to add a tag</td></tr><tr class=table__tr><td class=table__td><strong>Open</strong></td><td class=table__td><kbd>(id)</kbd></td><td class=table__td><kbd>@open</kbd></td><td class=table__td>Emitted when the dropdown opens. Useful for detecting when touched.</td></tr><tr class=table__tr><td class=table__td><strong>Close</strong></td><td class=table__td><kbd>(value, id)</kbd></td><td class=table__td><kbd>@close</kbd></td><td class=table__td>Emitted when the dropdown closes</td></tr></tbody></table></div></div><h2 class=typo__h2 id=sub-slots data-section>Slots</h2><div class=grid__row><div class=table__container><table class="table table--full-size table--fixed"><thead><tr class=table__tr><th class=table__th width=200>Name</th><th class=table__th>Description</th></tr></thead><tbody><tr class=table__tr><td class=table__td><strong>MaxElements</strong></td><td class=table__td>Shows when the maximum options have been selected. Defaults to string:<strong> Maximum of &lt;max&gt; options selected. First remove a selected option to select another.</strong></td></tr><tr class=table__tr><td class=table__td><strong>NoResult</strong></td><td class=table__td>Shows when no elements match the search query. Defaults to string:<strong> No elements found. Consider changing the search query.</strong></td></tr><tr class=table__tr><td class=table__td><strong>BeforeList</strong></td><td class=table__td>Shows before the list, when dropdown is open.</td></tr><tr class=table__tr><td class=table__td><strong>AfterList</strong></td><td class=table__td>Shows after the list, when dropdown is open.</td></tr></tbody></table></div></div></div></div><section class=utils--center><h4 class=typo__h4>Created by Damian Dulisz<strong><a class=typo__link href=https://twitter.com/DamianDulisz target=_BLANK> @DamianDulisz</a></strong></h4><h4 class=typo__h4>With love from<strong><a class="typo__link monterail-link" href=http://monterail.com target=_BLANK> Monterail</a></strong></h4><a href=http://monterail.com target=_BLANK><img class=monterail-logo src=static/monterail-logo.png></a></section></div><script src=1cddcce43ea5add1db8b59df834a68f1.js></script><script>;(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 ga('create', 'UA-78373326-1', 'auto');
-ga('send', 'pageview');
-/*eslint-enable */</script><script type=text/javascript src=static/js/app.82c2c31fa0b44e2ec7b5.js></script></body></html>
+ga('send', 'pageview');</script><script>/*eslint-disable */
+Prism.languages.pug = Prism.languages.jade
+
+WebFontConfig = {
+  google: { families: [ 'Lato:700,300', 'Dosis:400' ] }
+}
+;(function() {
+  var wf = document.createElement('script')
+  wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+    '://ajax.googleapis.com/ajax/libs/webfont/1.5.18/webfont.js'
+  wf.type = 'text/javascript'
+  wf.async = 'true'
+  var s = document.getElementsByTagName('script')[0]
+  s.parentNode.insertBefore(wf, s)
+})()</script><script type=text/javascript src=static/js/manifest.9399d95dbca3718aec1e.js></script><script type=text/javascript src=static/js/vendor.ab86f30c8c507af20f40.js></script><script type=text/javascript src=static/js/app.27c235bfc5b7c659953b.js></script></body></html>
