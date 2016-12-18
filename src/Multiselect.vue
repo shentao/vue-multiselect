@@ -77,11 +77,9 @@
                 :data-selected="selectedLabelText"
                 :data-deselect="deselectLabelText"
                 class="multiselect__option">
-                  <multiselect-option
-                    :option-function="optionFunction"
-                    :label="getOptionLabel(option)"
-                    :option="option">
-                  </multiselect-option>
+                  <slot name="option" :option="option" :search="search">
+                    <span>{{ getOptionLabel(option) }}</span>
+                  </slot>
               </span>
               <span
                 v-if="option.$isLabel"
@@ -105,13 +103,9 @@
 <script>
   import multiselectMixin from './multiselectMixin'
   import pointerMixin from './pointerMixin'
-  import MultiselectOption from './MultiselectOption'
 
   export default {
     name: 'vue-multiselect',
-    components: {
-      MultiselectOption
-    },
     mixins: [multiselectMixin, pointerMixin],
     props: {
       /**
@@ -196,12 +190,6 @@
       disabled: {
         type: Boolean,
         default: false
-      },
-      optionFunction: {
-        type: Function,
-        default (h, option, label) {
-          return h('span', {}, label)
-        }
       }
     },
     computed: {

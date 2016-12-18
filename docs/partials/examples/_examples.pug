@@ -66,9 +66,7 @@
     +example('Tagging')
   +subsection('Custom option template')
     :markdown-it
-      Vue-Multiselect can use custom render functions for option elements. This makes it possible to render different kind of data inside like images or even other components! For this to happen, pass a custom render function to the `:option-function` prop.
-
-      The `option-function` always receives the following `h`, `option`, `label` params. Please look at the `customRender` method for an example with JSX.
+      You can use `option` [scoped slot](https://vuejs.org/v2/guide/components.html#Scoped-Slots) to provide a custom option template. The available `props` include `props.option` and `props.search`. Look at the provided example for more details.
 
       To ensure the keyboard navigation works properly, remember to set the `:option-height` so it equals the height of the option template. By default, the component assumes an option height of 40px.
 
