@@ -9,9 +9,11 @@ div
     :multiple="true",
     :show-labels="false",
     :limit="3",
-    :option-function="customRender",
     @tag="onTagging"
   )
+    template(slot="option", scope="props")
+      span.badge__name {{ props.option.name }}
+      img.badge__img(:src="props.option.img", :alt="props.option.name")
     span(slot="noResult").
       Badge not found. Suggest a badge <a class="typo__link" href="https://github.com/monterail/vue-multiselect/issues" target="_blank">here</a>.
 </template>
@@ -39,12 +41,6 @@ export default {
     onTagging (newTag) {
       this.source.push({ name: newTag, language: newTag })
       this.value.push({ name: newTag, language: newTag })
-    },
-    customRender (h, option) {
-      return <div>
-        <span class="badge__name">{ option.name }</span>
-        <img class="badge__img" src={ option.img } alt={ option.name }/>
-      </div>
     }
   }
 }

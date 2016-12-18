@@ -9,11 +9,13 @@ div
     :options="options",
     :option-height="104",
     :custom-label="customLabel",
-    :show-labels="false",
-    :option-function="customRender"
+    :show-labels="false"
   )
-    span(slot="noResult").
-      Oops! No elements found. Consider changing the search query.
+    template(slot="option", scope="props")
+      img.option__image(:src="props.option.img", alt="No Man’s Sky")
+      .option__desc
+        span.option__title {{ props.option.title }}
+        span.option__small {{ props.option.desc }}
   pre.language-json
     code.
       {{ value  }}
@@ -40,15 +42,6 @@ export default {
   methods: {
     customLabel ({ title, desc }) {
       return `${title} – ${desc}`
-    },
-    customRender (h, option) {
-      return <div>
-        <img class="option__image" src={ option.img } alt="No Man’s Sky" />
-        <div class="option__desc">
-          <span class="option__title">{ option.title }</span>
-          <span class="option__small">{ option.desc }</span>
-        </div>
-      </div>
     }
   }
 }

@@ -8,20 +8,28 @@ h2.typo__h2#sub-slots(data-section) Slots
           th.table__th Description
       tbody
         tr.table__tr
-          td.table__td: strong MaxElements
+          td.table__td: strong option
+          td.table__td
+            | Slot for custom option template. See <a class="typo__link" href="#sub-custom-option-template">example.</a>
+            br
+            strong  Default: Shows option label
+        tr.table__tr
+          td.table__td: strong maxElements
           td.table__td
             | Shows when the maximum options have been selected. Defaults to string:
-            strong  Maximum of &lt;max&gt; options selected. First remove a selected option to select another.
+            br
+            strong  Default: Maximum of &lt;max&gt; options selected. First remove a selected option to select another.
         tr.table__tr
-          td.table__td: strong NoResult
+          td.table__td: strong noResult
           td.table__td
             | Shows when no elements match the search query. Defaults to string:
-            strong  No elements found. Consider changing the search query.
+            br
+            strong  Default: No elements found. Consider changing the search query.
         tr.table__tr
-          td.table__td: strong BeforeList
+          td.table__td: strong beforeList
           td.table__td
             | Shows before the list, when dropdown is open.
         tr.table__tr
-          td.table__td: strong AfterList
+          td.table__td: strong afterList
           td.table__td
             | Shows after the list, when dropdown is open.

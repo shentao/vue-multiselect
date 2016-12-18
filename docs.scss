@@ -129,9 +129,10 @@ section {
   margin-bottom: rem(20px)
 }
 
-#examples {  
+#examples {
   .grid__column {
-    & > a {
+    & > p > a {
+      font-weight: $global-font-weight-bold;
       color: $primary-color;
       text-decoration: none;
     }

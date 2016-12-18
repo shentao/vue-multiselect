@@ -81,7 +81,6 @@ new Vue({
       for (let i = sections.length - 1; i >= 0; i--) {
         if (window.scrollY > sections[i].offset) {
           this.currentPosition = sections[i].id
-          console.log(i)
           break
         }
       }
