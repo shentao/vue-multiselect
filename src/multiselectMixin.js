@@ -62,7 +62,7 @@ module.exports = {
      * Useful for async filtering, where we search through more complex data.
      * @type {Boolean}
      */
-    localSearch: {
+    internalSearch: {
       type: Boolean,
       default: true
     },
@@ -144,15 +144,6 @@ module.exports = {
     placeholder: {
       type: String,
       default: 'Select option'
-    },
-    /**
-     * Sets maxHeight style value of the dropdown
-     * @default 300
-     * @type {Integer}
-     */
-    maxHeight: {
-      type: Number,
-      default: 300
     },
     /**
      * Allow to remove all selected values
@@ -278,7 +269,7 @@ module.exports = {
 
       let options = this.options
 
-      if (this.localSearch) {
+      if (this.internalSearch) {
         options = this.groupValues
           ? this.filterAndFlat(options, search, this.label)
           : filterOptions(options, search, this.label)
@@ -420,6 +411,7 @@ module.exports = {
     select (option, key) {
       if (this.blockKeys.indexOf(key) !== -1 || this.disabled) return
       if (this.max && this.multiple && this.internalValue.length === this.max) return
+      if (option.$isLabel) return
       if (option.isTag) {
         this.$emit('tag', option.label, this.id)
         this.search = ''

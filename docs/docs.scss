@@ -31,7 +31,7 @@ body {
   }
 
   .typo__h3 {
-    padding: rem(20px 0)
+    padding: rem(20px 0 0)
   }
 
   @media #{$medium-up} {
@@ -49,7 +49,7 @@ body {
 
 .docs {
   text-align: left;
-  padding-top: rem(60px)
+  padding-top: rem(30px)
 }
 
 .center-vertically {
@@ -100,10 +100,54 @@ body {
   }
 }
 
+.blank__link {
+  color: inherit;
+  text-decoration: none;
+}
+
 .version {
   position: absolute;
   bottom: rem(-7px);
   font-size: rem(20px);
   color: $secondary-color;
   transform: translateX(-100%);
+}
+
+.badges {
+  margin-bottom: 15px;
+
+  img {
+    margin: 0 2px
+  }
+}
+
+.list__multiselect {
+  line-height: 1.4
+}
+
+section {
+  margin-bottom: rem(20px)
+}
+
+#examples {
+  .grid__column {
+    & > p > a {
+      font-weight: $global-font-weight-bold;
+      color: $primary-color;
+      text-decoration: none;
+    }
+
+    & > ul {
+      padding-left: rem(25px);
+      margin-top: rem(7px);
+
+      li {
+        line-height: $paragraph-line-height;
+        font-family: $paragraph-family;
+        font-weight: $paragraph-font-weight;
+        font-size: rem($paragraph-font-size-ratio-sm * $global-font-size);
+        padding: rem(4px 0);
+      }
+    }
+  }
 }

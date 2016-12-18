@@ -1,0 +1,40 @@
+section.start(:style="gradient")
+  .center-vertically
+    h1.typo__h1
+      img.logo(src=require('assets/vue-logo.png'))
+      | Vue-multiselect
+      small.version
+        =`(${require('../../package.json').version})`
+    h3.typo__h3 The most complete selecting solution for
+      = ' '
+      a.typo__link(href="http://vuejs.org" target="_BLANK") Vue.js
+    .badges
+      img(src="https://img.shields.io/github/stars/monterail/vue-multiselect.svg?label=Stars")
+      img(src="https://camo.githubusercontent.com/d0e25b09a82bc4bfde9f1e048a092752eebbb4f3/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f6c6963656e73652d4d49542d626c75652e7376673f7374796c653d666c6174" alt="License" data-canonical-src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat")
+      img(src="https://camo.githubusercontent.com/64f9a2333bb303d34b1587e1436b24dee6a8e134/68747470733a2f2f696d672e736869656c64732e696f2f6e706d2f646d2f7675652d6d756c746973656c6563742e737667" alt="npm" data-canonical-src="https://img.shields.io/npm/dm/vue-multiselect.svg" style="max-width:100%;")
+      img(src="https://camo.githubusercontent.com/47ff0923e959e736113988e900268dfc7a601d3b/68747470733a2f2f636972636c6563692e636f6d2f67682f6d6f6e74657261696c2f7675652d6d756c746973656c6563742f747265652f6d61737465722e7376673f7374796c653d736869656c6426636972636c652d746f6b656e3d35633933316666323866643132353837363130663833353437326265636464353134643039636566" alt="Build Status" data-canonical-src="https://circleci.com/gh/monterail/vue-multiselect/tree/master.svg?style=shield&amp;circle-token=5c931ff28fd12587610f835472becdd514d09cef" style="max-width:100%;")
+      img(src="https://camo.githubusercontent.com/51bc9432092f4def26f97d24824c857ad5891c1c/68747470733a2f2f696d672e736869656c64732e696f2f67656d6e617369756d2f6d6f6e74657261696c2f7675652d6d756c746973656c6563742e7376673f7374796c653d666c6174" alt="No Dependencies" data-canonical-src="https://img.shields.io/gemnasium/monterail/vue-multiselect.svg?style=flat" style="max-width:100%;")
+    .grid__row.grid__row--centered
+      .grid__column.grid__unit--md-6
+        .multiselect-example__container
+          multiselect-example
+          .grid__row.start__list
+            .grid__column.grid__unit--md-6.list
+              ul.list__ul
+                li.typo__li Single / multiple select
+                li.typo__li Dropdowns
+                li.typo__li: a.typo__link(href="#sub-select-with-search") Searchable
+                li.typo__li: a.typo__link(href="#sub-tagging") Tagging
+                li.typo__li Action dispatcher
+            .grid__column.grid__unit--md-6.list
+              ul.list__ul
+                li.typo__li: a.typo__link(href="#sub-vuex-support") Vuex support by default
+                li.typo__li: a.typo__link(href="#sub-asynchronous-select") Ajax support
+                li.typo__li: a.typo__link(href="#sub-custom-configuration") Fully configurable
+                li.typo__li +99% test coverage
+                li.typo__li No dependencies
+
+    .grid__row.grid__row--centered
+      .grid__column.utils--center
+        a.button.button--large.button--secondary.button--github(href="https://github.com/monterail/vue-multiselect" target="_BLANK") View on GitHub
+        a.button.button--large(href="#sub-getting-started") Getting started & examples
