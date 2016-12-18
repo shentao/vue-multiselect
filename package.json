@@ -25,7 +25,7 @@
     "unit": "karma start test/unit/karma.conf.js --watch",
     "test": "karma start test/unit/karma.conf.js --single-run",
     "lint": "eslint --ext .js,.vue src test/unit/specs",
-    "prepublish": "npm run lint && npm test && npm run build"
+    "finish": "npm run lint && npm test && npm run build"
   },
   "devDependencies": {
     "autoprefixer": "^6.4.0",
@@ -50,7 +50,7 @@
     "eslint-friendly-formatter": "^2.0.5",
     "eslint-loader": "^1.5.0",
     "eslint-plugin-html": "^1.3.0",
-    "eslint-plugin-promise": "^2.0.1",
+    "eslint-plugin-promise": "^3.3.0",
     "eslint-plugin-standard": "^2.0.1",
     "eventsource-polyfill": "^0.9.6",
     "express": "^4.13.3",
@@ -97,9 +97,5 @@
     "webpack-dev-middleware": "^1.8.3",
     "webpack-hot-middleware": "^2.12.2",
     "webpack-merge": "^0.14.1"
-  },
-  "engines": {
-    "node": ">= 4.0.0",
-    "npm": ">= 3.0.0"
   }
 }
