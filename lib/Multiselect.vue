@@ -17,7 +17,8 @@
           track-by="$index"
           onmousedown="event.preventDefault()"
           class="multiselect__tag">
-            <span v-text="getOptionLabel(option)"></span>
+            <partial :name="tagPartial" v-if="tagPartial.length"></partial>
+            <span v-else v-text="getOptionLabel(option)"></span>
             <i
               aria-hidden="true"
               tabindex="1"
@@ -182,6 +183,10 @@
       disabled: {
         type: Boolean,
         default: false
+      },
+      tagPartial: {
+        type: String,
+        default: ''
       }
     },
     computed: {
