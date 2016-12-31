@@ -71,6 +71,19 @@ export default {
 }
 ```
 
+Alternatively:
+
+```html
+<script src="https://cdn.jsdelivr.net/vue.multiselect/1.1.4/vue-multiselect.min.js"></script>
+```
+
+VueMultiselect will be available on the window object. As it contains a default export you have to access it through `VueMultiselect.default`.
+
+```javascript
+// register the plugin globally
+Vue.component('Multiselect', VueMultiselect.default)
+```
+
 You can now author custom components based on *vue-multiselect* mixins.
 
 ``` javascript
