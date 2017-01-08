@@ -52,8 +52,10 @@ module.exports = {
       search: '',
       isOpen: false,
       internalValue: this.value || this.value === 0
-        ? deepClone(this.value)
-        : this.multiple ? [] : null
+        ? this.multiple
+          ? deepClone(this.value)
+          : deepClone([this.value])
+        : []
     }
   },
   props: {
@@ -287,9 +289,7 @@ module.exports = {
     },
     valueKeys () {
       if (this.trackBy) {
-        return this.multiple
-          ? this.internalValue.map(element => element[this.trackBy])
-          : this.internalValue[this.trackBy]
+        return this.internalValue.map(element => element[this.trackBy])
       } else {
         return this.internalValue
       }
@@ -301,13 +301,13 @@ module.exports = {
         : options.map(element => element.toString().toLowerCase())
     },
     currentOptionLabel () {
-      return this.getOptionLabel(this.internalValue) + ''
+      return this.getOptionLabel(this.internalValue[0]) + ''
     }
   },
   watch: {
     'internalValue' () {
       if (this.resetAfter) {
-        this.internalValue = null
+        this.internalValue = []
         this.search = ''
       }
       this.adjustSearch()
@@ -319,7 +319,7 @@ module.exports = {
       this.$emit('search-change', this.search, this.id)
     },
     'value' () {
-      this.internalValue = deepClone(this.value)
+      this.internalValue = deepClone(this.multiple ? this.value : [this.value])
     }
   },
   methods: {
@@ -366,17 +366,10 @@ module.exports = {
      * @returns {Boolean} returns true if element is selected
      */
     isSelected (option) {
-      /* istanbul ignore else */
-      if (!this.internalValue) return false
       const opt = this.trackBy
         ? option[this.trackBy]
         : option
-
-      if (this.multiple) {
-        return this.valueKeys.indexOf(opt) > -1
-      } else {
-        return this.valueKeys === opt
-      }
+      return this.valueKeys.indexOf(opt) > -1
     },
     /**
      * Finds out if the given element is NOT already present
@@ -416,23 +409,20 @@ module.exports = {
         this.$emit('tag', option.label, this.id)
         this.search = ''
       } else {
-        if (this.multiple) {
-          if (this.isSelected(option)) {
-            if (key !== 'Tab') this.removeElement(option)
-            return
-          } else {
-            this.internalValue.push(option)
-          }
+        const isSelected = this.isSelected(option)
+        if (isSelected) {
+          if (key !== 'Tab') this.removeElement(option)
+          return
+        } else if (this.multiple) {
+          this.internalValue.push(option)
         } else {
-          const isSelected = this.isSelected(option)
-
-          /* istanbul ignore else */
-          if (isSelected && (!this.allowEmpty || key === 'Tab')) return
-
-          this.internalValue = isSelected ? null : option
+          this.internalValue = [option]
         }
         this.$emit('select', deepClone(option), this.id)
-        this.$emit('input', deepClone(this.internalValue), this.id)
+        const value = this.multiple
+          ? this.internalValue
+          : this.internalValue[0]
+        this.$emit('input', deepClone(value), this.id)
 
         if (this.closeOnSelect) this.deactivate()
       }
@@ -450,13 +440,16 @@ module.exports = {
       if (this.disabled) return
       if (!this.allowEmpty && this.internalValue.length <= 1) return
 
-      const index = (this.multiple && typeof option === 'object')
+      const index = typeof option === 'object'
         ? this.valueKeys.indexOf(option[this.trackBy])
         : this.valueKeys.indexOf(option)
 
       this.internalValue.splice(index, 1)
       this.$emit('remove', deepClone(option), this.id)
-      this.$emit('input', deepClone(this.internalValue), this.id)
+      const value = this.multiple
+        ? this.internalValue
+        : this.internalValue[0]
+      this.$emit('input', deepClone(value), this.id)
     },
     /**
      * Calls this.removeElement() with the last element
@@ -506,7 +499,10 @@ module.exports = {
       } else {
         this.$el.blur()
       }
-      this.$emit('close', deepClone(this.internalValue), this.id)
+      const value = this.multiple
+        ? this.internalValue
+        : this.internalValue[0]
+      this.$emit('close', deepClone(value), this.id)
     },
     /**
      * Adjusts the Search property to equal the correct value

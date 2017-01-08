@@ -490,7 +490,7 @@ describe('Multiselect.vue', () => {
               source: ['1', '2', '3']
             }
           }).$mount()
-          expect(vm.$children[0].internalValue).to.deep.equal(vm.value)
+          expect(vm.$children[0].internalValue).to.deep.equal([vm.value])
           expect(vm.$children[0].$refs.tags.querySelector('input').value).to.contain('1')
         })
 
@@ -512,7 +512,7 @@ describe('Multiselect.vue', () => {
               source: [{ id: '1' }, { id: '2' }, { id: '3' }]
             }
           }).$mount()
-          expect(vm.$children[0].internalValue).to.deep.equal(vm.value)
+          expect(vm.$children[0].internalValue).to.deep.equal([vm.value])
           expect(vm.$children[0].$refs.tags.querySelector('input').value).to.contain('2')
         })
 
@@ -534,7 +534,7 @@ describe('Multiselect.vue', () => {
               source: [{ id: '1' }, { id: '2' }, { id: '3' }]
             }
           }).$mount()
-          expect(vm.$children[0].internalValue).to.deep.equal(null)
+          expect(vm.$children[0].internalValue).to.deep.equal([])
           expect(vm.$children[0].$refs.tags.querySelector('.multiselect__tag')).to.equal(null)
         })
 
@@ -622,7 +622,7 @@ describe('Multiselect.vue', () => {
             source: ['1', '2', '3']
           }
         }).$mount()
-        expect(vm.$children[0].value).to.deep.equal(vm.value)
+        expect(vm.$children[0].internalValue).to.deep.equal([vm.value])
         expect(vm.$children[0].$refs.tags.querySelector('.multiselect__single').textContent).to.contain('1')
       })
 
@@ -645,7 +645,7 @@ describe('Multiselect.vue', () => {
             source: [{ id: '1' }, { id: '2' }, { id: '3' }]
           }
         }).$mount()
-        expect(vm.$children[0].internalValue).to.deep.equal(vm.value)
+        expect(vm.$children[0].internalValue).to.deep.equal([vm.value])
         expect(vm.$children[0].$refs.tags.querySelector('.multiselect__single').textContent).to.contain('2')
       })
     })
@@ -855,9 +855,9 @@ describe('Multiselect.vue', () => {
           }
         }).$mount()
         vm.$children[0].select(vm.source[0])
-        expect(vm.$children[0].internalValue).to.deep.equal({ id: '1' })
+        expect(vm.$children[0].internalValue).to.deep.equal([{ id: '1' }])
         vm.$children[0].select(vm.source[1])
-        expect(vm.$children[0].internalValue).to.deep.equal({ id: '2' })
+        expect(vm.$children[0].internalValue).to.deep.equal([{ id: '2' }])
       })
       it('should not deselect a value when called with Tab key', () => {
         const vm = new Vue({
@@ -878,9 +878,9 @@ describe('Multiselect.vue', () => {
           }
         }).$mount()
         vm.$children[0].select(vm.source[0])
-        expect(vm.$children[0].internalValue).to.deep.equal({ id: '1' })
+        expect(vm.$children[0].internalValue).to.deep.equal([{ id: '1' }])
         vm.$children[0].select(vm.source[0], 'Tab')
-        expect(vm.$children[0].internalValue).to.deep.equal({ id: '1' })
+        expect(vm.$children[0].internalValue).to.deep.equal([{ id: '1' }])
       })
     })
     describe('when closeOnSelect == FALSE', () => {
@@ -1223,7 +1223,7 @@ describe('Multiselect.vue', () => {
       }).$mount()
       vm.$children[0].select(vm.$children[0].options[0])
       Vue.nextTick(function () {
-        expect(vm.$children[0].internalValue).to.deep.equal(vm.sel)
+        expect(vm.$children[0].internalValue).to.deep.equal([vm.sel])
         done()
       })
     })
@@ -1848,7 +1848,7 @@ describe('Multiselect.vue', () => {
         }
       }).$mount()
       const comp = vm.$children[0]
-      expect(comp.valueKeys).to.deep.equal('2')
+      expect(comp.valueKeys).to.deep.equal(['2'])
     })
   })
 
