@@ -479,6 +479,10 @@ module.exports = {
       if (this.disabled) return
 
       this.adjustPosition()
+      /* istanbul ignore else  */
+      if (this.groupValues && this.pointer === 0 && this.filteredOptions.length) {
+        this.pointer = 1
+      }
 
       this.isOpen = true
       /* istanbul ignore else  */
@@ -518,9 +522,11 @@ module.exports = {
     adjustSearch () {
       if (!this.searchable || !this.clearOnSelect) return
 
-      this.search = this.multiple
-        ? ''
-        : this.currentOptionLabel
+      setTimeout(() => {
+        this.search = this.multiple
+          ? ''
+          : this.currentOptionLabel
+      }, 150)
     },
     /**
      * Call this.activate() or this.deactivate()

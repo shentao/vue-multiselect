@@ -26,7 +26,7 @@ module.exports = {
     }
   },
   watch: {
-    'filteredOptions' () {
+    filteredOptions () {
       this.pointerAdjust()
     }
   },
@@ -38,8 +38,8 @@ module.exports = {
       }
     },
     addPointerElement ({ key } = 'Enter') {
-      if (this.filteredOptions[this.pointer].isLabel) return
       if (this.filteredOptions.length > 0) {
+        if (this.filteredOptions[this.pointer].isLabel) return
         this.select(this.filteredOptions[this.pointer], key)
       }
       this.pointerReset()
@@ -66,7 +66,6 @@ module.exports = {
     },
     pointerReset () {
       if (!this.closeOnSelect) return
-
       this.pointer = 0
       if (this.$refs.list) {
         this.$refs.list.scrollTop = 0

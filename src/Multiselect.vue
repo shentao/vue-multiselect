@@ -585,7 +585,7 @@ fieldset[disabled] .multiselect {
 
 .multiselect-enter-active,
 .multiselect-leave-active {
-  transition: all 0.3s ease;
+  transition: all 0.15s ease;
 }
 
 .multiselect-enter,
