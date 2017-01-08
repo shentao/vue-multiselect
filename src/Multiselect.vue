@@ -1,7 +1,7 @@
 <template>
   <div
     :tabindex="searchable ? -1 : 0"
-    :class="{ 'multiselect--active': isOpen, 'multiselect--disabled': disabled }"
+    :class="{ 'multiselect--active': isOpen, 'multiselect--disabled': disabled, 'multiselect--above': !hasEnoughSpace }"
     @focus="activate()"
     @blur="searchable ? false : deactivate()"
     @keydown.self.down.prevent="pointerForward()"
@@ -316,6 +316,13 @@ fieldset[disabled] .multiselect {
   transform: rotateZ(180deg);
 }
 
+.multiselect--above.multiselect--active .multiselect__current,
+.multiselect--above.multiselect--active .multiselect__input,
+.multiselect--above.multiselect--active .multiselect__tags {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
 .multiselect__input,
 .multiselect__single {
   position: relative;
@@ -478,6 +485,16 @@ fieldset[disabled] .multiselect {
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   z-index: 50;
+}
+
+.multiselect--above .multiselect__content {
+  bottom: 100%;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom: none;
+  border-top: 1px solid #E8E8E8;
 }
 
 .multiselect__content::webkit-scrollbar {

@@ -51,6 +51,7 @@ module.exports = {
     return {
       search: '',
       isOpen: false,
+      hasEnoughSpace: true,
       internalValue: this.value || this.value === 0
         ? this.multiple
           ? deepClone(this.value)
@@ -264,24 +265,28 @@ module.exports = {
   },
   created () {
     if (this.searchable) this.adjustSearch()
+    if (!this.multiple && !this.clearOnSelect) {
+      console.warn('[Vue-Multiselect warn]: ClearOnSelect and Multiple props can’t be both set to false.')
+    }
   },
   computed: {
     filteredOptions () {
-      let search = this.search.toLowerCase() || ''
+      const search = this.search || ''
+      const normalizedSearch = search.toLowerCase()
 
       let options = this.options
 
       if (this.internalSearch) {
         options = this.groupValues
-          ? this.filterAndFlat(options, search, this.label)
-          : filterOptions(options, search, this.label)
+          ? this.filterAndFlat(options, normalizedSearch, this.label)
+          : filterOptions(options, normalizedSearch, this.label)
 
         options = this.hideSelected
           ? options.filter(this.isNotSelected)
           : options
       }
 
-      if (this.taggable && search.length && !this.isExistingOption(search)) {
+      if (this.taggable && normalizedSearch.length && !this.isExistingOption(normalizedSearch)) {
         options.unshift({ isTag: true, label: search })
       }
 
@@ -473,6 +478,8 @@ module.exports = {
       if (this.isOpen) return
       if (this.disabled) return
 
+      this.adjustPosition()
+
       this.isOpen = true
       /* istanbul ignore else  */
       if (this.searchable) {
@@ -526,6 +533,13 @@ module.exports = {
       this.isOpen
         ? this.deactivate()
         : this.activate()
+    },
+    /**
+     * Updates the hasEnoughSpace variable used for
+     * detecting where to expand the dropdown
+     */
+    adjustPosition () {
+      this.hasEnoughSpace = this.$el.getBoundingClientRect().top + this.maxHeight < window.innerHeight
     }
   }
 }
