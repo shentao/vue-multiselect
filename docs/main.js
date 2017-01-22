@@ -31,7 +31,7 @@ new Vue({
   },
   data () {
     return {
-      options: ['Select option Select option Select option', 'options', 'selected', 'mulitple', 'label', 'searchable', 'clearOnSelect', 'hideSelected', 'maxHeight', 'allowEmpty', 'showLabels', 'onChange', 'touched'],
+      options: ['Select option', 'options', 'selected', 'mulitple', 'label', 'searchable', 'clearOnSelect', 'hideSelected', 'maxHeight', 'allowEmpty', 'showLabels', 'onChange', 'touched'],
       selected: ['Select option'],
       source: [
         { name: 'Vue.js', language: 'JavaScript' },
