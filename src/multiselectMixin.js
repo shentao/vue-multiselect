@@ -306,7 +306,7 @@ module.exports = {
         : options.map(element => element.toString().toLowerCase())
     },
     currentOptionLabel () {
-      return this.multiple ? '' : this.getOptionLabel(this.internalValue[0]) + ''
+      return this.multiple ? this.placeholder : this.getOptionLabel(this.internalValue[0]) + ''
     }
   },
   watch: {

@@ -13,7 +13,7 @@
       <div ref="tags" class="multiselect__tags">
         <span
           v-for="option of visibleValue"
-          onmousedown="event.preventDefault()"
+          @mousedown.prevent
           class="multiselect__tag">
             <span v-text="getOptionLabel(option)"></span>
             <i
@@ -51,7 +51,7 @@
         <span
           v-if="!searchable"
           class="multiselect__single"
-          v-text="currentOptionLabel || placeholder">
+          v-text="currentOptionLabel">
         </span>
       </div>
       <transition name="multiselect">
@@ -90,7 +90,7 @@
               </span>
             </li>
           </template>
-          <li v-show="filteredOptions.length === 0 && search">
+          <li v-show="filteredOptions.length === 0 && search && !loading">
             <span class="multiselect__option">
               <slot name="noResult">No elements found. Consider changing the search query.</slot>
             </span>

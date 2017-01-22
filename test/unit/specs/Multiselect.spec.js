@@ -2375,6 +2375,54 @@ describe('Multiselect.vue', () => {
     })
   })
 
+  describe('currentOptionLabel', () => {
+    describe('when MULTIPLE is FALSE', () => {
+      it('should return the current option label', () => {
+        const vm = new Vue({
+          render (h) {
+            return h(Multiselect, {
+              props: {
+                value: this.value,
+                options: this.source,
+                searchable: false,
+                multiple: false
+              }
+            })
+          },
+          components: { Multiselect },
+          data: {
+            value: '3',
+            source: ['1', '2', '3', '4', '5']
+          }
+        }).$mount()
+        expect(vm.$children[0].currentOptionLabel).to.equal('3')
+      })
+    })
+    describe('when MULTIPLE is TRUE', () => {
+      it('should return the placeholder value', () => {
+        const vm = new Vue({
+          render (h) {
+            return h(Multiselect, {
+              props: {
+                value: this.value,
+                options: this.source,
+                searchable: false,
+                multiple: true,
+                placeholder: 'Select'
+              }
+            })
+          },
+          components: { Multiselect },
+          data: {
+            value: ['1'],
+            source: ['1', '2', '3', '4', '5']
+          }
+        }).$mount()
+        expect(vm.$children[0].currentOptionLabel).to.equal('Select')
+      })
+    })
+  })
+
   describe('#onTag', () => {
     it('should should push to value and options with default settings and :taggable is TRUE', () => {
       const vm = new Vue({
