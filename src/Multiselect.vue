@@ -44,7 +44,8 @@
           @keyup.esc="deactivate()"
           @keydown.down.prevent="pointerForward()"
           @keydown.up.prevent="pointerBackward()"
-          @keydown.enter.tab.stop.self.prevent="addPointerElement($event)"
+          @keydown.enter.prevent
+          @keydown.enter.tab.stop.self="addPointerElement($event)"
           @keydown.delete="removeLastElement()"
           class="multiselect__input"/>
         <span

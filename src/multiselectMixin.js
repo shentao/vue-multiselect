@@ -3,7 +3,7 @@ import deepClone from './utils'
 function includes (str, query) {
   if (!str) return false
   const text = str.toString().toLowerCase()
-  return text.indexOf(query) !== -1
+  return text.indexOf(query.trim()) !== -1
 }
 
 function filterOptions (options, search, label) {
@@ -274,7 +274,7 @@ module.exports = {
       const search = this.search || ''
       const normalizedSearch = search.toLowerCase()
 
-      let options = this.options
+      let options = this.options.concat()
 
       if (this.internalSearch) {
         options = this.groupValues
@@ -306,14 +306,14 @@ module.exports = {
         : options.map(element => element.toString().toLowerCase())
     },
     currentOptionLabel () {
-      return this.getOptionLabel(this.internalValue[0]) + ''
+      return this.multiple ? '' : this.getOptionLabel(this.internalValue[0]) + ''
     }
   },
   watch: {
-    'internalValue' () {
-      if (this.resetAfter) {
-        this.internalValue = []
+    'internalValue' (newVal, oldVal) {
+      if (this.resetAfter && this.internalValue.length) {
         this.search = ''
+        this.internalValue = []
       }
       this.adjustSearch()
     },
@@ -328,6 +328,11 @@ module.exports = {
     }
   },
   methods: {
+    getValue () {
+      return this.multiple
+        ? deepClone(this.internalValue)
+        : deepClone(this.internalValue[0])
+    },
     /**
      * Filters and then flattens the options list
      * @param  {Array}
@@ -351,7 +356,7 @@ module.exports = {
       )(options)
     },
     updateSearch (query) {
-      this.search = query.trim().toString()
+      this.search = query.toString()
     },
     /**
      * Finds out if the given query is already present
@@ -424,10 +429,7 @@ module.exports = {
           this.internalValue = [option]
         }
         this.$emit('select', deepClone(option), this.id)
-        const value = this.multiple
-          ? this.internalValue
-          : this.internalValue[0]
-        this.$emit('input', deepClone(value), this.id)
+        this.$emit('input', this.getValue(), this.id)
 
         if (this.closeOnSelect) this.deactivate()
       }
@@ -451,10 +453,7 @@ module.exports = {
 
       this.internalValue.splice(index, 1)
       this.$emit('remove', deepClone(option), this.id)
-      const value = this.multiple
-        ? this.internalValue
-        : this.internalValue[0]
-      this.$emit('input', deepClone(value), this.id)
+      this.$emit('input', this.getValue(), this.id)
     },
     /**
      * Calls this.removeElement() with the last element
@@ -510,10 +509,7 @@ module.exports = {
       } else {
         this.$el.blur()
       }
-      const value = this.multiple
-        ? this.internalValue
-        : this.internalValue[0]
-      this.$emit('close', deepClone(value), this.id)
+      this.$emit('close', this.getValue(), this.id)
     },
     /**
      * Adjusts the Search property to equal the correct value
