@@ -54,42 +54,46 @@
             v-text="currentOptionLabel || placeholder">
           </span>
       </div>
-      <ul
-        transition="multiselect"
-        :style="{ maxHeight: maxHeight + 'px' }"
-        v-el:list
-        v-show="isOpen"
-        @mousedown.stop.prevent=""
-        class="multiselect__content">
-        <slot name="beforeList"></slot>
-        <li v-if="multiple && max !== 0 && max === value.length">
-          <span class="multiselect__option">
-            <slot name="maxElements">Maximum of {{ max }} options selected. First remove a selected option to select another.</slot>
-          </span>
-        </li>
-        <template v-if="!max || value.length < max">
-          <li
-            v-for="option in filteredOptions"
-            track-by="$index"
-            tabindex="0"
-            :class="{ 'multiselect__option--highlight': $index === pointer && this.showPointer, 'multiselect__option--selected': !isNotSelected(option) }"
-            class="multiselect__option"
-            @mousedown.prevent="select(option)"
-            @mouseenter="pointerSet($index)"
-            :data-select="option.isTag ? tagPlaceholder : selectLabel"
-            :data-selected="selectedLabel"
-            :data-deselect="deselectLabel">
-            <partial :name="optionPartial" v-if="optionPartial.length"></partial>
-            <span v-else v-text="getOptionLabel(option)"></span>
-          </li>
-        </template>
-        <li v-show="filteredOptions.length === 0 && search">
-          <span class="multiselect__option">
-            <slot name="noResult">No elements found. Consider changing the search query.</slot>
-          </span>
-        </li>
-        <slot name="afterList"></slot>
-    </ul>
+      <scrollbar >
+        <div
+          transition="multiselect"
+          :style="{ maxHeight: maxHeight + 'px' }"
+          v-el:list
+          v-show="isOpen"
+          @mousedown.stop.prevent=""
+          class="multiselect__content">
+          <ul class="multiselect__content-list" :style="{ maxHeight: maxHeight + 'px' }">
+              <slot name="beforeList"></slot>
+              <li v-if="multiple && max !== 0 && max === value.length">
+                <span class="multiselect__option">
+                  <slot name="maxElements">Maximum of {{ max }} options selected. First remove a selected option to select another.</slot>
+                </span>
+              </li>
+              <template v-if="!max || value.length < max">
+                <li
+                  v-for="option in filteredOptions"
+                  track-by="$index"
+                  tabindex="0"
+                  :class="{ 'multiselect__option--highlight': $index === pointer && this.showPointer, 'multiselect__option--selected': !isNotSelected(option) }"
+                  class="multiselect__option"
+                  @mousedown.prevent="select(option)"
+                  @mouseenter="pointerSet($index)"
+                  :data-select="option.isTag ? tagPlaceholder : selectLabel"
+                  :data-selected="selectedLabel"
+                  :data-deselect="deselectLabel">
+                  <partial :name="optionPartial" v-if="optionPartial.length"></partial>
+                  <span v-else v-text="getOptionLabel(option)"></span>
+                </li>
+              </template>
+              <li v-show="filteredOptions.length === 0 && search">
+                <span class="multiselect__option">
+                  <slot name="noResult">No elements found. Consider changing the search query.</slot>
+                </span>
+              </li>
+              <slot name="afterList"></slot>
+          </ul>
+        </div>
+      </scrollbar>
   </div>
 </template>
 
@@ -444,12 +448,11 @@ fieldset[disabled] .multiselect {
 
 .multiselect__content {
   position: absolute;
-  list-style: none;
   display: block;
   background: #fff;
   width: 100%;
   max-height: 240px;
-  overflow: auto;
+  overflow: hidden;
   padding: 0;
   margin: 0;
   border: 1px solid #E8E8E8;
@@ -457,6 +460,15 @@ fieldset[disabled] .multiselect {
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   z-index: 50;
+}
+.multiselect__content-list {
+  width: calc(100% + 17px);
+  display: block;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  box-sizing: border-box;
+  overflow-y: scroll;
 }
 
 .multiselect__content::webkit-scrollbar {
@@ -466,6 +478,7 @@ fieldset[disabled] .multiselect {
 .multiselect__option {
   display: block;
   padding: 12px;
+  padding-right: 17px;
   min-height: 40px;
   line-height: 16px;
   text-decoration: none;
