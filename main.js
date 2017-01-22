@@ -6,19 +6,6 @@ import Multiselect from 'vue-multiselect'
 
 import './docs.scss'
 
-function throttle (callback, limit) {
-  var wait = false
-  return function () {
-    if (!wait) {
-      callback.call()
-      wait = true
-      setTimeout(function () {
-        wait = false
-      }, limit)
-    }
-  }
-}
-
 function calculateNavPositions () {
   sections = Array
     .from(document.querySelectorAll('[data-section]'))
@@ -92,7 +79,7 @@ new Vue({
   },
   mounted () {
     this.adjustNav()
-    window.addEventListener('scroll', throttle(this.adjustNav, 50))
+    window.addEventListener('scroll', this.adjustNav)
     setTimeout(function () {
       calculateNavPositions()
     }, 1000)
