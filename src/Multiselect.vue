@@ -66,7 +66,7 @@
               </span>
             </li>
             <template v-if="!max || internalValue.length < max">
-              <li class="multiselect__element" v-for="(option, index) of filteredOptions" :key="index">
+              <li class="multiselect__element" v-for="(option, index) of filteredOptions" :key="index" :class="{'_label' :option.$isLabel}">
                 <span
                   tabindex="0"
                   v-if="!option.$isLabel"
