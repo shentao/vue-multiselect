@@ -413,6 +413,7 @@ module.exports = {
       if (option.isTag) {
         this.$emit('tag', option.label, this.id)
         this.search = ''
+        if (this.closeOnSelect && !this.multiple) this.deactivate()
       } else {
         const isSelected = this.isSelected(option)
         if (isSelected) {
