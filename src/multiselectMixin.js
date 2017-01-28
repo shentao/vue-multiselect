@@ -322,7 +322,10 @@ module.exports = {
           const isSelected = this.isSelected(option)
 
           /* istanbul ignore else */
-          if (isSelected && !this.allowEmpty) return
+          if (isSelected && !this.allowEmpty) {
+            this.deactivate()
+            return
+          }
 
           this.value = isSelected ? null : option
         }
