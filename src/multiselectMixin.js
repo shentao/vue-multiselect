@@ -6,14 +6,57 @@ function includes (str, query) {
   return text.indexOf(query) !== -1
 }
 
+function filterOptions (options, search, label) {
+  return label
+    ? options.filter(option => includes(option[label], search))
+    : options.filter(option => includes(option, search))
+}
+
+function stripGroups (options) {
+  return options.filter(option => !option.$isLabel)
+}
+
+function flattenOptions (values, label) {
+  return (options) =>
+    options.reduce((prev, curr) => {
+      if (curr[values] && curr[values].length) {
+        prev.push({
+          $groupLabel: curr[label],
+          $isLabel: true
+        })
+        return prev.concat(curr[values])
+      }
+      return prev.concat(curr)
+    }, [])
+}
+
+function filterGroups (search, label, values, groupLabel) {
+  return (groups) =>
+    groups.map(group => {
+      const groupOptions = filterOptions(group[values], search, label)
+
+      return groupOptions.length
+        ? {
+          [groupLabel]: group[groupLabel],
+          [values]: groupOptions
+        }
+        : []
+    })
+}
+
+const flow = (...fns) => x => fns.reduce((v, f) => f(v), x)
+
 module.exports = {
   data () {
     return {
       search: '',
       isOpen: false,
+      hasEnoughSpace: true,
       internalValue: this.value || this.value === 0
-        ? deepClone(this.value)
-        : this.multiple ? [] : null
+        ? this.multiple
+          ? deepClone(this.value)
+          : deepClone([this.value])
+        : []
     }
   },
   props: {
@@ -22,7 +65,7 @@ module.exports = {
      * Useful for async filtering, where we search through more complex data.
      * @type {Boolean}
      */
-    localSearch: {
+    internalSearch: {
       type: Boolean,
       default: true
     },
@@ -104,15 +147,6 @@ module.exports = {
     placeholder: {
       type: String,
       default: 'Select option'
-    },
-    /**
-     * Sets maxHeight style value of the dropdown
-     * @default 300
-     * @type {Integer}
-     */
-    maxHeight: {
-      type: Number,
-      default: 300
     },
     /**
      * Allow to remove all selected values
@@ -197,49 +231,88 @@ module.exports = {
     optionsLimit: {
       type: Number,
       default: 1000
+    },
+    /**
+     * Name of the property containing
+     * the group values
+     * @default 1000
+     * @type {String}
+    */
+    groupValues: {
+      type: String
+    },
+    /**
+     * Name of the property containing
+     * the group label
+     * @default 1000
+     * @type {String}
+    */
+    groupLabel: {
+      type: String
+    },
+    /**
+     * Array of keyboard keys to block
+     * when selecting
+     * @default 1000
+     * @type {String}
+    */
+    blockKeys: {
+      type: Array,
+      default () {
+        return []
+      }
     }
   },
   created () {
     if (this.searchable) this.adjustSearch()
+    if (!this.multiple && !this.clearOnSelect) {
+      console.warn('[Vue-Multiselect warn]: ClearOnSelect and Multiple props can’t be both set to false.')
+    }
   },
   computed: {
     filteredOptions () {
-      let search = this.search || ''
-      let options = this.hideSelected
-        ? this.options.filter(this.isNotSelected)
-        : this.options
-      if (this.localSearch) {
-        options = this.label
-          ? options.filter(option => includes(option[this.label], this.search))
-          : options.filter(option => includes(option, this.search))
+      const search = this.search || ''
+      const normalizedSearch = search.toLowerCase()
+
+      let options = this.options
+
+      if (this.internalSearch) {
+        options = this.groupValues
+          ? this.filterAndFlat(options, normalizedSearch, this.label)
+          : filterOptions(options, normalizedSearch, this.label)
+
+        options = this.hideSelected
+          ? options.filter(this.isNotSelected)
+          : options
       }
-      if (this.taggable && search.length && !this.isExistingOption(search)) {
+
+      if (this.taggable && normalizedSearch.length && !this.isExistingOption(normalizedSearch)) {
         options.unshift({ isTag: true, label: search })
       }
+
       return options.slice(0, this.optionsLimit)
     },
     valueKeys () {
       if (this.trackBy) {
-        return this.multiple
-          ? this.internalValue.map(element => element[this.trackBy])
-          : this.internalValue[this.trackBy]
+        return this.internalValue.map(element => element[this.trackBy])
       } else {
         return this.internalValue
       }
     },
     optionKeys () {
+      const options = this.groupValues ? this.flatAndStrip(this.options) : this.options
       return this.label
-        ? this.options.map(element => element[this.label].toString().toLowerCase())
-        : this.options.map(element => element.toString().toLowerCase())
+        ? options.map(element => element[this.label].toString().toLowerCase())
+        : options.map(element => element.toString().toLowerCase())
     },
     currentOptionLabel () {
-      return this.getOptionLabel(this.internalValue)
+      return this.getOptionLabel(this.internalValue[0]) + ''
     }
   },
   watch: {
     'internalValue' () {
       if (this.resetAfter) {
-        this.internalValue = null
+        this.internalValue = []
         this.search = ''
       }
       this.adjustSearch()
@@ -251,12 +324,34 @@ module.exports = {
       this.$emit('search-change', this.search, this.id)
     },
     'value' () {
-      this.internalValue = deepClone(this.value)
+      this.internalValue = deepClone(this.multiple ? this.value : [this.value])
     }
   },
   methods: {
+    /**
+     * Filters and then flattens the options list
+     * @param  {Array}
+     * @returns {Array} returns a filtered and flat options list
+     */
+    filterAndFlat (options) {
+      return flow(
+        filterGroups(this.search, this.label, this.groupValues, this.groupLabel),
+        flattenOptions(this.groupValues, this.groupLabel)
+      )(options)
+    },
+    /**
+     * Flattens and then strips the group labels from the options list
+     * @param  {Array}
+     * @returns {Array} returns a flat options list without group labels
+     */
+    flatAndStrip (options) {
+      return flow(
+        flattenOptions(this.groupValues, this.groupLabel),
+        stripGroups
+      )(options)
+    },
     updateSearch (query) {
-      this.search = query.trim().toLowerCase()
+      this.search = query.trim().toString()
     },
     /**
      * Finds out if the given query is already present
@@ -276,17 +371,10 @@ module.exports = {
      * @returns {Boolean} returns true if element is selected
      */
     isSelected (option) {
-      /* istanbul ignore else */
-      if (!this.internalValue) return false
       const opt = this.trackBy
         ? option[this.trackBy]
         : option
-
-      if (this.multiple) {
-        return this.valueKeys.indexOf(opt) > -1
-      } else {
-        return this.valueKeys === opt
-      }
+      return this.valueKeys.indexOf(opt) > -1
     },
     /**
      * Finds out if the given element is NOT already present
@@ -308,7 +396,7 @@ module.exports = {
     getOptionLabel (option) {
       if (!option && option !== 0) return ''
       if (option.isTag) return option.label
-      return this.customLabel(option, this.label) + ''
+      return this.customLabel(option, this.label) || ''
     },
     /**
      * Add the given option to the list of selected options
@@ -316,30 +404,30 @@ module.exports = {
      * If option is already selected -> remove it from the results.
      *
      * @param  {Object||String||Integer} option to select/deselect
+     * @param  {Boolean} block removing
      */
-    select (option) {
+    select (option, key) {
+      if (this.blockKeys.indexOf(key) !== -1 || this.disabled) return
       if (this.max && this.multiple && this.internalValue.length === this.max) return
+      if (option.$isLabel) return
       if (option.isTag) {
         this.$emit('tag', option.label, this.id)
         this.search = ''
       } else {
-        if (this.multiple) {
-          if (this.isSelected(option)) {
-            this.removeElement(option)
-            return
-          } else {
-            this.internalValue.push(option)
-          }
+        const isSelected = this.isSelected(option)
+        if (isSelected) {
+          if (key !== 'Tab') this.removeElement(option)
+          return
+        } else if (this.multiple) {
+          this.internalValue.push(option)
         } else {
-          const isSelected = this.isSelected(option)
-
-          /* istanbul ignore else */
-          if (isSelected && !this.allowEmpty) return
-
-          this.internalValue = isSelected ? null : option
+          this.internalValue = [option]
         }
         this.$emit('select', deepClone(option), this.id)
-        this.$emit('input', deepClone(this.internalValue), this.id)
+        const value = this.multiple
+          ? this.internalValue
+          : this.internalValue[0]
+        this.$emit('input', deepClone(value), this.id)
 
         if (this.closeOnSelect) this.deactivate()
       }
@@ -354,15 +442,19 @@ module.exports = {
      */
     removeElement (option) {
       /* istanbul ignore else */
+      if (this.disabled) return
       if (!this.allowEmpty && this.internalValue.length <= 1) return
 
-      const index = (this.multiple && typeof option === 'object')
+      const index = typeof option === 'object'
         ? this.valueKeys.indexOf(option[this.trackBy])
         : this.valueKeys.indexOf(option)
 
       this.internalValue.splice(index, 1)
       this.$emit('remove', deepClone(option), this.id)
-      this.$emit('input', deepClone(this.internalValue), this.id)
+      const value = this.multiple
+        ? this.internalValue
+        : this.internalValue[0]
+      this.$emit('input', deepClone(value), this.id)
     },
     /**
      * Calls this.removeElement() with the last element
@@ -372,6 +464,7 @@ module.exports = {
      */
     removeLastElement () {
       /* istanbul ignore else */
+      if (this.blockKeys.indexOf('Delete') !== -1) return
       if (this.search.length === 0 && Array.isArray(this.internalValue)) {
         this.removeElement(this.internalValue[this.internalValue.length - 1])
       }
@@ -383,6 +476,13 @@ module.exports = {
     activate () {
       /* istanbul ignore else */
       if (this.isOpen) return
+      if (this.disabled) return
+
+      this.adjustPosition()
+      /* istanbul ignore else  */
+      if (this.groupValues && this.pointer === 0 && this.filteredOptions.length) {
+        this.pointer = 1
+      }
 
       this.isOpen = true
       /* istanbul ignore else  */
@@ -410,7 +510,10 @@ module.exports = {
       } else {
         this.$el.blur()
       }
-      this.$emit('close', deepClone(this.internalValue), this.id)
+      const value = this.multiple
+        ? this.internalValue
+        : this.internalValue[0]
+      this.$emit('close', deepClone(value), this.id)
     },
     /**
      * Adjusts the Search property to equal the correct value
@@ -419,9 +522,11 @@ module.exports = {
     adjustSearch () {
       if (!this.searchable || !this.clearOnSelect) return
 
-      this.search = this.multiple
-        ? ''
-        : this.currentOptionLabel
+      setTimeout(() => {
+        this.search = this.multiple
+          ? ''
+          : this.currentOptionLabel
+      }, 150)
     },
     /**
      * Call this.activate() or this.deactivate()
@@ -434,6 +539,13 @@ module.exports = {
       this.isOpen
         ? this.deactivate()
         : this.activate()
+    },
+    /**
+     * Updates the hasEnoughSpace variable used for
+     * detecting where to expand the dropdown
+     */
+    adjustPosition () {
+      this.hasEnoughSpace = this.$el.getBoundingClientRect().top + this.maxHeight < window.innerHeight
     }
   }
 }
