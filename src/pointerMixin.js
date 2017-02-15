@@ -33,7 +33,7 @@ module.exports = {
   methods: {
     optionHighlight (index, option) {
       return {
-        'multiselect__option--highlight': index === this.pointer && this.showPointer,
+        'multiselect__option--highlight': index === this.pointer && this.showPointer && (this.allowDeselect || !this.isSelected(option)),
         'multiselect__option--selected': this.isSelected(option)
       }
     },
