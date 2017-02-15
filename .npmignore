@@ -12,6 +12,7 @@ test/e2e/reports
 .tern-project
 docs/
 gh-pages/
+src/
 static/
 test/
 build/
