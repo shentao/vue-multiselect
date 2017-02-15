@@ -1,4 +1,5 @@
 import deepClone from './utils'
+const removeDiacritics = require('diacritics').remove
 
 function includes (str, query) {
   if (!str) return false
@@ -8,8 +9,8 @@ function includes (str, query) {
 
 function filterOptions (options, search, label) {
   return label
-    ? options.filter(option => includes(option[label], search))
-    : options.filter(option => includes(option, search))
+    ? options.filter(option => includes(removeDiacritics(option[label]), search))
+    : options.filter(option => includes(removeDiacritics(option), search))
 }
 
 function stripGroups (options) {
@@ -272,7 +273,7 @@ module.exports = {
   computed: {
     filteredOptions () {
       const search = this.search || ''
-      const normalizedSearch = search.toLowerCase()
+      const normalizedSearch = removeDiacritics(search.toLowerCase())
 
       let options = this.options
 
