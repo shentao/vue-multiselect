@@ -307,6 +307,9 @@ module.exports = {
     },
     currentOptionLabel () {
       return this.getOptionLabel(this.internalValue[0]) + ''
+    },
+    allowDeselect () {
+      return this.allowEmpty || this.internalValue.length > 1
     }
   },
   watch: {
@@ -442,8 +445,7 @@ module.exports = {
      */
     removeElement (option) {
       /* istanbul ignore else */
-      if (this.disabled) return
-      if (!this.allowEmpty && this.internalValue.length <= 1) return
+      if (this.disabled || !this.allowDeselect) return
 
       const index = typeof option === 'object'
         ? this.valueKeys.indexOf(option[this.trackBy])

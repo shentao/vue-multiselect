@@ -8,3 +8,4 @@ test/e2e/reports
 gh-pages/
 .editorconfig
 .tern-project
+.idea
