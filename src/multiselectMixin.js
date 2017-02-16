@@ -324,7 +324,7 @@ module.exports = {
       this.$emit('search-change', this.search, this.id)
     },
     'value' () {
-      this.internalValue = deepClone(this.multiple ? this.value : [this.value])
+      this.internalValue = deepClone(this.multiple ? this.value : this.value != null ? [this.value] : [])
     }
   },
   methods: {
@@ -426,7 +426,7 @@ module.exports = {
         this.$emit('select', deepClone(option), this.id)
         const value = this.multiple
           ? this.internalValue
-          : this.internalValue[0]
+          : this.internalValue[0] || null
         this.$emit('input', deepClone(value), this.id)
 
         if (this.closeOnSelect) this.deactivate()
@@ -453,7 +453,7 @@ module.exports = {
       this.$emit('remove', deepClone(option), this.id)
       const value = this.multiple
         ? this.internalValue
-        : this.internalValue[0]
+        : this.internalValue[0] || null
       this.$emit('input', deepClone(value), this.id)
     },
     /**
