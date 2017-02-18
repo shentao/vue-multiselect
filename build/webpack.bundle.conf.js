@@ -1,3 +1,4 @@
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const webpack = require('webpack')
 const base = require('./webpack.base.conf')
 const config = require('../config')
@@ -13,8 +14,8 @@ base.output = {
   path: config.bundle.assetsRoot,
   publicPath: config.bundle.assetsPublicPath,
   filename: 'vue-multiselect.min.js',
-  libraryTarget: 'umd',
-  library: 'VueMultiselect'
+  library: 'VueMultiselect',
+  libraryTarget: 'umd'
 }
 
 var webpackConfig = Object.assign({}, base)
@@ -24,6 +25,11 @@ webpackConfig.plugins = (webpackConfig.plugins || []).concat([
     'process.env': {
       NODE_ENV: '"production"'
     }
+  }),
+  new CopyWebpackPlugin([
+    { from: './src/' }
+  ], {
+    ignore: ['.DS_Store', 'index.js']
   }),
   new webpack.optimize.UglifyJsPlugin({
     compress: { warnings: false }
