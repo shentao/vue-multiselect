@@ -24,10 +24,10 @@ let sections
 new Vue({
   el: '#app',
   components: {
+    ...examples,
     MultiselectExample,
     LangSwitcher,
-    Multiselect,
-    ...examples
+    Multiselect
   },
   data () {
     return {
