@@ -3,7 +3,7 @@
  * Copied from Vuex.
  * @type {Object}
  */
-const deepClone = function (obj) {
+export default function deepClone (obj) {
   if (Array.isArray(obj)) {
     return obj.map(deepClone)
   } else if (obj && typeof obj === 'object') {
@@ -18,5 +18,3 @@ const deepClone = function (obj) {
     return obj
   }
 }
-
-module.exports = deepClone

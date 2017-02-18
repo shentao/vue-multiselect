@@ -9,7 +9,9 @@
     @keydown.enter.tab.stop.self="addPointerElement($event)"
     @keyup.esc="deactivate()"
     class="multiselect">
-      <div @mousedown.prevent="toggle()" class="multiselect__select"></div>
+      <slot name="carret">
+        <div @mousedown.prevent="toggle()" class="multiselect__select"></div>
+      </slot>
       <div ref="tags" class="multiselect__tags">
         <span
           v-for="option of visibleValue"
@@ -28,7 +30,7 @@
           <strong v-text="limitText(internalValue.length - limit)"></strong>
         </template>
         <transition name="multiselect__loading">
-          <div v-show="loading" class="multiselect__spinner"></div>
+          <slot name="loading"><div v-show="loading" class="multiselect__spinner"></div></slot>
         </transition>
         <input
           ref="search"
@@ -36,7 +38,7 @@
           autocomplete="off"
           :placeholder="placeholder"
           v-if="searchable"
-          :value="search"
+          :value="isOpen ? search : currentOptionLabel"
           :disabled="disabled"
           @input="updateSearch($event.target.value)"
           @focus.prevent="activate()"

@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   data () {
     return {
       pointer: 0,
@@ -38,40 +38,49 @@ module.exports = {
       }
     },
     addPointerElement ({ key } = 'Enter') {
+      /* istanbul ignore else */
       if (this.filteredOptions.length > 0) {
-        if (this.filteredOptions[this.pointer].isLabel) return
         this.select(this.filteredOptions[this.pointer], key)
       }
       this.pointerReset()
     },
     pointerForward () {
+      /* istanbul ignore else */
       if (this.pointer < this.filteredOptions.length - 1) {
         this.pointer++
+        /* istanbul ignore next */
         if (this.$refs.list.scrollTop <= this.pointerPosition - this.visibleElements * this.optionHeight) {
           this.$refs.list.scrollTop = this.pointerPosition - (this.visibleElements - 1) * this.optionHeight
         }
+        /* istanbul ignore else */
         if (this.filteredOptions[this.pointer].$isLabel) this.pointerForward()
       }
     },
     pointerBackward () {
       if (this.pointer > 0) {
         this.pointer--
+        /* istanbul ignore else */
         if (this.$refs.list.scrollTop >= this.pointerPosition) {
           this.$refs.list.scrollTop = this.pointerPosition
         }
+        /* istanbul ignore else */
         if (this.filteredOptions[this.pointer].$isLabel) this.pointerBackward()
       } else {
+        /* istanbul ignore else */
         if (this.filteredOptions[0].$isLabel) this.pointerForward()
       }
     },
     pointerReset () {
+      /* istanbul ignore else */
       if (!this.closeOnSelect) return
       this.pointer = 0
+      /* istanbul ignore else */
       if (this.$refs.list) {
         this.$refs.list.scrollTop = 0
       }
     },
     pointerAdjust () {
+      /* istanbul ignore else */
       if (this.pointer >= this.filteredOptions.length - 1) {
         this.pointer = this.filteredOptions.length
           ? this.filteredOptions.length - 1

@@ -492,7 +492,7 @@ describe('Multiselect.vue', () => {
           }).$mount()
           setTimeout(function () {
             expect(vm.$children[0].internalValue).to.deep.equal([vm.value])
-            expect(vm.$children[0].$refs.tags.querySelector('input').value).to.contain('1')
+            expect(vm.$children[0].$refs.search.value).to.contain('1')
             done()
           }, 201)
         })
@@ -544,7 +544,7 @@ describe('Multiselect.vue', () => {
           expect(vm.$children[0].$refs.tags.querySelector('.multiselect__tag')).to.equal(null)
         })
 
-        it('should set search value to equal to passed object label', (done) => {
+        it('should set search-input value to equal to passed object label', (done) => {
           const vm = new Vue({
             render (h) {
               return h(Multiselect, {
@@ -563,7 +563,6 @@ describe('Multiselect.vue', () => {
             }
           }).$mount()
           setTimeout(function () {
-            expect(vm.$children[0].search).to.equal('1')
             expect(vm.$children[0].$refs.search.value).to.equal('1')
             done()
           }, 201)
@@ -585,10 +584,8 @@ describe('Multiselect.vue', () => {
               source: [1, 2, 3]
             }
           }).$mount()
-          const comp = vm.$children[0]
-          setTimeout(function () {
-            expect(comp.search).to.equal('2')
-            expect(comp.$refs.search.value).to.equal('2')
+          setTimeout(() => {
+            expect(vm.$children[0].$refs.search.value).to.equal('2')
             done()
           }, 201)
         })
@@ -664,7 +661,59 @@ describe('Multiselect.vue', () => {
   })
 
   describe('#select()', () => {
-    it('should reset search input when clearOnSelect == TRUE', (done) => {
+    it('should do nothing when DISABLED == true', () => {
+      const onSelect = sinon.spy()
+      const vm = new Vue({
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              value: this.value,
+              options: this.source,
+              multiple: true,
+              disabled: true
+            },
+            on: {
+              select: onSelect
+            }
+          })
+        },
+        components: { Multiselect },
+        data: {
+          value: [],
+          source: ['1', '2', '3']
+        }
+      }).$mount()
+      vm.$children[0].select(vm.source[0])
+      expect(onSelect.called).to.equal(false)
+    })
+
+    it('should do nothing when selecting a group label', () => {
+      const onSelect = sinon.spy()
+      const vm = new Vue({
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              value: this.value,
+              options: this.source,
+              multiple: true,
+              disabled: true
+            },
+            on: {
+              select: onSelect
+            }
+          })
+        },
+        components: { Multiselect },
+        data: {
+          value: [],
+          source: [{ id: 0, $isLabel: true }, '2', '3']
+        }
+      }).$mount()
+      vm.$children[0].select(vm.source[0])
+      expect(onSelect.called).to.equal(false)
+    })
+
+    it('should reset search input when clearOnSelect == TRUE', () => {
       const vm = new Vue({
         render (h) {
           return h(Multiselect, {
@@ -684,13 +733,10 @@ describe('Multiselect.vue', () => {
       vm.$children[0].$refs.search.focus()
       vm.$children[0].search = 'test'
       vm.$children[0].select(vm.source[0])
-      setTimeout(function () {
-        expect(vm.$children[0].$refs.tags.querySelector('input').value).to.equal('')
-        done()
-      }, 201)
+      expect(vm.$children[0].search).to.equal('')
     })
 
-    it('should keep search input when clearOnSelect == FALSE', (done) => {
+    it('should keep search input when clearOnSelect == FALSE', () => {
       const vm = new Vue({
         render (h) {
           return h(Multiselect, {
@@ -698,7 +744,8 @@ describe('Multiselect.vue', () => {
               value: this.value,
               options: this.source,
               multiple: true,
-              clearOnSelect: false
+              clearOnSelect: false,
+              closeOnSelect: false
             }
           })
         },
@@ -708,13 +755,10 @@ describe('Multiselect.vue', () => {
           source: ['1', '2', '3']
         }
       }).$mount()
-      vm.$children[0].$refs.search.focus()
+      vm.$children[0].isOpen = true
       vm.$children[0].search = 'test'
       vm.$children[0].select(vm.source[0])
-      Vue.nextTick(function () {
-        expect(vm.$children[0].$refs.tags.querySelector('input').value).to.equal('test')
-        done()
-      })
+      expect(vm.$children[0].search).to.equal('test')
     })
 
     describe('when multiple == TRUE', () => {
@@ -896,7 +940,7 @@ describe('Multiselect.vue', () => {
       })
     })
     describe('when closeOnSelect == FALSE', () => {
-      it('should not close the dropdown', () => {
+      it('should not close the dropdown', (done) => {
         const vm = new Vue({
           render (h) {
             return h(Multiselect, {
@@ -920,12 +964,38 @@ describe('Multiselect.vue', () => {
         vm.$children[0].select(vm.source[0])
         Vue.nextTick(function () {
           expect(spy.called).to.equal(false)
+          done()
         })
       })
     })
   })
 
   describe('#removeElement()', () => {
+    it('should not do anything if disabled == TRUE', () => {
+      const vm = new Vue({
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              value: this.value,
+              options: this.source,
+              multiple: true,
+              label: 'id',
+              trackBy: 'id',
+              disabled: true
+            }
+          })
+        },
+        components: { Multiselect },
+        data: {
+          value: [{ id: '1' }],
+          source: [{ id: '1' }, { id: '2' }, { id: '3' }]
+        }
+      }).$mount()
+      const comp = vm.$children[0]
+      comp.removeElement(comp.value[0])
+      expect(comp.internalValue).to.deep.equal([{ id: '1' }])
+    })
+
     it('should remove passed element', () => {
       const vm = new Vue({
         render (h) {
@@ -1000,6 +1070,29 @@ describe('Multiselect.vue', () => {
       vm.$children[0].removeLastElement()
       expect(vm.$children[0].internalValue).to.deep.equal([{ id: '1' }])
     })
+    it('should not do anything if "Delete" key is blocked', () => {
+      const vm = new Vue({
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              value: this.value,
+              options: this.source,
+              label: 'id',
+              trackBy: 'id',
+              multiple: true,
+              blockKeys: ['Delete']
+            }
+          })
+        },
+        components: { Multiselect },
+        data: {
+          value: [{ id: '1' }, { id: '2' }],
+          source: [{ id: '1' }, { id: '2' }, { id: '3' }]
+        }
+      }).$mount()
+      vm.$children[0].removeLastElement()
+      expect(vm.$children[0].internalValue).to.deep.equal([{ id: '1' }, { id: '2' }])
+    })
   })
 
   describe('#addPointerElement()', () => {
@@ -1029,7 +1122,31 @@ describe('Multiselect.vue', () => {
   })
 
   describe('#pointerForward()', () => {
-    it('should increase the pointer value by 1', (done) => {
+    it('should increase the pointer value by 2 if next option is label', () => {
+      const vm = new Vue({
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              value: this.value,
+              options: this.source,
+              label: 'id',
+              trackBy: 'id',
+              multiple: true
+            }
+          })
+        },
+        components: { Multiselect },
+        data: {
+          value: [],
+          source: [{ id: '1' }, { id: '2', $isLabel: true }, { id: '3' }]
+        }
+      }).$mount()
+      vm.$children[0].pointer = 0
+      vm.$children[0].pointerForward()
+      expect(vm.$children[0].pointer).to.equal(2)
+    })
+
+    it('should increase the pointer value by 1', () => {
       const vm = new Vue({
         render (h) {
           return h(Multiselect, {
@@ -1050,11 +1167,8 @@ describe('Multiselect.vue', () => {
       }).$mount()
       vm.$children[0].activate()
       vm.$children[0].pointer = 1
-      Vue.nextTick(function () {
-        vm.$children[0].pointerForward()
-        expect(vm.$children[0].pointer).to.equal(2)
-        done()
-      })
+      vm.$children[0].pointerForward()
+      expect(vm.$children[0].pointer).to.equal(2)
     })
 
     it('should NOT increase the pointer value if pointed at last element', (done) => {
@@ -1087,6 +1201,50 @@ describe('Multiselect.vue', () => {
   })
 
   describe('#pointerBackward()', () => {
+    it('should increase the pointer value by 1 if the first option is a label', () => {
+      const vm = new Vue({
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              value: this.value,
+              options: this.source,
+              label: 'id',
+              trackBy: 'id'
+            }
+          })
+        },
+        components: { Multiselect },
+        data: {
+          value: [],
+          source: [{ id: '1', $isLabel: true }, { id: '2' }, { id: '3' }]
+        }
+      }).$mount()
+      vm.$children[0].pointer = 1
+      vm.$children[0].pointerBackward()
+      expect(vm.$children[0].pointer).to.equal(1)
+    })
+    it('should decrease the pointer value by 2 if previous option is label', () => {
+      const vm = new Vue({
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              value: this.value,
+              options: this.source,
+              label: 'id',
+              trackBy: 'id'
+            }
+          })
+        },
+        components: { Multiselect },
+        data: {
+          value: [],
+          source: [{ id: '1' }, { id: '2', $isLabel: true }, { id: '3' }]
+        }
+      }).$mount()
+      vm.$children[0].pointer = 2
+      vm.$children[0].pointerBackward()
+      expect(vm.$children[0].pointer).to.equal(0)
+    })
     it('should decrease the pointer value by 1', (done) => {
       const vm = new Vue({
         render (h) {
@@ -1095,8 +1253,7 @@ describe('Multiselect.vue', () => {
               value: this.value,
               options: this.source,
               label: 'id',
-              trackBy: 'id',
-              multiple: true
+              trackBy: 'id'
             }
           })
         },
@@ -1172,6 +1329,34 @@ describe('Multiselect.vue', () => {
         done()
       })
     })
+    it('should do nothing when closeOnSelect == FALSE', (done) => {
+      const vm = new Vue({
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              value: this.value,
+              options: this.source,
+              label: 'id',
+              trackBy: 'id',
+              multiple: true,
+              closeOnSelect: false
+            }
+          })
+        },
+        components: { Multiselect },
+        data: {
+          value: [],
+          source: [{ id: '1' }, { id: '2' }, { id: '3' }]
+        }
+      }).$mount()
+      vm.$children[0].activate()
+      vm.$children[0].pointer = 2
+      Vue.nextTick(function () {
+        vm.$children[0].pointerReset()
+        expect(vm.$children[0].pointer).to.equal(2)
+        done()
+      })
+    })
   })
 
   describe('#pointerSet(index)', () => {
@@ -1204,7 +1389,33 @@ describe('Multiselect.vue', () => {
     })
   })
 
-  describe('#watch:selected', () => {
+  describe('#pointerAdjust()', () => {
+    it('should adjust the pointer to stay within options', () => {
+      const vm = new Vue({
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              value: this.value,
+              options: this.source,
+              label: 'id',
+              trackBy: 'id',
+              multiple: true
+            }
+          })
+        },
+        components: { Multiselect },
+        data: {
+          value: [],
+          source: [{ id: '1' }, { id: '2' }, { id: '3' }]
+        }
+      }).$mount()
+      vm.$children[0].pointer = 5
+      vm.$children[0].pointerAdjust()
+      expect(vm.$children[0].pointer).to.equal(2)
+    })
+  })
+
+  describe('#watch:value', () => {
     it('updates multiselect private value when parent selected changes to a different value than private value', (done) => {
       const vm = new Vue({
         render (h) {
@@ -1216,9 +1427,6 @@ describe('Multiselect.vue', () => {
               trackBy: 'id',
               multiple: false,
               searchable: false
-            },
-            on: {
-              input: this.addMore
             }
           })
         },
@@ -1226,16 +1434,12 @@ describe('Multiselect.vue', () => {
         data: {
           sel: { id: '2' },
           source: [{ id: '1' }, { id: '2' }, { id: '3' }]
-        },
-        methods: {
-          addMore (option) {
-            this.sel = this.source[2]
-          }
         }
       }).$mount()
-      vm.$children[0].select(vm.$children[0].options[0])
-      Vue.nextTick(function () {
-        expect(vm.$children[0].internalValue).to.deep.equal([vm.sel])
+      expect(vm.$children[0].internalValue[0].id).to.deep.equal('2')
+      vm.sel = vm.source[0]
+      Vue.nextTick(() => {
+        expect(vm.$children[0].internalValue[0].id).to.deep.equal('1')
         done()
       })
     })
@@ -1330,43 +1534,15 @@ describe('Multiselect.vue', () => {
       const comp = vm.$children[0]
       comp.select(comp.options[2])
       Vue.nextTick(function () {
-        expect(comp.value).to.deep.equal(null)
+        expect(comp.value).to.deep.equal([])
         expect(comp.search).to.deep.equal('')
         done()
       })
     })
-
-    it('set search to value after change when clearOnSelect is TRUE and multiple is FALSE and searchable is TRUE', (done) => {
-      const vm = new Vue({
-        render (h) {
-          return h(Multiselect, {
-            props: {
-              value: this.value,
-              options: this.source,
-              label: 'id',
-              trackBy: 'id',
-              searchable: true,
-              clearOnSelect: true
-            }
-          })
-        },
-        components: { Multiselect },
-        data: {
-          value: null,
-          source: [{ id: '1' }, { id: '2' }, { id: '3' }],
-          newValue: null
-        }
-      }).$mount()
-      vm.$children[0].select(vm.$children[0].options[2])
-      setTimeout(function () {
-        expect(vm.$children[0].search).to.deep.equal('3')
-        done()
-      }, 201)
-    })
   })
 
   describe('#watch:search', () => {
-    it('should call @search-change event callback wheneer search value changes', (done) => {
+    it('should call @search-change event callback whenever search value changes', () => {
       const vm = new Vue({
         render (h) {
           return h(Multiselect, {
@@ -1382,7 +1558,6 @@ describe('Multiselect.vue', () => {
             }
           })
         },
-        template: '<multiselect :selected="value" :options="source" label="id" track-by="id" @search-change="afterSearch" :clear-on-select="false"></multiselect>',
         components: { Multiselect },
         data: {
           value: null,
@@ -1391,15 +1566,11 @@ describe('Multiselect.vue', () => {
         },
         methods: {
           afterSearch (query) {
-            this.query = query
+            expect(query).to.equal('test')
           }
         }
       }).$mount()
       vm.$children[0].search = 'test'
-      Vue.nextTick(function () {
-        expect(vm.query).to.equal('test')
-        done()
-      })
     })
   })
 
@@ -1516,7 +1687,7 @@ describe('Multiselect.vue', () => {
       })
     })
 
-    it('should reset search value when multiple == TRUE', (done) => {
+    it('should reset search value when multiple == TRUE', () => {
       const vm = new Vue({
         render (h) {
           return h(Multiselect, {
@@ -1537,14 +1708,12 @@ describe('Multiselect.vue', () => {
       }).$mount()
       vm.$children[0].activate()
       vm.$children[0].search = '1'
+      expect(vm.$children[0].search).to.equal('1')
       vm.$children[0].deactivate()
-      setTimeout(function () {
-        expect(vm.$children[0].search).to.equal('')
-        done()
-      }, 201)
+      expect(vm.$children[0].$refs.search.value).to.equal('')
     })
 
-    it('should set the search value to selected value when multiple == FALSE', (done) => {
+    it('should restore value to selected value when multiple == FALSE', () => {
       const vm = new Vue({
         render (h) {
           return h(Multiselect, {
@@ -1566,10 +1735,7 @@ describe('Multiselect.vue', () => {
       vm.$children[0].activate()
       vm.$children[0].search = '1'
       vm.$children[0].deactivate()
-      setTimeout(function () {
-        expect(vm.$children[0].search).to.equal('2')
-        done()
-      }, 201)
+      expect(vm.$children[0].$refs.search.value).to.equal('2')
     })
   })
 
@@ -1701,6 +1867,22 @@ describe('Multiselect.vue', () => {
   })
 
   describe('#getOptionLabel()', () => {
+    it('should return empty string for undefined option', () => {
+      const vm = new Vue({
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              options: this.source
+            }
+          })
+        },
+        components: { Multiselect },
+        data: {
+          source: ['1', '2', '3']
+        }
+      }).$mount()
+      expect(vm.$children[0].getOptionLabel(undefined)).to.equal('')
+    })
     it('should return value for passed option when simple value', () => {
       const vm = new Vue({
         render (h) {
@@ -2541,6 +2723,28 @@ describe('Multiselect.vue', () => {
       expect(vm.$children[0].selectLabelText).to.equal('')
       expect(vm.$children[0].deselectLabelText).to.equal('')
       expect(vm.$children[0].selectedLabelText).to.equal('')
+    })
+  })
+  describe('#updateSearch', () => {
+    it('should update the search value', () => {
+      const vm = new Vue({
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              options: this.source,
+              searchable: true
+            }
+          })
+        },
+        components: { Multiselect },
+        data: {
+          value: ['1', '2', '3'],
+          source: ['1', '2', '3', '4', '5']
+        }
+      }).$mount()
+      expect(vm.$children[0].search).to.equal('')
+      vm.$children[0].updateSearch('test')
+      expect(vm.$children[0].search).to.equal('test')
     })
   })
 })
