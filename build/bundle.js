@@ -9,17 +9,14 @@ var chalk = require('chalk')
 var shell = require('shelljs')
 var webpack = require('webpack')
 var config = require('../config')
-var webpackConfig = require('./webpack.docs.conf')
+var webpackConfig = require('./webpack.bundle.conf')
 
-var spinner = ora('building docs...')
+var spinner = ora('building bundle...')
 spinner.start()
 
-var assetsPath = path.join(config.docs.assetsRoot, config.docs.assetsSubDirectory)
+var assetsPath = path.join(config.bundle.assetsRoot, config.bundle.assetsSubDirectory)
 shell.rm('-rf', assetsPath)
 shell.mkdir('-p', assetsPath)
-shell.config.silent = true
-shell.cp('-R', 'static/*', assetsPath)
-shell.config.silent = false
 
 webpack(webpackConfig, function (err, stats) {
   spinner.stop()
@@ -33,8 +30,4 @@ webpack(webpackConfig, function (err, stats) {
   }) + '\n\n')
 
   console.log(chalk.cyan('  Build complete.\n'))
-  console.log(chalk.yellow(
-    '  Tip: built files are meant to be served over an HTTP server.\n' +
-    '  Opening index.html over file:// won\'t work.\n'
-  ))
 })

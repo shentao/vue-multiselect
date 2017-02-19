@@ -1,7 +1,7 @@
 {
   "name": "vue-multiselect",
   "description": "Multiselect component for vue.js",
-  "main": "./lib/vue-multiselect.min.js",
+  "main": "./dist/vue-multiselect.min.js",
   "authors": [
     "Damian Dulisz <damian.dulisz@monterail.com>"
   ],

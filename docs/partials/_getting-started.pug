@@ -12,61 +12,45 @@
             code.
               npm install vue-multiselect --save
 
-          //- h3.typo__h3 via CDN
-          //- pre.language-html
-          //-   code
-          //-     | &lt;script src="https://cdn.jsdelivr.net/vue.multiselect/2.0.0-beta.12/vue-multiselect.min.js">&lt;/script>
+          h3.typo__h3 via CDN
+          pre.language-html
+            code
+              | &lt;script src="https://unpkg.com/vue-multiselect@2.0.0-beta.14">&lt;/script>
+              | &lt;style src="https://unpkg.com/vue-multiselect@2.0.0-beta.14/dist/vue-multiselect.min.css">&lt;/style>
 
         .grid__column
           h2.typo__h2 Basic usage
           pre.language-html
             code.
-              &lt;multiselect v-model="value" :options="options">
-          pre.language-javascript
-            code.
-              import Multiselect from 'vue-multiselect'
+              &lt;!-- Vue component -->
+              &lt;template>
+                &lt;div>
+                  &lt;multiselect v-model="value" :options="options">
+                &lt;/div>
+              &lt;/template>
 
-              // register globally
-              Vue.component(Multiselect)
+              &lt;script>
+                import Multiselect from 'vue-multiselect'
 
-              export default {
-                // OR register locally
-                components: { Multiselect },
-                data () {
-                  return {
-                    value: null,
-                    options: ['list', 'of', 'options']
+                // register globally
+                Vue.component(Multiselect)
+
+                export default {
+                  // OR register locally
+                  components: { Multiselect },
+                  data () {
+                    return {
+                      value: null,
+                      options: ['list', 'of', 'options']
+                    }
                   }
                 }
-              }
+              &lt;/script>
 
-      //- .grid__row
-      //-   .grid__column
-      //-     h2.typo__h2 Package content
-      //-
-      //-   .grid__column.grid__unit--md-5
-      //-     p.typo__p
-      //-       | The package consist of of multiple files:
-      //-       strong  Multiselect.vue
-      //-       |  which includes the template and styling of the default component. This component extends 2 additional mixins:
-      //-       strong  multiselectMixin.js
-      //-       |  and
-      //-       strong  pointerMixin.js
-      //-       |  , which contain the logic behind the multiselect. This way you can actually use the multiselect logic with your own template and styling.
-      //-     p.typo__p
-      //-       | You can import vue-multiselect’s mixins to create your own custom components based on those mixins.
-      //-     p.typo__p
-      //-       | Additionally the package exports the <kbd>deepClone</kbd> function.
-      //-   .grid__column.grid__unit--md-7
-      //-     pre.language-javascript
-      //-       code.
-      //-         import { multiselectMixin, pointerMixin, deepClone } from 'vue-multiselect'
-      //-         export default {
-      //-           mixins: [multiselectMixin, pointerMixin],
-      //-           data () {
-      //-             return {
-      //-               selected: null,
-      //-               options: ['list', 'of', 'options']
-      //-             }
-      //-           }
-      //-         }
+              &lt;!-- New step!
+                   Add Multiselect CSS. Can be added as a static asset or inside a component. -->
+              &lt;style src="vue-multiselect/dist/vue-multiselect.min.css">&lt;/style>
+
+              &lt;style>
+                your styles
+              &lt;/style>

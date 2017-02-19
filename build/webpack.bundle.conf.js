@@ -2,38 +2,46 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const webpack = require('webpack')
 const base = require('./webpack.base.conf')
 const config = require('../config')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const utils = require('./utils')
+const merge = require('webpack-merge')
+const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
-// this is used only for umd browser bundle,
-// refer to .babelrc for lib configuration
+const env = process.env.NODE_ENV === 'testing'
+  ? require('../config/test.env')
+  : config.bundle.env
 
 base.entry = {
   'VueMultiselect': './src/index.js'
 }
 
-base.output = {
-  path: config.bundle.assetsRoot,
-  publicPath: config.bundle.assetsPublicPath,
-  filename: 'vue-multiselect.min.js',
-  library: 'VueMultiselect',
-  libraryTarget: 'umd'
-}
-
-var webpackConfig = Object.assign({}, base)
-
-webpackConfig.plugins = (webpackConfig.plugins || []).concat([
-  new webpack.DefinePlugin({
-    'process.env': {
-      NODE_ENV: '"production"'
-    }
-  }),
-  new CopyWebpackPlugin([
-    { from: './src/' }
-  ], {
-    ignore: ['.DS_Store', 'index.js']
-  }),
-  new webpack.optimize.UglifyJsPlugin({
-    compress: { warnings: false }
-  })
-])
+const webpackConfig = merge(base, {
+  output: {
+    path: config.bundle.assetsRoot,
+    publicPath: config.bundle.assetsPublicPath,
+    filename: 'vue-multiselect.min.js',
+    library: 'VueMultiselect',
+    libraryTarget: 'umd'
+  },
+  module: {
+    rules: utils.styleLoaders({
+      sourceMap: config.bundle.productionSourceMap,
+      extract: true
+    })
+  },
+  devtool: config.bundle.productionSourceMap ? '#source-map' : false,
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': env
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: { warnings: false }
+    }),
+    new ExtractTextPlugin({
+      filename: 'vue-multiselect.min.css'
+    }),
+    new OptimizeCSSPlugin()
+  ]
+})
 
 module.exports = webpackConfig
