@@ -2531,6 +2531,74 @@ describe('Multiselect.vue', () => {
       expect(comp.filteredOptions.length).to.equal(3)
     })
 
+    it('when :internal-search is FALSE and options groups are present then custom search should work', (done) => {
+      const vm = new Vue({
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              value: this.value,
+              options: this.filteredSource,
+              label: 'label',
+              trackBy: 'id',
+              groupValues: 'values',
+              groupLabel: 'groupLabel',
+              searchable: true,
+              multiple: true,
+              internalSearch: false
+            },
+            on: {
+              'search-change': this.afterSearch
+            }
+          })
+        },
+        components: { Multiselect },
+        data: {
+          source: [
+            {
+              groupLabel: 'group1',
+              values: [
+                { label: 'aa', id: '1' }
+              ]
+            },
+            {
+              groupLabel: 'group2',
+              values: [
+                { label: 'bb1', id: '2' },
+                { label: 'bb2', id: '3' }
+              ]
+            }
+          ],
+          filteredSource: []
+        },
+        mounted () {
+          this.filteredSource = this.source
+        },
+        methods: {
+          afterSearch (query) {
+            // Search by groupLabel
+            let newOptions = this.source.slice()
+            newOptions = newOptions.filter(option => option.groupLabel.toLowerCase().indexOf(query.toLowerCase()) > -1)
+            this.filteredSource = newOptions
+          }
+        }
+      }).$mount()
+      Vue.nextTick(() => {
+        const comp = vm.$children[0]
+        expect(comp.filteredOptions).to.deep.equal([{$groupLabel: 'group1', $isLabel: true}, {
+          label: 'aa',
+          id: '1'
+        }, {$groupLabel: 'group2', $isLabel: true}, {label: 'bb1', id: '2'}, {label: 'bb2', id: '3'}])
+        comp.search = 'group2'
+        Vue.nextTick(() => {
+          expect(comp.filteredOptions).to.deep.equal([{$groupLabel: 'group2', $isLabel: true}, {
+            label: 'bb1',
+            id: '2'
+          }, {label: 'bb2', id: '3'}])
+          done()
+        })
+      })
+    })
+
     it('should return only as many options as set in the :options-limit prop.', () => {
       const vm = new Vue({
         render (h) {

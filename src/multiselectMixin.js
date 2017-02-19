@@ -287,6 +287,8 @@ export default {
         options = this.hideSelected
           ? options.filter(this.isNotSelected)
           : options
+      } else {
+        options = this.groupValues ? flattenOptions(this.groupValues, this.groupLabel)(options) : options
       }
 
       /* istanbul ignore else */
