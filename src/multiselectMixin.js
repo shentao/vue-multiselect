@@ -284,6 +284,8 @@ module.exports = {
         options = this.hideSelected
           ? options.filter(this.isNotSelected)
           : options
+      } else {
+        options = this.groupValues ? flattenOptions(this.groupValues, this.groupLabel)(options) : options
       }
 
       if (this.taggable && normalizedSearch.length && !this.isExistingOption(normalizedSearch)) {
@@ -318,9 +320,6 @@ module.exports = {
       this.adjustSearch()
     },
     'search' () {
-      /* istanbul ignore else */
-      if (this.search === this.currentOptionLabel) return
-
       this.$emit('search-change', this.search, this.id)
     },
     'value' () {
