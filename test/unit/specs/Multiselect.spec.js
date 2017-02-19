@@ -2363,7 +2363,8 @@ describe('Multiselect.vue', () => {
               searchable: true,
               multiple: true,
               internalSearch: false
-            }, on: {
+            },
+            on: {
               'search-change': this.afterSearch
             }
           })
@@ -2387,11 +2388,11 @@ describe('Multiselect.vue', () => {
           ],
           filteredSource: []
         },
-        mounted() {
+        mounted () {
           this.filteredSource = this.source
         },
         methods: {
-          afterSearch(query) {
+          afterSearch (query) {
             // Search by groupLabel
             let newOptions = this.source.slice()
             newOptions = newOptions.filter(option => option.groupLabel.toLowerCase().indexOf(query.toLowerCase()) > -1)
@@ -2401,10 +2402,16 @@ describe('Multiselect.vue', () => {
       }).$mount()
       Vue.nextTick(() => {
         const comp = vm.$children[0]
-        expect(comp.filteredOptions).to.deep.equal([{$groupLabel:"group1",$isLabel:true},{label:"aa",id:"1"},{$groupLabel:"group2",$isLabel:true},{label:"bb1",id:"2"},{label:"bb2",id:"3"}])
+        expect(comp.filteredOptions).to.deep.equal([{$groupLabel: 'group1', $isLabel: true}, {
+          label: 'aa',
+          id: '1'
+        }, {$groupLabel: 'group2', $isLabel: true}, {label: 'bb1', id: '2'}, {label: 'bb2', id: '3'}])
         comp.search = 'group2'
         Vue.nextTick(() => {
-          expect(comp.filteredOptions).to.deep.equal([{$groupLabel:"group2",$isLabel:true},{label:"bb1",id:"2"},{label:"bb2",id:"3"}])
+          expect(comp.filteredOptions).to.deep.equal([{$groupLabel: 'group2', $isLabel: true}, {
+            label: 'bb1',
+            id: '2'
+          }, {label: 'bb2', id: '3'}])
           done()
         })
       })
