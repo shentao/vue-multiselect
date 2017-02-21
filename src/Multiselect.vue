@@ -29,6 +29,8 @@
         </transition>
         <input
           ref="search"
+          :name="inputName"
+          :id="inputId"
           type="text"
           autocomplete="off"
           :placeholder="placeholder"
@@ -106,6 +108,25 @@
     name: 'vue-multiselect',
     mixins: [multiselectMixin, pointerMixin],
     props: {
+
+      /**
+       * name attribute to match optional label element
+       * @default ''
+       * @type {String}
+       */
+      inputName: {
+        type: String,
+        default: ''
+      },
+      /**
+       * ID attribute to match optional label element
+       * @default ''
+       * @type {String}
+       */
+      inputId: {
+        type: String,
+        default: ''
+      },
       /**
        * String to show when pointing to an option
        * @default 'Press enter to select'
