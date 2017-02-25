@@ -1,6 +1,5 @@
 .DS_Store
 node_modules/
-lib/
 npm-debug.log
 selenium-debug.log
 test/unit/coverage
@@ -12,7 +11,6 @@ test/e2e/reports
 .tern-project
 docs/
 gh-pages/
-src/
 static/
 test/
 build/
@@ -20,3 +18,4 @@ build/
 index.html
 config.js
 bower.json
+v1/

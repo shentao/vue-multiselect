@@ -448,9 +448,9 @@ export default {
 
         /* istanbul ignore else */
         if (this.clearOnSelect) this.search = ''
-        /* istanbul ignore else */
-        if (this.closeOnSelect) this.deactivate()
       }
+      /* istanbul ignore else */
+      if (this.closeOnSelect) this.deactivate()
     },
     /**
      * Removes the given option from the selected options.

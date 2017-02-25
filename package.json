@@ -1,6 +1,6 @@
 {
   "name": "vue-multiselect",
-  "version": "2.0.0-beta.13",
+  "version": "2.0.0-beta.14",
   "description": "Multiselect component for vue.js",
   "author": "Damian Dulisz <damian.dulisz@monterail.com>",
   "private": false,
@@ -19,7 +19,7 @@
   "scripts": {
     "dev": "node build/dev-server.js",
     "bundle:dist": "rm -rf dist && webpack --config build/webpack.bundle.conf.js",
-    "bundle:lib": "babel src --out-dir dist",
+    "bundle:lib": "babel src --out-dir lib",
     "bundle": "node build/bundle.js && npm run bundle:lib",
     "docs": "rm -rf gh-pages && mkdir gh-pages && node build/build.js",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --watch",
