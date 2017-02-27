@@ -1443,6 +1443,33 @@ describe('Multiselect.vue', () => {
         done()
       })
     })
+    it('updates multiselect private value to [] when parent selected is null', (done) => {
+      const vm = new Vue({
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              value: this.sel,
+              options: this.source,
+              label: 'id',
+              trackBy: 'id',
+              multiple: false,
+              searchable: false
+            }
+          })
+        },
+        components: { Multiselect },
+        data: {
+          sel: { id: '2' },
+          source: [{ id: '1' }, { id: '2' }, { id: '3' }]
+        }
+      }).$mount()
+      expect(vm.$children[0].internalValue[0].id).to.deep.equal('2')
+      vm.sel = null
+      Vue.nextTick(() => {
+        expect(vm.$children[0].internalValue).to.deep.equal([])
+        done()
+      })
+    })
   })
 
   describe('#watch:value', () => {

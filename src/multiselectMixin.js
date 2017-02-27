@@ -331,7 +331,7 @@ export default {
       this.$emit('search-change', this.search, this.id)
     },
     'value' (value) {
-      this.internalValue = deepClone(Array.isArray(value) ? value : [value])
+      this.internalValue = deepClone(Array.isArray(value) ? value : value ? [value] : [])
     }
   },
   methods: {
