@@ -15,6 +15,11 @@ API changes:
 * `@update` has changed to `@input` to also work with v-model
 * `:selected` has changed to `:value` for the same reason
 
+#### Important
+```
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+```
+
 ### Features & characteristics:
 * NO dependencies
 * Single select
