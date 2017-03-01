@@ -15,7 +15,8 @@ API changes:
 * `@update` has changed to `@input` to also work with v-model
 * `:selected` has changed to `:value` for the same reason
 
-#### Important
+#### Important Breaking Change
+* As of beta.14 styles have to be required separately due to SSR support.
 ```
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 ```
