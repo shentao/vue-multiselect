@@ -331,14 +331,31 @@ export default {
       this.$emit('search-change', this.search, this.id)
     },
     'value' (value) {
-      this.internalValue = deepClone(Array.isArray(value) ? value : [value])
+      this.internalValue = this.getInternalValue()
     }
   },
   methods: {
+    /**
+     * Converts the internal value to the external value
+     * @returns {Object||Array||String||Integer} returns the external value
+     */
     getValue () {
       return this.multiple
         ? deepClone(this.internalValue)
-        : deepClone(this.internalValue[0])
+        : this.internalValue.length === 0
+          ? null
+          : deepClone(this.internalValue[0])
+    },
+    /**
+     * Converts the external value to the internal value
+     * @returns {Array} returns the internal value
+     */
+    getInternalValue () {
+      return this.multiple
+        ? deepClone(this.value)
+        : this.value === null || this.value === undefined
+          ? []
+          : deepClone([this.value])
     },
     /**
      * Filters and then flattens the options list
