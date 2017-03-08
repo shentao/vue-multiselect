@@ -1,6 +1,6 @@
 {
   "name": "vue-multiselect",
-  "version": "2.0.0-beta.14",
+  "version": "2.0.0-beta.15",
   "description": "Multiselect component for vue.js",
   "author": "Damian Dulisz <damian.dulisz@monterail.com>",
   "private": false,
@@ -25,7 +25,7 @@
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --watch",
     "test": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "lint": "eslint --ext .js,.vue src test/unit/specs",
-    "finish": "npm run lint && npm test && npm run build"
+    "finish": "npm run lint && npm test && npm run bundle"
   },
   "devDependencies": {
     "autoprefixer": "^6.7.2",
