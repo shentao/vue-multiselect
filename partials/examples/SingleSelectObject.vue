@@ -9,7 +9,7 @@ div
     placeholder="Select one",
     :options="options",
     :searchable="false",
-    :allow-empty="false"
+    :allow-empty="true"
   )
   pre.language-json
     code.
@@ -26,7 +26,7 @@ export default {
   },
   data () {
     return {
-      value: { name: 'Vue.js', language: 'JavaScript' },
+      value: null,
       options: [
         { name: 'Vue.js', language: 'JavaScript' },
         { name: 'Rails', language: 'Ruby' },
