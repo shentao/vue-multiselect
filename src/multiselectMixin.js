@@ -331,7 +331,7 @@ export default {
       this.$emit('search-change', this.search, this.id)
     },
     'value' (value) {
-      this.internalValue = this.getInternalValue()
+      this.internalValue = this.getInternalValue(value)
     }
   },
   methods: {
@@ -350,12 +350,12 @@ export default {
      * Converts the external value to the internal value
      * @returns {Array} returns the internal value
      */
-    getInternalValue () {
-      return this.multiple
-        ? deepClone(this.value)
-        : this.value === null || this.value === undefined
-          ? []
-          : deepClone([this.value])
+    getInternalValue (value) {
+      return value === null || value === undefined
+        ? []
+        : this.multiple
+          ? deepClone(value)
+          : deepClone([value])
     },
     /**
      * Filters and then flattens the options list
