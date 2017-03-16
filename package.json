@@ -21,7 +21,7 @@
     "bundle:dist": "rm -rf dist && webpack --config build/webpack.bundle.conf.js",
     "bundle:lib": "babel src --out-dir lib",
     "bundle": "node build/bundle.js && npm run bundle:lib",
-    "docs": "rm -rf gh-pages && mkdir gh-pages && node build/build.js",
+    "docs": "rm -rf gh-pages && mkdir gh-pages && node build/build.js && cp -r v1 gh-pages/v1",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --watch",
     "test": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "lint": "eslint --ext .js,.vue src test/unit/specs",
