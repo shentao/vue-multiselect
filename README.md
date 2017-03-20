@@ -57,9 +57,9 @@ npm install vue-multiselect@next
 <style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 ```
 
-## Roadmap:
+## JSFiddle
 
-* Grouping
+[Example JSFiddle](https://jsfiddle.net/shentao/c4L3gs91/)
 
 ## Examples
 in jade-lang/pug-lang
