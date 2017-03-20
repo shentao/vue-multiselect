@@ -2182,6 +2182,55 @@ describe('Multiselect.vue', () => {
       }).$mount()
       expect(vm.$children[0].optionKeys).to.deep.equal(['aa', 'bb1', 'bb2'])
     })
+
+      it('when an option group is empty, return null to prevent trying to format a non existent item.', () => {
+          const vm = new Vue({
+              render (h) {
+                  return h(Multiselect, {
+                      props: {
+                          value: this.value,
+                          options: this.source,
+                          label: 'label',
+                          trackBy: 'id',
+                          groupValues: 'values',
+                          groupLabel: 'groupLabel',
+                          searchable: true,
+                          multiple: true
+                      }
+                  })
+              },
+              components: { Multiselect },
+              data: {
+                  source: [
+                      {
+                          groupLabel: 'group1',
+                          values: [
+                              { label: 'aa', id: '1' }
+                          ]
+                      },
+                      {
+                          groupLabel: 'group2',
+                          values: [
+                              { label: 'bb1', id: '2' },
+                              { label: 'bb2', id: '3' }
+                          ]
+                      },
+                      {
+                          groupLabel: 'group3',
+                          values: [
+                          ]
+                      },
+                      {
+                          groupLabel: 'group4',
+                          values: [
+                              { label: 'cc', id: '4' },
+                          ]
+                      }
+                  ]
+              }
+          }).$mount()
+          expect(vm.$children[0].optionKeys).to.deep.equal(['aa', 'bb1', 'bb2', null, 'cc'])
+      })    
   })
 
   describe('filteredOptions', () => {
