@@ -2183,7 +2183,7 @@ describe('Multiselect.vue', () => {
       expect(vm.$children[0].optionKeys).to.deep.equal(['aa', 'bb1', 'bb2'])
     })
 
-      it('when an option group is empty, return null to prevent trying to format a non existent item.', () => {
+      it('when an option group is empty, return null to prevent formatting a non existent item.', () => {
           const vm = new Vue({
               render (h) {
                   return h(Multiselect, {
