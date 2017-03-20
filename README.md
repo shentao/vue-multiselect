@@ -59,7 +59,7 @@ npm install vue-multiselect@next
 
 ## JSFiddle
 
-[Example JSFiddle](https://jsfiddle.net/shentao/c4L3gs91/)
+[Example JSFiddle](https://jsfiddle.net/shentao/c4L3gs91/) – Use this for issue reproduction.
 
 ## Examples
 in jade-lang/pug-lang
