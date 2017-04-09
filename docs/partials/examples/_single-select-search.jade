@@ -5,6 +5,7 @@ p.typo__p The selected value is referencing the same object as the previous exam
     label.typo__label Simple select / dropdown
     multiselect(
       :options="source",
+      :selected.sync="value",
       :searchable="true",
       :custom-label="nameWithLang"
       @update="updateValue",
@@ -22,7 +23,7 @@ p.typo__p The selected value is referencing the same object as the previous exam
       code.
         multiselect(
           :options="source",
-          :selected="value",
+          :selected.sync="value",
           :searchable="true",
           :custom-label="nameWithLang"
           @update="updateValue",
@@ -33,7 +34,7 @@ p.typo__p The selected value is referencing the same object as the previous exam
     pre.language-javascript
       code.
         updateValue (value) {
-          this.value = value
+          console.log('@update: ', value)
         },
         nameWithLang ({ name, language }) {
           return `${name} — [${language}]`

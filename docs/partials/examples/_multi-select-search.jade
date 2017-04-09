@@ -5,7 +5,7 @@ p.typo__p <kbd>:limit="2"</kbd> prop limits the visible results to 2.
     label.typo__label Simple select / dropdown
     multiselect(
       :options="source",
-      :selected="multiValue",
+      :selected.sync="multiValue",
       :multiple="true",
       :searchable="true",
       :close-on-select="false",
@@ -26,7 +26,7 @@ p.typo__p <kbd>:limit="2"</kbd> prop limits the visible results to 2.
       code.
         multiselect(
           :options="source",
-          :selected="multiValue",
+          :selected.sync="multiValue",
           :multiple="true",
           :searchable="true",
           :close-on-select="false",
@@ -40,5 +40,5 @@ p.typo__p <kbd>:limit="2"</kbd> prop limits the visible results to 2.
     pre.language-javascript
       code.
         updateMultiValue (value) {
-          this.multiValue = value
+          console.log('@update: ', value)
         },

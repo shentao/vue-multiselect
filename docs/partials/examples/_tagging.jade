@@ -6,11 +6,11 @@ p.typo__p
     label.typo__label Tagging
     multiselect(
       :options="taggingOptions",
-      :selected="taggingSelected",
+      :selected.sync="taggingSelected",
       :multiple="true",
       :searchable="searchable",
       :taggable="true",
-      @tag="addTag",
+      :tag="addTag",
       @update="updateSelectedTagging",
       tag-placeholder="Add this as new tag"
       placeholder="Type to search or add tag"
@@ -29,11 +29,11 @@ p.typo__p
       code.
         multiselect(
           :options="taggingOptions",
-          :selected="taggingSelected",
+          :selected.sync="taggingSelected",
           :multiple="true",
           :searchable="searchable",
           :taggable="true",
-          @tag="addTag",
+          :tag="addTag",
           @update="updateSelectedTagging",
           tag-placeholder="Add this as new tag"
           placeholder="Type to search or add tag"
@@ -52,10 +52,8 @@ p.typo__p
             // For primitive values you can simply push the tag into options and selected arrays.
             code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
           }
-          this.taggingOptions.push(tag)
-          this.taggingSelected.push(tag)
+          return tag;
         },
         updateSelectedTagging (value) {
           console.log('@tag: ', value)
-          this.taggingSelected = value
         }

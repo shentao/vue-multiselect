@@ -92,7 +92,7 @@ new Vue({
       }
     },
     asyncUpdate (newVal) {
-      this.selectedCountries = newVal
+      console.log('@update: ', newVal)
     },
     afterChange (selectValue) {
       this.selected = selectValue
@@ -109,12 +109,10 @@ new Vue({
         name: newTag,
         code: newTag.substring(0, 2) + Math.floor((Math.random() * 10000000))
       }
-      this.taggingOptions.push(tag)
-      this.taggingSelected.push(tag)
+      return tag
     },
     updateSelectedTagging (value) {
       console.log('@tag: ', value)
-      this.taggingSelected = value
     },
     dispatchAction (actionName) {
       switch (actionName) {
@@ -138,15 +136,12 @@ new Vue({
     },
     updateValue (value) {
       console.log('@update: ', value)
-      this.value = value
     },
     updateMultiValue (value) {
       console.log('@update: ', value)
-      this.multiValue = value
     },
     updateValuePrimitive (value) {
       console.log('@update: ', value)
-      this.valuePrimitive = value
     },
     updateSelectedStyle (style) {
       this.selectedStyle = style

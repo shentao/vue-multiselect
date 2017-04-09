@@ -5,7 +5,7 @@ p.typo__p Disabled all highlight label text.
     label.typo__label Single select / dropdown
     multiselect(
       :options="options",
-      :selected="valuePrimitive",
+      :selected.sync="valuePrimitive",
       :multiple="false",
       :searchable="false",
       :close-on-select="false",
@@ -23,7 +23,7 @@ p.typo__p Disabled all highlight label text.
       code.
         multiselect(
           :options="options",
-          :selected="valuePrimitive",
+          :selected.sync="valuePrimitive",
           :multiple="false",
           :searchable="false",
           :close-on-select="false",
@@ -35,5 +35,5 @@ p.typo__p Disabled all highlight label text.
     pre.language-javascript
       code.
         updateValuePrimitive (value) {
-          this.valuePrimitive = value
+          console.log('@update: ', value)
         }

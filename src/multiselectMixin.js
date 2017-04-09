@@ -192,6 +192,11 @@ module.exports = {
     optionsLimit: {
       type: Number,
       default: 1000
+    },
+    tag: {
+      type: Function,
+      default () {
+      }
     }
   },
   created () {
@@ -308,7 +313,9 @@ module.exports = {
     select (option) {
       if (this.max !== 0 && this.multiple && this.value.length === this.max) return
       if (option.isTag) {
-        this.$emit('tag', option.label, this.id)
+        let newTag = this.tag(option.label, this.id)
+        this.options.push(newTag)
+        this.selected.push(newTag)
         this.search = ''
       } else {
         if (this.multiple) {
@@ -326,6 +333,7 @@ module.exports = {
 
           this.value = isSelected ? null : option
         }
+        this.selected = deepClone(this.value)
         this.$emit('select', deepClone(option), this.id)
         this.$emit('update', deepClone(this.value), this.id)
 

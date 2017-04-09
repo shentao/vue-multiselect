@@ -9,7 +9,7 @@ p.typo__p
     label.typo__label Async multiselect
     multiselect(
       :options="countries",
-      :selected="selectedCountries",
+      :selected.sync="selectedCountries",
       :multiple="multiple",
       :local-search="false",
       :clear-on-select="false",
@@ -34,7 +34,7 @@ p.typo__p
       code.
         multiselect(
           :options="countries",
-          :selected="selectedCountries",
+          :selected.sync="selectedCountries",
           :multiple="multiple",
           :local-search="false",
           :clear-on-select="false",
@@ -66,5 +66,5 @@ p.typo__p
           }
         },
         asyncUpdate (newVal) {
-          this.selectedCountries = newVal
+          console.log('@update: ', newVal)
         }
