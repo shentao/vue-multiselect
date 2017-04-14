@@ -3,7 +3,7 @@ import deepClone from './utils'
 function includes (str, query) {
   /* istanbul ignore else */
   if (!str) return false
-  const text = str.toString().toLowerCase()
+  const text = str.toString()
   return text.indexOf(query.trim()) !== -1
 }
 
