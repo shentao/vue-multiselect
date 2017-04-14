@@ -308,7 +308,7 @@ export default {
     optionKeys () {
       const options = this.groupValues ? this.flatAndStrip(this.options) : this.options
       return this.label
-        ? options.map(element => element[this.label].toString().toLowerCase())
+        ? options.map(element => element[this.label] ? element[this.label].toString().toLowerCase() : null)
         : options.map(element => element.toString().toLowerCase())
     },
     currentOptionLabel () {
