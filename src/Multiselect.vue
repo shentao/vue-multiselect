@@ -73,11 +73,11 @@
             <li class="multiselect__element" v-for="(option, index) of filteredOptions" :key="index">
               <span
                 tabindex="0"
-                v-if="!option.$isLabel"
+                v-if="!(option && option.$isLabel)"
                 :class="optionHighlight(index, option)"
                 @mousedown.prevent="select(option)"
                 @mouseenter="pointerSet(index)"
-                :data-select="option.isTag ? tagPlaceholder : selectLabelText"
+                :data-select="option && option.isTag ? tagPlaceholder : selectLabelText"
                 :data-selected="selectedLabelText"
                 :data-deselect="deselectLabelText"
                 class="multiselect__option">
@@ -86,7 +86,7 @@
                   </slot>
               </span>
               <span
-                v-if="option.$isLabel"
+                v-if="option && option.$isLabel"
                 :class="optionHighlight(index, option)"
                 class="multiselect__option multiselect__option--disabled">
                 {{ option.$groupLabel }}

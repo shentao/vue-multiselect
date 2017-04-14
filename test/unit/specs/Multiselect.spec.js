@@ -2700,6 +2700,26 @@ describe('Multiselect.vue', () => {
       expect(vm.$children[0].filteredOptions).to.deep.equal(['test', 'testing'])
       expect(vm.$children[0].filteredOptions.length).to.equal(2)
     })
+
+    it('should return all the passed options including falsy options', () => {
+      const vm = new Vue({
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              value: this.value,
+              options: this.source
+            }
+          })
+        },
+        components: { Multiselect },
+        data: {
+          value: [],
+          source: ['start', undefined, 0, false, null, 'end']
+        }
+      }).$mount()
+      expect(vm.$children[0].filteredOptions).to.deep.equal(['start', undefined, 0, false, null, 'end'])
+      expect(vm.$children[0].filteredOptions.length).to.equal(6)
+    })
   })
 
   describe('currentOptionLabel', () => {

@@ -2,7 +2,9 @@ import deepClone from './utils'
 
 function includes (str, query) {
   /* istanbul ignore else */
-  if (!str) return false
+  if (str === undefined) str = 'undefined'
+  if (str === null) str = 'null'
+  if (str === false) str = 'false'
   const text = str.toString().toLowerCase()
   return text.indexOf(query.trim()) !== -1
 }
@@ -362,9 +364,9 @@ export default {
      * @param  {Array}
      * @returns {Array} returns a filtered and flat options list
      */
-    filterAndFlat (options) {
+    filterAndFlat (options, search, label) {
       return flow(
-        filterGroups(this.search, this.label, this.groupValues, this.groupLabel),
+        filterGroups(search, label, this.groupValues, this.groupLabel),
         flattenOptions(this.groupValues, this.groupLabel)
       )(options)
     },
