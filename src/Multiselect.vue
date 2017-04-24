@@ -85,7 +85,7 @@
         </template>
         <li v-show="filteredOptions.length === 0 && search">
           <span class="multiselect__option">
-            <slot name="noResult">No elements found. Consider changing the search query.</slot>
+            <slot name="noResult">{{noResult}}</slot>
           </span>
         </li>
         <slot name="afterList"></slot>
@@ -135,6 +135,15 @@
       deselectLabel: {
         type: String,
         default: 'Press enter to remove'
+      },
+      /**
+       * String to show when no elements were found or options is empty.
+       * @default 'No elements found. Consider changing the search query.'
+       * @type {String}
+       */
+      noResult: {
+        type: String,
+        default: 'No elements found. Consider changing the search query.'
       },
       /**
        * Decide whether to show pointer labels
