@@ -13,19 +13,14 @@
         <div @mousedown.prevent="toggle()" class="multiselect__select"></div>
       </slot>
       <div ref="tags" class="multiselect__tags">
-        <span
-          v-for="option of visibleValue"
-          @mousedown.prevent
-          class="multiselect__tag">
+        <div class="multiselect__tags-wrap" v-show="visibleValue.length > 0">
+          <span v-for="option of visibleValue" @mousedown.prevent class="multiselect__tag">
             <span v-text="getOptionLabel(option)"></span>
-            <i
-              aria-hidden="true"
-              tabindex="1"
-              @keydown.enter.prevent="removeElement(option)"
-              @mousedown.prevent="removeElement(option)"
+            <i aria-hidden="true" tabindex="1" @keydown.enter.prevent="removeElement(option)" @mousedown.prevent="removeElement(option)"
               class="multiselect__tag-icon">
-            </i>
-        </span>
+              </i>
+          </span>
+        </div>
         <template v-if="internalValue && internalValue.length > limit">
           <strong v-text="limitText(internalValue.length - limit)"></strong>
         </template>
@@ -34,6 +29,8 @@
         </transition>
         <input
           ref="search"
+          :name="inputName"
+          :id="inputId"
           type="text"
           autocomplete="off"
           :placeholder="placeholder"
@@ -112,6 +109,25 @@
     name: 'vue-multiselect',
     mixins: [multiselectMixin, pointerMixin],
     props: {
+
+      /**
+       * name attribute to match optional label element
+       * @default ''
+       * @type {String}
+       */
+      inputName: {
+        type: String,
+        default: ''
+      },
+      /**
+       * ID attribute to match optional label element
+       * @default ''
+       * @type {String}
+       */
+      inputId: {
+        type: String,
+        default: ''
+      },
       /**
        * String to show when pointing to an option
        * @default 'Press enter to select'
