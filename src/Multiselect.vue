@@ -12,7 +12,7 @@
       <slot name="carret">
         <div @mousedown.prevent="toggle()" class="multiselect__select"></div>
       </slot>
-      <div ref="tags" class="multiselect__tags">
+      <div ref="tags" class="multiselect__tags" :class="inputContainerClass">
         <div class="multiselect__tags-wrap" v-show="visibleValue.length > 0">
           <span v-for="option of visibleValue" @mousedown.prevent class="multiselect__tag">
             <span v-text="getOptionLabel(option)"></span>
@@ -46,7 +46,8 @@
           @keydown.enter.prevent
           @keydown.enter.tab.stop.self="addPointerElement($event)"
           @keydown.delete="removeLastElement()"
-          class="multiselect__input"/>
+          class="multiselect__input"
+          :class="inputClass"/>
         <span
           v-if="!searchable"
           class="multiselect__single"

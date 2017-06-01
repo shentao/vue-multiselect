@@ -2031,6 +2031,34 @@ describe('Multiselect.vue', () => {
     })
   })
 
+  it('should define custom CSS class on input when defined', () => {
+      const vm = new Vue({
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              value: this.value,
+              options: this.source,
+              label: 'id',
+              trackBy: 'id',
+              multiple: true,
+              inputContainerClass: 'form-group',
+              inputClass: 'form-control'
+            }
+          })
+        },
+        components: { Multiselect },
+        data: {
+          value: [],
+          source: [{ id: '1' }, { id: '2' }, { id: '3' }]
+        }
+      }).$mount()
+      const inputElement = vm.$el.querySelector('input');
+      expect(inputElement.classList.contains('form-control')).to.true;
+
+      const containerElement = inputElement.parentNode;
+      expect(containerElement.classList.contains('form-group')).to.true;
+    })
+
   describe('valueKeys', () => {
     it('should return primitive value Array when no :key is provided', () => {
       const vm = new Vue({
@@ -2230,7 +2258,7 @@ describe('Multiselect.vue', () => {
               }
           }).$mount()
           expect(vm.$children[0].optionKeys).to.deep.equal(['aa', 'bb1', 'bb2', null, 'cc'])
-      })    
+      })
   })
 
   describe('filteredOptions', () => {
