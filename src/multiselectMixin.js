@@ -35,9 +35,11 @@ function flattenOptions (values, label) {
 }
 
 function filterGroups (search, label, values, groupLabel) {
+  const normalizedSearch = search.toString().toLowerCase()
+  
   return (groups) =>
     groups.map(group => {
-      const groupOptions = filterOptions(group[values], search, label)
+      const groupOptions = filterOptions(group[values], normalizedSearch, label)
 
       return groupOptions.length
         ? {
