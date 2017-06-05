@@ -126,7 +126,7 @@ export default {
       default: true
     },
     /**
-     * Clear the search input after select()
+     * Clear the search input after `)
      * @default true
      * @type {Boolean}
      */
@@ -253,6 +253,16 @@ export default {
     */
     groupLabel: {
       type: String
+    },
+    /**
+     * Name of the property containing
+     * the group select flag
+     * @default false
+     * @type {Boolean}
+     */
+    groupSelect: {
+      type: Boolean,
+      default: false
     },
     /**
      * Array of keyboard keys to block
@@ -470,6 +480,49 @@ export default {
       }
       /* istanbul ignore else */
       if (this.closeOnSelect) this.deactivate()
+    },
+    /**
+     * Add the given group options to the list of selected options
+     * If all group optiona are already selected -> remove it from the results.
+     *
+     * @param  {Object||String||Integer} group to select/deselect
+     */
+    selectGroup (optionValue) {
+      let group = null
+
+      this.options.forEach(function (option) {
+        if (option[this.groupLabel] === optionValue.$groupLabel) {
+          group = option
+        }
+      }.bind(this))
+
+      if (this.wholeGroupSelected(group)) {
+        group[this.groupValues].forEach(function (option) {
+          this.removeElement(option)
+        }.bind(this))
+      } else {
+        group[this.groupValues].forEach(function (option) {
+          if (!this.isSelected(option)) {
+            this.select(option)
+          }
+        }.bind(this))
+      }
+    },
+    /**
+     * Helper to identify if all values in a group are selected
+     *
+     * @param  {Object} group to validated selected values against
+     */
+    wholeGroupSelected (group) {
+      let selected = 0
+
+      group[this.groupValues].forEach(function (option) {
+        if (this.isSelected(option)) {
+          selected++
+        }
+      }.bind(this))
+
+      return selected === group[this.groupValues].length
     },
     /**
      * Removes the given option from the selected options.

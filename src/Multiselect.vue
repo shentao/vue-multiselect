@@ -84,8 +84,9 @@
               </span>
               <span
                 v-if="option && option.$isLabel"
-                :class="optionHighlight(index, option)"
-                class="multiselect__option multiselect__option--disabled">
+                :class="[optionHighlight(index, option), groupSelect ? 'multiselect__option--group' : 'multiselect__option--disabled']"
+                @mousedown.prevent="selectGroup(option)"
+                class="multiselect__option">
                 {{ option.$groupLabel }}
               </span>
             </li>
@@ -596,6 +597,11 @@ fieldset[disabled] .multiselect {
   color: #a6a6a6;
   cursor: text;
   pointer-events: none;
+}
+
+.multiselect__option--group {
+  background: #ededed;
+  color: #a6a6a6;
 }
 
 .multiselect__option--disabled.multiselect__option--highlight {

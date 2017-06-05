@@ -400,6 +400,7 @@ div
     :multiple=&quot;true&quot;,
     group-values=&quot;libs&quot;,
     group-label=&quot;language&quot;,
+    :group-select=&quot;true&quot;,
     placeholder=&quot;Type to search&quot;,
     track-by=&quot;name&quot;,
     label=&quot;name&quot;,
@@ -412,7 +413,7 @@ div
 </code></pre></div><div v-show="markupLanguage === 'html'"><pre class=language-html v-pre><code>
 &lt;div&gt;
   &lt;label class=&quot;typo__label&quot;&gt;Groups&lt;/label&gt;
-  &lt;multiselect v-model=&quot;value&quot; :options=&quot;options&quot; :multiple=&quot;true&quot; group-values=&quot;libs&quot; group-label=&quot;language&quot; placeholder=&quot;Type to search&quot; track-by=&quot;name&quot; label=&quot;name&quot;&gt;&lt;span slot=&quot;noResult&quot;&gt;Oops! No elements found. Consider changing the search query.&lt;/span&gt;&lt;/multiselect&gt;
+  &lt;multiselect v-model=&quot;value&quot; :options=&quot;options&quot; :multiple=&quot;true&quot; group-values=&quot;libs&quot; group-label=&quot;language&quot; :group-select=&quot;true&quot; placeholder=&quot;Type to search&quot; track-by=&quot;name&quot; label=&quot;name&quot;&gt;&lt;span slot=&quot;noResult&quot;&gt;Oops! No elements found. Consider changing the search query.&lt;/span&gt;&lt;/multiselect&gt;
   &lt;pre class=&quot;language-json&quot;&gt;&lt;code&gt;{{ value  }}&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;</code></pre></div></div></div></div></div><div class=grid__row><div class=grid__column><h2 class=typo__h2 id=sub-vuex-support data-section>Vuex support</h2><p>Due to the one-way data-flow enforced by Vuex you should not be using <code>v-model</code> for manipulating the currently selected value. Because Vue-Multiselect always uses it’s own internal copy of the value it never mutates the <code>:value</code> by itself, which means it can can safely used with Vuex or even Redux.</p><p>In Vue 2.0 <code>v-model</code> is just a syntax sugar for <code>:value</code> and <code>@input</code>. Because of this we can use the <code>@input</code> event to trigger Vuex actions or mutations. Whenever we mutate the <code>:value</code> in Vuex, Multiselect’s internal value will update.</p><div class="example grid__row"><div class="grid__column grid__unit--md-5"><vuex-actions></vuex-actions></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><div><pre class=language-javascript v-pre><code>import Vue from 'vue'
 import Vuex from 'vuex'
