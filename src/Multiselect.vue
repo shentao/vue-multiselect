@@ -1,6 +1,6 @@
 <template>
   <div
-    :tabindex="searchable ? -1 : 0"
+    tabindex="0"
     :class="{ 'multiselect--active': isOpen, 'multiselect--disabled': disabled, 'multiselect--above': !hasEnoughSpace }"
     @focus="activate()"
     @blur="searchable ? false : deactivate()"
@@ -14,15 +14,17 @@
       </slot>
       <div ref="tags" class="multiselect__tags">
         <div class="multiselect__tags-wrap" v-show="visibleValue.length > 0">
-          <span v-for="option of visibleValue" @mousedown.prevent class="multiselect__tag">
-            <span v-text="getOptionLabel(option)"></span>
-            <i aria-hidden="true" tabindex="1" @keydown.enter.prevent="removeElement(option)" @mousedown.prevent="removeElement(option)"
-              class="multiselect__tag-icon">
-              </i>
+          <span v-for="option of visibleValue" @mousedown.prevent>
+            <slot name="tag" :option="option" :search="search" :remove="removeElement">
+              <span class="multiselect__tag">
+                <span v-text="getOptionLabel(option)"></span>
+                <i aria-hidden="true" tabindex="1" @keydown.enter.prevent="removeElement(option)"  @mousedown.prevent="removeElement(option)" class="multiselect__tag-icon"></i>
+              </span>
+            </slot>
           </span>
         </div>
         <template v-if="internalValue && internalValue.length > limit">
-          <strong v-text="limitText(internalValue.length - limit)"></strong>
+          <strong class="multiselect__strong" v-text="limitText(internalValue.length - limit)"></strong>
         </template>
         <transition name="multiselect__loading">
           <slot name="loading"><div v-show="loading" class="multiselect__spinner"></div></slot>
@@ -44,8 +46,7 @@
           @keyup.esc="deactivate()"
           @keydown.down.prevent="pointerForward()"
           @keydown.up.prevent="pointerBackward()"
-          @keydown.enter.prevent
-          @keydown.enter.tab.stop.self="addPointerElement($event)"
+          @keydown.enter.prevent.stop.self="addPointerElement($event)"
           @keydown.delete="removeLastElement()"
           class="multiselect__input"/>
         <span
@@ -71,18 +72,18 @@
             <template v-if="!max || internalValue.length < max">
               <li class="multiselect__element" v-for="(option, index) of filteredOptions" :key="index">
                 <span
-                  tabindex="0"
                   v-if="!(option && option.$isLabel)"
                   :class="optionHighlight(index, option)"
-                  @mousedown.prevent="select(option)"
-                  @mouseenter="pointerSet(index)"
+                  @click="select(option)"
                   :data-select="option && option.isTag ? tagPlaceholder : selectLabelText"
                   :data-selected="selectedLabelText"
                   :data-deselect="deselectLabelText"
                   class="multiselect__option">
-                    <slot name="option" :option="option" :search="search">
-                      <span>{{ getOptionLabel(option) }}</span>
-                    </slot>
+                    <div @mouseenter.stop.self="pointerSet(index)">
+                      <slot name="option" :option="option" :search="search">
+                        <span>{{ getOptionLabel(option) }}</span>
+                      </slot>
+                    </div>
                 </span>
                 <span
                   v-if="option && option.$isLabel"
@@ -632,6 +633,11 @@ fieldset[disabled] .multiselect {
 .multiselect-enter,
 .multiselect-leave-active {
   opacity: 0;
+}
+
+.multiselect__strong {
+  margin-bottom: 10px;
+  display: inline-block
 }
 
 @keyframes spinning {
