@@ -8,10 +8,15 @@ div
     :close-on-select="false",
     :clear-on-select="false",
     :hide-selected="true",
+    :preserve-search="true",
     placeholder="Pick some"
     label="name",
     track-by="name"
   )
+    template(slot="tag", scope="props")
+      span.custom__tag
+        span {{ props.option.language }}
+        span.custom__remove(@click="props.remove(props.option)") ❌
   pre.language-json
     code.
       {{ value  }}
@@ -43,5 +48,13 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="sass">
+.custom__tag
+  display: inline-block
+  padding: 2px 6px
+  background: #ddd
+  margin-right: 4px
+
+.custom__remove
+  padding: 3px
 </style>

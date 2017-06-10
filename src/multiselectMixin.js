@@ -265,6 +265,10 @@ export default {
       default () {
         return []
       }
+    },
+    preserveSearch: {
+      type: Boolean,
+      default: false
     }
   },
   mounted () {
@@ -527,7 +531,7 @@ export default {
       this.isOpen = true
       /* istanbul ignore else  */
       if (this.searchable) {
-        this.search = ''
+        if (!this.preserveSearch) this.search = ''
         this.$nextTick(() => this.$refs.search.focus())
       } else {
         this.$el.focus()
@@ -549,7 +553,7 @@ export default {
       } else {
         this.$el.blur()
       }
-      this.search = ''
+      if (!this.preserveSearch) this.search = ''
       this.$emit('close', this.getValue(), this.id)
     },
     /**
