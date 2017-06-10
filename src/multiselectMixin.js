@@ -479,7 +479,7 @@ export default {
      * @param  {type} option description
      * @returns {type}        description
      */
-    removeElement (option) {
+    removeElement (option, shouldClose = true) {
       /* istanbul ignore else */
       if (this.disabled) return
       /* istanbul ignore else */
@@ -494,7 +494,7 @@ export default {
       this.$emit('input', this.getValue(), this.id)
 
       /* istanbul ignore else */
-      if (this.closeOnSelect) this.deactivate()
+      if (this.closeOnSelect && shouldClose) this.deactivate()
     },
     /**
      * Calls this.removeElement() with the last element
@@ -507,7 +507,7 @@ export default {
       if (this.blockKeys.indexOf('Delete') !== -1) return
       /* istanbul ignore else */
       if (this.search.length === 0 && Array.isArray(this.internalValue)) {
-        this.removeElement(this.internalValue[this.internalValue.length - 1])
+        this.removeElement(this.internalValue[this.internalValue.length - 1], false)
       }
     },
     /**
@@ -528,7 +528,7 @@ export default {
       /* istanbul ignore else  */
       if (this.searchable) {
         this.search = ''
-        this.$refs.search.focus()
+        this.$nextTick(() => this.$refs.search.focus())
       } else {
         this.$el.focus()
       }

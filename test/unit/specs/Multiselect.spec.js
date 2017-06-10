@@ -2183,54 +2183,54 @@ describe('Multiselect.vue', () => {
       expect(vm.$children[0].optionKeys).to.deep.equal(['aa', 'bb1', 'bb2'])
     })
 
-      it('when an option group is empty, return null to prevent formatting a non existent item.', () => {
-          const vm = new Vue({
-              render (h) {
-                  return h(Multiselect, {
-                      props: {
-                          value: this.value,
-                          options: this.source,
-                          label: 'label',
-                          trackBy: 'id',
-                          groupValues: 'values',
-                          groupLabel: 'groupLabel',
-                          searchable: true,
-                          multiple: true
-                      }
-                  })
-              },
-              components: { Multiselect },
-              data: {
-                  source: [
-                      {
-                          groupLabel: 'group1',
-                          values: [
+    it('when an option group is empty, return null to prevent formatting a non existent item.', () => {
+      const vm = new Vue({
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              value: this.value,
+              options: this.source,
+              label: 'label',
+              trackBy: 'id',
+              groupValues: 'values',
+              groupLabel: 'groupLabel',
+              searchable: true,
+              multiple: true
+            }
+          })
+        },
+        components: { Multiselect },
+        data: {
+          source: [
+            {
+              groupLabel: 'group1',
+              values: [
                               { label: 'aa', id: '1' }
-                          ]
-                      },
-                      {
-                          groupLabel: 'group2',
-                          values: [
+              ]
+            },
+            {
+              groupLabel: 'group2',
+              values: [
                               { label: 'bb1', id: '2' },
                               { label: 'bb2', id: '3' }
-                          ]
-                      },
-                      {
-                          groupLabel: 'group3',
-                          values: [
-                          ]
-                      },
-                      {
-                          groupLabel: 'group4',
-                          values: [
-                              { label: 'cc', id: '4' },
-                          ]
-                      }
-                  ]
-              }
-          }).$mount()
-          expect(vm.$children[0].optionKeys).to.deep.equal(['aa', 'bb1', 'bb2', null, 'cc'])
-      })    
+              ]
+            },
+            {
+              groupLabel: 'group3',
+              values: [
+              ]
+            },
+            {
+              groupLabel: 'group4',
+              values: [
+                              { label: 'cc', id: '4' }
+              ]
+            }
+          ]
+        }
+      }).$mount()
+      expect(vm.$children[0].optionKeys).to.deep.equal(['aa', 'bb1', 'bb2', null, 'cc'])
+    })
   })
 
   describe('filteredOptions', () => {
@@ -2340,25 +2340,23 @@ describe('Multiselect.vue', () => {
             groups: [
               {
                 groupLabel: 'GroupX',
-                values: ['1', '1x', '1y', '2z']
+                values: ['1', '1xYY', '1yXx', '2z']
               },
               {
                 groupLabel: 'GroupY',
-                values: ['2', '2x', '2y', '1z']
+                values: ['2', '2x', '2yY', '1z']
               }
             ]
           }
         }).$mount()
         const flatList = [
           { $groupLabel: 'GroupX', $isLabel: true },
-          '1',
-          '1x',
-          '1y',
+          '1xYY',
           { $groupLabel: 'GroupY', $isLabel: true },
-          '1z'
+          '2yY'
         ]
         const comp = vm.$children[0]
-        comp.search = '1'
+        comp.search = 'Yy'
         expect(comp.filteredOptions).to.deep.equal(flatList)
       })
       it('should remove groups without matching results', () => {

@@ -35,6 +35,7 @@
           autocomplete="off"
           :placeholder="placeholder"
           v-if="searchable"
+          :style="inputStyle"
           :value="isOpen ? search : currentOptionLabel"
           :disabled="disabled"
           @input="updateSearch($event.target.value)"
@@ -232,6 +233,11 @@
         return this.showLabels
           ? this.selectedLabel
           : ''
+      },
+      inputStyle () {
+        if (this.multiple && this.value && this.value.length) {
+          return this.isOpen ? { 'width': 'auto' } : { 'display': 'none' }
+        }
       }
     }
   }
@@ -377,6 +383,10 @@ fieldset[disabled] .multiselect {
 .multiselect__single {
   padding-left: 6px;
   margin-bottom: 8px;
+}
+
+.multiselect__tags-wrap {
+  display: inline
 }
 
 .multiselect__tags {
