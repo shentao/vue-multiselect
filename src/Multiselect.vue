@@ -55,49 +55,51 @@
         </span>
       </div>
       <transition name="multiselect">
-        <ul
-          :style="{ maxHeight: maxHeight + 'px' }"
-          ref="list"
+        <div
+          class="multiselect__content-wrapper"
           v-show="isOpen"
           @mousedown.prevent
-          class="multiselect__content">
-          <slot name="beforeList"></slot>
-          <li v-if="multiple && max === internalValue.length">
-            <span class="multiselect__option">
-              <slot name="maxElements">Maximum of {{ max }} options selected. First remove a selected option to select another.</slot>
-            </span>
-          </li>
-          <template v-if="!max || internalValue.length < max">
-            <li class="multiselect__element" v-for="(option, index) of filteredOptions" :key="index">
-              <span
-                tabindex="0"
-                v-if="!(option && option.$isLabel)"
-                :class="optionHighlight(index, option)"
-                @mousedown.prevent="select(option)"
-                @mouseenter="pointerSet(index)"
-                :data-select="option && option.isTag ? tagPlaceholder : selectLabelText"
-                :data-selected="selectedLabelText"
-                :data-deselect="deselectLabelText"
-                class="multiselect__option">
-                  <slot name="option" :option="option" :search="search">
-                    <span>{{ getOptionLabel(option) }}</span>
-                  </slot>
-              </span>
-              <span
-                v-if="option && option.$isLabel"
-                :class="optionHighlight(index, option)"
-                class="multiselect__option multiselect__option--disabled">
-                {{ option.$groupLabel }}
+          :style="{ maxHeight: maxHeight + 'px' }"
+          ref="list">
+          <ul class="multiselect__content" :style="contentStyle">
+            <slot name="beforeList"></slot>
+            <li v-if="multiple && max === internalValue.length">
+              <span class="multiselect__option">
+                <slot name="maxElements">Maximum of {{ max }} options selected. First remove a selected option to select another.</slot>
               </span>
             </li>
-          </template>
-          <li v-show="filteredOptions.length === 0 && search && !loading">
-            <span class="multiselect__option">
-              <slot name="noResult">No elements found. Consider changing the search query.</slot>
-            </span>
-          </li>
-          <slot name="afterList"></slot>
-        </ul>
+            <template v-if="!max || internalValue.length < max">
+              <li class="multiselect__element" v-for="(option, index) of filteredOptions" :key="index">
+                <span
+                  tabindex="0"
+                  v-if="!(option && option.$isLabel)"
+                  :class="optionHighlight(index, option)"
+                  @mousedown.prevent="select(option)"
+                  @mouseenter="pointerSet(index)"
+                  :data-select="option && option.isTag ? tagPlaceholder : selectLabelText"
+                  :data-selected="selectedLabelText"
+                  :data-deselect="deselectLabelText"
+                  class="multiselect__option">
+                    <slot name="option" :option="option" :search="search">
+                      <span>{{ getOptionLabel(option) }}</span>
+                    </slot>
+                </span>
+                <span
+                  v-if="option && option.$isLabel"
+                  :class="optionHighlight(index, option)"
+                  class="multiselect__option multiselect__option--disabled">
+                  {{ option.$groupLabel }}
+                </span>
+              </li>
+            </template>
+            <li v-show="filteredOptions.length === 0 && search && !loading">
+              <span class="multiselect__option">
+                <slot name="noResult">No elements found. Consider changing the search query.</slot>
+              </span>
+            </li>
+            <slot name="afterList"></slot>
+          </ul>
+        </div>
       </transition>
   </div>
 </template>
@@ -238,6 +240,11 @@
         if (this.multiple && this.value && this.value.length) {
           return this.isOpen ? { 'width': 'auto' } : { 'display': 'none' }
         }
+      },
+      contentStyle () {
+        return this.options.length
+          ? { 'display': 'inline-block' }
+          : { 'display': 'block' }
       }
     }
   }
@@ -499,21 +506,26 @@ fieldset[disabled] .multiselect {
   display: none;
 }
 
-.multiselect__content {
+.multiselect__content-wrapper {
   position: absolute;
-  list-style: none;
   display: block;
   background: #fff;
   width: 100%;
   max-height: 240px;
   overflow: auto;
-  padding: 0;
-  margin: 0;
   border: 1px solid #E8E8E8;
   border-top: none;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   z-index: 50;
+}
+
+.multiselect__content {
+  list-style: none;
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+  min-width: 100%;
 }
 
 .multiselect--above .multiselect__content {
