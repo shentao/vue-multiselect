@@ -32,7 +32,7 @@
         <input
           ref="search"
           :name="inputName"
-          :id="inputId"
+          :id="id"
           type="text"
           autocomplete="off"
           :placeholder="placeholder"
@@ -120,15 +120,6 @@
        * @type {String}
        */
       inputName: {
-        type: String,
-        default: ''
-      },
-      /**
-       * ID attribute to match optional label element
-       * @default ''
-       * @type {String}
-       */
-      inputId: {
         type: String,
         default: ''
       },
