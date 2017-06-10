@@ -1,7 +1,7 @@
 <template>
   <div
     tabindex="0"
-    :class="{ 'multiselect--active': isOpen, 'multiselect--disabled': disabled, 'multiselect--above': !hasEnoughSpace }"
+    :class="{ 'multiselect--active': isOpen, 'multiselect--disabled': disabled, 'multiselect--above': isAbove }"
     @focus="activate()"
     @blur="searchable ? false : deactivate()"
     @keydown.self.down.prevent="pointerForward()"
@@ -205,6 +205,15 @@
       disabled: {
         type: Boolean,
         default: false
+      },
+      /**
+       * Fixed opening direction
+       * @default ''
+       * @type {String}
+      */
+      openDirection: {
+        type: String,
+        default: ''
       }
     },
     computed: {
@@ -237,6 +246,15 @@
         return this.options.length
           ? { 'display': 'inline-block' }
           : { 'display': 'block' }
+      },
+      isAbove () {
+        if (this.openDirection === 'above' || this.openDirection === 'top') {
+          return true
+        } else if (this.openDirection === 'below' || this.openDirection === 'bottom') {
+          return false
+        } else {
+          return !this.hasEnoughSpace
+        }
       }
     }
   }
@@ -520,7 +538,7 @@ fieldset[disabled] .multiselect {
   min-width: 100%;
 }
 
-.multiselect--above .multiselect__content {
+.multiselect--above .multiselect__content-wrapper {
   bottom: 100%;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
