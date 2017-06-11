@@ -458,7 +458,7 @@ export default {
      */
     select (option, key) {
       /* istanbul ignore else */
-      if (this.blockKeys.indexOf(key) !== -1 || this.disabled || option.$isLabel) return
+      if (this.blockKeys.indexOf(key) !== -1 || this.disabled || option.$isLabel || option.$isDisabled) return
       /* istanbul ignore else */
       if (this.max && this.multiple && this.internalValue.length === this.max) return
       if (option.isTag) {
