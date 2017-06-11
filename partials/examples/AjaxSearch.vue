@@ -1,12 +1,13 @@
 <template lang="pug">
 div
-  label.typo__label Async multiselect
+  label.typo__label(for="ajax") Async multiselect
   multiselect(
     v-model="selectedCountries",
     id="ajax",
     label="name",
     track-by="code",
     placeholder="Type to search",
+    open-direction="bottom",
     :options="countries",
     :multiple="true",
     :searchable="true",
@@ -17,6 +18,7 @@ div
     :options-limit="300",
     :limit="3",
     :limit-text="limitText",
+    :max-height="600"
     @search-change="asyncFind"
   )
     span(slot="noResult").
