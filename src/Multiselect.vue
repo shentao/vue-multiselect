@@ -10,7 +10,7 @@
     @keyup.esc="deactivate()"
     class="multiselect">
       <slot name="carret">
-        <div @mousedown.prevent="toggle()" class="multiselect__select"></div>
+        <div @mousedown.prevent.stop="toggle()" class="multiselect__select"></div>
       </slot>
       <div ref="tags" class="multiselect__tags">
         <div class="multiselect__tags-wrap" v-show="visibleValue.length > 0">
@@ -31,7 +31,7 @@
         </transition>
         <input
           ref="search"
-          :name="inputName"
+          :name="name"
           :id="id"
           type="text"
           autocomplete="off"
@@ -47,7 +47,7 @@
           @keydown.down.prevent="pointerForward()"
           @keydown.up.prevent="pointerBackward()"
           @keydown.enter.prevent.stop.self="addPointerElement($event)"
-          @keydown.delete="removeLastElement()"
+          @keydown.delete.stop="removeLastElement()"
           class="multiselect__input"/>
         <span
           v-if="!searchable"
@@ -74,7 +74,7 @@
                 <span
                   v-if="!(option && (option.$isLabel || option.$isDisabled))"
                   :class="optionHighlight(index, option)"
-                  @click="select(option)"
+                  @click.stop="select(option)"
                   @mouseenter.self="pointerSet(index)"
                   :data-select="option && option.isTag ? tagPlaceholder : selectLabelText"
                   :data-selected="selectedLabelText"
@@ -120,7 +120,7 @@
        * @default ''
        * @type {String}
        */
-      inputName: {
+      name: {
         type: String,
         default: ''
       },
@@ -529,6 +529,7 @@ fieldset[disabled] .multiselect {
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
   z-index: 50;
+  -webkit-overflow-scrolling: touch;
 }
 
 .multiselect__content {
