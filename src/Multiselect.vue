@@ -12,6 +12,7 @@
       <slot name="carret">
         <div @mousedown.prevent.stop="toggle()" class="multiselect__select"></div>
       </slot>
+      <slot name="clear" :search="search"></slot>
       <div ref="tags" class="multiselect__tags">
         <div class="multiselect__tags-wrap" v-show="visibleValue.length > 0">
           <template v-for="option of visibleValue" @mousedown.prevent>
