@@ -21,6 +21,11 @@ div
     :max-height="600"
     @search-change="asyncFind"
   )
+    template(slot="clear", scope="props")
+      div.multiselect__clear(
+        v-if="selectedCountries.length",
+        @mousedown.prevent.stop="clearAll(props.search)"
+      )
     span(slot="noResult").
       Oops! No elements found. Consider changing the search query.
   pre.language-json
@@ -53,7 +58,38 @@ export default {
         this.countries = response
         this.isLoading = false
       })
+    },
+    clearAll () {
+      this.selectedCountries = []
     }
   }
 }
 </script>
+
+<style lang="sass">
+.multiselect__clear
+  position: absolute
+  right: 41px
+  height: 40px
+  width: 40px
+  display: block
+  cursor: pointer
+  z-index: 3
+
+  &:before,
+  &:after
+    content: ""
+    display: block
+    position: absolute
+    width: 3px
+    height: 16px
+    background: #aaa
+    top: 12px
+    right: 4px
+
+  &:before
+    transform: rotate(45deg)
+
+  &:after
+    transform: rotate(-45deg)
+</style>
