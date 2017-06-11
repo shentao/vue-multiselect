@@ -51,10 +51,21 @@ export default {
 <style lang="sass">
 .custom__tag
   display: inline-block
-  padding: 2px 6px
-  background: #ddd
-  margin-right: 4px
+  padding: 3px 12px
+  background: #d2d7ff
+  margin-right: 8px
+  margin-bottom: 8px
+  border-radius: 10px
+  cursor: pointer
+
+  &:nth-child(even)
+    background: #daffee
+
+  &:hover
+    background: #eaeaea
 
 .custom__remove
-  padding: 3px
+  padding: 0px
+  font-size: 10px
+  margin-left: 5px
 </style>

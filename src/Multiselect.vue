@@ -14,14 +14,14 @@
       </slot>
       <div ref="tags" class="multiselect__tags">
         <div class="multiselect__tags-wrap" v-show="visibleValue.length > 0">
-          <span v-for="option of visibleValue" @mousedown.prevent>
+          <template v-for="option of visibleValue" @mousedown.prevent>
             <slot name="tag" :option="option" :search="search" :remove="removeElement">
               <span class="multiselect__tag">
                 <span v-text="getOptionLabel(option)"></span>
                 <i aria-hidden="true" tabindex="1" @keydown.enter.prevent="removeElement(option)"  @mousedown.prevent="removeElement(option)" class="multiselect__tag-icon"></i>
               </span>
             </slot>
-          </span>
+          </template>
         </div>
         <template v-if="internalValue && internalValue.length > limit">
           <strong class="multiselect__strong" v-text="limitText(internalValue.length - limit)"></strong>
@@ -60,7 +60,7 @@
           class="multiselect__content-wrapper"
           v-show="isOpen"
           @mousedown.prevent
-          :style="{ maxHeight: maxHeight + 'px' }"
+          :style="{ maxHeight: optimizedHeight + 'px' }"
           ref="list">
           <ul class="multiselect__content" :style="contentStyle">
             <slot name="beforeList"></slot>
@@ -75,15 +75,14 @@
                   v-if="!(option && option.$isLabel)"
                   :class="optionHighlight(index, option)"
                   @click="select(option)"
+                  @mouseenter.stop.self="pointerSet(index)"
                   :data-select="option && option.isTag ? tagPlaceholder : selectLabelText"
                   :data-selected="selectedLabelText"
                   :data-deselect="deselectLabelText"
                   class="multiselect__option">
-                    <div @mouseenter.stop.self="pointerSet(index)">
-                      <slot name="option" :option="option" :search="search">
-                        <span>{{ getOptionLabel(option) }}</span>
-                      </slot>
-                    </div>
+                    <slot name="option" :option="option" :search="search">
+                      <span>{{ getOptionLabel(option) }}</span>
+                    </slot>
                 </span>
                 <span
                   v-if="option && option.$isLabel"
@@ -253,7 +252,7 @@
         } else if (this.openDirection === 'below' || this.openDirection === 'bottom') {
           return false
         } else {
-          return !this.hasEnoughSpace
+          return this.prefferedOpenDirection === 'above'
         }
       }
     }

@@ -2205,14 +2205,14 @@ describe('Multiselect.vue', () => {
             {
               groupLabel: 'group1',
               values: [
-                              { label: 'aa', id: '1' }
+                { label: 'aa', id: '1' }
               ]
             },
             {
               groupLabel: 'group2',
               values: [
-                              { label: 'bb1', id: '2' },
-                              { label: 'bb2', id: '3' }
+                { label: 'bb1', id: '2' },
+                { label: 'bb2', id: '3' }
               ]
             },
             {
@@ -2223,13 +2223,13 @@ describe('Multiselect.vue', () => {
             {
               groupLabel: 'group4',
               values: [
-                              { label: 'cc', id: '4' }
+                { label: 'cc', id: '4' }
               ]
             }
           ]
         }
       }).$mount()
-      expect(vm.$children[0].optionKeys).to.deep.equal(['aa', 'bb1', 'bb2', null, 'cc'])
+      expect(vm.$children[0].optionKeys).to.deep.equal(['aa', 'bb1', 'bb2', 'cc'])
     })
   })
 
