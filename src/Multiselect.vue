@@ -53,6 +53,7 @@
         <span
           v-if="!searchable"
           class="multiselect__single"
+          @mousedown.prevent="toggle()"
           v-text="currentOptionLabel">
         </span>
       </div>
