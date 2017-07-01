@@ -1,6 +1,6 @@
 <template>
   <div
-    tabindex="0"
+    :tabindex="tabindex"
     :class="{ 'multiselect--active': isOpen, 'multiselect--disabled': disabled, 'multiselect--above': isAbove }"
     @focus="activate()"
     @blur="searchable ? false : deactivate()"
@@ -95,7 +95,7 @@
                 </span>
               </li>
             </template>
-            <li v-show="filteredOptions.length === 0 && search && !loading">
+            <li v-show="showNoResults || (filteredOptions.length === 0 && search && !loading)">
               <span class="multiselect__option">
                 <slot name="noResult">No elements found. Consider changing the search query.</slot>
               </span>
@@ -216,6 +216,14 @@
       openDirection: {
         type: String,
         default: ''
+      },
+      showNoResults: {
+        type: Boolean,
+        default: true
+      },
+      tabindex: {
+        type: Number,
+        default: 0
       }
     },
     computed: {
