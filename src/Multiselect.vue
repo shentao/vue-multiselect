@@ -95,7 +95,7 @@
                 </span>
               </li>
             </template>
-            <li v-show="showNoResults || (filteredOptions.length === 0 && search && !loading)">
+            <li v-show="showNoResults && (filteredOptions.length === 0 && search && !loading)">
               <span class="multiselect__option">
                 <slot name="noResult">No elements found. Consider changing the search query.</slot>
               </span>
