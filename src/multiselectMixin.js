@@ -446,6 +446,9 @@ export default {
       if (isEmpty(option)) return ''
       /* istanbul ignore else */
       if (option.isTag) return option.label
+      /* istanbul ignore else */
+      if (option.$isLabel) return option.$groupLabel
+
       return this.customLabel(option, this.label) || ''
     },
     /**
