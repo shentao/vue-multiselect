@@ -496,7 +496,10 @@ export default {
       /* istanbul ignore else */
       if (this.disabled) return
       /* istanbul ignore else */
-      if (!this.allowEmpty && this.internalValue.length <= 1) return
+      if (!this.allowEmpty && this.internalValue.length <= 1) {
+        this.deactivate()
+        return
+      }
 
       const index = typeof option === 'object'
         ? this.valueKeys.indexOf(option[this.trackBy])
