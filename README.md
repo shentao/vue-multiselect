@@ -1,4 +1,4 @@
-# vue-multiselect ![Build Status](https://circleci.com/gh/monterail/vue-multiselect/tree/2.0.svg?style=shield&circle-token=5c931ff28fd12587610f835472becdd514d09cef)[![Codecov branch](https://img.shields.io/codecov/c/github/monterail/vue-multiselect/2.0.svg)](https://codecov.io/gh/monterail/vue-multiselect/branch/2.0)
+# vue-multiselect ![Build Status](https://circleci.com/gh/monterail/vue-multiselect/tree/2.0.svg?style=shield&circle-token=5c931ff28fd12587610f835472becdd514d09cef)[![Codecov branch](https://img.shields.io/codecov/c/github/monterail/vue-multiselect/2.0.svg)](https://codecov.io/gh/monterail/vue-multiselect/branch/2.0)[![npm](https://img.shields.io/npm/v/vue-multiselect.svg)](https://www.npmjs.com/package/vue-multiselect)
 Probably the most complete *selecting* solution for Vue.js 2.0, without jQuery.
 
 ### Features & characteristics:
