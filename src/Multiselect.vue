@@ -687,6 +687,11 @@ fieldset[disabled] .multiselect {
     left: 12px;
 }
 
+*[dir="rtl"] .multiselect__spinner {
+    right: auto;
+    left: 1px;
+}
+
 @keyframes spinning {
   from { transform:rotate(0) }
   to { transform:rotate(2turn) }
