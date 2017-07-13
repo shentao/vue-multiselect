@@ -7,7 +7,6 @@
     @keydown.self.down.prevent="pointerForward()"
     @keydown.self.up.prevent="pointerBackward()"
     @keydown.enter.stop.prevent.self="addPointerElement()"
-    @keydown.tab.stop="addPointerElement()"
     @keyup.esc="deactivate()"
     class="multiselect">
       <div @mousedown.prevent="toggle()" class="multiselect__select"></div>
@@ -45,7 +44,6 @@
           @keyup.down="pointerForward()"
           @keyup.up="pointerBackward()"
           @keydown.enter.stop.prevent.self="addPointerElement()"
-          @keydown.tab.stop="addPointerElement()"
           @keydown.delete="removeLastElement()"
           class="multiselect__input"/>
           <span
