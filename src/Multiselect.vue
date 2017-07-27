@@ -163,8 +163,8 @@
       },
       /**
        * Limit the display of selected options. The rest will be hidden within the limitText string.
-       * @default 'label'
-       * @type {String}
+       * @default 99999
+       * @type {Integer}
        */
       limit: {
         type: Number,
