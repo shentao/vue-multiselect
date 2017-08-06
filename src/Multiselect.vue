@@ -357,9 +357,9 @@ fieldset[disabled] .multiselect {
   z-index: 50;
 }
 
-.multiselect--active .multiselect__current,
-.multiselect--active .multiselect__input,
-.multiselect--active .multiselect__tags {
+.multiselect--active:not(.multiselect--above) .multiselect__current,
+.multiselect--active:not(.multiselect--above) .multiselect__input,
+.multiselect--active:not(.multiselect--above) .multiselect__tags {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
