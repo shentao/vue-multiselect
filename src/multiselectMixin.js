@@ -552,6 +552,19 @@ export default {
         this.$el.focus()
       }
       this.$emit('open', this.id)
+      this.$nextTick(() => {
+        let list = this.$refs.list
+        let element = list.querySelector('.multiselect__option--selected')
+        if (element !== null) {
+          let scrollTop = element.offsetTop - list.offsetTop
+          let scrollBottom = scrollTop + element.offsetHeight
+          if (scrollBottom > list.offsetHeight + list.scrollTop) {
+            list.scrollTop = scrollBottom - (list.offsetHeight - element.offsetHeight) / 2
+          } else if (scrollTop < list.scrollTop) {
+            list.scrollTop = scrollTop
+          }
+        }
+      })
     },
     /**
      * Closes the multiselect’s dropdown.
