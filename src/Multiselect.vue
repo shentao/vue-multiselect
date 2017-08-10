@@ -547,6 +547,7 @@ fieldset[disabled] .multiselect {
   padding: 0;
   margin: 0;
   min-width: 100%;
+  vertical-align: top;
 }
 
 .multiselect--above .multiselect__content-wrapper {
