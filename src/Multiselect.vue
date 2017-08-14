@@ -661,6 +661,38 @@ fieldset[disabled] .multiselect {
   display: inline-block
 }
 
+*[dir="rtl"] .multiselect {
+    text-align: right;
+}
+
+*[dir="rtl"] .multiselect__select {
+    right: auto;
+    left: 1px;
+}
+
+*[dir="rtl"] .multiselect__tags {
+    padding: 8px 8px 0px 40px;
+}
+
+*[dir="rtl"] .multiselect__content {
+    text-align: right;
+}
+
+*[dir="rtl"] .multiselect__option:after {
+    right: auto;
+    left: 0;
+}
+
+*[dir="rtl"] .multiselect__clear {
+    right: auto;
+    left: 12px;
+}
+
+*[dir="rtl"] .multiselect__spinner {
+    right: auto;
+    left: 1px;
+}
+
 @keyframes spinning {
   from { transform:rotate(0) }
   to { transform:rotate(2turn) }
