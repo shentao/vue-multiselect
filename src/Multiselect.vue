@@ -1,6 +1,6 @@
 <template>
   <div
-    tabindex="0"
+    :tabindex="tabindex"
     :class="{ 'multiselect--active': isOpen, 'multiselect--disabled': disabled, 'multiselect--above': isAbove }"
     @focus="activate()"
     @blur="searchable ? false : deactivate()"
@@ -9,7 +9,7 @@
     @keydown.enter.tab.stop.self="addPointerElement($event)"
     @keyup.esc="deactivate()"
     class="multiselect">
-      <slot name="carret">
+      <slot name="caret" :toggle="toggle">
         <div @mousedown.prevent.stop="toggle()" class="multiselect__select"></div>
       </slot>
       <slot name="clear" :search="search"></slot>
@@ -96,7 +96,7 @@
                 </span>
               </li>
             </template>
-            <li v-show="filteredOptions.length === 0 && search && !loading">
+            <li v-show="showNoResults && (filteredOptions.length === 0 && search && !loading)">
               <span class="multiselect__option">
                 <slot name="noResult">No elements found. Consider changing the search query.</slot>
               </span>
@@ -164,8 +164,8 @@
       },
       /**
        * Limit the display of selected options. The rest will be hidden within the limitText string.
-       * @default 'label'
-       * @type {String}
+       * @default 99999
+       * @type {Integer}
        */
       limit: {
         type: Number,
@@ -217,6 +217,14 @@
       openDirection: {
         type: String,
         default: ''
+      },
+      showNoResults: {
+        type: Boolean,
+        default: true
+      },
+      tabindex: {
+        type: Number,
+        default: 0
       }
     },
     computed: {
@@ -350,9 +358,9 @@ fieldset[disabled] .multiselect {
   z-index: 50;
 }
 
-.multiselect--active .multiselect__current,
-.multiselect--active .multiselect__input,
-.multiselect--active .multiselect__tags {
+.multiselect--active:not(.multiselect--above) .multiselect__current,
+.multiselect--active:not(.multiselect--above) .multiselect__input,
+.multiselect--active:not(.multiselect--above) .multiselect__tags {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
@@ -540,6 +548,7 @@ fieldset[disabled] .multiselect {
   padding: 0;
   margin: 0;
   min-width: 100%;
+  vertical-align: top;
 }
 
 .multiselect--above .multiselect__content-wrapper {
@@ -651,6 +660,38 @@ fieldset[disabled] .multiselect {
 .multiselect__strong {
   margin-bottom: 10px;
   display: inline-block
+}
+
+*[dir="rtl"] .multiselect {
+    text-align: right;
+}
+
+*[dir="rtl"] .multiselect__select {
+    right: auto;
+    left: 1px;
+}
+
+*[dir="rtl"] .multiselect__tags {
+    padding: 8px 8px 0px 40px;
+}
+
+*[dir="rtl"] .multiselect__content {
+    text-align: right;
+}
+
+*[dir="rtl"] .multiselect__option:after {
+    right: auto;
+    left: 0;
+}
+
+*[dir="rtl"] .multiselect__clear {
+    right: auto;
+    left: 12px;
+}
+
+*[dir="rtl"] .multiselect__spinner {
+    right: auto;
+    left: 1px;
 }
 
 @keyframes spinning {

@@ -2,7 +2,7 @@ import deepClone from './utils'
 
 function isEmpty (opt) {
   if (opt === 0) return false
-  if (opt === []) return true
+  if (Array.isArray(opt) && opt.length === 0) return true
   return !opt
 }
 
@@ -446,6 +446,9 @@ export default {
       if (isEmpty(option)) return ''
       /* istanbul ignore else */
       if (option.isTag) return option.label
+      /* istanbul ignore else */
+      if (option.$isLabel) return option.$groupLabel
+
       return this.customLabel(option, this.label) || ''
     },
     /**
@@ -496,7 +499,10 @@ export default {
       /* istanbul ignore else */
       if (this.disabled) return
       /* istanbul ignore else */
-      if (!this.allowEmpty && this.internalValue.length <= 1) return
+      if (!this.allowEmpty && this.internalValue.length <= 1) {
+        this.deactivate()
+        return
+      }
 
       const index = typeof option === 'object'
         ? this.valueKeys.indexOf(option[this.trackBy])

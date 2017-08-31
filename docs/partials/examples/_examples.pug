@@ -40,7 +40,7 @@
       - `:hide-selected="true"` – already selected options will not be displayed in the dropdown
       - `:clear-on-select="false"` – the search query stays the same after selecting an option
       #### New in v2.0.0 stable:
-      - You can now pass `<template slot="tag scope="props"><Your code></template>` to use a different markup for selected options (tags)
+      - You can now pass `<template slot="tag" scope="props"><Your code></template>` to use a different markup for selected options (tags)
     +example('MultiSelect')
   +subsection('Asynchronous select')
     :markdown-it
@@ -58,7 +58,7 @@
       
       #### New in v2.0.0 stable:
       - `id="ajax"` – every event is emitted with this as the second param. Useful for identification which component instance triggered the method (in loops for example). NEW: Can also be used for pointing with `<label :for="id">`.
-      - `open-direction="bottom"` – forces the multiselect to always open below. Use `top` or `above` to always open below. By default the multiselect will open whereever there is more space once there is not enough space below to open at `maxHeight`.
+      - `open-direction="bottom"` – forces the multiselect to always open below. Use `top` or `above` to always open above. By default the multiselect will open whereever there is more space once there is not enough space below to open at `maxHeight`.
     +example('AjaxSearch')
   +subsection('Tagging')
     :markdown-it

@@ -18,7 +18,8 @@ div
     :options-limit="300",
     :limit="3",
     :limit-text="limitText",
-    :max-height="600"
+    :max-height="600",
+    :show-no-results="false",
     @search-change="asyncFind"
   )
     template(slot="clear", scope="props")
