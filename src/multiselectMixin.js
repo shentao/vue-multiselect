@@ -466,7 +466,9 @@ export default {
       if (this.max && this.multiple && this.internalValue.length === this.max) return
       const allowSelect = true
       this.$emit('selecting', (callback)=>{
-        allowSelect = callback === true
+        if (typeof callback === "function" && callback === false) {
+          allowSelect = false
+        }
       });
       if (!allowSelect) return
       if (option.isTag) {
@@ -510,7 +512,9 @@ export default {
       }
       const allowRemove = true
       this.$emit('removing', (callback)=>{
-        allowRemove = callback === true
+        if (typeof callback === "function" && callback === false) {
+          allowRemove = false
+        }
       });
       if (!allowRemove) return
 
