@@ -464,6 +464,11 @@ export default {
       if (this.blockKeys.indexOf(key) !== -1 || this.disabled || option.$isLabel || option.$isDisabled) return
       /* istanbul ignore else */
       if (this.max && this.multiple && this.internalValue.length === this.max) return
+      const allowSelect = true
+      this.$emit('selecting', (callback)=>{
+        allowSelect = !(callback === false)
+      });
+      if (!allowSelect) return
       if (option.isTag) {
         this.$emit('tag', option.label, this.id)
         this.search = ''
@@ -503,6 +508,11 @@ export default {
         this.deactivate()
         return
       }
+      const allowRemove = true
+      this.$emit('removing', (callback)=>{
+        allowRemove = !(callback === false)
+      });
+      if (!allowRemove) return
 
       const index = typeof option === 'object'
         ? this.valueKeys.indexOf(option[this.trackBy])
