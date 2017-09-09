@@ -465,7 +465,7 @@ export default {
       /* istanbul ignore else */
       if (this.max && this.multiple && this.internalValue.length === this.max) return
       const allowSelect = true
-      this.$emit('selecting', (callback)=>{
+      this.$emit('selecting', deepClone(option), this.id, (callback)=>{
         if (callback && callback === false) {
           allowSelect = false
         }
@@ -511,7 +511,7 @@ export default {
         return
       }
       const allowRemove = true
-      this.$emit('removing', (callback)=>{
+      this.$emit('removing', deepClone(option), this.id, (callback)=>{
         if (callback && callback === false) {
           allowRemove = false
         }
