@@ -300,13 +300,13 @@ export default {
         options = this.groupValues
           ? this.filterAndFlat(options, normalizedSearch, this.label)
           : filterOptions(options, normalizedSearch, this.label, this.customLabel)
-
-        options = this.hideSelected
-          ? options.filter(this.isNotSelected)
-          : options
       } else {
         options = this.groupValues ? flattenOptions(this.groupValues, this.groupLabel)(options) : options
       }
+
+      options = this.hideSelected
+        ? options.filter(this.isNotSelected)
+        : options
 
       /* istanbul ignore else */
       if (this.taggable && normalizedSearch.length && !this.isExistingOption(normalizedSearch)) {
