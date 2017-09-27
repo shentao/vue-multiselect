@@ -20,6 +20,7 @@ div
     :limit-text="limitText",
     :max-height="600",
     :show-no-results="false",
+    :hide-selected="true",
     @search-change="asyncFind"
   )
     template(slot="clear", scope="props")
