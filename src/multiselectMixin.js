@@ -449,7 +449,10 @@ export default {
       /* istanbul ignore else */
       if (option.$isLabel) return option.$groupLabel
 
-      return this.customLabel(option, this.label) || ''
+      let label = this.customLabel(option, this.label)
+      /* istanbul ignore else */
+      if (isEmpty(label)) return ''
+      return label
     },
     /**
      * Add the given option to the list of selected options
