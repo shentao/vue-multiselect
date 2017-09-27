@@ -9,7 +9,7 @@ div
     placeholder="Select one",
     :options="options",
     :searchable="false",
-    :allow-empty="true"
+    :allow-empty="false"
   )
   pre.language-json
     code.
