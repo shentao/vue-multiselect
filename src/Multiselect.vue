@@ -60,6 +60,7 @@
         <div
           class="multiselect__content-wrapper"
           v-show="isOpen"
+          @focus="activate()"
           @mousedown.prevent
           :style="{ maxHeight: optimizedHeight + 'px' }"
           ref="list">
