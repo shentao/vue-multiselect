@@ -2,7 +2,6 @@ export default {
   data () {
     return {
       pointer: 0,
-      visibleElements: this.optimizedHeight / this.optionHeight,
       pointerDirty: false
     }
   },
@@ -24,6 +23,9 @@ export default {
   computed: {
     pointerPosition () {
       return this.pointer * this.optionHeight
+    },
+    visibleElements () {
+      return this.optimizedHeight / this.optionHeight
     }
   },
   watch: {
