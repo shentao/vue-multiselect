@@ -300,13 +300,13 @@ export default {
         options = this.groupValues
           ? this.filterAndFlat(options, normalizedSearch, this.label)
           : filterOptions(options, normalizedSearch, this.label, this.customLabel)
-
-        options = this.hideSelected
-          ? options.filter(this.isNotSelected)
-          : options
       } else {
         options = this.groupValues ? flattenOptions(this.groupValues, this.groupLabel)(options) : options
       }
+
+      options = this.hideSelected
+        ? options.filter(this.isNotSelected)
+        : options
 
       /* istanbul ignore else */
       if (this.taggable && normalizedSearch.length && !this.isExistingOption(normalizedSearch)) {
@@ -335,17 +335,17 @@ export default {
     }
   },
   watch: {
-    'internalValue' (newVal, oldVal) {
+    ['internalValue'] (newVal, oldVal) {
       /* istanbul ignore else */
       if (this.resetAfter && this.internalValue.length) {
         this.search = ''
         this.internalValue = []
       }
     },
-    'search' () {
+    ['search'] () {
       this.$emit('search-change', this.search, this.id)
     },
-    'value' (value) {
+    ['value'] (value) {
       this.internalValue = this.getInternalValue(value)
     }
   },
@@ -449,7 +449,10 @@ export default {
       /* istanbul ignore else */
       if (option.$isLabel) return option.$groupLabel
 
-      return this.customLabel(option, this.label) || ''
+      let label = this.customLabel(option, this.label)
+      /* istanbul ignore else */
+      if (isEmpty(label)) return ''
+      return label
     },
     /**
      * Add the given option to the list of selected options
@@ -464,6 +467,8 @@ export default {
       if (this.blockKeys.indexOf(key) !== -1 || this.disabled || option.$isLabel || option.$isDisabled) return
       /* istanbul ignore else */
       if (this.max && this.multiple && this.internalValue.length === this.max) return
+      /* istanbul ignore else */
+      if (key === 'Tab' && !this.pointerDirty) return
       if (option.isTag) {
         this.$emit('tag', option.label, this.id)
         this.search = ''
@@ -596,10 +601,10 @@ export default {
 
       if (hasEnoughSpaceBelow || spaceBelow > spaceAbove || this.openDirection === 'below' || this.openDirection === 'bottom') {
         this.prefferedOpenDirection = 'below'
-        this.optimizedHeight = Math.min(spaceBelow, this.maxHeight) - 40
+        this.optimizedHeight = Math.min(spaceBelow - 40, this.maxHeight)
       } else {
         this.prefferedOpenDirection = 'above'
-        this.optimizedHeight = Math.min(spaceAbove, this.maxHeight) - 40
+        this.optimizedHeight = Math.min(spaceAbove - 40, this.maxHeight)
       }
     }
   }
