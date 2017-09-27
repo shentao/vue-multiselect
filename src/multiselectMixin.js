@@ -335,17 +335,17 @@ export default {
     }
   },
   watch: {
-    'internalValue' (newVal, oldVal) {
+    ['internalValue'] (newVal, oldVal) {
       /* istanbul ignore else */
       if (this.resetAfter && this.internalValue.length) {
         this.search = ''
         this.internalValue = []
       }
     },
-    'search' () {
+    ['search'] () {
       this.$emit('search-change', this.search, this.id)
     },
-    'value' (value) {
+    ['value'] (value) {
       this.internalValue = this.getInternalValue(value)
     }
   },
