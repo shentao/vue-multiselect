@@ -2,8 +2,8 @@ export default {
   data () {
     return {
       pointer: 0,
-      pointerDirty: false,
-      visibleElements: this.maxHeight / this.optionHeight
+      visibleElements: this.optimizedHeight / this.optionHeight,
+      pointerDirty: false
     }
   },
   props: {
@@ -53,7 +53,7 @@ export default {
       if (this.pointer < this.filteredOptions.length - 1) {
         this.pointer++
         /* istanbul ignore next */
-        if (this.$refs.list.scrollTop <= this.pointerPosition - this.visibleElements * this.optionHeight) {
+        if (this.$refs.list.scrollTop <= this.pointerPosition - (this.visibleElements - 1) * this.optionHeight) {
           this.$refs.list.scrollTop = this.pointerPosition - (this.visibleElements - 1) * this.optionHeight
         }
         /* istanbul ignore else */
