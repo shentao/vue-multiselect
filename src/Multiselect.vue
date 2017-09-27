@@ -53,7 +53,7 @@
         <span
           v-if="!searchable"
           class="multiselect__single"
-          @mousedown.prevent="toggle()"
+          @mousedown.prevent="toggle"
           v-text="currentOptionLabel">
         </span>
       </div>
@@ -61,7 +61,7 @@
         <div
           class="multiselect__content-wrapper"
           v-show="isOpen"
-          @focus="activate()"
+          @focus="activate"
           @mousedown.prevent
           :style="{ maxHeight: optimizedHeight + 'px' }"
           ref="list">

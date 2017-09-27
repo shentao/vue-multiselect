@@ -221,12 +221,13 @@ export default {
       default: 'Press enter to create a tag'
     },
     /**
-     * Number of allowed selected options. No limit if false.
-     * @default False
+     * Number of allowed selected options. No limit if 0.
+     * @default 0
      * @type {Number}
     */
     max: {
-      type: Number
+      type: [Number, Boolean],
+      default: false
     },
     /**
      * Will be passed with all events as second param.
@@ -287,6 +288,9 @@ export default {
     if (!this.multiple && !this.clearOnSelect) {
       console.warn('[Vue-Multiselect warn]: ClearOnSelect and Multiple props can’t be both set to false.')
     }
+    if (!this.multiple && this.max) {
+      console.warn('[Vue-Multiselect warn]: Max prop should not be used when prop Multiple equals false.')
+    }
   },
   computed: {
     filteredOptions () {
@@ -335,17 +339,17 @@ export default {
     }
   },
   watch: {
-    ['internalValue'] (newVal, oldVal) {
+    internalValue (newVal, oldVal) {
       /* istanbul ignore else */
       if (this.resetAfter && this.internalValue.length) {
         this.search = ''
         this.internalValue = []
       }
     },
-    ['search'] () {
+    search () {
       this.$emit('search-change', this.search, this.id)
     },
-    ['value'] (value) {
+    value (value) {
       this.internalValue = this.getInternalValue(value)
     }
   },
