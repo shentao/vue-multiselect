@@ -14,7 +14,7 @@ Probably the most complete *selecting* solution for Vue.js 2.0, without jQuery.
 * V-model support
 * Vuex support
 * Async options support
-* \> 99% test coverage
+* \> 95% test coverage
 * Fully configurable (see props list below)
 
 ## Breaking changes:
@@ -59,7 +59,7 @@ npm install vue-multiselect
 
 ## JSFiddle
 
-[Example JSFiddle](https://jsfiddle.net/pqjww0me/39/) – Use this for issue reproduction.
+[Example JSFiddle](https://jsfiddle.net/shentao/jqofkzxc/) – Use this for issue reproduction.
 
 ## Examples
 in jade-lang/pug-lang
