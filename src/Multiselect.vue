@@ -1,6 +1,6 @@
 <template>
   <div
-    :tabindex="tabindex"
+    :tabindex="searchable ? -1 : tabindex"
     :class="{ 'multiselect--active': isOpen, 'multiselect--disabled': disabled, 'multiselect--above': isAbove }"
     @focus="activate()"
     @blur="searchable ? false : deactivate()"
@@ -41,6 +41,7 @@
           :style="inputStyle"
           :value="isOpen ? search : currentOptionLabel"
           :disabled="disabled"
+          :tabindex="tabindex"
           @input="updateSearch($event.target.value)"
           @focus.prevent="activate()"
           @blur.prevent="deactivate()"
@@ -251,7 +252,8 @@
       },
       inputStyle () {
         if (this.multiple && this.value && this.value.length) {
-          return this.isOpen ? { 'width': 'auto' } : { 'display': 'none' }
+          // Hide input by setting the width to 0 allowing it to receive focus
+          return this.isOpen ? { 'width': 'auto' } : { 'width': '0' }
         }
       },
       contentStyle () {
