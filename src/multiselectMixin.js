@@ -295,7 +295,7 @@ export default {
   computed: {
     filteredOptions () {
       const search = this.search || ''
-      const normalizedSearch = search.toLowerCase()
+      const normalizedSearch = search.toLowerCase().trim()
 
       let options = this.options.concat()
 
@@ -314,7 +314,7 @@ export default {
 
       /* istanbul ignore else */
       if (this.taggable && normalizedSearch.length && !this.isExistingOption(normalizedSearch)) {
-        options.unshift({ isTag: true, label: search })
+        options.unshift({ isTag: true, label: normalizedSearch })
       }
 
       return options.slice(0, this.optionsLimit)
