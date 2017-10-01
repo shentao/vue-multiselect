@@ -440,6 +440,9 @@ fieldset[disabled] .multiselect {
   background: #41B883;
   margin-bottom: 8px;
   white-space: nowrap;
+  overflow: hidden;
+  max-width: 100%;
+  text-overflow: ellipsis;
 }
 
 .multiselect__tag-icon {
