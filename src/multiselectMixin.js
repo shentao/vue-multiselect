@@ -518,8 +518,8 @@ export default {
         : this.valueKeys.indexOf(option)
 
       this.internalValue.splice(index, 1)
-      this.$emit('remove', deepClone(option), this.id)
       this.$emit('input', this.getValue(), this.id)
+      this.$emit('remove', deepClone(option), this.id)
 
       /* istanbul ignore else */
       if (this.closeOnSelect && shouldClose) this.deactivate()
