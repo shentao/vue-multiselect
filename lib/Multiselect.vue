@@ -31,6 +31,7 @@
         </template>
         <div v-show="loading" transition="multiselect__loading" class="multiselect__spinner"></div>
         <input
+          :id="id"
           name="search"
           type="text"
           autocomplete="off"
