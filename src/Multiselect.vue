@@ -118,7 +118,10 @@
     name: 'vue-multiselect',
     mixins: [multiselectMixin, pointerMixin],
     props: {
-
+      allowUserInput: {
+        type: Boolean,
+        default: false
+      },
       /**
        * name attribute to match optional label element
        * @default ''

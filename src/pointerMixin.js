@@ -47,6 +47,9 @@ export default {
       /* istanbul ignore else */
       if (this.filteredOptions.length > 0) {
         this.select(this.filteredOptions[this.pointer], key)
+      } else if (this.allowUserInput) {
+        this.$emit('select', this.search, this.id)
+        this.$emit('input', this.getValue(), this.id)
       }
       this.pointerReset()
     },
