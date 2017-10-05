@@ -2799,12 +2799,12 @@ describe('Multiselect.vue', () => {
           }
         }
       }).$mount()
-      vm.$children[0].search = 'TEST'
+      vm.$children[0].search = 'test'
       vm.$children[0].select(vm.$children[0].filteredOptions[0])
       expect(vm.$children[0].options.length).to.equal(4)
-      expect(vm.$children[0].options).to.deep.equal(['1', '2', '3', 'TEST'])
+      expect(vm.$children[0].options).to.deep.equal(['1', '2', '3', 'test'])
       expect(vm.$children[0].value.length).to.equal(2)
-      expect(vm.$children[0].value).to.deep.equal(['1', 'TEST'])
+      expect(vm.$children[0].value).to.deep.equal(['1', 'test'])
     })
   })
 
