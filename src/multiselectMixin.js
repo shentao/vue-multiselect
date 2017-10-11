@@ -221,6 +221,17 @@ export default {
       default: 'Press enter to create a tag'
     },
     /**
+     * By default new tags will appear above the search results.
+     * Changing to 'bottom' will revert this behaviour
+     * and will proritize the search results
+     * @default 'top'
+     * @type {String}
+    */
+    tagPosition: {
+      type: String,
+      default: 'top'
+    },
+    /**
      * Number of allowed selected options. No limit if 0.
      * @default 0
      * @type {Number}
@@ -314,7 +325,11 @@ export default {
 
       /* istanbul ignore else */
       if (this.taggable && normalizedSearch.length && !this.isExistingOption(normalizedSearch)) {
-        options.unshift({ isTag: true, label: normalizedSearch })
+        if (this.tagPosition === 'bottom') {
+          options.push({ isTag: true, label: normalizedSearch })
+        } else {
+          options.unshift({ isTag: true, label: normalizedSearch })
+        }
       }
 
       return options.slice(0, this.optionsLimit)

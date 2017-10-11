@@ -309,6 +309,17 @@ props: {
     default: 'Press enter to create a tag'
   },
   /**
+   * By default new tags will appear above the search results.
+   * Changing to 'bottom' will revert this behaviour
+   * and will proritize the search results
+   * @default 'top'
+   * @type {String}
+  */
+  tagPosition: {
+    type: String,
+    default: 'top'
+  },
+  /**
    * Number of allowed selected options. No limit if false.
    * @default False
    * @type {Number}
