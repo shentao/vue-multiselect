@@ -2802,9 +2802,66 @@ describe('Multiselect.vue', () => {
       vm.$children[0].search = 'TEST'
       vm.$children[0].select(vm.$children[0].filteredOptions[0])
       expect(vm.$children[0].options.length).to.equal(4)
-      expect(vm.$children[0].options).to.deep.equal(['1', '2', '3', 'TEST'])
+      expect(vm.$children[0].options).to.deep.equal(['1', '2', '3', 'test'])
       expect(vm.$children[0].value.length).to.equal(2)
-      expect(vm.$children[0].value).to.deep.equal(['1', 'TEST'])
+      expect(vm.$children[0].value).to.deep.equal(['1', 'test'])
+    })
+  })
+
+  describe('#onTagPosition', () => {
+    it('should display new tag above search results by default when tag-position is defaulted to \'top\'', () => {
+      const vm = new Vue({
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              value: this.value,
+              options: this.source,
+              label: 'name',
+              trackBy: 'name',
+              searchable: true,
+              taggable: true,
+            }
+          })
+        },
+        components: { Multiselect },
+        data: {
+          value: [],
+          source: [{ name: 'Apple' }, { name: 'Banana' }, { name: 'Orange' }]
+        }
+      }).$mount()
+      const comp = vm.$children[0]
+      expect(comp.filteredOptions).to.deep.equal([{ name: 'Apple' }, { name: 'Banana' }, { name: 'Orange' }])
+      comp.search = 'Ban'
+      expect(comp.filteredOptions).to.deep.equal([{ isTag: true, label: 'ban' }, { name: 'Banana' }])
+    })
+  })
+
+  describe('#onTagPosition', () => {
+    it('should display new tag below search results when tag-position is set to \'bottom\'', () => {
+      const vm = new Vue({
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              value: this.value,
+              options: this.source,
+              label: 'name',
+              trackBy: 'name',
+              searchable: true,
+              taggable: true,
+              tagPosition: 'bottom',
+            }
+          })
+        },
+        components: { Multiselect },
+        data: {
+          value: [],
+          source: [{ name: 'Apple' }, { name: 'Banana' }, { name: 'Orange' }]
+        }
+      }).$mount()
+      const comp = vm.$children[0]
+      expect(comp.filteredOptions).to.deep.equal([{ name: 'Apple' }, { name: 'Banana' }, { name: 'Orange' }])
+      comp.search = 'Ban'
+      expect(comp.filteredOptions).to.deep.equal([{ name: 'Banana' }, { isTag: true, label: 'ban' }])
     })
   })
 
