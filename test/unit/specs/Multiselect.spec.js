@@ -2834,9 +2834,7 @@ describe('Multiselect.vue', () => {
       comp.search = 'Ban'
       expect(comp.filteredOptions).to.deep.equal([{ isTag: true, label: 'ban' }, { name: 'Banana' }])
     })
-  })
 
-  describe('#onTagPosition', () => {
     it('should display new tag below search results when tag-position is set to \'bottom\'', () => {
       const vm = new Vue({
         render (h) {
