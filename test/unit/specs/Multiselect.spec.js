@@ -2819,7 +2819,7 @@ describe('Multiselect.vue', () => {
               label: 'name',
               trackBy: 'name',
               searchable: true,
-              taggable: true,
+              taggable: true
             }
           })
         },
@@ -2846,7 +2846,7 @@ describe('Multiselect.vue', () => {
               trackBy: 'name',
               searchable: true,
               taggable: true,
-              tagPosition: 'bottom',
+              tagPosition: 'bottom'
             }
           })
         },
