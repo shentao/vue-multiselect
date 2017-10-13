@@ -79,6 +79,7 @@
                   v-if="!(option && (option.$isLabel || option.$isDisabled))"
                   :class="optionHighlight(index, option)"
                   @click.stop="select(option)"
+                  @touchstart.stop.prevent="touchStartPrevent(index, option)"
                   @mouseenter.self="pointerSet(index)"
                   :data-select="option && option.isTag ? tagPlaceholder : selectLabelText"
                   :data-selected="selectedLabelText"
@@ -269,6 +270,12 @@
         } else {
           return this.prefferedOpenDirection === 'above'
         }
+      }
+    },
+    methods: {
+      touchStartPrevent (index, option) {
+        this.pointerSet(index)
+        this.select(option)
       }
     }
   }
