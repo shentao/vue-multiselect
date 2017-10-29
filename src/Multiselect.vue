@@ -389,7 +389,7 @@ fieldset[disabled] .multiselect {
   border: none;
   border-radius: 5px;
   background: #fff;
-  padding: 1px 0 0 5px;
+  padding: 0 0 0 5px;
   width: calc(100%);
   transition: border 0.1s ease;
   box-sizing: border-box;
@@ -666,8 +666,10 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect__strong {
-  margin-bottom: 10px;
-  display: inline-block
+  margin-bottom: 8px;
+  line-height: 20px;
+  display: inline-block;
+  vertical-align: top;
 }
 
 *[dir="rtl"] .multiselect {
