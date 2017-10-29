@@ -28,8 +28,8 @@ module.exports = {
   },
   docs: {
     env: require('./prod.env'),
-    index: path.resolve(__dirname, '../gh-pages/index.html'),
-    assetsRoot: path.resolve(__dirname, '../gh-pages'),
+    index: path.resolve(__dirname, '../docs/index.html'),
+    assetsRoot: path.resolve(__dirname, '../docs'),
     assetsPublicPath: '',
     assetsSubDirectory: 'static',
     productionSourceMap: true,

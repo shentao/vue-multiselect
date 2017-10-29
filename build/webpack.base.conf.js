@@ -9,7 +9,7 @@ function resolve (dir) {
 
 module.exports = {
   entry: {
-    app: './docs/main.js'
+    app: './documentation/main.js'
   },
   output: {
     path: config.docs.assetsRoot,
@@ -22,15 +22,15 @@ module.exports = {
     extensions: ['.pug', '.js', '.vue', '.json'],
     modules: [
       resolve('src'),
-      resolve('docs'),
+      resolve('documentation'),
       resolve('node_modules')
     ],
     alias: {
       'vue$': 'vue/dist/vue',
       'vue-multiselect': path.resolve(__dirname, '../src/Multiselect'), // for consistent docs
       'src': path.resolve(__dirname, '../src'),
-      'assets': path.resolve(__dirname, '../docs/assets'),
-      'examples': path.resolve(__dirname, '../docs/partials/examples'),
+      'assets': path.resolve(__dirname, '../documentation/assets'),
+      'examples': path.resolve(__dirname, '../documentation/partials/examples'),
       'components': path.resolve(__dirname, '../src/components')
     }
   },
@@ -53,12 +53,12 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel-loader',
-        include: [resolve('src'), resolve('docs'), resolve('test')]
+        include: [resolve('src'), resolve('documentation'), resolve('test')]
       },
       {
         test: /\.pug$/,
         use: 'pug-loader',
-        include: [resolve('src'), resolve('docs')]
+        include: [resolve('src'), resolve('documentation')]
       },
       {
         test: /\.(png|jpe?g|gif|svg)(\?.*)?$/,

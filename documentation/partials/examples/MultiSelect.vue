@@ -13,7 +13,7 @@ div
     label="name",
     track-by="name"
   )
-    template(slot="tag", scope="props")
+    template(slot="tag", slot-scope="props")
       span.custom__tag
         span {{ props.option.language }}
         span.custom__remove(@click="props.remove(props.option)") ❌

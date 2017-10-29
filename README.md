@@ -452,7 +452,7 @@ npm run dev
 # distribution build with minification
 npm run bundle
 
-# build the docs into gh-pages
+# build the documentation into docs
 npm run docs
 
 # run unit tests

@@ -23,7 +23,7 @@ div
     :hide-selected="true",
     @search-change="asyncFind"
   )
-    template(slot="clear", scope="props")
+    template(slot="clear", slot-scope="props")
       div.multiselect__clear(
         v-if="selectedCountries.length",
         @mousedown.prevent.stop="clearAll(props.search)"

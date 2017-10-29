@@ -11,7 +11,7 @@ div
     :limit="3",
     @tag="onTagging"
   )
-    template(slot="option", scope="props")
+    template(slot="option", slot-scope="props")
       span.badge__name {{ props.option.name }}
       img.badge__img(:src="props.option.img", :alt="props.option.name")
     span(slot="noResult").

@@ -51,7 +51,7 @@ var webpackConfig = merge(baseWebpackConfig, {
       filename: process.env.NODE_ENV === 'testing'
         ? 'index.html'
         : config.docs.index,
-      template: 'docs/index.pug',
+      template: 'documentation/index.pug',
       inject: true,
       minify: {
         removeComments: true,
@@ -86,11 +86,11 @@ var webpackConfig = merge(baseWebpackConfig, {
     new CopyWebpackPlugin([
       {
         from: path.join(__dirname, '../static'),
-        to: path.join(__dirname, '../gh-pages/static')
+        to: path.join(__dirname, '../docs/static')
       },
       {
         from: path.join(__dirname, '../v1'),
-        to: path.join(__dirname, '../gh-pages/v1')
+        to: path.join(__dirname, '../docs/v1')
       }
     ])
   ]
