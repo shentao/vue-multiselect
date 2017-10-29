@@ -1,6 +1,6 @@
 {
   "name": "vue-multiselect",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "Multiselect component for vue.js",
   "author": "Damian Dulisz <damian.dulisz@monterail.com>",
   "private": false,

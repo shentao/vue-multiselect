@@ -394,6 +394,7 @@ fieldset[disabled] .multiselect {
   transition: border 0.1s ease;
   box-sizing: border-box;
   margin-bottom: 8px;
+  vertical-align: top;
 }
 
 .multiselect__tag ~ .multiselect__input,
@@ -439,7 +440,7 @@ fieldset[disabled] .multiselect {
   color: #fff;
   line-height: 1;
   background: #41B883;
-  margin-bottom: 8px;
+  margin-bottom: 5px;
   white-space: nowrap;
   overflow: hidden;
   max-width: 100%;

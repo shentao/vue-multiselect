@@ -348,7 +348,7 @@ export default {
     currentOptionLabel () {
       return this.multiple
         ? this.searchable ? '' : this.placeholder
-        : this.internalValue[0]
+        : this.internalValue.length
           ? this.getOptionLabel(this.internalValue[0])
           : this.searchable ? '' : this.placeholder
     }

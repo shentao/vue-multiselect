@@ -2721,6 +2721,26 @@ describe('Multiselect.vue', () => {
   })
 
   describe('currentOptionLabel', () => {
+    it('should return the current option label', () => {
+      const vm = new Vue({
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              value: this.value,
+              options: this.source,
+              searchable: false,
+              multiple: false
+            }
+          })
+        },
+        components: { Multiselect },
+        data: {
+          value: 0,
+          source: [0, '1', '2', '3', '4', '5']
+        }
+      }).$mount()
+      expect(vm.$children[0].currentOptionLabel).to.equal(0)
+    })
     describe('when MULTIPLE is FALSE', () => {
       it('should return the current option label', () => {
         const vm = new Vue({
