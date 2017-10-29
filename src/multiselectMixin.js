@@ -625,6 +625,16 @@ export default {
         this.prefferedOpenDirection = 'above'
         this.optimizedHeight = Math.min(spaceAbove - 40, this.maxHeight)
       }
+    },
+    /**
+     * Handles the touchstart stop propagation.
+     * Selects an option on mobile devices with one click
+     * @param index
+     * @param option
+     */
+    handleTouchStartStop (index, option) {
+      this.pointerSet(index)
+      this.select(option)
     }
   }
 }
