@@ -462,8 +462,6 @@ export default {
      */
     getOptionLabel (option) {
       /* istanbul ignore else */
-      if (isEmpty(option)) return ''
-      /* istanbul ignore else */
       if (option.isTag) return option.label
       /* istanbul ignore else */
       if (option.$isLabel) return option.$groupLabel
