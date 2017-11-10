@@ -2,6 +2,7 @@ import deepClone from './utils'
 
 function isEmpty (opt) {
   if (opt === 0) return false
+  if (opt === null) return true
   if (Array.isArray(opt) && opt.length === 0) return true
   return !opt
 }
