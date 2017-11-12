@@ -6,7 +6,7 @@
       The `options` prop must be an `Array`.
 
       #### Optional configuration flags:
-      - `:searchable="false"` – disables the seach functionality
+      - `:searchable="false"` – disables the search functionality
       - `:close-on-select="false"` – the dropdown stays open after selecting an option
       - `:show-labels="false"` – the highlighted option doesn’t have a label on it
     +example('SingleSelectPrimitive')
@@ -19,7 +19,7 @@
       `label` is used to display the option.
 
       #### Optional configuration flags:
-      - `:searchable="false"` – disables the seach functionality
+      - `:searchable="false"` – disables the search functionality
       - `:allow-empty="false"` – once there is a value it can’t be deselected
       - `deselect-label="Can't remove this value"` – when highlighted, the already selected option will have the _Can't remove this value_ helper label. Useful for single selects that don’t allow empty selection.
     +example('SingleSelectObject')
@@ -46,7 +46,7 @@
     :markdown-it
       Vue-Multiselect supports changing the option list on the fly, thus can be also used a type-a-head search box.
 
-      To react to the seach query changes, set a handler function on the `@search-change` event. It receives the `searchQuery` as the first param, which can be used to make an asynchronous API call.
+      To react to the search query changes, set a handler function on the `@search-change` event. It receives the `searchQuery` as the first param, which can be used to make an asynchronous API call.
 
       It is convenient to set the `:loading` prop to `true`, whenever a request is in progress. Look at the provided `asyncFind` method for an example usage.
 
