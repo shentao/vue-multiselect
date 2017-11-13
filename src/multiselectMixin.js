@@ -212,6 +212,15 @@ export default {
       default: false
     },
     /**
+     * If true, will show only count of selected items after placeholder
+     * @default false
+     * @type {Boolean}
+     */
+    hideTagList: {
+      type: Boolean,
+      default: false
+    },
+    /**
      * String to show when highlighting a potential tag
      * @default 'Press enter to create a tag'
      * @type {String}
@@ -347,10 +356,16 @@ export default {
     },
     currentOptionLabel () {
       return this.multiple
-        ? this.searchable ? '' : this.placeholder
+        ? (this.hideTagList && this.internalValue.length)
+        ? this.placeholder + ' (' + this.internalValue.length + ')'
+        : this.searchable ? ''
+        : this.placeholder
         : this.internalValue.length
           ? this.getOptionLabel(this.internalValue[0])
           : this.searchable ? '' : this.placeholder
+    },
+    Placeholder () {
+      return this.hideTagList && this.currentOptionLabel ? this.currentOptionLabel : this.placeholder
     }
   },
   watch: {
