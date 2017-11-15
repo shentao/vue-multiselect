@@ -328,7 +328,7 @@ export default {
         if (this.tagPosition === 'bottom') {
           options.push({ isTag: true, label: normalizedSearch })
         } else {
-          options.unshift({ isTag: true, label: normalizedSearch })
+          options.unshift({ isTag: true, label: search })
         }
       }
 
