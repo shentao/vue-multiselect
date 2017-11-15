@@ -399,7 +399,7 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect__single.selected, .multiselect__input {
-   color: red;
+   color: black;
  }
 
 .multiselect__tag ~ .multiselect__input,
