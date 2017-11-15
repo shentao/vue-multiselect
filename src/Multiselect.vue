@@ -398,8 +398,8 @@ fieldset[disabled] .multiselect {
   vertical-align: top;
 }
 
-.multiselect__single .selected, .multiselect__input {
-   color: black;
+.multiselect__single.selected, .multiselect__input {
+   color: red;
  }
 
 .multiselect__tag ~ .multiselect__input,
