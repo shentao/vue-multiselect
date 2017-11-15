@@ -54,6 +54,7 @@
         <span
           v-if="!searchable"
           class="multiselect__single"
+          :class="{ selected: internalValue.length }"
           @mousedown.prevent="toggle"
           v-text="currentOptionLabel">
         </span>
@@ -396,6 +397,10 @@ fieldset[disabled] .multiselect {
   margin-bottom: 8px;
   vertical-align: top;
 }
+
+.multiselect__single .selected, .multiselect__input {
+   color: black;
+ }
 
 .multiselect__tag ~ .multiselect__input,
 .multiselect__tag ~ .multiselect__single {
