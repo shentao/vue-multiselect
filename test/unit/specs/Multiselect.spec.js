@@ -2880,7 +2880,7 @@ describe('Multiselect.vue', () => {
       const comp = vm.$children[0]
       expect(comp.filteredOptions).to.deep.equal([{ name: 'Apple' }, { name: 'Banana' }, { name: 'Orange' }])
       comp.search = 'Ban'
-      expect(comp.filteredOptions).to.deep.equal([{ name: 'Banana' }, { isTag: true, label: 'ban' }])
+      expect(comp.filteredOptions).to.deep.equal([{ name: 'Banana' }, { isTag: true, label: 'Ban' }])
     })
   })
 
