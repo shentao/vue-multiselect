@@ -326,7 +326,7 @@ export default {
       /* istanbul ignore else */
       if (this.taggable && normalizedSearch.length && !this.isExistingOption(normalizedSearch)) {
         if (this.tagPosition === 'bottom') {
-          options.push({ isTag: true, label: normalizedSearch })
+          options.push({ isTag: true, label: search })
         } else {
           options.unshift({ isTag: true, label: search })
         }
