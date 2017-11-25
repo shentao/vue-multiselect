@@ -2822,9 +2822,9 @@ describe('Multiselect.vue', () => {
       vm.$children[0].search = 'TEST'
       vm.$children[0].select(vm.$children[0].filteredOptions[0])
       expect(vm.$children[0].options.length).to.equal(4)
-      expect(vm.$children[0].options).to.deep.equal(['1', '2', '3', 'test'])
+      expect(vm.$children[0].options).to.deep.equal(['1', '2', '3', 'TEST'])
       expect(vm.$children[0].value.length).to.equal(2)
-      expect(vm.$children[0].value).to.deep.equal(['1', 'test'])
+      expect(vm.$children[0].value).to.deep.equal(['1', 'TEST'])
     })
   })
 
@@ -2850,9 +2850,10 @@ describe('Multiselect.vue', () => {
         }
       }).$mount()
       const comp = vm.$children[0]
+
       expect(comp.filteredOptions).to.deep.equal([{ name: 'Apple' }, { name: 'Banana' }, { name: 'Orange' }])
       comp.search = 'Ban'
-      expect(comp.filteredOptions).to.deep.equal([{ isTag: true, label: 'ban' }, { name: 'Banana' }])
+      expect(comp.filteredOptions).to.deep.equal([{ isTag: true, label: 'Ban' }, { name: 'Banana' }])
     })
 
     it('should display new tag below search results when tag-position is set to \'bottom\'', () => {
@@ -2879,7 +2880,7 @@ describe('Multiselect.vue', () => {
       const comp = vm.$children[0]
       expect(comp.filteredOptions).to.deep.equal([{ name: 'Apple' }, { name: 'Banana' }, { name: 'Orange' }])
       comp.search = 'Ban'
-      expect(comp.filteredOptions).to.deep.equal([{ name: 'Banana' }, { isTag: true, label: 'ban' }])
+      expect(comp.filteredOptions).to.deep.equal([{ name: 'Banana' }, { isTag: true, label: 'Ban' }])
     })
   })
 
