@@ -64,6 +64,7 @@ export default {
     return {
       search: '',
       isOpen: false,
+      isDragging: false,
       prefferedOpenDirection: 'below',
       optimizedHeight: this.maxHeight,
       internalValue: this.value || this.value === 0
@@ -627,12 +628,28 @@ export default {
       }
     },
     /**
-     * Handles the touchstart stop propagation.
-     * Selects an option on mobile devices with one click
-     * @param index
-     * @param option
+     * Handles touchstart to detect gesture.
      */
-    handleTouchStartStop (index, option) {
+    handleTouchStart() {
+      this.isDragging = false;
+    },
+    /**
+     * Handles the touchmove to detect gesture.
+     */
+    handleTouchMove() {
+      this.isDragging = true;
+    },
+    /**
+     * Handles the touchend to detect gesture.
+     *
+     * If `isDragging` is true, the gesture is a drag/scroll.
+     * Otherwise it's a tap, so select the option.
+     */
+    handleTouchEnd(index, option) {
+      if (this.isDragging) {
+        return;
+      }
+
       this.pointerSet(index)
       this.select(option)
     }
