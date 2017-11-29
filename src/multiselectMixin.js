@@ -504,11 +504,11 @@ export default {
       } else {
         const isSelected = this.isSelected(option)
         if (isSelected) {
-           if (this.disableTagDeselection) {
+			if (this.disableTagDeselection) {
             this.deactivate()
           } else {
-			if (key !== 'Tab') this.removeElement(option)
-			return
+			  if (key !== 'Tab') this.removeElement(option)
+			  return
           }
         } else if (this.multiple) {
           this.internalValue.push(option)
