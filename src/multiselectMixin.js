@@ -171,6 +171,15 @@ export default {
       type: Boolean,
       default: true
     },
+	/**
+     * When the same tag is selected as was selected previously, the value will not be cleared
+     * @default false
+     * @type {Boolean}
+     */
+    disableTagDeselection: {
+      type: Boolean,
+      default: false
+    },
     /**
      * Reset this.internalValue, this.search after this.internalValue changes.
      * Useful if want to create a stateless dropdown.
@@ -495,8 +504,12 @@ export default {
       } else {
         const isSelected = this.isSelected(option)
         if (isSelected) {
-          if (key !== 'Tab') this.removeElement(option)
-          return
+			if (this.disableTagDeselection) {
+            this.deactivate()
+          } else {
+			  if (key !== 'Tab') this.removeElement(option)
+			  return
+          }
         } else if (this.multiple) {
           this.internalValue.push(option)
         } else {
