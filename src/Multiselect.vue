@@ -14,7 +14,7 @@
       </slot>
       <slot name="clear" :search="search"></slot>
       <div ref="tags" class="multiselect__tags">
-        <div class="multiselect__tags-wrap" v-show="visibleValue.length > 0">
+        <div class="multiselect__tags-wrap" v-show="visibleValue.length > 0 && !hideTagList">
           <template v-for="option of visibleValue" @mousedown.prevent>
             <slot name="tag" :option="option" :search="search" :remove="removeElement">
               <span class="multiselect__tag">
@@ -36,7 +36,7 @@
           :id="id"
           type="text"
           autocomplete="off"
-          :placeholder="placeholder"
+          :placeholder="Placeholder"
           v-if="searchable"
           :style="inputStyle"
           :value="isOpen ? search : currentOptionLabel"
@@ -252,7 +252,7 @@
           : ''
       },
       inputStyle () {
-        if (this.multiple && this.value && this.value.length) {
+        if (this.multiple && this.value && this.value.length && !this.hideTagList) {
           // Hide input by setting the width to 0 allowing it to receive focus
           return this.isOpen ? { 'width': 'auto' } : { 'width': '0', 'position': 'absolute' }
         }
