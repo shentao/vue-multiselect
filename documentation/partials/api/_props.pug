@@ -156,6 +156,12 @@ h2.typo__h2#sub-props(data-section) Props
           td.table__td
             | Decide whether to filter the results internally based on search query.
             | Useful for async filtering, where we search through more complex data.
+        tr.table__tr
+          td.table__td: strong preserveSearch
+          td.table__td Boolean
+          td.table__td false
+          td.table__td
+            | If set to true, will preserve the search query when opening/closing the component.
 
         tr.table__tr
           td.table__td.utils--center(colspan="4"): strong Multiselect.vue

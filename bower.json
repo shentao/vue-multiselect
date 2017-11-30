@@ -3,7 +3,7 @@
   "description": "Multiselect component for vue.js",
   "main": "./dist/vue-multiselect.min.js",
   "authors": [
-    "Damian Dulisz <damian.dulisz@monterail.com>"
+    "Damian Dulisz <damian.dulisz@gmail.com>"
   ],
   "license": "MIT",
   "keywords": [
@@ -13,7 +13,7 @@
     "ui-select",
     "select2"
   ],
-  "homepage": "https://github.com/monterail/vue-multiselect",
+  "homepage": "https://github.com/shentao/vue-multiselect",
   "moduleType": [],
   "ignore": [
     "**/.*",

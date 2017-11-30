@@ -1,14 +1,14 @@
 {
   "name": "vue-multiselect",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "Multiselect component for vue.js",
-  "author": "Damian Dulisz <damian.dulisz@monterail.com>",
+  "author": "Damian Dulisz <damian.dulisz@gmail.com>",
   "private": false,
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/monterail/vue-multiselect/issues"
+    "url": "https://github.com/shentao/vue-multiselect/issues"
   },
-  "homepage": "https://monterail.github.io/vue-multiselect/",
+  "homepage": "https://shentao.github.io/vue-multiselect/",
   "main": "dist/vue-multiselect.min.js",
   "unpkg": "dist/vue-multiselect.min.js",
   "jsnext:main": "dist/vue-multiselect.min.js",
@@ -24,7 +24,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/monterail/vue-multiselect.git"
+    "url": "git+https://github.com/shentao/vue-multiselect.git"
   },
   "scripts": {
     "dev": "node build/dev-server.js",

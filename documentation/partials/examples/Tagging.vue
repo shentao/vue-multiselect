@@ -32,7 +32,6 @@ export default {
       options: [
         { name: 'Vue.js', code: 'vu' },
         { name: 'Javascript', code: 'js' },
-        { name: 'Monterail', code: 'pl' },
         { name: 'Open Source', code: 'os' }
       ]
     }
