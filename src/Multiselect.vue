@@ -271,7 +271,7 @@
         }
       },
       hasValues () {
-        return this.value && this.value.length > 0;
+        return this.value && this.value.length > 0
       }
     }
   }
