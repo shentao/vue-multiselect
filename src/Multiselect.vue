@@ -1,7 +1,7 @@
 <template>
   <div
     :tabindex="searchable ? -1 : tabindex"
-    :class="{ 'multiselect--active': isOpen, 'multiselect--disabled': disabled, 'multiselect--above': isAbove }"
+    :class="{ 'multiselect--active': isOpen, 'multiselect--disabled': disabled, 'multiselect--above': isAbove, 'multiselect--has-values': hasValues }"
     @focus="activate()"
     @blur="searchable ? false : deactivate()"
     @keydown.self.down.prevent="pointerForward()"
@@ -251,7 +251,7 @@
           : ''
       },
       inputStyle () {
-        if (this.multiple && this.value && this.value.length) {
+        if (this.multiple && this.hasValues) {
           // Hide input by setting the width to 0 allowing it to receive focus
           return this.isOpen ? { 'width': 'auto' } : { 'width': '0', 'position': 'absolute' }
         }
@@ -269,6 +269,9 @@
         } else {
           return this.prefferedOpenDirection === 'above'
         }
+      },
+      hasValues () {
+        return this.value && this.value.length > 0
       }
     }
   }
