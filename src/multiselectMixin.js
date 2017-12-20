@@ -292,6 +292,10 @@ export default {
     preserveSearch: {
       type: Boolean,
       default: false
+    },
+    preserveLastSelected: {
+      type: Boolean,
+      default: false
     }
   },
   mounted () {
@@ -366,6 +370,13 @@ export default {
     },
     value (value) {
       this.internalValue = this.getInternalValue(value)
+    },
+    isOpen (newVal) {
+      // When menu opens keep the previously selected value in input.
+      if (this.preserveLastSelected && newVal === true && this.searchable && !this.multiple) {
+        const displayLabel = this.getOptionLabel(this.getValue())
+        this.search = displayLabel
+      }
     }
   },
   methods: {
