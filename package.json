@@ -1,8 +1,8 @@
 {
-  "name": "vue-multiselect",
-  "version": "2.0.8",
-  "description": "Multiselect component for vue.js",
-  "author": "Damian Dulisz <damian.dulisz@gmail.com>",
+  "name": "vue-multiselect-with-duplicates",
+  "version": "2.0.9",
+  "description": "Multiselect component with duplicates for vue.js based on Damian Dulisz Multi Select Plugin",
+  "author": "Javier Torrecilla <rastagar2003@gmail.com>",
   "private": false,
   "license": "MIT",
   "bugs": {
@@ -121,5 +121,11 @@
   "engines": {
     "node": ">= 4.0.0",
     "npm": ">= 3.0.0"
-  }
+  },
+  "directories": {
+    "doc": "docs",
+    "lib": "lib",
+    "test": "test"
+  },
+  "dependencies": {}
 }

@@ -488,7 +488,9 @@ export default {
      * @param  {Boolean} block removing
      */
     select (option, key) {
-      option.__internalId = createGuid()
+      if (typeof option === 'object') {
+        option.__internalId = createGuid()
+      }
       /* istanbul ignore else */
       if (this.blockKeys.indexOf(key) !== -1 || this.disabled || option.$isLabel || option.$isDisabled) return
       /* istanbul ignore else */
@@ -538,7 +540,12 @@ export default {
       const index = typeof option === 'object'
         ? this.valueKeys.indexOf(option[this.trackBy])
         : this.valueKeys.indexOf(option)
-      var newIndex = index === -1 ? this.internalValue.indexOf(this.internalValue.find((el) => el.__internalId === option.__internalId)) : index
+      var newIndex = 0
+      if (typeof option === 'object') {
+        newIndex = index === -1 ? this.internalValue.indexOf(this.internalValue.find((el) => el.__internalId === option.__internalId)) : index
+      } else {
+        newIndex = index === -1 ? this.internalValue.indexOf(this.internalValue.find((el) => el === option)) : index
+      }
       this.internalValue.splice(newIndex, 1)
       this.$emit('input', this.getValue(), this.id)
       this.$emit('remove', deepClone(option), this.id)
