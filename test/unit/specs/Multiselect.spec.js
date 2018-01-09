@@ -1441,6 +1441,34 @@ describe('Multiselect.vue', () => {
       vm.$children[0].pointerAdjust()
       expect(vm.$children[0].pointer).to.equal(2)
     })
+    it('should adjust the pointer to the first non-group-label option after changed from empty', (done) => {
+      const vm = new Vue({
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              value: this.value,
+              options: this.source,
+              label: 'id',
+              trackBy: 'id',
+              multiple: true,
+              groupValues: 'group',
+              groupLabel: 'groupLabel'
+            }
+          })
+        },
+        components: { Multiselect },
+        data: {
+          value: [],
+          source: []
+        }
+      }).$mount()
+
+      vm.source = [{ group: [{ id: '1' }, { id: '2' }], groupLabel: 'A' }]
+      setTimeout(function () {
+        expect(vm.$children[0].pointer).to.equal(1)
+        done()
+      }, 0)
+    })
   })
 
   describe('#watch:value', () => {
