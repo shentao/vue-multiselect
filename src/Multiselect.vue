@@ -14,8 +14,8 @@
       </slot>
       <slot name="clear" :search="search"></slot>
       <div ref="tags" class="multiselect__tags">
-        <div class="multiselect__tags-wrap" v-show="visibleValue.length > 0">
-          <template v-for="option of visibleValue" @mousedown.prevent>
+        <div class="multiselect__tags-wrap" v-show="visibleValues.length > 0">
+          <template v-for="option of visibleValues" @mousedown.prevent>
             <slot name="tag" :option="option" :search="search" :remove="removeElement">
               <span class="multiselect__tag">
                 <span v-text="getOptionLabel(option)"></span>
@@ -37,7 +37,7 @@
           type="text"
           autocomplete="off"
           :placeholder="placeholder"
-          v-if="searchable"
+          v-show="searchable && (hasSingleSelectedSlot ? isOpen : true)"
           :style="inputStyle"
           :value="isOpen ? search : currentOptionLabel"
           :disabled="disabled"
@@ -52,10 +52,15 @@
           @keydown.delete.stop="removeLastElement()"
           class="multiselect__input"/>
         <span
-          v-if="!searchable"
+          v-if="!searchable && !hasSingleSelectedSlot"
           class="multiselect__single"
           @mousedown.prevent="toggle"
           v-text="currentOptionLabel">
+        </span>
+        <span v-if="hasSingleSelectedSlot && visibleSingleValue && (searchable ? !isOpen : true)">
+          <slot name="singleSelected" :option="visibleSingleValue">
+
+          </slot>
         </span>
       </div>
       <transition name="multiselect">
@@ -230,10 +235,16 @@
       }
     },
     computed: {
-      visibleValue () {
+      visibleValues () {
         return this.multiple
           ? this.internalValue.slice(0, this.limit)
           : []
+      },
+      visibleSingleValue () {
+        return this.internalValue[0]
+      },
+      hasSingleSelectedSlot () {
+        return !!this.$scopedSlots.singleSelected
       },
       deselectLabelText () {
         return this.showLabels
