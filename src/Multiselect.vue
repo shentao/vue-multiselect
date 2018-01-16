@@ -37,7 +37,7 @@
           type="text"
           autocomplete="off"
           :placeholder="placeholder"
-          v-if="searchable && (hasSingleSelectedSlot ? isOpen : true)"
+          v-show="searchable && (hasSingleSelectedSlot ? isOpen : true)"
           :style="inputStyle"
           :value="isOpen ? search : currentOptionLabel"
           :disabled="disabled"
