@@ -54,8 +54,10 @@
         <span
           v-if="!searchable"
           class="multiselect__single"
-          @mousedown.prevent="toggle"
-          v-text="currentOptionLabel">
+          @mousedown.prevent="toggle">
+          <slot name="singleLabel" :currentOptionLabel="currentOptionLabel">
+            <template>{{currentOptionLabel}}</template>
+          </slot>
         </span>
       </div>
       <transition name="multiselect">
