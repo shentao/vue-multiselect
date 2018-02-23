@@ -134,6 +134,8 @@ export default {
       ) {
         this.pointerForward()
       }
+
+      this.pointerDirty = true
     },
     pointerSet (index) {
       this.pointer = index
