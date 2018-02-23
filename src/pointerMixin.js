@@ -98,6 +98,8 @@ export default {
       if (this.filteredOptions.length > 0 && this.filteredOptions[this.pointer].$isLabel) {
         this.pointerForward()
       }
+
+      this.pointerDirty = true
     },
     pointerSet (index) {
       this.pointer = index
