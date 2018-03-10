@@ -44,6 +44,10 @@ export default {
       }
     },
     groupHighlight (index, selectedGroup) {
+      if (!this.groupSelect) {
+        return ['multiselect__option--disabled']
+      }
+
       const group = this.options.find(option => {
         return option[this.groupLabel] === selectedGroup.$groupLabel
       })
