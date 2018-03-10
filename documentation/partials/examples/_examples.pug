@@ -31,6 +31,17 @@
 
       `custom-label` accepts a function with the `option` object as the first param. It should return a string which is then used to display a custom label.
     +example('SingleSelectSearch')
+  +subsection('Select with custom label')
+    :markdown-it
+      For the moment this feature requires `searchable` to be disabled.
+
+      It is useful to use custom labels with custom options from [custom options template](#sub-custom-option-template). For example a courtry dropdown that allows showing flag images only in the label after selection.
+
+      `custom-label` can be used instead of `label` as well.
+
+      #### Configuration flags:
+       - `currentOptionLabel` – The label value from the selected item.
+    +example('SingleSelectCustomLabel')
   +subsection('Multiple select')
     :markdown-it
       To allow multiple selections pass the `:multiple="true"` prop.
