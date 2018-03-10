@@ -1,7 +1,6 @@
 import SingleSelectPrimitive from './SingleSelectPrimitive'
 import SingleSelectObject from './SingleSelectObject'
 import SingleSelectSearch from './SingleSelectSearch'
-import SingleSelectCustomLabel from './SingleSelectCustomLabel'
 import MultiSelect from './MultiSelect'
 import AjaxSearch from './AjaxSearch'
 import Tagging from './Tagging'
@@ -15,7 +14,6 @@ export {
   SingleSelectPrimitive,
   SingleSelectObject,
   SingleSelectSearch,
-  SingleSelectCustomLabel,
   MultiSelect,
   AjaxSearch,
   Tagging,

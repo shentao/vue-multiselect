@@ -14,8 +14,8 @@
       </slot>
       <slot name="clear" :search="search"></slot>
       <div ref="tags" class="multiselect__tags">
-        <div class="multiselect__tags-wrap" v-show="visibleValue.length > 0">
-          <template v-for="option of visibleValue" @mousedown.prevent>
+        <div class="multiselect__tags-wrap" v-show="visibleValues.length > 0">
+          <template v-for="option of visibleValues" @mousedown.prevent>
             <slot name="tag" :option="option" :search="search" :remove="removeElement">
               <span class="multiselect__tag">
                 <span v-text="getOptionLabel(option)"></span>
@@ -32,14 +32,14 @@
         </transition>
         <input
           ref="search"
+          v-show="isOpen && searchable"
           :name="name"
           :id="id"
           type="text"
           autocomplete="off"
           :placeholder="placeholder"
-          v-if="searchable"
           :style="inputStyle"
-          :value="isOpen ? search : currentOptionLabel"
+          :value="search"
           :disabled="disabled"
           :tabindex="tabindex"
           @input="updateSearch($event.target.value)"
@@ -52,12 +52,18 @@
           @keydown.delete.stop="removeLastElement()"
           class="multiselect__input"/>
         <span
-          v-if="!searchable"
+          v-if="isSingleLabelVisible"
           class="multiselect__single"
           @mousedown.prevent="toggle">
-          <slot name="singleLabel" :currentOptionLabel="currentOptionLabel">
-            <template>{{currentOptionLabel}}</template>
+          <slot name="singleLabel" :option="singleValue">
+            <template>{{ currentOptionLabel }}</template>
           </slot>
+        </span>
+        <span
+          v-else-if="!multiple && !isOpen"
+          class="multiselect__single"
+          @mousedown.prevent="toggle">
+          {{ placeholder }}
         </span>
       </div>
       <transition name="multiselect">
@@ -254,10 +260,18 @@
       }
     },
     computed: {
-      visibleValue () {
+      isSingleLabelVisible () {
+        return this.singleValue &&
+          (!this.isOpen || !this.searchable) &&
+          !this.visibleValues.length
+      },
+      visibleValues () {
         return this.multiple
           ? this.internalValue.slice(0, this.limit)
           : []
+      },
+      singleValue () {
+        return this.internalValue[0]
       },
       deselectLabelText () {
         return this.showLabels
@@ -303,6 +317,9 @@
         } else {
           return this.prefferedOpenDirection === 'above'
         }
+      },
+      showSearchInput () {
+        return this.searchable && (this.hasSingleSelectedSlot && (this.visibleSingleValue || this.visibleSingleValue === 0) ? this.isOpen : true)
       }
     }
   }

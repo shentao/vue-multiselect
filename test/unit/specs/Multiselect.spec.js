@@ -3040,7 +3040,7 @@ describe('Multiselect.vue', () => {
     })
   })
 
-  describe('visibleValue', () => {
+  describe('visibleValues', () => {
     it('should by default interpolate the limit text', () => {
       const vm = new Vue({
         render (h) {
@@ -3061,7 +3061,7 @@ describe('Multiselect.vue', () => {
         }
       }).$mount()
       expect(vm.$children[0].internalValue.length).to.equal(3)
-      expect(vm.$children[0].visibleValue.length).to.equal(1)
+      expect(vm.$children[0].visibleValues.length).to.equal(1)
     })
   })
 

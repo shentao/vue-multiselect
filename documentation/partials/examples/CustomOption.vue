@@ -11,6 +11,10 @@ div
     :custom-label="customLabel",
     :show-labels="false"
   )
+    template(slot="singleLabel", slot-scope="props")
+      img.option__image(:src="props.option.img", alt="No Man’s Sky")
+      span.option__desc
+        span.option__title {{ props.option.title }}
     template(slot="option", slot-scope="props")
       img.option__image(:src="props.option.img", alt="No Man’s Sky")
       .option__desc
