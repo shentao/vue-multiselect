@@ -136,7 +136,7 @@ export default {
       default: true
     },
     /**
-     * Clear the search input after select()
+     * Clear the search input after `)
      * @default true
      * @type {Boolean}
      */
@@ -276,6 +276,16 @@ export default {
     */
     groupLabel: {
       type: String
+    },
+    /**
+     * Name of the property containing
+     * the group select flag
+     * @default false
+     * @type {Boolean}
+     */
+    groupSelect: {
+      type: Boolean,
+      default: false
     },
     /**
      * Array of keyboard keys to block
@@ -483,7 +493,15 @@ export default {
      */
     select (option, key) {
       /* istanbul ignore else */
-      if (this.blockKeys.indexOf(key) !== -1 || this.disabled || option.$isLabel || option.$isDisabled) return
+      if (option.$isLabel && this.groupSelect) {
+        this.selectGroup(option)
+        return
+      }
+      if (this.blockKeys.indexOf(key) !== -1 ||
+        this.disabled ||
+        option.$isDisabled ||
+        option.$isLabel
+      ) return
       /* istanbul ignore else */
       if (this.max && this.multiple && this.internalValue.length === this.max) return
       /* istanbul ignore else */
@@ -510,6 +528,39 @@ export default {
       }
       /* istanbul ignore else */
       if (this.closeOnSelect) this.deactivate()
+    },
+    /**
+     * Add the given group options to the list of selected options
+     * If all group optiona are already selected -> remove it from the results.
+     *
+     * @param  {Object||String||Integer} group to select/deselect
+     */
+    selectGroup (selectedGroup) {
+      const group = this.options.find(option => {
+        return option[this.groupLabel] === selectedGroup.$groupLabel
+      })
+
+      if (!group) return
+
+      if (this.wholeGroupSelected(group)) {
+        group[this.groupValues].forEach(option => {
+          this.removeElement(option)
+        })
+      } else {
+        group[this.groupValues].forEach(option => {
+          if (!this.isSelected(option)) {
+            this.select(option)
+          }
+        })
+      }
+    },
+    /**
+     * Helper to identify if all values in a group are selected
+     *
+     * @param {Object} group to validated selected values against
+     */
+    wholeGroupSelected (group) {
+      return group[this.groupValues].every(this.isSelected)
     },
     /**
      * Removes the given option from the selected options.

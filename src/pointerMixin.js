@@ -43,6 +43,17 @@ export default {
         'multiselect__option--selected': this.isSelected(option)
       }
     },
+    groupHighlight (index, selectedGroup) {
+      const group = this.options.find(option => {
+        return option[this.groupLabel] === selectedGroup.$groupLabel
+      })
+
+      return [
+        this.groupSelect ? 'multiselect__option--group' : 'multiselect__option--disabled',
+        { 'multiselect__option--highlight': index === this.pointer && this.showPointer },
+        { 'multiselect__option--group-selected': this.wholeGroupSelected(group) }
+      ]
+    },
     addPointerElement ({ key } = 'Enter') {
       /* istanbul ignore else */
       if (this.filteredOptions.length > 0) {
@@ -59,7 +70,7 @@ export default {
           this.$refs.list.scrollTop = this.pointerPosition - (this.visibleElements - 1) * this.optionHeight
         }
         /* istanbul ignore else */
-        if (this.filteredOptions[this.pointer].$isLabel) this.pointerForward()
+        if (this.filteredOptions[this.pointer].$isLabel && !this.groupSelect) this.pointerForward()
       }
       this.pointerDirty = true
     },
@@ -71,10 +82,10 @@ export default {
           this.$refs.list.scrollTop = this.pointerPosition
         }
         /* istanbul ignore else */
-        if (this.filteredOptions[this.pointer].$isLabel) this.pointerBackward()
+        if (this.filteredOptions[this.pointer].$isLabel && !this.groupSelect) this.pointerBackward()
       } else {
         /* istanbul ignore else */
-        if (this.filteredOptions[0].$isLabel) this.pointerForward()
+        if (this.filteredOptions[0].$isLabel && !this.groupSelect) this.pointerForward()
       }
       this.pointerDirty = true
     },
@@ -95,7 +106,10 @@ export default {
           : 0
       }
 
-      if (this.filteredOptions.length > 0 && this.filteredOptions[this.pointer].$isLabel) {
+      if (this.filteredOptions.length > 0 &&
+        this.filteredOptions[this.pointer].$isLabel &&
+        !this.groupSelect
+      ) {
         this.pointerForward()
       }
     },

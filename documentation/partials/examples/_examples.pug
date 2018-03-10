@@ -81,7 +81,7 @@
     +example('CustomOption')
   +subsection('Option groups')
     :markdown-it
-      The options list can also contain groups. It requires passing 2 additional props: `group-label` and `group-values`. `group-label` is used to locate the group label. `group-values` should point to the group’s option list.
+      The options list can also contain groups. It requires passing 3 additional props: `group-label`, `group-values` and `group-select`. `group-label` is used to locate the group label. `group-values` should point to the group’s option list. `group-select` is used to define if selecting the group label should select/unselect all values in the group, or do nothing.
 
       Despite that the available options are grouped, the selected options are stored as a flat array of objects.
 

@@ -997,7 +997,110 @@ describe('Multiselect.vue', () => {
       })
     })
   })
-
+  describe('#selectGroup()', () => {
+    it('should do nothing when selecting a group label and groupSelect == FALSE', () => {
+      const onSelectGroup = sinon.spy()
+      const vm = new Vue({
+        render (h) {
+          return h(Multiselect, {
+            props: {
+              value: this.value,
+              options: this.source,
+              multiple: true,
+              groupValues: 'values',
+              groupLabel: 'label'
+            },
+            on: {
+              selectGroup: onSelectGroup
+            }
+          })
+        },
+        components: { Multiselect },
+        data: {
+          value: [],
+          source: [{label: 'Label 1', values: [{name: 'Value 1'}, {name: 'Value 2'}]}, {label: 'Label 2', values: [{name: 'Value 3'}, {name: 'Value 4'}]}]
+        }
+      }).$mount()
+      vm.$children[0].selectGroup(vm.$children[0].filteredOptions[0])
+      expect(onSelectGroup.called).to.equal(false)
+    })
+    describe('when selecting a group label and groupSelect == TRUE', () => {
+      it('should add values to selected array', () => {
+        const vm = new Vue({
+          render (h) {
+            return h(Multiselect, {
+              props: {
+                value: this.value,
+                options: this.source,
+                multiple: true,
+                groupValues: 'values',
+                groupLabel: 'label',
+                groupSelect: true
+              }
+            })
+          },
+          components: { Multiselect },
+          data: {
+            value: [],
+            source: [{label: 'Label 1', values: ['Value 1', 'Value 2']}, {label: 'Label 2', values: ['Value 3', 'Value 4']}]
+          }
+        }).$mount()
+        vm.$children[0].selectGroup(vm.$children[0].filteredOptions[0])
+        expect(vm.$children[0].internalValue).to.deep.equal(['Value 1', 'Value 2'])
+      })
+      it('should add objects to selected array', () => {
+        const vm = new Vue({
+          render (h) {
+            return h(Multiselect, {
+              props: {
+                value: this.value,
+                options: this.source,
+                multiple: true,
+                trackBy: 'name',
+                groupValues: 'values',
+                groupLabel: 'label',
+                groupSelect: true
+              }
+            })
+          },
+          components: { Multiselect },
+          data: {
+            value: [],
+            source: [{label: 'Label 1', values: [{name: 'Value 1'}, {name: 'Value 2'}]}, {label: 'Label 2', values: [{name: 'Value 3'}, {name: 'Value 4'}]}]
+          }
+        }).$mount()
+        vm.$children[0].selectGroup(vm.$children[0].filteredOptions[0])
+        expect(vm.$children[0].internalValue).to.deep.equal([{name: 'Value 1'}, {name: 'Value 2'}])
+      })
+      it('should remove already selected objects', () => {
+        const vm = new Vue({
+          render (h) {
+            return h(Multiselect, {
+              props: {
+                value: this.value,
+                options: this.source,
+                multiple: true,
+                trackBy: 'name',
+                groupValues: 'values',
+                groupLabel: 'label',
+                groupSelect: true
+              }
+            })
+          },
+          components: { Multiselect },
+          data: {
+            value: [],
+            source: [{label: 'Label 1', values: [{name: 'Value 1'}, {name: 'Value 2'}]}, {label: 'Label 2', values: [{name: 'Value 3'}, {name: 'Value 4'}]}]
+          }
+        }).$mount()
+        vm.$children[0].selectGroup(vm.$children[0].filteredOptions[0])
+        vm.$children[0].selectGroup(vm.$children[0].filteredOptions[3])
+        expect(vm.$children[0].internalValue).to.deep.equal([{name: 'Value 1'}, {name: 'Value 2'}, {name: 'Value 3'}, {name: 'Value 4'}])
+        vm.$children[0].selectGroup(vm.$children[0].filteredOptions[0])
+        expect(vm.$children[0].internalValue).to.deep.equal([{name: 'Value 3'}, {name: 'Value 4'}])
+      })
+    })
+  })
   describe('#removeElement()', () => {
     it('should not do anything if disabled == TRUE', () => {
       const vm = new Vue({

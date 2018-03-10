@@ -7,6 +7,7 @@ div
     :multiple="true",
     group-values="libs",
     group-label="language",
+    :group-select="true",
     placeholder="Type to search",
     track-by="name",
     label="name",

@@ -90,8 +90,12 @@
                 </span>
                 <span
                   v-if="option && (option.$isLabel || option.$isDisabled)"
-                  :class="optionHighlight(index, option)"
-                  class="multiselect__option multiselect__option--disabled">
+                  :data-select="groupSelect && selectGroupLabelText"
+                  :data-deselect="groupSelect && deselectGroupLabelText"
+                  :class="groupHighlight(index, option)"
+                  @mouseenter.self="groupSelect && pointerSet(index)"
+                  @mousedown.prevent="selectGroup(option)"
+                  class="multiselect__option">
                     <slot name="option" :option="option" :search="search">
                       <span>{{ getOptionLabel(option) }}</span>
                     </slot>
@@ -138,6 +142,15 @@
         default: 'Press enter to select'
       },
       /**
+       * String to show when pointing to an option
+       * @default 'Press enter to select'
+       * @type {String}
+       */
+      selectGroupLabel: {
+        type: String,
+        default: 'Press enter to select group'
+      },
+      /**
        * String to show next to selected option
        * @default 'Selected'
        * @type {String}
@@ -154,6 +167,15 @@
       deselectLabel: {
         type: String,
         default: 'Press enter to remove'
+      },
+      /**
+       * String to show when pointing to an alredy selected option
+       * @default 'Press enter to remove'
+       * @type {String}
+      */
+      deselectGroupLabel: {
+        type: String,
+        default: 'Press enter to deselect group'
       },
       /**
        * Decide whether to show pointer labels
@@ -240,9 +262,19 @@
           ? this.deselectLabel
           : ''
       },
+      deselectGroupLabelText () {
+        return this.showLabels
+          ? this.deselectGroupLabel
+          : ''
+      },
       selectLabelText () {
         return this.showLabels
           ? this.selectLabel
+          : ''
+      },
+      selectGroupLabelText () {
+        return this.showLabels
+          ? this.selectGroupLabel
           : ''
       },
       selectedLabelText () {
@@ -650,8 +682,33 @@ fieldset[disabled] .multiselect {
   pointer-events: none;
 }
 
+.multiselect__option--group {
+  background: #ededed;
+  color: #35495E;
+}
+
+.multiselect__option--group.multiselect__option--highlight {
+  background: #35495E;
+  color: #fff;
+}
+
+.multiselect__option--group.multiselect__option--highlight:after {
+  background: #35495E;
+}
+
 .multiselect__option--disabled.multiselect__option--highlight {
-  background: #dedede !important;
+  background: #dedede;
+}
+
+.multiselect__option--group-selected.multiselect__option--highlight {
+  background: #FF6A6A;
+  color: #fff;
+}
+
+.multiselect__option--group-selected.multiselect__option--highlight:after {
+  background: #FF6A6A;
+  content: attr(data-deselect);
+  color: #fff;
 }
 
 .multiselect-enter-active,
