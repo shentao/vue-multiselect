@@ -381,7 +381,7 @@ fieldset[disabled] .multiselect {
 .multiselect__input,
 .multiselect__single {
   font-family: inherit;
-  font-size: 14px;
+  font-size: 16px;
   touch-action: manipulation;
 }
 
