@@ -23,8 +23,6 @@ describe('Multiselect.vue', () => {
 
       comp.select(vm.source[0])
       expect(vm.value).to.deep.equal(['1'])
-      comp.select(vm.source[0])
-      expect(vm.value).to.deep.equal([])
     })
   })
   describe(':value', () => {
@@ -57,7 +55,7 @@ describe('Multiselect.vue', () => {
   })
   describe('Events emitting', () => {
     describe('@input', () => {
-      it('should be called whenever the value changes passing the new value and id', () => {
+      it.only('should be called whenever the value changes passing the new value and id', () => {
         let eventsLog = []
         let calledId = null
 
@@ -81,6 +79,7 @@ describe('Multiselect.vue', () => {
           },
           methods: {
             onUpdate (value, id) {
+              this.value = value
               calledId = id
               eventsLog.push(value)
             }
@@ -103,11 +102,12 @@ describe('Multiselect.vue', () => {
           },
           components: { Multiselect },
           data: {
-            value: [],
+            value: ['3'],
             source: ['1', '2', '3']
           },
           methods: {
             onUpdate (value, id) {
+              this.value = value
               calledId = id
               eventsLog.push(value)
             }
@@ -123,9 +123,9 @@ describe('Multiselect.vue', () => {
         expect(eventsLog[2]).to.deep.equal('1')
         vmMulti.$children[0].select(vmMulti.source[0])
         expect(calledId).to.deep.equal('multi')
-        expect(eventsLog[3]).to.deep.equal(['1'])
+        expect(eventsLog[3]).to.deep.equal(['3', '1'])
         vmMulti.$children[0].select(vmMulti.source[1])
-        expect(eventsLog[4]).to.deep.equal(['1', '2'])
+        expect(eventsLog[4]).to.deep.equal(['3', '1', '2'])
         vmMulti.$children[0].select(vmMulti.source[0])
         expect(eventsLog[5]).to.deep.equal(['2'])
         vmMulti.$children[0].select(vmMulti.source[2])
@@ -3115,73 +3115,6 @@ describe('Multiselect.vue', () => {
       expect(vm.$children[0].search).to.equal('')
       vm.$children[0].updateSearch('test')
       expect(vm.$children[0].search).to.equal('test')
-    })
-  })
-  describe('#getInternalValue', () => {
-    describe('when multiple == TRUE', () => {
-      it('should return the external value', () => {
-        const vm = new Vue({
-          render (h) {
-            return h(Multiselect, {
-              props: {
-                options: this.source,
-                value: this.value,
-                multiple: true
-              }
-            })
-          },
-          components: { Multiselect },
-          data: {
-            value: ['1', '2', '3'],
-            source: ['1', '2', '3', '4', '5']
-          }
-        }).$mount()
-        expect(vm.$children[0].getInternalValue(vm.value)).to.deep.equal(['1', '2', '3'])
-      })
-    })
-    describe('when multiple == FALSE', () => {
-      describe('and an option is selected', () => {
-        it('should return the exernal value in an array', () => {
-          const vm = new Vue({
-            render (h) {
-              return h(Multiselect, {
-                props: {
-                  options: this.source,
-                  value: this.value,
-                  multiple: false
-                }
-              })
-            },
-            components: { Multiselect },
-            data: {
-              value: '1',
-              source: ['1', '2', '3', '4', '5']
-            }
-          }).$mount()
-          expect(vm.$children[0].getInternalValue(vm.value)).to.deep.equal(['1'])
-        })
-      })
-      describe('and the selection is empty', () => {
-        it('should return an empty array', () => {
-          const vm = new Vue({
-            render (h) {
-              return h(Multiselect, {
-                props: {
-                  options: this.source,
-                  value: this.value,
-                  multiple: false
-                }
-              })
-            },
-            components: { Multiselect },
-            data: {
-              value: null,
-              source: ['1', '2', '3', '4', '5']
-            }
-          }).$mount()
-          expect(vm.$children[0].getInternalValue()).to.deep.equal([])
-        })
-      })
     })
   })
 })

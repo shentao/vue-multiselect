@@ -1,48 +1,27 @@
 {
   "name": "vue-multiselect",
   "version": "2.0.8",
-  "description": "Multiselect component for vue.js",
-  "author": "Damian Dulisz <damian.dulisz@gmail.com>",
   "private": false,
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/shentao/vue-multiselect/issues"
-  },
-  "homepage": "https://shentao.github.io/vue-multiselect/",
-  "main": "dist/vue-multiselect.min.js",
-  "unpkg": "dist/vue-multiselect.min.js",
-  "jsnext:main": "dist/vue-multiselect.min.js",
-  "files": [
-    "dist",
-    "src",
-    "lib"
-  ],
-  "jspm": {
-    "main": "dist/vue-multiselect.min.js",
-    "registry": "npm",
-    "format": "esm"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/shentao/vue-multiselect.git"
-  },
   "scripts": {
+    "test": "vue-cli-service test",
+    "lint": "eslint --ext .js,.vue src test/unit/specs",
     "dev": "node build/dev-server.js",
     "bundle:dist": "rm -rf dist && webpack --config build/webpack.bundle.conf.js",
     "bundle:lib": "babel src --out-dir lib",
     "bundle": "node build/bundle.js && npm run bundle:lib",
     "docs": "rm -rf docs && mkdir docs && node build/build.js",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --watch",
-    "test": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
-    "lint": "eslint --ext .js,.vue src test/unit/specs",
     "finish": "npm run lint && npm test && npm run bundle"
   },
   "devDependencies": {
+    "@vue/cli-plugin-unit-jest": "^3.0.0-beta.6",
+    "@vue/test-utils": "^1.0.0-beta.10",
     "autoprefixer": "^6.7.2",
     "babel-cli": "^6.23.0",
-    "babel-core": "^6.22.1",
+    "babel-core": "^7.0.0-0",
     "babel-eslint": "^7.1.1",
     "babel-helper-vue-jsx-merge-props": "^2.0.2",
+    "babel-jest": "^22.0.4",
     "babel-loader": "^6.2.10",
     "babel-plugin-istanbul": "^3.1.2",
     "babel-plugin-syntax-jsx": "^6.13.0",
@@ -103,12 +82,12 @@
     "sinon": "^2.1.0",
     "sinon-chai": "^2.8.0",
     "url-loader": "^0.5.7",
-    "vue": "^2.5.0",
+    "vue": "^2.5.15",
     "vue-hot-reload-api": "^1.2.0",
     "vue-html-loader": "^1.0.0",
     "vue-loader": "^13.3.0",
     "vue-style-loader": "^2.0.0",
-    "vue-template-compiler": "^2.5.2",
+    "vue-template-compiler": "^2.5.15",
     "vue-template-es2015-compiler": "^1.6.0",
     "vuex": "^2.1.1",
     "webpack": "^2.2.1",
@@ -117,8 +96,32 @@
     "webpack-hot-middleware": "^2.16.1",
     "webpack-merge": "^2.6.1"
   },
+  "license": "MIT",
+  "homepage": "https://shentao.github.io/vue-multiselect/",
+  "main": "dist/vue-multiselect.min.js",
+  "author": "Damian Dulisz <damian.dulisz@gmail.com>",
+  "jsnext:main": "dist/vue-multiselect.min.js",
+  "bugs": {
+    "url": "https://github.com/shentao/vue-multiselect/issues"
+  },
+  "jspm": {
+    "main": "dist/vue-multiselect.min.js",
+    "registry": "npm",
+    "format": "esm"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shentao/vue-multiselect.git"
+  },
+  "description": "Multiselect component for vue.js",
+  "unpkg": "dist/vue-multiselect.min.js",
   "engines": {
     "node": ">= 4.0.0",
     "npm": ">= 3.0.0"
-  }
+  },
+  "files": [
+    "dist",
+    "src",
+    "lib"
+  ]
 }
