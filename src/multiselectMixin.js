@@ -1,9 +1,11 @@
-import deepClone from './utils'
-
 function isEmpty (opt) {
   if (opt === 0) return false
   if (Array.isArray(opt) && opt.length === 0) return true
   return !opt
+}
+
+function not (fun) {
+  return (...params) => !fun(...params)
 }
 
 function includes (str, query) {
@@ -65,10 +67,7 @@ export default {
       search: '',
       isOpen: false,
       prefferedOpenDirection: 'below',
-      optimizedHeight: this.maxHeight,
-      internalValue: this.value || this.value === 0
-        ? deepClone(Array.isArray(this.value) ? this.value : [this.value])
-        : []
+      optimizedHeight: this.maxHeight
     }
   },
   props: {
@@ -314,6 +313,11 @@ export default {
     }
   },
   computed: {
+    internalValue () {
+      return this.value || this.value === 0
+        ? Array.isArray(this.value) ? this.value : [this.value]
+        : []
+    },
     filteredOptions () {
       const search = this.search || ''
       const normalizedSearch = search.toLowerCase().trim()
@@ -330,7 +334,7 @@ export default {
       }
 
       options = this.hideSelected
-        ? options.filter(this.isNotSelected)
+        ? options.filter(not(this.isSelected))
         : options
 
       /* istanbul ignore else */
@@ -364,42 +368,28 @@ export default {
     }
   },
   watch: {
-    internalValue (newVal, oldVal) {
+    internalValue () {
       /* istanbul ignore else */
       if (this.resetAfter && this.internalValue.length) {
         this.search = ''
-        this.internalValue = []
+        this.$emit('input', this.multiple ? [] : null)
       }
     },
     search () {
       this.$emit('search-change', this.search, this.id)
-    },
-    value (value) {
-      this.internalValue = this.getInternalValue(value)
     }
   },
   methods: {
     /**
-     * Converts the internal value to the external value
-     * @returns {Object||Array||String||Integer} returns the external value
+     * Returns the internalValue in a way it can be emited to the parent
+     * @returns {Object||Array||String||Integer}
      */
     getValue () {
       return this.multiple
-        ? deepClone(this.internalValue)
+        ? this.internalValue
         : this.internalValue.length === 0
           ? null
-          : deepClone(this.internalValue[0])
-    },
-    /**
-     * Converts the external value to the internal value
-     * @returns {Array} returns the internal value
-     */
-    getInternalValue (value) {
-      return value === null || value === undefined
-        ? []
-        : this.multiple
-          ? deepClone(value)
-          : deepClone([value])
+          : this.internalValue[0]
     },
     /**
      * Filters and then flattens the options list
@@ -454,15 +444,6 @@ export default {
       return this.valueKeys.indexOf(opt) > -1
     },
     /**
-     * Finds out if the given element is NOT already present
-     * in the result value. Negated isSelected method.
-     * @param  {Object||String||Integer} option passed element to check
-     * @returns {Boolean} returns true if element is not selected
-     */
-    isNotSelected (option) {
-      return !this.isSelected(option)
-    },
-    /**
      * Returns empty string when options is null/undefined
      * Returns tag query if option is tag.
      * Returns the customLabel() results and casts it to string.
@@ -512,16 +493,20 @@ export default {
         if (this.closeOnSelect && !this.multiple) this.deactivate()
       } else {
         const isSelected = this.isSelected(option)
+
         if (isSelected) {
           if (key !== 'Tab') this.removeElement(option)
           return
-        } else if (this.multiple) {
-          this.internalValue.push(option)
-        } else {
-          this.internalValue = [option]
         }
-        this.$emit('select', deepClone(option), this.id)
-        this.$emit('input', this.getValue(), this.id)
+
+        this.$emit('select', option, this.id)
+
+        if (this.multiple) {
+          console.log(this.value, this.internalValue)
+          this.$emit('input', this.internalValue.concat([option]), this.id)
+        } else {
+          this.$emit('input', option, this.id)
+        }
 
         /* istanbul ignore else */
         if (this.clearOnSelect) this.search = ''
@@ -543,15 +528,22 @@ export default {
       if (!group) return
 
       if (this.wholeGroupSelected(group)) {
-        group[this.groupValues].forEach(option => {
-          this.removeElement(option)
-        })
+        this.$emit('remove', group[this.groupValues], this.id)
+
+        const newValue = this.internalValue.filter(
+          option => group[this.groupValues].indexOf(option) === -1
+        )
+
+        this.$emit('input', newValue, this.id)
       } else {
-        group[this.groupValues].forEach(option => {
-          if (!this.isSelected(option)) {
-            this.select(option)
-          }
-        })
+        const optionsToAdd = group[this.groupValues].filter(not(this.isSelected))
+
+        this.$emit('select', optionsToAdd, this.id)
+        this.$emit(
+          'input',
+          this.internalValue.concat(optionsToAdd),
+          this.id
+        )
       }
     },
     /**
@@ -583,9 +575,13 @@ export default {
         ? this.valueKeys.indexOf(option[this.trackBy])
         : this.valueKeys.indexOf(option)
 
-      this.internalValue.splice(index, 1)
-      this.$emit('input', this.getValue(), this.id)
-      this.$emit('remove', deepClone(option), this.id)
+      this.$emit('remove', option, this.id)
+      if (this.multiple) {
+        const newValue = this.internalValue.slice(0, index).concat(this.internalValue.slice(index + 1))
+        this.$emit('input', newValue, this.id)
+      } else {
+        this.$emit('input', null, this.id)
+      }
 
       /* istanbul ignore else */
       if (this.closeOnSelect && shouldClose) this.deactivate()
