@@ -59,11 +59,12 @@
             <template>{{ currentOptionLabel }}</template>
           </slot>
         </span>
-        <span
-          v-else-if="!multiple && !isOpen"
-          class="multiselect__single"
-          @mousedown.prevent="toggle">
-          {{ placeholder }}
+        <span v-if="isPlaceholderVisible" @mousedown.prevent="toggle">
+          <slot name="placeholder">
+            <span class="multiselect__single">
+              {{ placeholder }}
+            </span>
+          </slot>
         </span>
       </div>
       <transition name="multiselect">
@@ -265,6 +266,9 @@
           (!this.isOpen || !this.searchable) &&
           !this.visibleValues.length
       },
+      isPlaceholderVisible () {
+        return !this.internalValue.length && (!this.searchable || !this.isOpen)
+      },
       visibleValues () {
         return this.multiple
           ? this.internalValue.slice(0, this.limit)
@@ -447,6 +451,10 @@ fieldset[disabled] .multiselect {
   vertical-align: top;
 }
 
+.multiselect__input::placeholder {
+  color: #35495E;
+}
+
 .multiselect__tag ~ .multiselect__input,
 .multiselect__tag ~ .multiselect__single {
   width: auto;
@@ -464,7 +472,7 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect__single {
-  padding-left: 6px;
+  padding-left: 5px;
   margin-bottom: 8px;
 }
 
@@ -479,6 +487,7 @@ fieldset[disabled] .multiselect {
   border-radius: 5px;
   border: 1px solid #E8E8E8;
   background: #fff;
+  font-size: 14px;
 }
 
 .multiselect__tag {
@@ -647,6 +656,7 @@ fieldset[disabled] .multiselect {
   line-height: 40px;
   padding-right: 12px;
   padding-left: 20px;
+  font-size: 13px;
 }
 
 .multiselect__option--highlight {
