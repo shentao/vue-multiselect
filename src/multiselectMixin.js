@@ -1,5 +1,13 @@
 import deepClone from './utils'
 
+function createGuid () {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    var r = Math.random() * 16 | 0
+    var v = c === 'x' ? r : (r & 0x3 | 0x8)
+    return v.toString(16)
+  })
+}
+
 function isEmpty (opt) {
   if (opt === 0) return false
   if (Array.isArray(opt) && opt.length === 0) return true
@@ -492,6 +500,9 @@ export default {
      * @param  {Boolean} block removing
      */
     select (option, key) {
+      if (typeof option === 'object') {
+        option.__internalId = createGuid()
+      }
       /* istanbul ignore else */
       if (option.$isLabel && this.groupSelect) {
         this.selectGroup(option)
@@ -583,7 +594,13 @@ export default {
         ? this.valueKeys.indexOf(option[this.trackBy])
         : this.valueKeys.indexOf(option)
 
-      this.internalValue.splice(index, 1)
+      var newIndex = 0
+      if (typeof option === 'object') {
+        newIndex = index === -1 ? this.internalValue.indexOf(this.internalValue.find((el) => el.__internalId === option.__internalId)) : index
+      } else {
+        newIndex = index === -1 ? this.internalValue.indexOf(this.internalValue.find((el) => el === option)) : index
+      }
+      this.internalValue.splice(newIndex, 1)
       this.$emit('input', this.getValue(), this.id)
       this.$emit('remove', deepClone(option), this.id)
 
