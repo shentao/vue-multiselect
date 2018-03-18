@@ -74,7 +74,11 @@ export default {
           this.$refs.list.scrollTop = this.pointerPosition - (this.visibleElements - 1) * this.optionHeight
         }
         /* istanbul ignore else */
-        if (this.filteredOptions[this.pointer].$isLabel && !this.groupSelect) this.pointerForward()
+        if (
+          this.filteredOptions[this.pointer] &&
+          this.filteredOptions[this.pointer].$isLabel &&
+          !this.groupSelect
+        ) this.pointerForward()
       }
       this.pointerDirty = true
     },
@@ -86,10 +90,18 @@ export default {
           this.$refs.list.scrollTop = this.pointerPosition
         }
         /* istanbul ignore else */
-        if (this.filteredOptions[this.pointer].$isLabel && !this.groupSelect) this.pointerBackward()
+        if (
+          this.filteredOptions[this.pointer] &&
+          this.filteredOptions[this.pointer].$isLabel &&
+          !this.groupSelect
+        ) this.pointerBackward()
       } else {
         /* istanbul ignore else */
-        if (this.filteredOptions[0].$isLabel && !this.groupSelect) this.pointerForward()
+        if (
+          this.filteredOptions[this.pointer] &&
+          this.filteredOptions[0].$isLabel &&
+          !this.groupSelect
+        ) this.pointerForward()
       }
       this.pointerDirty = true
     },
