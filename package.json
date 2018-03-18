@@ -1,14 +1,13 @@
 {
   "name": "vue-multiselect",
-  "version": "2.0.8",
+  "version": "2.1.0",
   "private": false,
   "scripts": {
     "test": "vue-cli-service test",
-    "lint": "eslint --ext .js,.vue src test/unit/specs",
+    "lint": "eslint --ext .js,.vue src tests/unit/specs",
     "dev": "node build/dev-server.js",
     "bundle:dist": "rm -rf dist && webpack --config build/webpack.bundle.conf.js",
-    "bundle:lib": "babel src --out-dir lib",
-    "bundle": "node build/bundle.js && npm run bundle:lib",
+    "bundle": "node build/bundle.js",
     "docs": "rm -rf docs && mkdir docs && node build/build.js",
     "unit": "vue-cli-service test --watch",
     "finish": "npm run lint && npm test && npm run bundle"
@@ -111,8 +110,7 @@
   },
   "files": [
     "dist",
-    "src",
-    "lib"
+    "src"
   ],
   "dependencies": {}
 }
