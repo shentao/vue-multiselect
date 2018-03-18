@@ -502,7 +502,6 @@ export default {
         this.$emit('select', option, this.id)
 
         if (this.multiple) {
-          console.log(this.value, this.internalValue)
           this.$emit('input', this.internalValue.concat([option]), this.id)
         } else {
           this.$emit('input', option, this.id)

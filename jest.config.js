@@ -1,4 +1,5 @@
 module.exports = {
+  testMatch: ['**/?(*.)(spec).js?(x)'],
   moduleFileExtensions: [
     'js',
     'jsx',
@@ -14,5 +15,12 @@ module.exports = {
   },
   snapshotSerializers: [
     'jest-serializer-vue'
+  ],
+  coverageDirectory: '<rootDir>/test/unit/coverage',
+  collectCoverageFrom: [
+    'src/*.{js,vue}',
+    '!**/node_modules/**',
+    '!documentation/**',
+    '!docs/**'
   ]
 }

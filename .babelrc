@@ -1,13 +1,15 @@
 {
-  "presets": ["es2015", "stage-2"],
-  "plugins": [
-    "transform-es2015-destructuring",
-    "transform-object-rest-spread"
-  ],
-  "comments": false,
+  "presets": ["@vue/app"],
   "env": {
     "test": {
-      "plugins": [ "istanbul" ]
+      "presets": [
+        [
+          "@vue/app",
+          {
+            "modules": "commonjs"
+          }
+        ]
+      ]
     }
   }
 }
