@@ -473,6 +473,7 @@ export default {
      * @returns {Object||String}
      */
     getOptionLabel (option) {
+      if (isEmpty(option)) return ''
       /* istanbul ignore else */
       if (option.isTag) return option.label
       /* istanbul ignore else */
