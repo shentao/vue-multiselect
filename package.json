@@ -112,5 +112,6 @@
     "dist",
     "src",
     "lib"
-  ]
+  ],
+  "dependencies": {}
 }

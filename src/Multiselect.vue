@@ -25,10 +25,14 @@
           </template>
         </div>
         <template v-if="internalValue && internalValue.length > limit">
-          <strong class="multiselect__strong" v-text="limitText(internalValue.length - limit)"></strong>
+          <slot name="limit">
+            <strong class="multiselect__strong" v-text="limitText(internalValue.length - limit)"/>
+          </slot>
         </template>
         <transition name="multiselect__loading">
-          <slot name="loading"><div v-show="loading" class="multiselect__spinner"></div></slot>
+          <slot name="loading">
+            <div v-show="loading" class="multiselect__spinner"/>
+          </slot>
         </transition>
         <input
           ref="search"
