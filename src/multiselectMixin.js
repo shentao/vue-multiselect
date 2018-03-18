@@ -301,6 +301,10 @@ export default {
     preserveSearch: {
       type: Boolean,
       default: false
+    },
+    preselectFirst: {
+      type: Boolean,
+      default: false
     }
   },
   mounted () {
@@ -310,6 +314,13 @@ export default {
     }
     if (!this.multiple && this.max) {
       console.warn('[Vue-Multiselect warn]: Max prop should not be used when prop Multiple equals false.')
+    }
+    if (
+      this.preselectFirst &&
+      !this.internalValue.length &&
+      this.options.length
+    ) {
+      this.select(this.filteredOptions[0])
     }
   },
   computed: {

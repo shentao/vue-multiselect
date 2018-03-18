@@ -483,7 +483,6 @@ describe('Multiselect.vue', () => {
             groupSelect: true
           }
         })
-        console.log(wrapper.vm.filteredOptions[0])
         wrapper.vm.select(wrapper.vm.filteredOptions[0])
         expect(wrapper.emitted().input).toEqual([[[], null]])
       })
@@ -1683,6 +1682,19 @@ describe('Multiselect.vue', () => {
       expect(wrapper.vm.search).toBe('')
       wrapper.vm.updateSearch('test')
       expect(wrapper.vm.search).toBe('test')
+    })
+  })
+  describe('preselectFirst', () => {
+    test('should update the search value', () => {
+      const wrapper = shallow(Multiselect, {
+        propsData: {
+          searchable: true,
+          value: [],
+          options: ['1', '2', '3', '4', '5'],
+          preselectFirst: true
+        }
+      })
+      expect(wrapper.emitted().input).toEqual([['1', null]])
     })
   })
 })

@@ -11,7 +11,8 @@ div
     :preserve-search="true",
     placeholder="Pick some"
     label="name",
-    track-by="name"
+    track-by="name",
+    :preselect-first="true"
   )
     template(slot="tag", slot-scope="props")
       span.custom__tag
@@ -32,9 +33,7 @@ export default {
   },
   data () {
     return {
-      value: [
-        { name: 'Vue.js', language: 'JavaScript' }
-      ],
+      value: [],
       options: [
         { name: 'Vue.js', language: 'JavaScript' },
         { name: 'Adonis', language: 'JavaScript' },
