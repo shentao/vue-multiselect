@@ -9,7 +9,7 @@ div
     placeholder="Select one",
     :options="options",
     :searchable="false",
-    :allow-empty="true"
+    :allow-empty="false"
   )
   pre.language-json
     code.
@@ -31,7 +31,7 @@ export default {
         { name: 'Vue.js', language: 'JavaScript' },
         { name: 'Rails', language: 'Ruby' },
         { name: 'Sinatra', language: 'Ruby' },
-        { name: 'Laravel', language: 'PHP' },
+        { name: 'Laravel', language: 'PHP', $isDisabled: true },
         { name: 'Phoenix', language: 'Elixir' }
       ]
     }

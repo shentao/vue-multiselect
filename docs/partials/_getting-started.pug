@@ -15,8 +15,8 @@
           h3.typo__h3 via CDN
           pre.language-html
             code
-              | &lt;script src="https://unpkg.com/vue-multiselect@2.0.0-beta.14">&lt;/script>
-              | &lt;link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.0.0-beta.14/dist/vue-multiselect.min.css">
+              | &lt;script src="https://unpkg.com/vue-multiselect@2.0.4">&lt;/script>
+              | &lt;link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.0.4/dist/vue-multiselect.min.css">
 
         .grid__column
           h2.typo__h2 Basic usage
@@ -25,7 +25,7 @@
               &lt;!-- Vue component -->
               &lt;template>
                 &lt;div>
-                  &lt;multiselect v-model="value" :options="options">
+                  &lt;multiselect v-model="value" :options="options">&lt;/multiselect>
                 &lt;/div>
               &lt;/template>
 
@@ -33,7 +33,7 @@
                 import Multiselect from 'vue-multiselect'
 
                 // register globally
-                Vue.component(Multiselect)
+                Vue.component('multiselect', Multiselect)
 
                 export default {
                   // OR register locally

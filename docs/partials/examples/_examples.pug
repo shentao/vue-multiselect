@@ -39,6 +39,8 @@
       - `:close-on-select="false"` – the dropdown stays open after selecting an option
       - `:hide-selected="true"` – already selected options will not be displayed in the dropdown
       - `:clear-on-select="false"` – the search query stays the same after selecting an option
+      #### New in v2.0.0 stable:
+      - You can now pass `<template slot="tag" scope="props"><Your code></template>` to use a different markup for selected options (tags)
     +example('MultiSelect')
   +subsection('Asynchronous select')
     :markdown-it
@@ -50,10 +52,13 @@
 
       #### Optional configuration flags:
       - `:internal-search="false"` – disables the multiselect’s internal search engine. If you do that, you have to manually update the available `:options`.
-      - `id="ajax"` – every event is emitted with this as the second param. Useful for identification which component instance triggered the method (in loops for example)
       - `:limit="3"` – limits the visible results to 3.
       - `:limit-text="limitText"` – function that receives the current selected options count and should return a string to show when the `:limit` count is exceed
       - `:options-limit="300"` – limits the displayed options to `300`. Useful for optimisations purposes.
+      
+      #### New in v2.0.0 stable:
+      - `id="ajax"` – every event is emitted with this as the second param. Useful for identification which component instance triggered the method (in loops for example). NEW: Can also be used for pointing with `<label :for="id">`.
+      - `open-direction="bottom"` – forces the multiselect to always open below. Use `top` or `above` to always open above. By default the multiselect will open whereever there is more space once there is not enough space below to open at `maxHeight`.
     +example('AjaxSearch')
   +subsection('Tagging')
     :markdown-it
@@ -63,6 +68,7 @@
 
       #### Optional configuration flags:
       - `tag-placeholder="Add this as new tag"` – A helper label that will be displayed when highlighting the just typed tag suggestion.
+      - `tag-position="bottom"` – By default the tag position will be set to 'top' and new tags will appear above the search results. Changing the tag positon to 'bottom' will revert this behaviour and will prioritize the search results.
     +example('Tagging')
   +subsection('Custom option template')
     :markdown-it

@@ -1,5 +1,11 @@
 import deepClone from './utils'
 
+function isEmpty (opt) {
+  if (opt === 0) return false
+  if (Array.isArray(opt) && opt.length === 0) return true
+  return !opt
+}
+
 function includes (str, query) {
   /* istanbul ignore else */
   if (str === undefined) str = 'undefined'
@@ -9,10 +15,8 @@ function includes (str, query) {
   return text.indexOf(query.trim()) !== -1
 }
 
-function filterOptions (options, search, label) {
-  return label
-    ? options.filter(option => includes(option[label], search))
-    : options.filter(option => includes(option, search))
+function filterOptions (options, search, label, customLabel) {
+  return options.filter(option => includes(customLabel(option, label), search))
 }
 
 function stripGroups (options) {
@@ -30,14 +34,19 @@ function flattenOptions (values, label) {
         })
         return prev.concat(curr[values])
       }
-      return prev.concat(curr)
+      return prev
     }, [])
 }
 
-function filterGroups (search, label, values, groupLabel) {
+function filterGroups (search, label, values, groupLabel, customLabel) {
   return (groups) =>
     groups.map(group => {
-      const groupOptions = filterOptions(group[values], search, label)
+      /* istanbul ignore else */
+      if (!group[values]) {
+        console.warn(`Options passed to vue-multiselect do not contain groups, despite the config.`)
+        return []
+      }
+      const groupOptions = filterOptions(group[values], search, label, customLabel)
 
       return groupOptions.length
         ? {
@@ -55,7 +64,8 @@ export default {
     return {
       search: '',
       isOpen: false,
-      hasEnoughSpace: true,
+      prefferedOpenDirection: 'below',
+      optimizedHeight: this.maxHeight,
       internalValue: this.value || this.value === 0
         ? deepClone(Array.isArray(this.value) ? this.value : [this.value])
         : []
@@ -188,6 +198,7 @@ export default {
     customLabel: {
       type: Function,
       default (option, label) {
+        if (isEmpty(option)) return ''
         return label ? option[label] : option
       }
     },
@@ -224,12 +235,24 @@ export default {
       default: 'Press enter to create a tag'
     },
     /**
-     * Number of allowed selected options. No limit if false.
-     * @default False
+     * By default new tags will appear above the search results.
+     * Changing to 'bottom' will revert this behaviour
+     * and will proritize the search results
+     * @default 'top'
+     * @type {String}
+    */
+    tagPosition: {
+      type: String,
+      default: 'top'
+    },
+    /**
+     * Number of allowed selected options. No limit if 0.
+     * @default 0
      * @type {Number}
     */
     max: {
-      type: Number
+      type: [Number, Boolean],
+      default: false
     },
     /**
      * Will be passed with all events as second param.
@@ -279,6 +302,10 @@ export default {
       default () {
         return []
       }
+    },
+    preserveSearch: {
+      type: Boolean,
+      default: false
     }
   },
   mounted () {
@@ -286,11 +313,14 @@ export default {
     if (!this.multiple && !this.clearOnSelect) {
       console.warn('[Vue-Multiselect warn]: ClearOnSelect and Multiple props can’t be both set to false.')
     }
+    if (!this.multiple && this.max) {
+      console.warn('[Vue-Multiselect warn]: Max prop should not be used when prop Multiple equals false.')
+    }
   },
   computed: {
     filteredOptions () {
       const search = this.search || ''
-      const normalizedSearch = search.toLowerCase()
+      const normalizedSearch = search.toLowerCase().trim()
 
       let options = this.options.concat()
 
@@ -298,18 +328,22 @@ export default {
       if (this.internalSearch) {
         options = this.groupValues
           ? this.filterAndFlat(options, normalizedSearch, this.label)
-          : filterOptions(options, normalizedSearch, this.label)
-
-        options = this.hideSelected
-          ? options.filter(this.isNotSelected)
-          : options
+          : filterOptions(options, normalizedSearch, this.label, this.customLabel)
       } else {
         options = this.groupValues ? flattenOptions(this.groupValues, this.groupLabel)(options) : options
       }
 
+      options = this.hideSelected
+        ? options.filter(this.isNotSelected)
+        : options
+
       /* istanbul ignore else */
       if (this.taggable && normalizedSearch.length && !this.isExistingOption(normalizedSearch)) {
-        options.unshift({ isTag: true, label: search })
+        if (this.tagPosition === 'bottom') {
+          options.push({ isTag: true, label: normalizedSearch })
+        } else {
+          options.unshift({ isTag: true, label: normalizedSearch })
+        }
       }
 
       return options.slice(0, this.optionsLimit)
@@ -323,30 +357,28 @@ export default {
     },
     optionKeys () {
       const options = this.groupValues ? this.flatAndStrip(this.options) : this.options
-      return this.label
-        ? options.map(element => element[this.label] ? element[this.label].toString().toLowerCase() : null)
-        : options.map(element => element.toString().toLowerCase())
+      return options.map(element => this.customLabel(element, this.label).toString().toLowerCase())
     },
     currentOptionLabel () {
       return this.multiple
         ? this.searchable ? '' : this.placeholder
-        : this.internalValue[0]
+        : this.internalValue.length
           ? this.getOptionLabel(this.internalValue[0])
           : this.searchable ? '' : this.placeholder
     }
   },
   watch: {
-    'internalValue' (newVal, oldVal) {
+    internalValue (newVal, oldVal) {
       /* istanbul ignore else */
       if (this.resetAfter && this.internalValue.length) {
         this.search = ''
         this.internalValue = []
       }
     },
-    'search' () {
+    search () {
       this.$emit('search-change', this.search, this.id)
     },
-    'value' (value) {
+    value (value) {
       this.internalValue = this.getInternalValue(value)
     }
   },
@@ -380,7 +412,7 @@ export default {
      */
     filterAndFlat (options, search, label) {
       return flow(
-        filterGroups(search, label, this.groupValues, this.groupLabel),
+        filterGroups(search, label, this.groupValues, this.groupLabel, this.customLabel),
         flattenOptions(this.groupValues, this.groupLabel)
       )(options)
     },
@@ -444,10 +476,16 @@ export default {
      */
     getOptionLabel (option) {
       /* istanbul ignore else */
-      if (!option && option !== 0) return ''
+      if (isEmpty(option)) return ''
       /* istanbul ignore else */
       if (option.isTag) return option.label
-      return this.customLabel(option, this.label) || ''
+      /* istanbul ignore else */
+      if (option.$isLabel) return option.$groupLabel
+
+      let label = this.customLabel(option, this.label)
+      /* istanbul ignore else */
+      if (isEmpty(label)) return ''
+      return label
     },
     /**
      * Add the given option to the list of selected options
@@ -459,9 +497,11 @@ export default {
      */
     select (option, key) {
       /* istanbul ignore else */
-      if (this.blockKeys.indexOf(key) !== -1 || this.disabled || option.$isLabel) return
+      if (this.blockKeys.indexOf(key) !== -1 || this.disabled || option.$isLabel || option.$isDisabled) return
       /* istanbul ignore else */
       if (this.max && this.multiple && this.internalValue.length === this.max) return
+      /* istanbul ignore else */
+      if (key === 'Tab' && !this.pointerDirty) return
       if (option.isTag) {
         this.$emit('tag', option.label, this.id)
         this.search = ''
@@ -493,22 +533,25 @@ export default {
      * @param  {type} option description
      * @returns {type}        description
      */
-    removeElement (option) {
+    removeElement (option, shouldClose = true) {
       /* istanbul ignore else */
       if (this.disabled) return
       /* istanbul ignore else */
-      if (!this.allowEmpty && this.internalValue.length <= 1) return
+      if (!this.allowEmpty && this.internalValue.length <= 1) {
+        this.deactivate()
+        return
+      }
 
       const index = typeof option === 'object'
         ? this.valueKeys.indexOf(option[this.trackBy])
         : this.valueKeys.indexOf(option)
 
       this.internalValue.splice(index, 1)
-      this.$emit('remove', deepClone(option), this.id)
       this.$emit('input', this.getValue(), this.id)
+      this.$emit('remove', deepClone(option), this.id)
 
       /* istanbul ignore else */
-      if (this.closeOnSelect) this.deactivate()
+      if (this.closeOnSelect && shouldClose) this.deactivate()
     },
     /**
      * Calls this.removeElement() with the last element
@@ -521,7 +564,7 @@ export default {
       if (this.blockKeys.indexOf('Delete') !== -1) return
       /* istanbul ignore else */
       if (this.search.length === 0 && Array.isArray(this.internalValue)) {
-        this.removeElement(this.internalValue[this.internalValue.length - 1])
+        this.removeElement(this.internalValue[this.internalValue.length - 1], false)
       }
     },
     /**
@@ -541,8 +584,8 @@ export default {
       this.isOpen = true
       /* istanbul ignore else  */
       if (this.searchable) {
-        this.search = ''
-        this.$refs.search.focus()
+        if (!this.preserveSearch) this.search = ''
+        this.$nextTick(() => this.$refs.search.focus())
       } else {
         this.$el.focus()
       }
@@ -563,7 +606,7 @@ export default {
       } else {
         this.$el.blur()
       }
-      this.search = ''
+      if (!this.preserveSearch) this.search = ''
       this.$emit('close', this.getValue(), this.id)
     },
     /**
@@ -583,10 +626,29 @@ export default {
      * detecting where to expand the dropdown
      */
     adjustPosition () {
-      /* istanbul ignore else */
-      if (typeof window !== 'undefined') {
-        this.hasEnoughSpace = this.$el.getBoundingClientRect().top + this.maxHeight < window.innerHeight
+      if (typeof window === 'undefined') return
+
+      const spaceAbove = this.$el.getBoundingClientRect().top
+      const spaceBelow = window.innerHeight - this.$el.getBoundingClientRect().bottom
+      const hasEnoughSpaceBelow = spaceBelow > this.maxHeight
+
+      if (hasEnoughSpaceBelow || spaceBelow > spaceAbove || this.openDirection === 'below' || this.openDirection === 'bottom') {
+        this.prefferedOpenDirection = 'below'
+        this.optimizedHeight = Math.min(spaceBelow - 40, this.maxHeight)
+      } else {
+        this.prefferedOpenDirection = 'above'
+        this.optimizedHeight = Math.min(spaceAbove - 40, this.maxHeight)
       }
+    },
+    /**
+     * Handles the touchstart stop propagation.
+     * Selects an option on mobile devices with one click
+     * @param index
+     * @param option
+     */
+    handleTouchStartStop (index, option) {
+      this.pointerSet(index)
+      this.select(option)
     }
   }
 }

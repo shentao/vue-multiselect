@@ -2,7 +2,7 @@ export default {
   data () {
     return {
       pointer: 0,
-      visibleElements: this.maxHeight / this.optionHeight
+      pointerDirty: false
     }
   },
   props: {
@@ -23,11 +23,17 @@ export default {
   computed: {
     pointerPosition () {
       return this.pointer * this.optionHeight
+    },
+    visibleElements () {
+      return this.optimizedHeight / this.optionHeight
     }
   },
   watch: {
     filteredOptions () {
       this.pointerAdjust()
+    },
+    isOpen () {
+      this.pointerDirty = false
     }
   },
   methods: {
@@ -49,12 +55,13 @@ export default {
       if (this.pointer < this.filteredOptions.length - 1) {
         this.pointer++
         /* istanbul ignore next */
-        if (this.$refs.list.scrollTop <= this.pointerPosition - this.visibleElements * this.optionHeight) {
+        if (this.$refs.list.scrollTop <= this.pointerPosition - (this.visibleElements - 1) * this.optionHeight) {
           this.$refs.list.scrollTop = this.pointerPosition - (this.visibleElements - 1) * this.optionHeight
         }
         /* istanbul ignore else */
         if (this.filteredOptions[this.pointer].$isLabel) this.pointerForward()
       }
+      this.pointerDirty = true
     },
     pointerBackward () {
       if (this.pointer > 0) {
@@ -69,6 +76,7 @@ export default {
         /* istanbul ignore else */
         if (this.filteredOptions[0].$isLabel) this.pointerForward()
       }
+      this.pointerDirty = true
     },
     pointerReset () {
       /* istanbul ignore else */
@@ -89,6 +97,7 @@ export default {
     },
     pointerSet (index) {
       this.pointer = index
+      this.pointerDirty = true
     }
   }
 }

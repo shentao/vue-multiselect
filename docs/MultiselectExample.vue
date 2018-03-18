@@ -55,4 +55,5 @@ export default {
     vertical-align: middle
     display: inline-block
     margin-left: 5px
+    float: left
 </style>

@@ -1,5 +1,7 @@
-# vue-multiselect ![Build Status](https://circleci.com/gh/monterail/vue-multiselect/tree/2.0.svg?style=shield&circle-token=5c931ff28fd12587610f835472becdd514d09cef)[![Codecov branch](https://img.shields.io/codecov/c/github/monterail/vue-multiselect/2.0.svg)](https://codecov.io/gh/monterail/vue-multiselect/branch/2.0)
+# vue-multiselect ![Build Status](https://circleci.com/gh/monterail/vue-multiselect/tree/2.0.svg?style=shield&circle-token=5c931ff28fd12587610f835472becdd514d09cef)[![Codecov branch](https://img.shields.io/codecov/c/github/monterail/vue-multiselect/2.0.svg)](https://codecov.io/gh/monterail/vue-multiselect/branch/2.0)[![npm](https://img.shields.io/npm/v/vue-multiselect.svg)](https://www.npmjs.com/package/vue-multiselect)
 Probably the most complete *selecting* solution for Vue.js 2.0, without jQuery.
+
+![Vue-Multiselect Screen](https://raw.githubusercontent.com/monterail/vue-multiselect/2.0/multiselect-screen-203.png)
 
 ### Features & characteristics:
 * NO dependencies
@@ -14,7 +16,7 @@ Probably the most complete *selecting* solution for Vue.js 2.0, without jQuery.
 * V-model support
 * Vuex support
 * Async options support
-* \> 99% test coverage
+* \> 95% test coverage
 * Fully configurable (see props list below)
 
 ## Breaking changes:
@@ -28,7 +30,7 @@ Probably the most complete *selecting* solution for Vue.js 2.0, without jQuery.
 ## Install & basic usage
 
 ```bash
-npm install vue-multiselect@next
+npm install vue-multiselect
 ```
 
 ```vue
@@ -59,7 +61,7 @@ npm install vue-multiselect@next
 
 ## JSFiddle
 
-[Example JSFiddle](https://jsfiddle.net/shentao/c4L3gs91/) – Use this for issue reproduction.
+[Example JSFiddle](https://jsfiddle.net/shentao/jqofkzxc/) – Use this for issue reproduction.
 
 ## Examples
 in jade-lang/pug-lang
@@ -305,6 +307,17 @@ props: {
   tagPlaceholder: {
     type: String,
     default: 'Press enter to create a tag'
+  },
+  /**
+   * By default new tags will appear above the search results.
+   * Changing to 'bottom' will revert this behaviour
+   * and will proritize the search results
+   * @default 'top'
+   * @type {String}
+  */
+  tagPosition: {
+    type: String,
+    default: 'top'
   },
   /**
    * Number of allowed selected options. No limit if false.

@@ -1,5 +1,5 @@
 /**
- * Returns a depply cloned object without reference.
+ * Returns a deeply cloned object without reference.
  * Copied from Vuex.
  * @type {Object}
  */
