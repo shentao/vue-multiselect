@@ -13,7 +13,7 @@
         <div @mousedown.prevent.stop="toggle()" class="multiselect__select"></div>
       </slot>
       <slot name="clear" :search="search"></slot>
-      <div ref="tags" class="multiselect__tags">
+      <div ref="tags" class="multiselect__tags" :class="inputContainerClass">
         <div class="multiselect__tags-wrap" v-show="visibleValue.length > 0">
           <template v-for="option of visibleValue" @mousedown.prevent>
             <slot name="tag" :option="option" :search="search" :remove="removeElement">
@@ -50,7 +50,8 @@
           @keydown.up.prevent="pointerBackward()"
           @keydown.enter.prevent.stop.self="addPointerElement($event)"
           @keydown.delete.stop="removeLastElement()"
-          class="multiselect__input"/>
+          class="multiselect__input"
+          :class="inputClass"/>
         <span
           v-if="!searchable"
           class="multiselect__single"
