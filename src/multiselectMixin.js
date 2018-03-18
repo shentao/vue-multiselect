@@ -499,7 +499,7 @@ export default {
       /* istanbul ignore else */
       if (key === 'Tab' && !this.pointerDirty) return
       if (option.isTag) {
-        this.$emit('tag', option.label, this.id)
+        this.$emit('tag', this.search, this.id)
         this.search = ''
         if (this.closeOnSelect && !this.multiple) this.deactivate()
       } else {
