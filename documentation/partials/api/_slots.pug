@@ -13,6 +13,11 @@ h2.typo__h2#sub-slots(data-section) Slots
             | Slot for custom option template. See <a class="typo__link" href="#sub-custom-option-template">example.</a>
             br
             strong  Default: Shows option label
+            br
+            | Slot-scope
+            ul
+              li <code>option</code> – option
+              li <code>search</code> – current search value
         tr.table__tr
           td.table__td: strong maxElements
           td.table__td
@@ -38,7 +43,7 @@ h2.typo__h2#sub-slots(data-section) Slots
           td.table__td
             | Element for opening and closing the dropdown.
             br
-            | Props
+            | Slot-scope
             ul
               li <code>toggle: Function</code> – toggles the dropdown.
         tr.table__tr
@@ -53,3 +58,22 @@ h2.typo__h2#sub-slots(data-section) Slots
           td.table__td: strong limit
           td.table__td
             | Slot to display when the number of selected options is greater than `optionsLimit`.
+        tr.table__tr
+          td.table__td: strong clear
+          td.table__td
+            | Slot located before the tags
+            br
+            | Slot-scope
+            ul
+              li <code>search</code> – the search value
+        tr.table__tr
+          td.table__td: strong tag
+          td.table__td
+            | Slot that is used for all selected options (tags)
+            br
+            | Slot-scope
+            ul
+              li <code>option</code> – selected option
+              li <code>search</code> – the search value
+              li <code>removeElement</code> – method to remove the slot (pass the option)
+          

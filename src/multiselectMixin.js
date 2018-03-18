@@ -277,8 +277,8 @@ export default {
       type: String
     },
     /**
-     * Name of the property containing
-     * the group select flag
+     * Allow to select all group values
+     * by selecting the group label
      * @default false
      * @type {Boolean}
      */
@@ -298,10 +298,20 @@ export default {
         return []
       }
     },
+    /**
+     * Prevent from wiping up the search value
+     * @default false
+     * @type {Boolean}
+    */
     preserveSearch: {
       type: Boolean,
       default: false
     },
+    /**
+     * Select 1st options if value is empty
+     * @default false
+     * @type {Boolean}
+    */
     preselectFirst: {
       type: Boolean,
       default: false

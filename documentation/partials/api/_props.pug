@@ -144,6 +144,12 @@ h2.typo__h2#sub-props(data-section) Props
           td.table__td
             | Name of the property containing the group label
         tr.table__tr
+          td.table__td: strong groupSelect
+          td.table__td Boolean
+          td.table__td false
+          td.table__td
+            | Allow to select all group values by selecting the group label
+        tr.table__tr
           td.table__td: strong blockKeys
           td.table__td Array
           td.table__td []
@@ -226,6 +232,24 @@ h2.typo__h2#sub-props(data-section) Props
           td.table__td: kbd 300
           td.table__td
             | Sets max-height style value of the dropdown
+        tr.table__tr
+          td.table__td: strong openDirection
+          td.table__td String
+          td.table__td: kbd ''
+          td.table__td
+            | Fixed opening direction (instead of auto)
+        tr.table__tr
+          td.table__td: strong showNoResults
+          td.table__td Boolean
+          td.table__td: kbd true
+          td.table__td
+            | Show the noResult slot if no results are found.
+        tr.table__tr
+          td.table__td: strong tabindex
+          td.table__td Number
+          td.table__td: kbd 0
+          td.table__td
+            | Specify the tabindex of the Multiselect component
 
         tr.table__tr
           td.table__td.utils--center(colspan="4"): strong pointerMixin.js
@@ -236,3 +260,9 @@ h2.typo__h2#sub-props(data-section) Props
           td.table__td: kbd true
           td.table__td
             | Enable/disable highlighting of the pointed value.
+        tr.table__tr
+          td.table__td: strong optionHeight
+          td.table__td Number
+          td.table__td: kbd 40
+          td.table__td
+            | The height of the option element. Required for proper scrolling.
