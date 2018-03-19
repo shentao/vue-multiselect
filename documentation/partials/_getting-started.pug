@@ -15,11 +15,13 @@
           h3.typo__h3 via CDN
           pre.language-html
             code
-              | &lt;script src="https://unpkg.com/vue-multiselect@2.0.6">&lt;/script>
-              | &lt;link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.0.6/dist/vue-multiselect.min.css">
+              | &lt;script src="https://unpkg.com/vue-multiselect@2.1.0">&lt;/script>
+              | &lt;link rel="stylesheet" href="https://unpkg.com/vue-multiselect@2.1.0/dist/vue-multiselect.min.css">
 
         .grid__column
           h2.typo__h2 Basic usage
+          h3.typo__h3 via npm
+
           pre.language-html
             code.
               &lt;!-- Vue component -->
@@ -54,3 +56,10 @@
               &lt;style>
                 your styles
               &lt;/style>
+              
+          h3.typo__h3 via CDN
+
+          pre.language-js
+            code.
+              // register globally
+              Vue.component('vue-multiselect', window.VueMultiselect.default)
