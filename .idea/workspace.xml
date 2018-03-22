@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="256a2855-f747-46a8-b361-0f21ca8cda73" name="Default" comment="" />
+    <list default="true" id="256a2855-f747-46a8-b361-0f21ca8cda73" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/dist/vue-multiselect.min.js" afterPath="$PROJECT_DIR$/dist/vue-multiselect.min.js" />
+      <change beforePath="$PROJECT_DIR$/package.json" afterPath="$PROJECT_DIR$/package.json" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -95,7 +98,7 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SingleSelectPrimitive.vue" pinned="false" current-in-tab="true">
+      <file leaf-file-name="SingleSelectPrimitive.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/documentation/partials/examples/SingleSelectPrimitive.vue">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="217">
@@ -103,6 +106,16 @@
               <folding>
                 <element signature="e#481#83570#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/package.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="279">
+              <caret line="9" column="11" lean-forward="false" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="11" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -158,6 +171,7 @@
         <option value="$PROJECT_DIR$/documentation/partials/examples/_examples.pug" />
         <option value="$PROJECT_DIR$/src/multiselectMixin.js" />
         <option value="$PROJECT_DIR$/documentation/partials/examples/SingleSelectPrimitive.vue" />
+        <option value="$PROJECT_DIR$/package.json" />
       </list>
     </option>
   </component>
@@ -322,6 +336,11 @@
             <path>
               <item name="vue-multiselect" type="b2602c69:ProjectViewProjectNode" />
               <item name="vue-multiselect" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="dist" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="vue-multiselect" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vue-multiselect" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="src" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
           </expand>
@@ -367,16 +386,15 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1521646742227</updated>
-      <workItem from="1521646743907" duration="12184000" />
+      <workItem from="1521646743907" duration="12602000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="12184000" />
+    <option name="totallyTimeSpent" value="12602000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1680" height="1003" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
@@ -386,7 +404,7 @@
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Remote Host" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14345238" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14345238" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -505,6 +523,14 @@
           <folding>
             <element signature="e#481#83570#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="279">
+          <caret line="9" column="11" lean-forward="false" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="11" />
+          <folding />
         </state>
       </provider>
     </entry>
