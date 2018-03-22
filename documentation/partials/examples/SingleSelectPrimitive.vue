@@ -8,6 +8,7 @@ div
     :levenshtein="1",
     :close-on-select="false",
     :show-labels="false"
+    @press-enter="enter"
     placeholder="Pick a value"
   )
   pre.language-json
@@ -2663,6 +2664,11 @@ export default {
         'Программист vfp',
         'Программист visual basic'
       ]
+    }
+  },
+  methods: {
+    enter (search, value, filteredOptions, pointer) {
+      console.log(1, search, value, filteredOptions, pointer)
     }
   }
 }

@@ -64,6 +64,7 @@ export default {
         this.select(this.filteredOptions[this.pointer], key)
       }
       this.pointerReset()
+      this.$emit('press-enter', this.search, this.value, this.filteredOptions, this.pointer)
     },
     pointerForward () {
       /* istanbul ignore else */

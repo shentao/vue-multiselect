@@ -595,6 +595,10 @@ export default {
     }
   },
   methods: {
+    addPointerElement () {
+      alert(1)
+      // this.$emit('search-change', this.search, this.id)
+    },
     /**
      * Returns the internalValue in a way it can be emited to the parent
      * @returns {Object||Array||String||Integer}
