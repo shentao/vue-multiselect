@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="256a2855-f747-46a8-b361-0f21ca8cda73" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/src/Multiselect.vue" afterPath="$PROJECT_DIR$/src/Multiselect.vue" />
-      <change beforePath="$PROJECT_DIR$/src/multiselectMixin.js" afterPath="$PROJECT_DIR$/src/multiselectMixin.js" />
+      <change beforePath="$PROJECT_DIR$/src/pointerMixin.js" afterPath="$PROJECT_DIR$/src/pointerMixin.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -20,11 +19,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Multiselect.vue" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Multiselect.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Multiselect.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="182">
-              <caret line="121" column="17" lean-forward="true" selection-start-line="121" selection-start-column="17" selection-end-line="121" selection-end-column="17" />
+            <state relative-caret-position="325">
+              <caret line="52" column="45" lean-forward="false" selection-start-line="52" selection-start-column="45" selection-end-line="52" selection-end-column="45" />
               <folding>
                 <element signature="e#5658#5707#0" expanded="true" />
                 <element signature="e#5858#9044#0" expanded="false" />
@@ -52,11 +51,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pointerMixin.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="pointerMixin.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/pointerMixin.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="243">
-              <caret line="63" column="60" lean-forward="false" selection-start-line="63" selection-start-column="60" selection-end-line="63" selection-end-column="60" />
+            <state relative-caret-position="645">
+              <caret line="108" column="0" lean-forward="false" selection-start-line="108" selection-start-column="0" selection-end-line="108" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -99,10 +98,10 @@
       <find>search-change</find>
       <find>SearchChange</find>
       <find>getValue</find>
-      <find>pointerReset</find>
       <find>addPointerElement</find>
       <find>input</find>
       <find>search</find>
+      <find>pointerReset</find>
       <find>value</find>
     </findStrings>
   </component>
@@ -115,10 +114,10 @@
         <option value="$PROJECT_DIR$/documentation/partials/examples/_examples.pug" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/index.js" />
-        <option value="$PROJECT_DIR$/src/pointerMixin.js" />
         <option value="$PROJECT_DIR$/documentation/partials/examples/SingleSelectPrimitive.vue" />
         <option value="$PROJECT_DIR$/src/multiselectMixin.js" />
         <option value="$PROJECT_DIR$/src/Multiselect.vue" />
+        <option value="$PROJECT_DIR$/src/pointerMixin.js" />
       </list>
     </option>
   </component>
@@ -333,12 +332,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1521646742227</updated>
-      <workItem from="1521646743907" duration="21686000" />
+      <workItem from="1521646743907" duration="22740000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="21686000" />
+    <option name="totallyTimeSpent" value="22740000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1680" height="1003" extended-state="0" />
@@ -412,14 +411,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pointerMixin.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="243">
-          <caret line="63" column="60" lean-forward="false" selection-start-line="63" selection-start-column="60" selection-end-line="63" selection-end-column="60" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="279">
@@ -455,14 +446,22 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Multiselect.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="182">
-          <caret line="121" column="17" lean-forward="true" selection-start-line="121" selection-start-column="17" selection-end-line="121" selection-end-column="17" />
+        <state relative-caret-position="325">
+          <caret line="52" column="45" lean-forward="false" selection-start-line="52" selection-start-column="45" selection-end-line="52" selection-end-column="45" />
           <folding>
             <element signature="e#5658#5707#0" expanded="true" />
             <element signature="e#5858#9044#0" expanded="false" />
             <element signature="e#9060#11078#0" expanded="false" />
             <element signature="n#style#0;n#!!top" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pointerMixin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="645">
+          <caret line="108" column="0" lean-forward="false" selection-start-line="108" selection-start-column="0" selection-end-line="108" selection-end-column="0" />
+          <folding />
         </state>
       </provider>
     </entry>

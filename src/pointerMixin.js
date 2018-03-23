@@ -64,7 +64,7 @@ export default {
         this.select(this.filteredOptions[this.pointer], key)
       }
       this.pointerReset()
-      this.$emit('press-enter', this.search, this.value, this.filteredOptions, this.pointer)
+      this.$emit('press-enter', this.filteredOptions[this.pointer])
     },
     pointerForward () {
       /* istanbul ignore else */
@@ -82,6 +82,7 @@ export default {
         ) this.pointerForward()
       }
       this.pointerDirty = true
+      this.$emit('press-down', this.filteredOptions[this.pointer])
     },
     pointerBackward () {
       if (this.pointer > 0) {
@@ -105,6 +106,7 @@ export default {
         ) this.pointerForward()
       }
       this.pointerDirty = true
+      this.$emit('press-up', this.filteredOptions[this.pointer])
     },
     pointerReset () {
       /* istanbul ignore else */
