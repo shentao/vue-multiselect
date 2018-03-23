@@ -137,6 +137,15 @@
     props: {
 
       /**
+       * set search value
+       * @default ''
+       * @type {String}
+       */
+      searchValue: {
+        type: String,
+        default: ''
+      },
+      /**
        * name attribute to match optional label element
        * @default ''
        * @type {String}
@@ -328,6 +337,11 @@
       },
       showSearchInput () {
         return this.searchable && (this.hasSingleSelectedSlot && (this.visibleSingleValue || this.visibleSingleValue === 0) ? this.isOpen : true)
+      }
+    },
+    watch: {
+      searchValue (val) {
+        this.search = val
       }
     }
   }

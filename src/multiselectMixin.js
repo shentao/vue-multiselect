@@ -534,6 +534,7 @@ export default {
         : []
     },
     filteredOptions () {
+      console.log('Search: ', this.search)
       const search = this.search || ''
       const normalizedSearch = search.toLowerCase().trim()
 
