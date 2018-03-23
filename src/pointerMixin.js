@@ -64,7 +64,7 @@ export default {
         this.select(this.filteredOptions[this.pointer], key)
       }
       this.pointerReset()
-      this.$emit('press-enter', this.filteredOptions[this.pointer])
+      this.$emit('press-enter', this.filteredOptions[this.pointer], this.filteredOptions)
     },
     pointerForward () {
       /* istanbul ignore else */
