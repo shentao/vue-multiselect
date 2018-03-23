@@ -45,7 +45,7 @@ function filtering (options, search, label, lvl) {
   })
 
 // slice
-  result = result.slice(0, 10)
+  result = result.slice(0, 9999)
 
   return result
 }

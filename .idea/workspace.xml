@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="256a2855-f747-46a8-b361-0f21ca8cda73" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/src/pointerMixin.js" afterPath="$PROJECT_DIR$/src/pointerMixin.js" />
+      <change beforePath="$PROJECT_DIR$/src/multiselectMixin.js" afterPath="$PROJECT_DIR$/src/multiselectMixin.js" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -34,14 +34,13 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="multiselectMixin.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="multiselectMixin.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/multiselectMixin.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="131">
-              <caret line="843" column="6" lean-forward="false" selection-start-line="843" selection-start-column="6" selection-end-line="843" selection-end-column="6" />
+            <state relative-caret-position="286">
+              <caret line="47" column="31" lean-forward="false" selection-start-line="47" selection-start-column="31" selection-end-line="47" selection-end-column="31" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
-                <element signature="n#!!block;n#filtering#0" expanded="false" />
                 <element signature="n#!!block;n#distance#0" expanded="false" />
                 <element signature="n#!!block;n#leftHandLevenshtein#0" expanded="false" />
                 <element signature="n#!!block;n#levenshteinAlg#0" expanded="false" />
@@ -51,11 +50,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="pointerMixin.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="pointerMixin.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/pointerMixin.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="584">
-              <caret line="66" column="88" lean-forward="false" selection-start-line="66" selection-start-column="88" selection-end-line="66" selection-end-column="88" />
+            <state relative-caret-position="429">
+              <caret line="61" column="32" lean-forward="false" selection-start-line="61" selection-start-column="32" selection-end-line="61" selection-end-column="32" />
               <folding />
             </state>
           </provider>
@@ -101,8 +100,8 @@
       <find>addPointerElement</find>
       <find>input</find>
       <find>search</find>
-      <find>pointerReset</find>
       <find>value</find>
+      <find>pointerReset</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -115,9 +114,9 @@
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/index.js" />
         <option value="$PROJECT_DIR$/documentation/partials/examples/SingleSelectPrimitive.vue" />
-        <option value="$PROJECT_DIR$/src/multiselectMixin.js" />
         <option value="$PROJECT_DIR$/src/Multiselect.vue" />
         <option value="$PROJECT_DIR$/src/pointerMixin.js" />
+        <option value="$PROJECT_DIR$/src/multiselectMixin.js" />
       </list>
     </option>
   </component>
@@ -332,12 +331,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1521646742227</updated>
-      <workItem from="1521646743907" duration="23457000" />
+      <workItem from="1521646743907" duration="23847000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23457000" />
+    <option name="totallyTimeSpent" value="23847000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1680" height="1003" extended-state="0" />
@@ -429,21 +428,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/multiselectMixin.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="843" column="6" lean-forward="false" selection-start-line="843" selection-start-column="6" selection-end-line="843" selection-end-column="6" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="n#!!block;n#filtering#0" expanded="false" />
-            <element signature="n#!!block;n#distance#0" expanded="false" />
-            <element signature="n#!!block;n#leftHandLevenshtein#0" expanded="false" />
-            <element signature="n#!!block;n#levenshteinAlg#0" expanded="false" />
-            <element signature="n#!!block;n#en2ru#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Multiselect.vue">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="325">
@@ -459,9 +443,23 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/pointerMixin.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="584">
-          <caret line="66" column="88" lean-forward="false" selection-start-line="66" selection-start-column="88" selection-end-line="66" selection-end-column="88" />
+        <state relative-caret-position="429">
+          <caret line="61" column="32" lean-forward="false" selection-start-line="61" selection-start-column="32" selection-end-line="61" selection-end-column="32" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/multiselectMixin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="286">
+          <caret line="47" column="31" lean-forward="false" selection-start-line="47" selection-start-column="31" selection-end-line="47" selection-end-column="31" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!block;n#distance#0" expanded="false" />
+            <element signature="n#!!block;n#leftHandLevenshtein#0" expanded="false" />
+            <element signature="n#!!block;n#levenshteinAlg#0" expanded="false" />
+            <element signature="n#!!block;n#en2ru#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
