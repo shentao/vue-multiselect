@@ -63,11 +63,12 @@
             <template>{{ currentOptionLabel }}</template>
           </slot>
         </span>
-        <span v-if="isPlaceholderVisible" @mousedown.prevent="toggle">
+        <span 
+          v-if="isPlaceholderVisible"
+          class="multiselect__placeholder"
+          @mousedown.prevent="toggle">
           <slot name="placeholder">
-            <span class="multiselect__single">
               {{ placeholder }}
-            </span>
           </slot>
         </span>
       </div>
