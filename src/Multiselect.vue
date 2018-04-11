@@ -58,12 +58,17 @@
         <span
           v-if="isSingleLabelVisible"
           class="multiselect__single"
-          @mousedown.prevent="toggle">
+          @mousedown.prevent="toggle"
+          @touchstart="toggle"
+          >
           <slot name="singleLabel" :option="singleValue">
             <template>{{ currentOptionLabel }}</template>
           </slot>
         </span>
-        <span v-if="isPlaceholderVisible" @mousedown.prevent="toggle" @touchstart="toggle">
+        <span
+          v-if="isPlaceholderVisible"
+          @mousedown.prevent="toggle"
+          @touchstart="toggle">
           <slot name="placeholder">
             <span class="multiselect__single">
               {{ placeholder }}
