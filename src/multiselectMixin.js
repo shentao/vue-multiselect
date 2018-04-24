@@ -712,7 +712,7 @@ export default {
       } else {
         const isSelected = this.isSelected(option)
 
-        if (isSelected) {
+        if (isSelected && !this.disableUnselect) {
           if (key !== 'Tab') this.removeElement(option)
           return
         }
@@ -835,7 +835,9 @@ export default {
       /* istanbul ignore else  */
       if (this.searchable) {
         if (!this.preserveSearch) this.search = ''
-        this.$nextTick(() => this.$refs.search.focus())
+        this.$nextTick(() => {
+          this.$refs.search.focus()
+        })
       } else {
         this.$el.focus()
       }

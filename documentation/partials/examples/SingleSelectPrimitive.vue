@@ -6,6 +6,7 @@ div
     :options="options",
     :searchable="true",
     :levenshtein="1",
+    :disableUnselect="true"
     :close-on-select="false",
     :show-labels="false"
     @press-enter="enter"

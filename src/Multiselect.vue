@@ -271,6 +271,10 @@
       tabindex: {
         type: Number,
         default: 0
+      },
+      disableUnselect: {
+        type: Boolean,
+        default: false
       }
     },
     computed: {

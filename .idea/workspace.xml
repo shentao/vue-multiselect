@@ -2,8 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="256a2855-f747-46a8-b361-0f21ca8cda73" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/dist/vue-multiselect.min.js" afterPath="$PROJECT_DIR$/dist/vue-multiselect.min.js" />
+      <change beforePath="$PROJECT_DIR$/docs/index.html" afterPath="$PROJECT_DIR$/docs/index.html" />
+      <change beforePath="$PROJECT_DIR$/docs/v1/index.html" afterPath="$PROJECT_DIR$/docs/v1/index.html" />
+      <change beforePath="$PROJECT_DIR$/documentation/index.pug" afterPath="$PROJECT_DIR$/documentation/index.pug" />
+      <change beforePath="$PROJECT_DIR$/documentation/partials/examples/SingleSelectPrimitive.vue" afterPath="$PROJECT_DIR$/documentation/partials/examples/SingleSelectPrimitive.vue" />
       <change beforePath="$PROJECT_DIR$/src/Multiselect.vue" afterPath="$PROJECT_DIR$/src/Multiselect.vue" />
       <change beforePath="$PROJECT_DIR$/src/multiselectMixin.js" afterPath="$PROJECT_DIR$/src/multiselectMixin.js" />
     </list>
@@ -25,12 +29,10 @@
       <file leaf-file-name="Multiselect.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Multiselect.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="635">
-              <caret line="107" column="18" lean-forward="true" selection-start-line="107" selection-start-column="18" selection-end-line="107" selection-end-column="18" />
+            <state relative-caret-position="31">
+              <caret line="4" column="10" lean-forward="false" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
               <folding>
                 <element signature="e#5668#5717#0" expanded="true" />
-                <element signature="e#5868#9054#0" expanded="false" />
-                <element signature="e#9070#11088#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -49,8 +51,8 @@
       <file leaf-file-name="multiselectMixin.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/multiselectMixin.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="823" column="4" lean-forward="false" selection-start-line="823" selection-start-column="4" selection-end-line="823" selection-end-column="4" />
+            <state relative-caret-position="434">
+              <caret line="839" column="10" lean-forward="true" selection-start-line="839" selection-start-column="10" selection-end-line="839" selection-end-column="10" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#distance#0" expanded="false" />
@@ -58,6 +60,16 @@
                 <element signature="n#!!block;n#levenshteinAlg#0" expanded="false" />
                 <element signature="n#!!block;n#en2ru#0" expanded="false" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name=".eslintrc.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/.eslintrc.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="434">
+              <caret line="14" column="29" lean-forward="false" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -76,9 +88,22 @@
         <entry file="file://$PROJECT_DIR$/documentation/partials/examples/SingleSelectPrimitive.vue">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="961">
-              <caret line="2668" column="12" lean-forward="false" selection-start-line="2668" selection-start-column="12" selection-end-line="2668" selection-end-column="12" />
+              <caret line="2668" column="4" lean-forward="false" selection-start-line="2668" selection-start-column="4" selection-end-line="2668" selection-end-column="4" />
               <folding>
-                <element signature="e#506#83595#0" expanded="false" />
+                <element signature="e#534#83623#0" expanded="false" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/docs/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="691">
+              <caret line="622" column="38" lean-forward="true" selection-start-line="622" selection-start-column="38" selection-end-line="622" selection-end-column="38" />
+              <folding>
+                <element signature="e#7506#7510#0" expanded="true" />
+                <element signature="e#7563#7567#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -88,12 +113,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>$</find>
-      <find>qd</find>
-      <find>fi</find>
-      <find>customLabel</find>
-      <find>Optional configuration flags:</find>
-      <find>suggest</find>
       <find>Installation</find>
       <find>on doesn’t have a label on it</find>
       <find>SingleSelectPrimitive</find>
@@ -110,13 +129,20 @@
       <find>getValue</find>
       <find>addPointerElement</find>
       <find>input</find>
-      <find>search</find>
       <find>value</find>
       <find>pointerReset</find>
       <find>consol</find>
       <find>f</find>
       <find>hover</find>
       <find>mous</find>
+      <find>options</find>
+      <find>multiselect__element</find>
+      <find>GoogleAnalyticsObject</find>
+      <find>acti</find>
+      <find>blur</find>
+      <find>focus</find>
+      <find>search</find>
+      <find>multiselect__input</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -126,12 +152,17 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/documentation/partials/examples/_examples.pug" />
-        <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/index.js" />
-        <option value="$PROJECT_DIR$/documentation/partials/examples/SingleSelectPrimitive.vue" />
         <option value="$PROJECT_DIR$/src/pointerMixin.js" />
+        <option value="$PROJECT_DIR$/.eslintrc.js" />
+        <option value="$PROJECT_DIR$/docs/index.html" />
+        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/docs/v1/index.html" />
+        <option value="$PROJECT_DIR$/documentation/index.pug" />
+        <option value="$PROJECT_DIR$/documentation/partials/examples/SingleSelectPrimitive.vue" />
         <option value="$PROJECT_DIR$/src/multiselectMixin.js" />
         <option value="$PROJECT_DIR$/src/Multiselect.vue" />
+        <option value="$PROJECT_DIR$/package.json" />
       </list>
     </option>
   </component>
@@ -286,6 +317,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -296,7 +329,25 @@
             <path>
               <item name="vue-multiselect" type="b2602c69:ProjectViewProjectNode" />
               <item name="vue-multiselect" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="dist" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="docs" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="vue-multiselect" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vue-multiselect" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="documentation" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="vue-multiselect" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vue-multiselect" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="documentation" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="partials" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="vue-multiselect" type="b2602c69:ProjectViewProjectNode" />
+              <item name="vue-multiselect" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="documentation" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="partials" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="examples" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="vue-multiselect" type="b2602c69:ProjectViewProjectNode" />
@@ -307,8 +358,6 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scratches" />
-      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -349,12 +398,16 @@
       <updated>1521646742227</updated>
       <workItem from="1521646743907" duration="24606000" />
       <workItem from="1521820129222" duration="609000" />
-      <workItem from="1522331271283" duration="1517000" />
+      <workItem from="1522331271283" duration="3488000" />
+      <workItem from="1522350792858" duration="3000" />
+      <workItem from="1523887626340" duration="684000" />
+      <workItem from="1524485410114" duration="923000" />
+      <workItem from="1524576784567" duration="9847000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26732000" />
+    <option name="totallyTimeSpent" value="40160000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1680" height="1003" extended-state="0" />
@@ -371,6 +424,7 @@
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14285715" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
@@ -379,7 +433,6 @@
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
     </layout>
   </component>
@@ -390,18 +443,132 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/src/Multiselect.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1612">
-          <caret line="52" column="45" lean-forward="false" selection-start-line="52" selection-start-column="45" selection-end-line="52" selection-end-column="45" />
+        <state relative-caret-position="1519">
+          <caret line="49" column="30" lean-forward="false" selection-start-line="49" selection-start-column="30" selection-end-line="49" selection-end-column="30" />
           <folding>
             <element signature="e#5668#5717#0" expanded="true" />
-            <element signature="e#5868#9054#0" expanded="false" />
-            <element signature="e#9070#11088#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="682">
+          <caret line="22" column="29" lean-forward="false" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pointerMixin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1891">
+          <caret line="61" column="32" lean-forward="false" selection-start-line="61" selection-start-column="32" selection-end-line="61" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/documentation/partials/examples/SingleSelectPrimitive.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="961">
+          <caret line="2668" column="12" lean-forward="false" selection-start-line="2668" selection-start-column="12" selection-end-line="2668" selection-end-column="12" />
+          <folding>
+            <element signature="e#534#83623#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/multiselectMixin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21948">
+          <caret line="837" column="50" lean-forward="true" selection-start-line="837" selection-start-column="50" selection-end-line="837" selection-end-column="50" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!block;n#distance#0" expanded="false" />
+            <element signature="n#!!block;n#leftHandLevenshtein#0" expanded="false" />
+            <element signature="n#!!block;n#levenshteinAlg#0" expanded="false" />
+            <element signature="n#!!block;n#en2ru#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Multiselect.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1519">
+          <caret line="49" column="28" lean-forward="false" selection-start-line="49" selection-start-column="28" selection-end-line="49" selection-end-column="28" />
+          <folding>
+            <element signature="e#5668#5717#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="682">
+          <caret line="22" column="29" lean-forward="false" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pointerMixin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1891">
+          <caret line="61" column="32" lean-forward="false" selection-start-line="61" selection-start-column="32" selection-end-line="61" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/documentation/partials/examples/SingleSelectPrimitive.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="961">
+          <caret line="2668" column="12" lean-forward="false" selection-start-line="2668" selection-start-column="12" selection-end-line="2668" selection-end-column="12" />
+          <folding>
+            <element signature="e#534#83623#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/multiselectMixin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21979">
+          <caret line="838" column="14" lean-forward="false" selection-start-line="838" selection-start-column="14" selection-end-line="838" selection-end-column="14" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!block;n#distance#0" expanded="false" />
+            <element signature="n#!!block;n#leftHandLevenshtein#0" expanded="false" />
+            <element signature="n#!!block;n#levenshteinAlg#0" expanded="false" />
+            <element signature="n#!!block;n#en2ru#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Multiselect.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3317">
+          <caret line="107" column="18" lean-forward="false" selection-start-line="107" selection-start-column="18" selection-end-line="107" selection-end-column="18" />
+          <folding>
+            <element signature="e#5668#5717#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/multiselectMixin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21514">
+          <caret line="823" column="4" lean-forward="false" selection-start-line="823" selection-start-column="4" selection-end-line="823" selection-end-column="4" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!block;n#distance#0" expanded="false" />
+            <element signature="n#!!block;n#leftHandLevenshtein#0" expanded="false" />
+            <element signature="n#!!block;n#levenshteinAlg#0" expanded="false" />
+            <element signature="n#!!block;n#en2ru#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -419,7 +586,93 @@
         <state relative-caret-position="961">
           <caret line="2668" column="12" lean-forward="false" selection-start-line="2668" selection-start-column="12" selection-end-line="2668" selection-end-column="12" />
           <folding>
-            <element signature="e#506#83595#0" expanded="false" />
+            <element signature="e#534#83623#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="682">
+          <caret line="22" column="29" lean-forward="true" selection-start-line="22" selection-start-column="29" selection-end-line="22" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Multiselect.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3317">
+          <caret line="107" column="18" lean-forward="false" selection-start-line="107" selection-start-column="18" selection-end-line="107" selection-end-column="18" />
+          <folding>
+            <element signature="e#5668#5717#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/multiselectMixin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21514">
+          <caret line="823" column="4" lean-forward="false" selection-start-line="823" selection-start-column="4" selection-end-line="823" selection-end-column="4" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!block;n#distance#0" expanded="false" />
+            <element signature="n#!!block;n#leftHandLevenshtein#0" expanded="false" />
+            <element signature="n#!!block;n#levenshteinAlg#0" expanded="false" />
+            <element signature="n#!!block;n#en2ru#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pointerMixin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1891">
+          <caret line="61" column="32" lean-forward="false" selection-start-line="61" selection-start-column="32" selection-end-line="61" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/documentation/partials/examples/SingleSelectPrimitive.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="961">
+          <caret line="2668" column="12" lean-forward="false" selection-start-line="2668" selection-start-column="12" selection-end-line="2668" selection-end-column="12" />
+          <folding>
+            <element signature="e#534#83623#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="279">
+          <caret line="9" column="11" lean-forward="false" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Multiselect.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1612">
+          <caret line="52" column="45" lean-forward="false" selection-start-line="52" selection-start-column="45" selection-end-line="52" selection-end-column="45" />
+          <folding>
+            <element signature="e#5668#5717#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pointerMixin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1891">
+          <caret line="61" column="32" lean-forward="false" selection-start-line="61" selection-start-column="32" selection-end-line="61" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/documentation/partials/examples/SingleSelectPrimitive.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="961">
+          <caret line="2668" column="12" lean-forward="false" selection-start-line="2668" selection-start-column="12" selection-end-line="2668" selection-end-column="12" />
+          <folding>
+            <element signature="e#534#83623#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -444,8 +697,6 @@
           <caret line="52" column="45" lean-forward="false" selection-start-line="52" selection-start-column="45" selection-end-line="52" selection-end-column="45" />
           <folding>
             <element signature="e#5668#5717#0" expanded="true" />
-            <element signature="e#5868#9054#0" expanded="false" />
-            <element signature="e#9070#11088#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -455,7 +706,7 @@
         <state relative-caret-position="961">
           <caret line="2668" column="12" lean-forward="false" selection-start-line="2668" selection-start-column="12" selection-end-line="2668" selection-end-column="12" />
           <folding>
-            <element signature="e#506#83595#0" expanded="false" />
+            <element signature="e#534#83623#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -486,9 +737,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#39#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -496,31 +744,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="341">
           <caret line="11" column="35" lean-forward="false" selection-start-line="11" selection-start-column="14" selection-end-line="11" selection-end-column="35" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/docs/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="296">
-          <caret line="1" column="38" lean-forward="false" selection-start-line="1" selection-start-column="38" selection-end-line="1" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/documentation/partials/examples/index.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="44" lean-forward="false" selection-start-line="0" selection-start-column="44" selection-end-line="0" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/documentation/partials/examples/SingleSelectPrimitive.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="961">
-          <caret line="2668" column="12" lean-forward="false" selection-start-line="2668" selection-start-column="12" selection-end-line="2668" selection-end-column="12" />
-          <folding>
-            <element signature="e#506#83595#0" expanded="false" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -532,10 +755,87 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/.editorconfig">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.eslintignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.eslintrc.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="434">
+          <caret line="14" column="29" lean-forward="false" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/documentation/partials/examples/index.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="44" lean-forward="false" selection-start-line="0" selection-start-column="44" selection-end-line="0" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="691">
+          <caret line="622" column="38" lean-forward="true" selection-start-line="622" selection-start-column="38" selection-end-line="622" selection-end-column="38" />
+          <folding>
+            <element signature="e#7506#7510#0" expanded="true" />
+            <element signature="e#7563#7567#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/documentation/index.pug">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="411">
+          <caret line="49" column="11" lean-forward="true" selection-start-line="49" selection-start-column="11" selection-end-line="49" selection-end-column="11" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/docs/v1/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="718">
+          <caret line="250" column="14" lean-forward="false" selection-start-line="250" selection-start-column="14" selection-end-line="250" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="558">
+          <caret line="18" column="46" lean-forward="true" selection-start-line="18" selection-start-column="46" selection-end-line="18" selection-end-column="46" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/documentation/partials/examples/SingleSelectPrimitive.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="961">
+          <caret line="2668" column="4" lean-forward="false" selection-start-line="2668" selection-start-column="4" selection-end-line="2668" selection-end-column="4" />
+          <folding>
+            <element signature="e#534#83623#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/multiselectMixin.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="823" column="4" lean-forward="false" selection-start-line="823" selection-start-column="4" selection-end-line="823" selection-end-column="4" />
+        <state relative-caret-position="434">
+          <caret line="839" column="10" lean-forward="true" selection-start-line="839" selection-start-column="10" selection-end-line="839" selection-end-column="10" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#distance#0" expanded="false" />
@@ -548,12 +848,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Multiselect.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="635">
-          <caret line="107" column="18" lean-forward="true" selection-start-line="107" selection-start-column="18" selection-end-line="107" selection-end-column="18" />
+        <state relative-caret-position="31">
+          <caret line="4" column="10" lean-forward="false" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
           <folding>
             <element signature="e#5668#5717#0" expanded="true" />
-            <element signature="e#5868#9054#0" expanded="false" />
-            <element signature="e#9070#11088#0" expanded="false" />
           </folding>
         </state>
       </provider>
