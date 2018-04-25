@@ -4,9 +4,6 @@
     <list default="true" id="256a2855-f747-46a8-b361-0f21ca8cda73" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/dist/vue-multiselect.min.js" afterPath="$PROJECT_DIR$/dist/vue-multiselect.min.js" />
-      <change beforePath="$PROJECT_DIR$/docs/index.html" afterPath="$PROJECT_DIR$/docs/index.html" />
-      <change beforePath="$PROJECT_DIR$/docs/v1/index.html" afterPath="$PROJECT_DIR$/docs/v1/index.html" />
-      <change beforePath="$PROJECT_DIR$/documentation/index.pug" afterPath="$PROJECT_DIR$/documentation/index.pug" />
       <change beforePath="$PROJECT_DIR$/documentation/partials/examples/SingleSelectPrimitive.vue" afterPath="$PROJECT_DIR$/documentation/partials/examples/SingleSelectPrimitive.vue" />
       <change beforePath="$PROJECT_DIR$/src/Multiselect.vue" afterPath="$PROJECT_DIR$/src/Multiselect.vue" />
       <change beforePath="$PROJECT_DIR$/src/multiselectMixin.js" afterPath="$PROJECT_DIR$/src/multiselectMixin.js" />
@@ -29,32 +26,33 @@
       <file leaf-file-name="Multiselect.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Multiselect.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="31">
-              <caret line="4" column="10" lean-forward="false" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
+            <state relative-caret-position="62">
+              <caret line="2" column="24" lean-forward="true" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
               <folding>
-                <element signature="e#5668#5717#0" expanded="true" />
+                <element signature="e#5683#5732#0" expanded="true" />
+                <element signature="e#5883#9149#0" expanded="false" />
+                <element signature="e#9165#11183#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="package.json" pinned="false" current-in-tab="true">
+      <file leaf-file-name="package.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/package.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="279">
-              <caret line="9" column="11" lean-forward="false" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="11" />
+            <state relative-caret-position="670">
+              <caret line="114" column="19" lean-forward="false" selection-start-line="114" selection-start-column="19" selection-end-line="114" selection-end-column="19" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="multiselectMixin.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="multiselectMixin.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/multiselectMixin.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="434">
-              <caret line="839" column="10" lean-forward="true" selection-start-line="839" selection-start-column="10" selection-end-line="839" selection-end-column="10" />
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding>
-                <element signature="n#!!doc" expanded="true" />
                 <element signature="n#!!block;n#distance#0" expanded="false" />
                 <element signature="n#!!block;n#leftHandLevenshtein#0" expanded="false" />
                 <element signature="n#!!block;n#levenshteinAlg#0" expanded="false" />
@@ -64,20 +62,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name=".eslintrc.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.eslintrc.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="434">
-              <caret line="14" column="29" lean-forward="false" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="pointerMixin.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/pointerMixin.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1891">
+            <state relative-caret-position="825">
               <caret line="61" column="32" lean-forward="false" selection-start-line="61" selection-start-column="32" selection-end-line="61" selection-end-column="32" />
               <folding />
             </state>
@@ -87,10 +75,10 @@
       <file leaf-file-name="SingleSelectPrimitive.vue" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/documentation/partials/examples/SingleSelectPrimitive.vue">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="961">
-              <caret line="2668" column="4" lean-forward="false" selection-start-line="2668" selection-start-column="4" selection-end-line="2668" selection-end-column="4" />
+            <state relative-caret-position="519">
+              <caret line="2677" column="31" lean-forward="false" selection-start-line="2677" selection-start-column="31" selection-end-line="2677" selection-end-column="31" />
               <folding>
-                <element signature="e#534#83623#0" expanded="false" />
+                <element signature="e#573#83662#0" expanded="false" />
               </folding>
             </state>
           </provider>
@@ -100,7 +88,7 @@
         <entry file="file://$PROJECT_DIR$/docs/index.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="691">
-              <caret line="622" column="38" lean-forward="true" selection-start-line="622" selection-start-column="38" selection-end-line="622" selection-end-column="38" />
+              <caret line="622" column="38" lean-forward="false" selection-start-line="622" selection-start-column="38" selection-end-line="622" selection-end-column="38" />
               <folding>
                 <element signature="e#7506#7510#0" expanded="true" />
                 <element signature="e#7563#7567#0" expanded="true" />
@@ -113,9 +101,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>Installation</find>
-      <find>on doesn’t have a label on it</find>
-      <find>SingleSelectPrimitive</find>
       <find>filterOptions</find>
       <find>filterGroups</find>
       <find>levenstein</find>
@@ -141,8 +126,11 @@
       <find>acti</find>
       <find>blur</find>
       <find>focus</find>
-      <find>search</find>
       <find>multiselect__input</find>
+      <find>;</find>
+      <find>search</find>
+      <find>outs</find>
+      <find>__sing</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -160,9 +148,12 @@
         <option value="$PROJECT_DIR$/docs/v1/index.html" />
         <option value="$PROJECT_DIR$/documentation/index.pug" />
         <option value="$PROJECT_DIR$/documentation/partials/examples/SingleSelectPrimitive.vue" />
+        <option value="$PROJECT_DIR$/src/click-outside.js" />
+        <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/.eslintignore" />
         <option value="$PROJECT_DIR$/src/multiselectMixin.js" />
         <option value="$PROJECT_DIR$/src/Multiselect.vue" />
-        <option value="$PROJECT_DIR$/package.json" />
+        <option value="$PROJECT_DIR$/package-lock.json" />
       </list>
     </option>
   </component>
@@ -370,6 +361,14 @@
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="$PROJECT_DIR$/node_modules/eslint" />
     <property name="standardjs.codestyle.accepted" value="true" />
+    <property name="node.js.path.for.package.standard" value="project" />
+    <property name="node.js.detected.package.standard" value="true" />
+    <property name="node.js.selected.package.standard" value="" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src" />
+    </key>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -402,12 +401,12 @@
       <workItem from="1522350792858" duration="3000" />
       <workItem from="1523887626340" duration="684000" />
       <workItem from="1524485410114" duration="923000" />
-      <workItem from="1524576784567" duration="9847000" />
+      <workItem from="1524576784567" duration="16981000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="40160000" />
+    <option name="totallyTimeSpent" value="47294000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1680" height="1003" extended-state="0" />
@@ -444,7 +443,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="3" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -454,7 +453,9 @@
         <state relative-caret-position="1519">
           <caret line="49" column="30" lean-forward="false" selection-start-line="49" selection-start-column="30" selection-end-line="49" selection-end-column="30" />
           <folding>
-            <element signature="e#5668#5717#0" expanded="true" />
+            <element signature="e#5683#5732#0" expanded="true" />
+            <element signature="e#5883#9149#0" expanded="false" />
+            <element signature="e#9165#11183#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -480,7 +481,7 @@
         <state relative-caret-position="961">
           <caret line="2668" column="12" lean-forward="false" selection-start-line="2668" selection-start-column="12" selection-end-line="2668" selection-end-column="12" />
           <folding>
-            <element signature="e#534#83623#0" expanded="false" />
+            <element signature="e#573#83662#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -490,7 +491,6 @@
         <state relative-caret-position="21948">
           <caret line="837" column="50" lean-forward="true" selection-start-line="837" selection-start-column="50" selection-end-line="837" selection-end-column="50" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#distance#0" expanded="false" />
             <element signature="n#!!block;n#leftHandLevenshtein#0" expanded="false" />
             <element signature="n#!!block;n#levenshteinAlg#0" expanded="false" />
@@ -504,7 +504,9 @@
         <state relative-caret-position="1519">
           <caret line="49" column="28" lean-forward="false" selection-start-line="49" selection-start-column="28" selection-end-line="49" selection-end-column="28" />
           <folding>
-            <element signature="e#5668#5717#0" expanded="true" />
+            <element signature="e#5683#5732#0" expanded="true" />
+            <element signature="e#5883#9149#0" expanded="false" />
+            <element signature="e#9165#11183#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -530,7 +532,7 @@
         <state relative-caret-position="961">
           <caret line="2668" column="12" lean-forward="false" selection-start-line="2668" selection-start-column="12" selection-end-line="2668" selection-end-column="12" />
           <folding>
-            <element signature="e#534#83623#0" expanded="false" />
+            <element signature="e#573#83662#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -540,7 +542,6 @@
         <state relative-caret-position="21979">
           <caret line="838" column="14" lean-forward="false" selection-start-line="838" selection-start-column="14" selection-end-line="838" selection-end-column="14" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#distance#0" expanded="false" />
             <element signature="n#!!block;n#leftHandLevenshtein#0" expanded="false" />
             <element signature="n#!!block;n#levenshteinAlg#0" expanded="false" />
@@ -554,7 +555,9 @@
         <state relative-caret-position="3317">
           <caret line="107" column="18" lean-forward="false" selection-start-line="107" selection-start-column="18" selection-end-line="107" selection-end-column="18" />
           <folding>
-            <element signature="e#5668#5717#0" expanded="true" />
+            <element signature="e#5683#5732#0" expanded="true" />
+            <element signature="e#5883#9149#0" expanded="false" />
+            <element signature="e#9165#11183#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -564,7 +567,6 @@
         <state relative-caret-position="21514">
           <caret line="823" column="4" lean-forward="false" selection-start-line="823" selection-start-column="4" selection-end-line="823" selection-end-column="4" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#distance#0" expanded="false" />
             <element signature="n#!!block;n#leftHandLevenshtein#0" expanded="false" />
             <element signature="n#!!block;n#levenshteinAlg#0" expanded="false" />
@@ -586,7 +588,7 @@
         <state relative-caret-position="961">
           <caret line="2668" column="12" lean-forward="false" selection-start-line="2668" selection-start-column="12" selection-end-line="2668" selection-end-column="12" />
           <folding>
-            <element signature="e#534#83623#0" expanded="false" />
+            <element signature="e#573#83662#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -604,7 +606,9 @@
         <state relative-caret-position="3317">
           <caret line="107" column="18" lean-forward="false" selection-start-line="107" selection-start-column="18" selection-end-line="107" selection-end-column="18" />
           <folding>
-            <element signature="e#5668#5717#0" expanded="true" />
+            <element signature="e#5683#5732#0" expanded="true" />
+            <element signature="e#5883#9149#0" expanded="false" />
+            <element signature="e#9165#11183#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -614,7 +618,6 @@
         <state relative-caret-position="21514">
           <caret line="823" column="4" lean-forward="false" selection-start-line="823" selection-start-column="4" selection-end-line="823" selection-end-column="4" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#distance#0" expanded="false" />
             <element signature="n#!!block;n#leftHandLevenshtein#0" expanded="false" />
             <element signature="n#!!block;n#levenshteinAlg#0" expanded="false" />
@@ -636,7 +639,7 @@
         <state relative-caret-position="961">
           <caret line="2668" column="12" lean-forward="false" selection-start-line="2668" selection-start-column="12" selection-end-line="2668" selection-end-column="12" />
           <folding>
-            <element signature="e#534#83623#0" expanded="false" />
+            <element signature="e#573#83662#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -654,7 +657,9 @@
         <state relative-caret-position="1612">
           <caret line="52" column="45" lean-forward="false" selection-start-line="52" selection-start-column="45" selection-end-line="52" selection-end-column="45" />
           <folding>
-            <element signature="e#5668#5717#0" expanded="true" />
+            <element signature="e#5683#5732#0" expanded="true" />
+            <element signature="e#5883#9149#0" expanded="false" />
+            <element signature="e#9165#11183#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -672,7 +677,7 @@
         <state relative-caret-position="961">
           <caret line="2668" column="12" lean-forward="false" selection-start-line="2668" selection-start-column="12" selection-end-line="2668" selection-end-column="12" />
           <folding>
-            <element signature="e#534#83623#0" expanded="false" />
+            <element signature="e#573#83662#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -682,7 +687,6 @@
         <state relative-caret-position="1457">
           <caret line="47" column="32" lean-forward="false" selection-start-line="47" selection-start-column="32" selection-end-line="47" selection-end-column="32" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#distance#0" expanded="false" />
             <element signature="n#!!block;n#leftHandLevenshtein#0" expanded="false" />
             <element signature="n#!!block;n#levenshteinAlg#0" expanded="false" />
@@ -696,7 +700,9 @@
         <state relative-caret-position="1612">
           <caret line="52" column="45" lean-forward="false" selection-start-line="52" selection-start-column="45" selection-end-line="52" selection-end-column="45" />
           <folding>
-            <element signature="e#5668#5717#0" expanded="true" />
+            <element signature="e#5683#5732#0" expanded="true" />
+            <element signature="e#5883#9149#0" expanded="false" />
+            <element signature="e#9165#11183#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -706,7 +712,7 @@
         <state relative-caret-position="961">
           <caret line="2668" column="12" lean-forward="false" selection-start-line="2668" selection-start-column="12" selection-end-line="2668" selection-end-column="12" />
           <folding>
-            <element signature="e#534#83623#0" expanded="false" />
+            <element signature="e#573#83662#0" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -716,7 +722,6 @@
         <state relative-caret-position="1457">
           <caret line="47" column="31" lean-forward="false" selection-start-line="47" selection-start-column="31" selection-end-line="47" selection-end-column="31" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
             <element signature="n#!!block;n#distance#0" expanded="false" />
             <element signature="n#!!block;n#leftHandLevenshtein#0" expanded="false" />
             <element signature="n#!!block;n#levenshteinAlg#0" expanded="false" />
@@ -747,34 +752,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/pointerMixin.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1891">
-          <caret line="61" column="32" lean-forward="false" selection-start-line="61" selection-start-column="32" selection-end-line="61" selection-end-column="32" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/.editorconfig">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.eslintignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.eslintrc.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="434">
-          <caret line="14" column="29" lean-forward="false" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
           <folding />
         </state>
       </provider>
@@ -790,7 +771,7 @@
     <entry file="file://$PROJECT_DIR$/docs/index.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="691">
-          <caret line="622" column="38" lean-forward="true" selection-start-line="622" selection-start-column="38" selection-end-line="622" selection-end-column="38" />
+          <caret line="622" column="38" lean-forward="false" selection-start-line="622" selection-start-column="38" selection-end-line="622" selection-end-column="38" />
           <folding>
             <element signature="e#7506#7510#0" expanded="true" />
             <element signature="e#7563#7567#0" expanded="true" />
@@ -824,43 +805,84 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/documentation/partials/examples/SingleSelectPrimitive.vue">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="961">
-          <caret line="2668" column="4" lean-forward="false" selection-start-line="2668" selection-start-column="4" selection-end-line="2668" selection-end-column="4" />
+        <state relative-caret-position="519">
+          <caret line="2677" column="31" lean-forward="false" selection-start-line="2677" selection-start-column="31" selection-end-line="2677" selection-end-column="31" />
           <folding>
-            <element signature="e#534#83623#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/multiselectMixin.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="434">
-          <caret line="839" column="10" lean-forward="true" selection-start-line="839" selection-start-column="10" selection-end-line="839" selection-end-column="10" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-            <element signature="n#!!block;n#distance#0" expanded="false" />
-            <element signature="n#!!block;n#leftHandLevenshtein#0" expanded="false" />
-            <element signature="n#!!block;n#levenshteinAlg#0" expanded="false" />
-            <element signature="n#!!block;n#en2ru#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Multiselect.vue">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="31">
-          <caret line="4" column="10" lean-forward="false" selection-start-line="4" selection-start-column="10" selection-end-line="4" selection-end-column="10" />
-          <folding>
-            <element signature="e#5668#5717#0" expanded="true" />
+            <element signature="e#573#83662#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/package.json">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
-          <caret line="9" column="11" lean-forward="false" selection-start-line="9" selection-start-column="5" selection-end-line="9" selection-end-column="11" />
+        <state relative-caret-position="670">
+          <caret line="114" column="19" lean-forward="false" selection-start-line="114" selection-start-column="19" selection-end-line="114" selection-end-column="19" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/click-outside.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="682">
+          <caret line="22" column="16" lean-forward="false" selection-start-line="22" selection-start-column="16" selection-end-line="22" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.eslintignore">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.eslintrc.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="434">
+          <caret line="14" column="29" lean-forward="false" selection-start-line="14" selection-start-column="29" selection-end-line="14" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Multiselect.vue">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="62">
+          <caret line="2" column="24" lean-forward="true" selection-start-line="2" selection-start-column="24" selection-end-line="2" selection-end-column="24" />
+          <folding>
+            <element signature="e#5683#5732#0" expanded="true" />
+            <element signature="e#5883#9149#0" expanded="false" />
+            <element signature="e#9165#11183#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/pointerMixin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="825">
+          <caret line="61" column="32" lean-forward="false" selection-start-line="61" selection-start-column="32" selection-end-line="61" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package-lock.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="18151" column="6" lean-forward="true" selection-start-line="18151" selection-start-column="6" selection-end-line="18156" selection-end-column="6" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/multiselectMixin.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!block;n#distance#0" expanded="false" />
+            <element signature="n#!!block;n#leftHandLevenshtein#0" expanded="false" />
+            <element signature="n#!!block;n#levenshteinAlg#0" expanded="false" />
+            <element signature="n#!!block;n#en2ru#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>

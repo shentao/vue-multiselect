@@ -1,9 +1,9 @@
 <template>
   <div
-    :tabindex="searchable ? -1 : tabindex"
+    :tabindex="tabindex"
     :class="{ 'multiselect--active': isOpen, 'multiselect--disabled': disabled, 'multiselect--above': isAbove }"
     @focus="activate()"
-    @blur="searchable ? false : deactivate()"
+    @blur="deactivate()"
     @keydown.self.down.prevent="pointerForward()"
     @keydown.self.up.prevent="pointerBackward()"
     @keydown.enter.tab.stop.self="addPointerElement($event)"
@@ -56,6 +56,7 @@
           @keydown.delete.stop="removeLastElement()"
           class="multiselect__input"/>
         <span
+          ref="single"
           v-if="isSingleLabelVisible"
           class="multiselect__single"
           @mousedown.prevent="toggle">
@@ -65,7 +66,8 @@
         </span>
         <span v-if="isPlaceholderVisible" @mousedown.prevent="toggle">
           <slot name="placeholder">
-            <span class="multiselect__single">
+            <span ref="single"
+                  class="multiselect__single">
               {{ placeholder }}
             </span>
           </slot>

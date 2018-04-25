@@ -822,6 +822,9 @@ export default {
      * Sets this.isOpen to TRUE
      */
     activate () {
+      const input = this.$refs.search
+      const single = this.$refs.single
+
       /* istanbul ignore else */
       if (this.isOpen || this.disabled) return
 
@@ -836,18 +839,27 @@ export default {
       if (this.searchable) {
         if (!this.preserveSearch) this.search = ''
         this.$nextTick(() => {
-          this.$refs.search.focus()
+          input.focus()
         })
       } else {
         this.$el.focus()
       }
       this.$emit('open', this.id)
+
+      /* Fix for ios */
+      if (this.searchable) {
+        if (input.style.display === 'none') {
+          single.style.display = 'none'
+          input.style.display = 'block'
+          input.focus()
+        }
+      }
     },
     /**
      * Closes the multiselect’s dropdown.
      * Sets this.isOpen to FALSE
      */
-    deactivate () {
+    deactivate (d) {
       /* istanbul ignore else */
       if (!this.isOpen) return
 

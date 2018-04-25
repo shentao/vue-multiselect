@@ -2,6 +2,7 @@
 div
   label.typo__label Single select
   multiselect(
+    ref="multiselect"
     v-model="value",
     :options="options",
     :searchable="true",
@@ -9,6 +10,7 @@ div
     :disableUnselect="true"
     :close-on-select="false",
     :show-labels="false"
+    @open="open"
     @press-enter="enter"
     placeholder="Pick a value"
   )
@@ -2669,7 +2671,19 @@ export default {
   },
   methods: {
     enter (search, value, filteredOptions, pointer) {
-      console.log(1, search, value, filteredOptions, pointer)
+      // console.log(1, search, value, filteredOptions, pointer)
+    },
+    open () {
+      // const multiselect = this.$refs.multiselect
+      // const input = multiselect.$refs.search
+      // const single = multiselect.$refs.single
+      //
+      // if (input.style.display === 'none') {
+      //   single.style.display = 'none'
+      //   input.style.display = 'block'
+      //   input.focus()
+      //   console.log(input)
+      // }
     }
   }
 }
