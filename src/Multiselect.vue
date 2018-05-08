@@ -173,7 +173,7 @@
         default: 'Selected'
       },
       /**
-       * String to show when pointing to an alredy selected option
+       * String to show when pointing to an already selected option
        * @default 'Press enter to remove'
        * @type {String}
       */
@@ -182,7 +182,7 @@
         default: 'Press enter to remove'
       },
       /**
-       * String to show when pointing to an alredy selected option
+       * String to show when pointing to an already selected option
        * @default 'Press enter to remove'
        * @type {String}
       */
