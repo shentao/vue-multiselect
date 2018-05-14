@@ -121,6 +121,11 @@
                 <slot name="noResult">No elements found. Consider changing the search query.</slot>
               </span>
             </li>
+            <li v-show="showNoOptions && (options.length === 0 && !search && !loading)">
+              <span class="multiselect__option">
+                <slot name="noOptions">List is empty.</slot>
+              </span>
+            </li>
             <slot name="afterList"></slot>
           </ul>
         </div>
@@ -255,6 +260,15 @@
       openDirection: {
         type: String,
         default: ''
+      },
+      /**
+       * Shows slot with message about empty options
+       * @default true
+       * @type {Boolean}
+       */
+      showNoOptions: {
+        type: Boolean,
+        default: true
       },
       showNoResults: {
         type: Boolean,
