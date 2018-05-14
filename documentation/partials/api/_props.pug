@@ -120,6 +120,12 @@ h2.typo__h2#sub-props(data-section) Props
           td.table__td
             | String to show when highlighting a potential tag
         tr.table__tr
+          td.table__td: strong tagPosition
+          td.table__td String
+          td.table__td: kbd 'top'
+          td.table__td
+            | By default new tags will appear above the search results. Changing to <kbd>'bottom'</kbd> will revert this behaviour and will proritize the search results
+        tr.table__tr
           td.table__td: strong max
           td.table__td Number
           td.table__td
@@ -179,9 +185,21 @@ h2.typo__h2#sub-props(data-section) Props
           td.table__td.utils--center(colspan="4"): strong Multiselect.vue
 
         tr.table__tr
+          td.table__td: strong name
+          td.table__td String
+          td.table__td: kbd ''
+          td.table__td
+            | Name attribute to match optional label element
+        tr.table__tr
           td.table__td: strong selectLabel
           td.table__td String
           td.table__td: kbd 'Press enter to select'
+          td.table__td
+            | String to show when pointing to an option
+        tr.table__tr
+          td.table__td: strong selectGroupLabel
+          td.table__td String
+          td.table__td: kbd 'Press enter to select group'
           td.table__td
             | String to show when pointing to an option
         tr.table__tr
@@ -195,7 +213,13 @@ h2.typo__h2#sub-props(data-section) Props
           td.table__td String
           td.table__td: kbd 'Press enter to remove'
           td.table__td
-            | String to show when pointing to an alredy selected option
+            | String to show when pointing to an already selected option
+        tr.table__tr
+          td.table__td: strong deselectGroupLabel
+          td.table__td String
+          td.table__td: kbd 'Press enter to deselect group'
+          td.table__td
+            | String to show when pointing to an already selected option
         tr.table__tr
           td.table__td: strong showLabels
           td.table__td Boolean
@@ -237,7 +261,7 @@ h2.typo__h2#sub-props(data-section) Props
           td.table__td String
           td.table__td: kbd ''
           td.table__td
-            | Fixed opening direction (instead of auto)
+            | Fixed opening direction (instead of auto). Options are <kbd>"above"</kbd>/<kbd>"top"</kbd> or <kbd>"below"</kbd>/<kbd>"bottom"</kbd>
         tr.table__tr
           td.table__td: strong showNoResults
           td.table__td Boolean
