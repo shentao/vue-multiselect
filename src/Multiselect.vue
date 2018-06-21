@@ -8,6 +8,7 @@
     @keydown.self.up.prevent="pointerBackward()"
     @keydown.enter.tab.stop.self="addPointerElement($event)"
     @keyup.esc="deactivate()"
+    @keydown="alphanumSelectItem($event)"
     class="multiselect">
       <slot name="caret" :toggle="toggle">
         <div @mousedown.prevent.stop="toggle()" class="multiselect__select"></div>
@@ -63,7 +64,7 @@
             <template>{{ currentOptionLabel }}</template>
           </slot>
         </span>
-        <span 
+        <span
           v-if="isPlaceholderVisible"
           class="multiselect__placeholder"
           @mousedown.prevent="toggle">

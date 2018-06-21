@@ -55,7 +55,7 @@
       - `:limit="3"` – limits the visible results to 3.
       - `:limit-text="limitText"` – function that receives the current selected options count and should return a string to show when the `:limit` count is exceed
       - `:options-limit="300"` – limits the displayed options to `300`. Useful for optimisations purposes.
-      
+
       #### New in v2.0.0 stable:
       - `id="ajax"` – every event is emitted with this as the second param. Useful for identification which component instance triggered the method (in loops for example). NEW: Can also be used for pointing with `<label :for="id">`.
       - `open-direction="bottom"` – forces the multiselect to always open below. Use `top` or `above` to always open above. By default the multiselect will open whereever there is more space once there is not enough space below to open at `maxHeight`.
@@ -87,6 +87,12 @@
 
       Please look at the provided example for a example options list structure.
     +example('Groups')
+  +subsection('Alphanumeric selection')
+    :markdown-it
+      You can use `enable-alphanumeric-selection` to enable selecting items using letters or numbers on your keyboard.
+
+      This options can only be enabled if `taggable` is set to `false`.
+    +example('Alphanumeric')
   +subsection('Vuex support')
     :markdown-it
       Due to the one-way data-flow enforced by Vuex you should not be using `v-model` for manipulating the currently selected value.
