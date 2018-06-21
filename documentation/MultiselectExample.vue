@@ -9,6 +9,7 @@ div
     :multiple="true",
     :show-labels="false",
     :limit="3",
+    :open-on-focus="false"
     @tag="onTagging"
   )
     template(slot="option", slot-scope="props")
