@@ -36,7 +36,7 @@
         </transition>
         <input
           ref="search"
-          v-show="isOpen && searchable"
+          v-if="searchable"
           :name="name"
           :id="id"
           type="text"
@@ -67,12 +67,11 @@
         </span>
         <span
           v-if="isPlaceholderVisible"
+          class="multiselect__placeholder"
           @mousedown.prevent="toggle"
           @touchstart="toggle">
           <slot name="placeholder">
-            <span class="multiselect__single">
               {{ placeholder }}
-            </span>
           </slot>
         </span>
       </div>
@@ -123,6 +122,11 @@
             <li v-show="showNoResults && (filteredOptions.length === 0 && search && !loading)">
               <span class="multiselect__option">
                 <slot name="noResult">No elements found. Consider changing the search query.</slot>
+              </span>
+            </li>
+            <li v-show="showNoOptions && (options.length === 0 && !search && !loading)">
+              <span class="multiselect__option">
+                <slot name="noOptions">List is empty.</slot>
               </span>
             </li>
             <slot name="afterList"></slot>
@@ -178,7 +182,7 @@
         default: 'Selected'
       },
       /**
-       * String to show when pointing to an alredy selected option
+       * String to show when pointing to an already selected option
        * @default 'Press enter to remove'
        * @type {String}
       */
@@ -187,7 +191,7 @@
         default: 'Press enter to remove'
       },
       /**
-       * String to show when pointing to an alredy selected option
+       * String to show when pointing to an already selected option
        * @default 'Press enter to remove'
        * @type {String}
       */
@@ -260,6 +264,15 @@
         type: String,
         default: ''
       },
+      /**
+       * Shows slot with message about empty options
+       * @default true
+       * @type {Boolean}
+       */
+      showNoOptions: {
+        type: Boolean,
+        default: true
+      },
       showNoResults: {
         type: Boolean,
         default: true
@@ -312,7 +325,7 @@
           : ''
       },
       inputStyle () {
-        if (this.multiple && this.value && this.value.length) {
+        if (this.searchable || (this.multiple && this.value && this.value.length)) {
           // Hide input by setting the width to 0 allowing it to receive focus
           return this.isOpen ? { 'width': 'auto' } : { 'width': '0', 'position': 'absolute', 'padding': '0' }
         }
