@@ -14,26 +14,6 @@
       </slot>
       <slot name="clear" :search="search"></slot>
       <div ref="tags" class="multiselect__tags">
-        <div class="multiselect__tags-wrap" v-show="visibleValues.length > 0">
-          <template v-for="option of visibleValues" @mousedown.prevent>
-            <slot name="tag" :option="option" :search="search" :remove="removeElement">
-              <span class="multiselect__tag">
-                <span v-text="getOptionLabel(option)"></span>
-                <i aria-hidden="true" tabindex="1" @keydown.enter.prevent="removeElement(option)"  @mousedown.prevent="removeElement(option)" class="multiselect__tag-icon"></i>
-              </span>
-            </slot>
-          </template>
-        </div>
-        <template v-if="internalValue && internalValue.length > limit">
-          <slot name="limit">
-            <strong class="multiselect__strong" v-text="limitText(internalValue.length - limit)"/>
-          </slot>
-        </template>
-        <transition name="multiselect__loading">
-          <slot name="loading">
-            <div v-show="loading" class="multiselect__spinner"/>
-          </slot>
-        </transition>
         <input
           ref="search"
           v-if="searchable"
@@ -55,6 +35,26 @@
           @keydown.enter.prevent.stop.self="addPointerElement($event)"
           @keydown.delete.stop="removeLastElement()"
           class="multiselect__input"/>
+        <div class="multiselect__tags-wrap" v-show="visibleValues.length > 0">
+          <template v-for="option of visibleValues" @mousedown.prevent>
+            <slot name="tag" :option="option" :search="search" :remove="removeElement">
+              <span class="multiselect__tag">
+                <span v-text="getOptionLabel(option)"></span>
+                <i aria-hidden="true" tabindex="1" @keydown.enter.prevent="removeElement(option)"  @mousedown.prevent="removeElement(option)" class="multiselect__tag-icon"></i>
+              </span>
+            </slot>
+          </template>
+        </div>
+        <template v-if="internalValue && internalValue.length > limit">
+          <slot name="limit">
+            <strong class="multiselect__strong" v-text="limitText(internalValue.length - limit)"/>
+          </slot>
+        </template>
+        <transition name="multiselect__loading">
+          <slot name="loading">
+            <div v-show="loading" class="multiselect__spinner"/>
+          </slot>
+        </transition>
         <span
           v-if="isSingleLabelVisible"
           class="multiselect__single"
@@ -352,6 +352,10 @@
 </script>
 
 <style>
+:root{
+  --greyD: #929699;
+}
+
 fieldset[disabled] .multiselect {
   pointer-events: none;
 }
@@ -438,22 +442,8 @@ fieldset[disabled] .multiselect {
   z-index: 50;
 }
 
-.multiselect--active:not(.multiselect--above) .multiselect__current,
-.multiselect--active:not(.multiselect--above) .multiselect__input,
-.multiselect--active:not(.multiselect--above) .multiselect__tags {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
 .multiselect--active .multiselect__select {
   transform: rotateZ(180deg);
-}
-
-.multiselect--above.multiselect--active .multiselect__current,
-.multiselect--above.multiselect--active .multiselect__input,
-.multiselect--above.multiselect--active .multiselect__tags {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
 }
 
 .multiselect__input,
@@ -463,7 +453,7 @@ fieldset[disabled] .multiselect {
   min-height: 20px;
   line-height: 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 3px;
   background: #fff;
   padding: 0 0 0 5px;
   width: calc(100%);
@@ -474,7 +464,7 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect__input::placeholder {
-  color: #313233;
+  color: var(--GreyD);
 }
 
 .multiselect__tag ~ .multiselect__input,
@@ -502,6 +492,10 @@ fieldset[disabled] .multiselect {
   display: inline
 }
 
+.multiselect__tags-wrap:not(:empty) ~ .multiselect__input {
+  display: block;
+}
+
 .multiselect__tags {
   min-height: 40px;
   display: block;
@@ -511,22 +505,43 @@ fieldset[disabled] .multiselect {
   background: #fff;
   font-size: 14px;
   font-size: 0.95rem;
+    line-height: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+    box-sizing: border-box;
+    padding: 0.25rem 1.5rem 0.25rem 0.5rem;
+    width: 100%;
+    border: 1px solid #C4C9CC;
+    word-wrap: initial;
+    border-radius: 0;
+
 }
 
 .multiselect__tag {
   position: relative;
   display: inline-block;
-  padding: 4px 26px 4px 10px;
+  padding: 0.25rem 2rem 0.25rem 0.5rem;
   border-radius: 5px;
   margin-right: 10px;
   color: #fff;
   line-height: 1;
-  background: #f95c39;
   margin-bottom: 5px;
   white-space: nowrap;
   overflow: hidden;
   max-width: 100%;
   text-overflow: ellipsis;
+  position: relative;
+  margin: 0 0.25rem 0.5rem 0;
+  color: #929699;
+		position: relative;
+		display: inline-block;
+		border-radius: 3px;
+		border: 1px solid lightgrey;
+		color: darkgrey;
+		margin-bottom: 0.5rem;
+		margin-right: 0.5rem;
 }
 
 .multiselect__tag-icon {
@@ -624,12 +639,12 @@ fieldset[disabled] .multiselect {
   width: 100%;
   max-height: 240px;
   overflow: auto;
-  border: 1px solid #E8E8E8;
   border-top: none;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+  border-radius: 2px;
   z-index: 50;
   -webkit-overflow-scrolling: touch;
+  box-shadow: 0 1px 1px #929699;
+  margin-top: 0.3rem;
 }
 
 .multiselect__content {
@@ -671,6 +686,7 @@ fieldset[disabled] .multiselect {
   cursor: pointer;
   white-space: nowrap;
   font-size: 0.875rem;
+  overflow: auto;
 }
 
 .multiselect__option:after {
@@ -743,12 +759,7 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect__option--group.multiselect__option--highlight {
-  background: #35495E;
   color: #fff;
-}
-
-.multiselect__option--group.multiselect__option--highlight:after {
-  background: #313233;
 }
 
 .multiselect__option--disabled.multiselect__option--highlight {
