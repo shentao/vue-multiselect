@@ -353,6 +353,8 @@
 </script>
 
 <style>
+@import url("https://d1azc1qln24ryf.cloudfront.net/26905/Studyportalslineariconset/style-cf.css?p6k6l4");
+
 :root{
   --greyD: #929699;
 }
@@ -446,7 +448,7 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect--active .multiselect__select {
-  transform: rotateZ(180deg);
+  transform: rotateX(180deg);
 }
 
 .multiselect__input,
@@ -588,11 +590,11 @@ fieldset[disabled] .multiselect {
   display: block;
   position: absolute;
   box-sizing: border-box;
-  width: 40px;
+  width: 32px;
   height: 38px;
   right: 1px;
   top: 1px;
-  padding: 4px 8px;
+  padding: 11px 8px;
   margin: 0;
   text-decoration: none;
   text-align: center;
@@ -603,13 +605,11 @@ fieldset[disabled] .multiselect {
 .multiselect__select:before {
   position: relative;
   right: 0;
-  top: 65%;
+  font-size: 16px;
+  line-height: 1;
   color: #999;
-  margin-top: 4px;
-  border-style: solid;
-  border-width: 5px 5px 0 5px;
-  border-color: #999999 transparent transparent transparent;
-  content: "";
+  content: "\E93A";
+  font-family: icomoon;
 }
 
 .multiselect__placeholder {
