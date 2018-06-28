@@ -629,7 +629,7 @@ fieldset[disabled] .multiselect {
   overflow: auto;
   border-top: none;
   border-radius: 2px;
-  z-index: 50;
+  z-index: 200;
   -webkit-overflow-scrolling: touch;
   box-shadow: 0 1px 1px #929699;
   margin-top: 0.3rem;
@@ -672,7 +672,6 @@ fieldset[disabled] .multiselect {
   vertical-align: middle;
   position: relative;
   cursor: pointer;
-  white-space: nowrap;
   font-size: 0.875rem;
   overflow: auto;
 }
