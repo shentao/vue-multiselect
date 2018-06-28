@@ -35,6 +35,15 @@
           @keydown.enter.prevent.stop.self="addPointerElement($event)"
           @keydown.delete.stop="removeLastElement()"
           class="multiselect__input"/>
+        <span
+          v-if="isPlaceholderVisible"
+          class="multiselect__placeholder"
+          @mousedown.prevent="toggle"
+          @touchstart="toggle">
+          <slot name="placeholder">
+              {{ placeholder }}
+          </slot>
+        </span>
         <div class="multiselect__tags-wrap" v-show="visibleValues.length > 0">
           <template v-for="option of visibleValues" @mousedown.prevent>
             <slot name="tag" :option="option" :search="search" :remove="removeElement">
@@ -65,15 +74,6 @@
             <template>{{ currentOptionLabel }}</template>
           </slot>
         </span>
-        <span
-          v-if="isPlaceholderVisible"
-          class="multiselect__placeholder"
-          @mousedown.prevent="toggle"
-          @touchstart="toggle">
-          <slot name="placeholder">
-              {{ placeholder }}
-          </slot>
-        </span>
       </div>
       <transition name="multiselect">
         <div
@@ -81,7 +81,7 @@
           v-show="isOpen"
           @focus="activate"
           @mousedown.prevent
-          :style="{ maxHeight: optimizedHeight + 'px' }"
+          :style="listStyle"
           ref="list">
           <ul class="multiselect__content" :style="contentStyle">
             <slot name="beforeList"></slot>
@@ -139,10 +139,11 @@
 <script>
   import multiselectMixin from './multiselectMixin'
   import pointerMixin from './pointerMixin'
+  import positionMixin from './positionMixin'
 
   export default {
     name: 'vue-multiselect',
-    mixins: [multiselectMixin, pointerMixin],
+    mixins: [multiselectMixin, pointerMixin, positionMixin],
     props: {
 
       /**
@@ -289,7 +290,7 @@
           !this.visibleValues.length
       },
       isPlaceholderVisible () {
-        return !this.internalValue.length && (!this.searchable || !this.isOpen)
+        return (!this.internalValue.length || this.multiple) && (!this.searchable || !this.isOpen)
       },
       visibleValues () {
         return this.multiple
@@ -409,10 +410,12 @@ fieldset[disabled] .multiselect {
 
 .multiselect,
 .multiselect__input,
-.multiselect__single {
+.multiselect__single,
+.multiselect__placeholder {
   font-family: inherit;
   font-size: 16px;
   touch-action: manipulation;
+  margin: 0.25rem 0;
 }
 
 .multiselect {
@@ -447,7 +450,8 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect__input,
-.multiselect__single {
+.multiselect__single,
+.multiselect__placeholder {
   position: relative;
   display: inline-block;
   min-height: 20px;
@@ -455,12 +459,11 @@ fieldset[disabled] .multiselect {
   border: none;
   border-radius: 3px;
   background: #fff;
-  padding: 0 0 0 5px;
-  width: calc(100%);
+  padding-top: 2px;
+  width: 100%;
   transition: border 0.1s ease;
   box-sizing: border-box;
-  margin-bottom: 8px;
-  vertical-align: top;
+  vertical-align: middle;
 }
 
 .multiselect__input::placeholder {
@@ -492,15 +495,14 @@ fieldset[disabled] .multiselect {
   display: inline
 }
 
-.multiselect__tags-wrap:not(:empty) ~ .multiselect__input {
-  display: block;
+.multiselect__input {
+  display: block !important;
 }
 
 .multiselect__tags {
   min-height: 40px;
   display: block;
-  padding: 8px 40px 0 8px;
-  border-radius: 5px;
+  padding: 0.25rem 1.5rem 0.25rem 0.5rem;
   border: 1px solid #DCE1E5;
   background: #fff;
   font-size: 14px;
@@ -511,37 +513,26 @@ fieldset[disabled] .multiselect {
     justify-content: center;
     cursor: pointer;
     box-sizing: border-box;
-    padding: 0.25rem 1.5rem 0.25rem 0.5rem;
     width: 100%;
-    border: 1px solid #C4C9CC;
-    word-wrap: initial;
-    border-radius: 0;
-
+  border: 1px solid #C4C9CC;
 }
 
 .multiselect__tag {
   position: relative;
   display: inline-block;
   padding: 0.25rem 2rem 0.25rem 0.5rem;
-  border-radius: 5px;
-  margin-right: 10px;
+  border-radius: 3px;
+  margin: 0.25rem 0.5rem 0.25rem 0;
   color: #fff;
   line-height: 1;
-  margin-bottom: 5px;
   white-space: nowrap;
   overflow: hidden;
   max-width: 100%;
   text-overflow: ellipsis;
-  position: relative;
-  margin: 0 0.25rem 0.5rem 0;
+  vertical-align: middle;
   color: #929699;
-		position: relative;
-		display: inline-block;
-		border-radius: 3px;
 		border: 1px solid lightgrey;
 		color: darkgrey;
-		margin-bottom: 0.5rem;
-		margin-right: 0.5rem;
 }
 
 .multiselect__tag-icon {
@@ -623,9 +614,6 @@ fieldset[disabled] .multiselect {
 
 .multiselect__placeholder {
   color: #ADADAD;
-  display: inline-block;
-  margin-bottom: 10px;
-  padding-top: 2px;
 }
 
 .multiselect--active .multiselect__placeholder {
