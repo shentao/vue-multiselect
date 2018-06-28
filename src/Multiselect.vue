@@ -507,13 +507,13 @@ fieldset[disabled] .multiselect {
   background: #fff;
   font-size: 14px;
   font-size: 0.95rem;
-    line-height: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    cursor: pointer;
-    box-sizing: border-box;
-    width: 100%;
+  line-height: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+  box-sizing: border-box;
+  width: 100%;
   border: 1px solid #C4C9CC;
 }
 
@@ -531,8 +531,8 @@ fieldset[disabled] .multiselect {
   text-overflow: ellipsis;
   vertical-align: middle;
   color: #929699;
-		border: 1px solid lightgrey;
-		color: darkgrey;
+  border: 1px solid lightgrey;
+  color: darkgrey;
 }
 
 .multiselect__tag-icon {
