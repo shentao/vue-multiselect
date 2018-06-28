@@ -14,26 +14,6 @@
       </slot>
       <slot name="clear" :search="search"></slot>
       <div ref="tags" class="multiselect__tags">
-        <div class="multiselect__tags-wrap" v-show="visibleValues.length > 0">
-          <template v-for="option of visibleValues" @mousedown.prevent>
-            <slot name="tag" :option="option" :search="search" :remove="removeElement">
-              <span class="multiselect__tag">
-                <span v-text="getOptionLabel(option)"></span>
-                <i aria-hidden="true" tabindex="1" @keydown.enter.prevent="removeElement(option)"  @mousedown.prevent="removeElement(option)" class="multiselect__tag-icon"></i>
-              </span>
-            </slot>
-          </template>
-        </div>
-        <template v-if="internalValue && internalValue.length > limit">
-          <slot name="limit">
-            <strong class="multiselect__strong" v-text="limitText(internalValue.length - limit)"/>
-          </slot>
-        </template>
-        <transition name="multiselect__loading">
-          <slot name="loading">
-            <div v-show="loading" class="multiselect__spinner"/>
-          </slot>
-        </transition>
         <input
           ref="search"
           v-if="searchable"
@@ -56,19 +36,42 @@
           @keydown.delete.stop="removeLastElement()"
           class="multiselect__input"/>
         <span
-          v-if="isSingleLabelVisible"
-          class="multiselect__single"
-          @mousedown.prevent="toggle">
-          <slot name="singleLabel" :option="singleValue">
-            <template>{{ currentOptionLabel }}</template>
-          </slot>
-        </span>
-        <span 
           v-if="isPlaceholderVisible"
           class="multiselect__placeholder"
-          @mousedown.prevent="toggle">
+          @mousedown.prevent="toggle"
+          @touchstart="toggle">
           <slot name="placeholder">
               {{ placeholder }}
+          </slot>
+        </span>
+        <div class="multiselect__tags-wrap" v-show="visibleValues.length > 0">
+          <template v-for="option of visibleValues" @mousedown.prevent>
+            <slot name="tag" :option="option" :search="search" :remove="removeElement">
+              <span class="multiselect__tag">
+                <span v-text="getOptionLabel(option)"></span>
+                <i aria-hidden="true" tabindex="1" @keydown.enter.prevent="removeElement(option)"  @mousedown.prevent="removeElement(option)" class="multiselect__tag-icon"></i>
+              </span>
+            </slot>
+          </template>
+        </div>
+        <template v-if="internalValue && internalValue.length > limit">
+          <slot name="limit">
+            <strong class="multiselect__strong" v-text="limitText(internalValue.length - limit)"/>
+          </slot>
+        </template>
+        <transition name="multiselect__loading">
+          <slot name="loading">
+            <div v-show="loading" class="multiselect__spinner"/>
+          </slot>
+        </transition>
+        <span
+          v-if="isSingleLabelVisible"
+          class="multiselect__single"
+          @mousedown.prevent="toggle"
+          @touchstart="toggle"
+          >
+          <slot name="singleLabel" :option="singleValue">
+            <template>{{ currentOptionLabel }}</template>
           </slot>
         </span>
       </div>
@@ -78,7 +81,7 @@
           v-show="isOpen"
           @focus="activate"
           @mousedown.prevent
-          :style="{ maxHeight: optimizedHeight + 'px' }"
+          :style="listStyle"
           ref="list">
           <ul class="multiselect__content" :style="contentStyle">
             <slot name="beforeList"></slot>
@@ -136,10 +139,11 @@
 <script>
   import multiselectMixin from './multiselectMixin'
   import pointerMixin from './pointerMixin'
+  import positionMixin from './positionMixin'
 
   export default {
     name: 'vue-multiselect',
-    mixins: [multiselectMixin, pointerMixin],
+    mixins: [multiselectMixin, pointerMixin, positionMixin],
     props: {
 
       /**
@@ -286,7 +290,7 @@
           !this.visibleValues.length
       },
       isPlaceholderVisible () {
-        return !this.internalValue.length && (!this.searchable || !this.isOpen)
+        return (!this.internalValue.length || this.multiple) && (!this.searchable || !this.isOpen)
       },
       visibleValues () {
         return this.multiple
@@ -349,6 +353,10 @@
 </script>
 
 <style>
+:root{
+  --greyD: #929699;
+}
+
 fieldset[disabled] .multiselect {
   pointer-events: none;
 }
@@ -373,7 +381,7 @@ fieldset[disabled] .multiselect {
   width: 16px;
   height: 16px;
   border-radius: 100%;
-  border-color: #41B883 transparent transparent;
+  border-color: #f95c39 transparent transparent;
   border-style: solid;
   border-width: 2px;
   box-shadow: 0 0 0 1px transparent;
@@ -402,10 +410,12 @@ fieldset[disabled] .multiselect {
 
 .multiselect,
 .multiselect__input,
-.multiselect__single {
+.multiselect__single,
+.multiselect__placeholder {
   font-family: inherit;
   font-size: 16px;
   touch-action: manipulation;
+  margin: 0.25rem 0;
 }
 
 .multiselect {
@@ -415,7 +425,7 @@ fieldset[disabled] .multiselect {
   width: 100%;
   min-height: 40px;
   text-align: left;
-  color: #35495E;
+  color: #313233;
 }
 
 .multiselect * {
@@ -435,43 +445,29 @@ fieldset[disabled] .multiselect {
   z-index: 50;
 }
 
-.multiselect--active:not(.multiselect--above) .multiselect__current,
-.multiselect--active:not(.multiselect--above) .multiselect__input,
-.multiselect--active:not(.multiselect--above) .multiselect__tags {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
 .multiselect--active .multiselect__select {
   transform: rotateZ(180deg);
 }
 
-.multiselect--above.multiselect--active .multiselect__current,
-.multiselect--above.multiselect--active .multiselect__input,
-.multiselect--above.multiselect--active .multiselect__tags {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-}
-
 .multiselect__input,
-.multiselect__single {
+.multiselect__single,
+.multiselect__placeholder {
   position: relative;
   display: inline-block;
   min-height: 20px;
   line-height: 20px;
   border: none;
-  border-radius: 5px;
+  border-radius: 3px;
   background: #fff;
-  padding: 0 0 0 5px;
-  width: calc(100%);
+  padding-top: 2px;
+  width: 100%;
   transition: border 0.1s ease;
   box-sizing: border-box;
-  margin-bottom: 8px;
-  vertical-align: top;
+  vertical-align: middle;
 }
 
 .multiselect__input::placeholder {
-  color: #35495E;
+  color: var(--GreyD);
 }
 
 .multiselect__tag ~ .multiselect__input,
@@ -499,30 +495,44 @@ fieldset[disabled] .multiselect {
   display: inline
 }
 
+.multiselect__input {
+  display: block !important;
+}
+
 .multiselect__tags {
   min-height: 40px;
   display: block;
-  padding: 8px 40px 0 8px;
-  border-radius: 5px;
-  border: 1px solid #E8E8E8;
+  padding: 0.25rem 1.5rem 0.25rem 0.5rem;
+  border: 1px solid #DCE1E5;
   background: #fff;
   font-size: 14px;
+  font-size: 0.95rem;
+  line-height: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  cursor: pointer;
+  box-sizing: border-box;
+  width: 100%;
+  border: 1px solid #C4C9CC;
 }
 
 .multiselect__tag {
   position: relative;
   display: inline-block;
-  padding: 4px 26px 4px 10px;
-  border-radius: 5px;
-  margin-right: 10px;
+  padding: 0.25rem 2rem 0.25rem 0.5rem;
+  border-radius: 3px;
+  margin: 0.25rem 0.5rem 0.25rem 0;
   color: #fff;
   line-height: 1;
-  background: #41B883;
-  margin-bottom: 5px;
   white-space: nowrap;
   overflow: hidden;
   max-width: 100%;
   text-overflow: ellipsis;
+  vertical-align: middle;
+  color: #929699;
+  border: 1px solid lightgrey;
+  color: darkgrey;
 }
 
 .multiselect__tag-icon {
@@ -543,13 +553,13 @@ fieldset[disabled] .multiselect {
 
 .multiselect__tag-icon:after {
   content: "×";
-  color: #266d4d;
+  color: #CC4C2F;
   font-size: 14px;
 }
 
 .multiselect__tag-icon:focus,
 .multiselect__tag-icon:hover {
-  background: #369a6e;
+  background: #CC4C2F;
 }
 
 .multiselect__tag-icon:focus:after,
@@ -604,9 +614,6 @@ fieldset[disabled] .multiselect {
 
 .multiselect__placeholder {
   color: #ADADAD;
-  display: inline-block;
-  margin-bottom: 10px;
-  padding-top: 2px;
 }
 
 .multiselect--active .multiselect__placeholder {
@@ -620,12 +627,12 @@ fieldset[disabled] .multiselect {
   width: 100%;
   max-height: 240px;
   overflow: auto;
-  border: 1px solid #E8E8E8;
   border-top: none;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-  z-index: 50;
+  border-radius: 2px;
+  z-index: 200;
   -webkit-overflow-scrolling: touch;
+  box-shadow: 0 1px 1px #929699;
+  margin-top: 0.3rem;
 }
 
 .multiselect__content {
@@ -657,42 +664,43 @@ fieldset[disabled] .multiselect {
 
 .multiselect__option {
   display: block;
-  padding: 12px;
-  min-height: 40px;
-  line-height: 16px;
+  padding: 0.25rem 0 0.25rem 1.5rem;
+  min-height: 1rem;
+  line-height: 1rem;
   text-decoration: none;
   text-transform: none;
   vertical-align: middle;
   position: relative;
   cursor: pointer;
-  white-space: nowrap;
+  font-size: 0.875rem;
+  overflow: auto;
 }
 
 .multiselect__option:after {
   top: 0;
   right: 0;
   position: absolute;
-  line-height: 40px;
-  padding-right: 12px;
-  padding-left: 20px;
-  font-size: 13px;
+  line-height: 1.5rem;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+  font-size: 0.8125rem;
 }
 
 .multiselect__option--highlight {
-  background: #41B883;
+  background: #f95c39;
   outline: none;
   color: white;
 }
 
 .multiselect__option--highlight:after {
   content: attr(data-select);
-  background: #41B883;
+  background: #f95c39;
   color: white;
 }
 
 .multiselect__option--selected {
   background: #F3F3F3;
-  color: #35495E;
+  color: #313233;
   font-weight: bold;
 }
 
@@ -712,7 +720,7 @@ fieldset[disabled] .multiselect {
   color: #fff;
 }
 
-.multiselect--disabled {
+.multiselect--disabled:not(.multiselect__option--group) {
   background: #ededed;
   pointer-events: none;
 }
@@ -723,7 +731,7 @@ fieldset[disabled] .multiselect {
   color: #a6a6a6;
 }
 
-.multiselect__option--disabled {
+.multiselect__option--disabled:not(.multiselect__option--group) {
   background: #ededed;
   color: #a6a6a6;
   cursor: text;
@@ -731,17 +739,14 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect__option--group {
-  background: #ededed;
-  color: #35495E;
+  color: #929699;
+  font-size: 0.75rem;
+  padding-left: 0.5rem;
+  text-transform: capitalize;
 }
 
 .multiselect__option--group.multiselect__option--highlight {
-  background: #35495E;
   color: #fff;
-}
-
-.multiselect__option--group.multiselect__option--highlight:after {
-  background: #35495E;
 }
 
 .multiselect__option--disabled.multiselect__option--highlight {
