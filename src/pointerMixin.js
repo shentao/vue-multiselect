@@ -44,16 +44,21 @@ export default {
       }
     },
     groupHighlight (index, selectedGroup) {
-      if (!this.groupSelect) {
-        return ['multiselect__option--disabled', 'multiselect__option--group']
+      if (!this.groupSelect && !this.options) {
+        return ['multiselect__option--disabled']
       }
 
       const group = this.options.find(option => {
         return option[this.groupLabel] === selectedGroup.$groupLabel
       })
 
+      if (!this.groupSelect && !group) {
+        return ['multiselect__option--disabled']
+      }
+
       return [
         'multiselect__option--group',
+        { 'multiselect__option--disabled': !this.groupSelect },
         { 'multiselect__option--highlight': index === this.pointer && this.showPointer },
         { 'multiselect__option--group-selected': this.wholeGroupSelected(group) }
       ]
