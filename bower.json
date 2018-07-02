@@ -3,7 +3,7 @@
   "description": "Multiselect component for vue.js",
   "main": [
     "./dist/vue-multiselect.min.js",
-    "./dist/vue-multiselect.min.css",
+    "./dist/vue-multiselect.min.css"
   ],
   "authors": [
     "Damian Dulisz <damian.dulisz@gmail.com>"
