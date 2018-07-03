@@ -41,6 +41,11 @@ export default {
       type: String,
       default: 'absolute',
       validator: (value) => value === 'absolute' || value === 'fixed'
+    },
+    positionToCorner: {
+      type: String,
+      default: 'left',
+      validator: (value) => value === 'left' || value === 'right'
     }
   },
   watch: {
@@ -62,12 +67,30 @@ export default {
   },
   computed: {
     listStyle () {
-      return {
-        maxHeight: this.optimizedHeight,
-        position: this.positionStrategy,
-        top: this.positionStrategy === 'fixed' ? this.listStyleTop + 'px' : window.scrollY + this.listStyleTop + 'px',
-        left: this.positionStrategy === 'fixed' ? this.listStyleLeft + 'px' : window.scrollX + this.listStyleLeft + 'px',
-        width: this.listStyleWidth + 'px'
+      let left = this.listStyleLeft
+      let top = this.listStyleTop
+
+      if (this.positionStrategy === 'absolute') {
+        left += window.scrollX
+        top += window.scrollY
+      }
+
+      if (this.positionToCorner === 'right') {
+        return {
+          maxHeight: this.optimizedHeight,
+          position: this.positionStrategy,
+          top: top + 'px',
+          right: document.firstElementChild.clientWidth - left - this.listStyleWidth + 'px',
+          width: this.listStyleWidth + 'px'
+        }
+      } else {
+        return {
+          maxHeight: this.optimizedHeight,
+          position: this.positionStrategy,
+          top: top + 'px',
+          left: left + 'px',
+          width: this.listStyleWidth + 'px'
+        }
       }
     }
   }
