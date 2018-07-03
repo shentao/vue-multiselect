@@ -52,7 +52,7 @@
           @keyup.esc="deactivate()"
           @keydown.down.prevent="pointerForward()"
           @keydown.up.prevent="pointerBackward()"
-          @keydown.enter.prevent.stop.self="addPointerElement($event)"
+          @keydown.enter.tab.prevent.stop.self="addPointerElement($event)"
           @keydown.delete.stop="removeLastElement()"
           class="multiselect__input"/>
         <span
@@ -63,7 +63,7 @@
             <template>{{ currentOptionLabel }}</template>
           </slot>
         </span>
-        <span 
+        <span
           v-if="isPlaceholderVisible"
           class="multiselect__placeholder"
           @mousedown.prevent="toggle">
