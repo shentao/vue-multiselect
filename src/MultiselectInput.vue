@@ -56,10 +56,8 @@ export default {
       type: String
     }
   },
-  watch: {
-    isOpen (isOpen) {
-      if (isOpen) this.$el.focus()
-    }
+  mounted () {
+    this.$el.focus()
   }
 }
 </script>
@@ -103,7 +101,6 @@ export default {
   width: calc(100%);
   transition: border 0.1s ease;
   box-sizing: border-box;
-  margin-bottom: 8px;
   vertical-align: top;
   width: 0;
 }

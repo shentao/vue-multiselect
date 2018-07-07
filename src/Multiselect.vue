@@ -60,7 +60,8 @@
           currentOptionLabel,
           limit,
           limitText,
-          multiple
+          multiple,
+          isOpen
         }"
         :class="{
           'multiselect--disabled': disabled
@@ -223,7 +224,6 @@ fieldset[disabled] .multiselect {
   width: calc(100%);
   transition: border 0.1s ease;
   box-sizing: border-box;
-  margin-bottom: 8px;
   vertical-align: top;
 }
 
@@ -243,17 +243,18 @@ fieldset[disabled] .multiselect {
 
 .multiselect__single {
   padding-left: 5px;
-  margin-bottom: 8px;
 }
 
 .multiselect__tags-wrap {
-  display: inline
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .multiselect__tags {
   min-height: 40px;
   display: flex;
-  padding: 8px 40px 0 8px;
+  align-items: center;
+  padding: 8px 40px 8px 8px;
   border-radius: 5px;
   border: 1px solid #E8E8E8;
   background: #fff;
@@ -521,7 +522,6 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect__strong {
-  margin-bottom: 8px;
   line-height: 20px;
   display: inline-block;
   vertical-align: top;

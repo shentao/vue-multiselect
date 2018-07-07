@@ -8,7 +8,7 @@
   </slot>
   <slot name="clear" :search="search"></slot>
   <div ref="tags" class="multiselect__tags">
-    <div class="multiselect__tags-wrap" v-show="visibleValues.length > 0">
+    <div class="multiselect__tags-wrap">
       <template v-for="option of visibleValues" @mousedown.prevent>
         <slot name="tag" :option="option" :search="search" :remove="removeElement">
           <span class="multiselect__tag">
@@ -17,6 +17,7 @@
           </span>
         </slot>
       </template>
+      <slot v-if="isOpen" name="control"/>
     </div>
     <template v-if="internalValue && internalValue.length > limit">
       <slot name="limit">
@@ -28,7 +29,6 @@
         <div v-show="loading" class="multiselect__spinner"/>
       </slot>
     </transition>
-    <slot name="control"/>
     <span
       v-if="isSingleLabelVisible"
       class="multiselect__single"
@@ -81,7 +81,8 @@ export default {
     isPlaceholderVisible: {},
     currentOptionLabel: {},
     limit: {},
-    limitText: {}
+    limitText: {},
+    isOpen: {}
   }
 }
 </script>
