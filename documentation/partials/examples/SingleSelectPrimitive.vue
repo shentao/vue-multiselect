@@ -4,7 +4,8 @@ div
   multiselect(
     v-model="value",
     :options="options",
-    :searchable="false",
+    :searchable="true",
+    :multiple="true",
     :close-on-select="false",
     :show-labels="false"
     placeholder="Pick a value"
@@ -23,8 +24,22 @@ export default {
   },
   data () {
     return {
-      value: '',
-      options: ['Select option', 'options', 'selected', 'mulitple', 'label', 'searchable', 'clearOnSelect', 'hideSelected', 'maxHeight', 'allowEmpty', 'showLabels', 'onChange', 'touched']
+      value: [],
+      options: [
+        'Select option',
+        'options',
+        'selected',
+        'mulitple',
+        'label',
+        'searchable',
+        'clearOnSelect',
+        'hideSelected',
+        'maxHeight',
+        'allowEmpty',
+        'showLabels',
+        'onChange',
+        'touched'
+      ]
     }
   }
 }

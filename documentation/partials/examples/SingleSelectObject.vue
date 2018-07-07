@@ -11,10 +11,10 @@ div
     :searchable="false",
     :allow-empty="false"
   )
-    template(slot="singleLabel", slot-scope="{ option }")
-      strong {{ option.name }}
-      |  is written in
-      strong   {{ option.language }}
+    //- template(slot="singleLabel", slot-scope="{ option }")
+    //-   strong {{ option.name }}
+    //-   |  is written in
+    //-   strong   {{ option.language }}
   pre.language-json
     code.
       {{ value  }}

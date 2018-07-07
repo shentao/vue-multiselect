@@ -11,11 +11,14 @@ div
     :limit="3",
     @tag="onTagging"
   )
-    template(slot="option", slot-scope="props")
-      span.badge__name {{ props.option.name }}
-      img.badge__img(:src="props.option.img", :alt="props.option.name")
-    span(slot="noResult").
-      Badge not found. Suggest a badge <a class="typo__link" href="https://github.com/monterail/vue-multiselect/issues" target="_blank">here</a>.
+    .multiselect__content-wrapper(slot="options", slot-scope="props")
+      ul.multiselect__content(v-if="props.isOpen")
+        li.multiselect__element(
+          v-for="(option, index) of props.filteredOptions",
+          :key="index"
+        )
+          span.multiselect__option(@click="props.select(option)")
+            | {{ option.name }}
 </template>
 
 <script>
