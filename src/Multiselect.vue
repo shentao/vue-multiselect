@@ -15,9 +15,9 @@
       <slot name="clear" :search="search"></slot>
       <div ref="tags" class="multiselect__tags">
         <div class="multiselect__tags-wrap" v-show="visibleValues.length > 0">
-          <template v-for="option of visibleValues" @mousedown.prevent>
+          <template v-for="(option, index) of visibleValues" @mousedown.prevent>
             <slot name="tag" :option="option" :search="search" :remove="removeElement">
-              <span class="multiselect__tag" :key="getOptionLabel(option)">
+              <span class="multiselect__tag" :key="index">
                 <span v-text="getOptionLabel(option)"></span>
                 <i aria-hidden="true" tabindex="1" @keydown.enter.prevent="removeElement(option)"  @mousedown.prevent="removeElement(option)" class="multiselect__tag-icon"></i>
               </span>
@@ -134,11 +134,11 @@
 </template>
 
 <script>
-import multiselectMixin from "./multiselectMixin";
-import pointerMixin from "./pointerMixin";
+import multiselectMixin from './multiselectMixin'
+import pointerMixin from './pointerMixin'
 
 export default {
-  name: "vue-multiselect",
+  name: 'vue-multiselect',
   mixins: [multiselectMixin, pointerMixin],
   props: {
     /**
@@ -148,7 +148,7 @@ export default {
      */
     name: {
       type: String,
-      default: ""
+      default: ''
     },
     /**
      * String to show when pointing to an option
@@ -157,7 +157,7 @@ export default {
      */
     selectLabel: {
       type: String,
-      default: "Press enter to select"
+      default: 'Press enter to select'
     },
     /**
      * String to show when pointing to an option
@@ -166,7 +166,7 @@ export default {
      */
     selectGroupLabel: {
       type: String,
-      default: "Press enter to select group"
+      default: 'Press enter to select group'
     },
     /**
      * String to show next to selected option
@@ -175,7 +175,7 @@ export default {
      */
     selectedLabel: {
       type: String,
-      default: "Selected"
+      default: 'Selected'
     },
     /**
      * String to show when pointing to an already selected option
@@ -184,7 +184,7 @@ export default {
      */
     deselectLabel: {
       type: String,
-      default: "Press enter to remove"
+      default: 'Press enter to remove'
     },
     /**
      * String to show when pointing to an already selected option
@@ -193,7 +193,7 @@ export default {
      */
     deselectGroupLabel: {
       type: String,
-      default: "Press enter to deselect group"
+      default: 'Press enter to deselect group'
     },
     /**
      * Decide whether to show pointer labels
@@ -258,7 +258,7 @@ export default {
      */
     openDirection: {
       type: String,
-      default: ""
+      default: ''
     },
     /**
      * Shows slot with message about empty options
@@ -284,31 +284,31 @@ export default {
         this.singleValue &&
         (!this.isOpen || !this.searchable) &&
         !this.visibleValues.length
-      );
+      )
     },
     isPlaceholderVisible() {
-      return !this.internalValue.length && (!this.searchable || !this.isOpen);
+      return !this.internalValue.length && (!this.searchable || !this.isOpen)
     },
     visibleValues() {
-      return this.multiple ? this.internalValue.slice(0, this.limit) : [];
+      return this.multiple ? this.internalValue.slice(0, this.limit) : []
     },
     singleValue() {
-      return this.internalValue[0];
+      return this.internalValue[0]
     },
     deselectLabelText() {
-      return this.showLabels ? this.deselectLabel : "";
+      return this.showLabels ? this.deselectLabel : ''
     },
     deselectGroupLabelText() {
-      return this.showLabels ? this.deselectGroupLabel : "";
+      return this.showLabels ? this.deselectGroupLabel : ''
     },
     selectLabelText() {
-      return this.showLabels ? this.selectLabel : "";
+      return this.showLabels ? this.selectLabel : ''
     },
     selectGroupLabelText() {
-      return this.showLabels ? this.selectGroupLabel : "";
+      return this.showLabels ? this.selectGroupLabel : ''
     },
     selectedLabelText() {
-      return this.showLabels ? this.selectedLabel : "";
+      return this.showLabels ? this.selectedLabel : ''
     },
     inputStyle() {
       if (
@@ -317,25 +317,25 @@ export default {
       ) {
         // Hide input by setting the width to 0 allowing it to receive focus
         return this.isOpen
-          ? { width: "auto" }
-          : { width: "0", position: "absolute", padding: "0" };
+          ? { width: 'auto' }
+          : { width: '0', position: 'absolute', padding: '0' }
       }
     },
     contentStyle() {
       return this.options.length
-        ? { display: "inline-block" }
-        : { display: "block" };
+        ? { display: 'inline-block' }
+        : { display: 'block' }
     },
     isAbove() {
-      if (this.openDirection === "above" || this.openDirection === "top") {
-        return true;
+      if (this.openDirection === 'above' || this.openDirection === 'top') {
+        return true
       } else if (
-        this.openDirection === "below" ||
-        this.openDirection === "bottom"
+        this.openDirection === 'below' ||
+        this.openDirection === 'bottom'
       ) {
-        return false;
+        return false
       } else {
-        return this.prefferedOpenDirection === "above";
+        return this.prefferedOpenDirection === 'above'
       }
     },
     showSearchInput() {
@@ -345,10 +345,10 @@ export default {
         (this.visibleSingleValue || this.visibleSingleValue === 0)
           ? this.isOpen
           : true)
-      );
+      )
     }
   }
-};
+}
 </script>
 
 <style>
