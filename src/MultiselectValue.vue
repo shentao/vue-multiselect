@@ -1,19 +1,27 @@
 <template lang="html">
 <div>
   <slot name="caret" :toggle="toggle">
-    <div
-      @click.prevent.stop
-      class="multiselect__select"
-    />
+    <div class="multiselect__select"/>
   </slot>
   <slot name="clear" :search="search"></slot>
   <div ref="tags" class="multiselect__tags">
     <div class="multiselect__tags-wrap">
       <template v-for="option of visibleValues" @mousedown.prevent>
-        <slot name="tag" :option="option" :search="search" :remove="removeElement">
+        <slot
+          name="tag"
+          :option="option"
+          :search="search"
+          :remove="removeElement"
+        >
           <span class="multiselect__tag">
             <span v-text="getOptionLabel(option)"></span>
-            <i aria-hidden="true" tabindex="1" @keydown.enter.prevent="removeElement(option)"  @mousedown.prevent="removeElement(option)" class="multiselect__tag-icon"></i>
+            <i
+              aria-hidden="true"
+              tabindex="1"
+              @keydown.enter.prevent="removeElement(option)"
+              @click.prevent.stop="removeElement(option)"
+              class="multiselect__tag-icon"
+            ></i>
           </span>
         </slot>
       </template>

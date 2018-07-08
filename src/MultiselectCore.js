@@ -442,8 +442,6 @@ export default {
       /* istanbul ignore else */
       if (this.isOpen || this.disabled) return
 
-      console.log('activate')
-
       window.addEventListener('click', this.clickOutsideHandler)
 
       this.adjustPosition()
@@ -465,13 +463,10 @@ export default {
       /* istanbul ignore else */
       if (!this.isOpen) return
 
-      console.log('deactivate')
-
       window.removeEventListener('click', this.clickOutsideHandler)
 
       this.$nextTick(() => {
         this.isOpen = false
-        console.log('closing')
       })
 
       if (!this.preserveSearch) this.search = ''

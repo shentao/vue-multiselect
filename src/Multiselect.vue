@@ -266,11 +266,10 @@ fieldset[disabled] .multiselect {
   display: inline-block;
   padding: 4px 26px 4px 10px;
   border-radius: 5px;
-  margin-right: 10px;
+  margin: 3px;
   color: #fff;
   line-height: 1;
   background: #41B883;
-  margin-bottom: 5px;
   white-space: nowrap;
   overflow: hidden;
   max-width: 100%;

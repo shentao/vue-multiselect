@@ -7,7 +7,7 @@
       'multiselect--above': isAbove
     }"
     @click.stop="toggle()"
-    @keyup.space.self.stop="toggle()"
+    @keyup.space.prevent.self.stop="toggle()"
     @keydown.down.prevent.self="handleKeydown('down')"
     @keydown.up.prevent.self="handleKeydown('up')"
     @keydown.enter="handleKeydown('enter', $event)"
