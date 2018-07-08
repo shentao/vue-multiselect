@@ -9,8 +9,10 @@
     :placeholder="placeholder"
     :value="search"
     :disabled="disabled"
+    @click.stop=""
     @keyup.space.stop.prevent=""
     @keydown.self.down.prevent="handleKeydown('down')"
+    @keydown.self.delete="handleKeydown('delete')"
     @keydown.self.up.prevent="handleKeydown('up')"
     @keydown.enter.stop.self="handleKeydown('enter', $event)"
     @keyup.esc="deactivate()"
@@ -92,8 +94,8 @@ export default {
 .multiselect__input {
   position: relative;
   display: inline-block;
-  min-height: 20px;
-  line-height: 20px;
+  min-height: 22px;
+  line-height: 22px;
   border: none;
   border-radius: 5px;
   background: #fff;
@@ -102,6 +104,7 @@ export default {
   transition: border 0.1s ease;
   box-sizing: border-box;
   vertical-align: top;
+  margin: 3px 0;
   width: 0;
 }
 

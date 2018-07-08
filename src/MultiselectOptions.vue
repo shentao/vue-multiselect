@@ -24,7 +24,8 @@
             <span
               v-if="!(option && (option.$isLabel || option.$isDisabled))"
               :class="$parent.optionHighlight(index, option)"
-              @click.stop="$parent.select(option)"
+              @click.stop.prevent="$parent.select(option)"
+              @mousedown.stop.prevent=""
               @mouseenter.self="$parent.pointerSet(index)"
               class="multiselect__option"
             >

@@ -21,17 +21,20 @@
               @keydown.enter.prevent="removeElement(option)"
               @click.prevent.stop="removeElement(option)"
               class="multiselect__tag-icon"
-            ></i>
+            />
           </span>
         </slot>
       </template>
       <slot v-if="isOpen" name="control"/>
+      <template v-if="internalValue && internalValue.length > limit">
+        <slot name="limit">
+          <strong
+          class="multiselect__strong"
+          v-text="limitText(internalValue.length - limit)"
+          />
+        </slot>
+      </template>
     </div>
-    <template v-if="internalValue && internalValue.length > limit">
-      <slot name="limit">
-        <strong class="multiselect__strong" v-text="limitText(internalValue.length - limit)"/>
-      </slot>
-    </template>
     <transition name="multiselect__loading">
       <slot name="loading">
         <div v-show="loading" class="multiselect__spinner"/>

@@ -206,6 +206,10 @@ export default {
           this.deactivate()
           return
 
+        case 'delete':
+          this.removeLastElement()
+          return
+
         case 'tab':
           this.deactivate()
           return
