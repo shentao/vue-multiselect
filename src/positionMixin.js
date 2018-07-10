@@ -22,14 +22,15 @@ export default {
     }
   },
   props: {
-      /**
-       * TODO: add description
-       * @default HTMLBodyElement
-       * @type {Element}
-      */
-    positionWrapper: {
-      default: () => document.body,
-      validator: (node) => node instanceof Element // eslint-disable-line no-undef
+    /**
+     * Determines if the list is placed as a direct child of the body element
+     * to improve styling, e.g. when wrapped in a fixed element.
+     * @default false
+     * @type {Boolean}
+    */
+    position: {
+      type: Boolean,
+      default: false
     },
     /**
      * Defines how the list will be positioned,
@@ -42,7 +43,12 @@ export default {
       default: 'absolute',
       validator: (value) => value === 'absolute' || value === 'fixed'
     },
-    positionToCorner: {
+    /**
+     * Locates the list to a specific side for better customization.
+     * @default 'left'
+     * @type {'left' | 'right'}
+    */
+    positionToSide: {
       type: String,
       default: 'left',
       validator: (value) => value === 'left' || value === 'right'
@@ -57,16 +63,20 @@ export default {
     }
   },
   mounted () {
-    this.positionWrapper.appendChild(this.$refs.list)
-    window.addEventListener(
-      'resize',
-      calculateListPosition.bind(this, this.$refs.tags, this),
-      {passive: true, capture: true}
-    )
-    calculateListPosition(this.$refs.tags, this)
+    if (this.position) {
+      document.body.appendChild(this.$refs.list)
+      window.addEventListener(
+        'resize',
+        calculateListPosition.bind(this, this.$refs.tags, this),
+        { passive: true, capture: true }
+      )
+      calculateListPosition(this.$refs.tags, this)
+    }
   },
   computed: {
     listStyle () {
+      if (!this.position) return { maxHeight: this.optimizedHeight }
+
       let left = this.listStyleLeft
       let top = this.listStyleTop
 
@@ -75,7 +85,7 @@ export default {
         top += window.scrollY
       }
 
-      if (this.positionToCorner === 'right') {
+      if (this.positionToSide === 'right') {
         return {
           maxHeight: this.optimizedHeight,
           position: this.positionStrategy,
