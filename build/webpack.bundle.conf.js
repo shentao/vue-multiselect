@@ -40,7 +40,11 @@ const webpackConfig = merge(base, {
     new ExtractTextPlugin({
       filename: 'vue-multiselect.min.css'
     }),
-    new OptimizeCSSPlugin()
+    new OptimizeCSSPlugin({
+      cssProcessorOptions: {
+        zindex: false
+      }
+    })
   ]
 })
 
