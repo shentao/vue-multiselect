@@ -584,7 +584,7 @@ fieldset[disabled] .multiselect {
   @extend %FontSize-SN;
   content: "×";
   color: $GreyD;
-  vertical-align: text-top;
+  vertical-align: middle;
 }
 
 .multiselect__tag-icon:focus,
