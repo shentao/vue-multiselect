@@ -577,7 +577,7 @@ fieldset[disabled] .multiselect {
   text-align: center;
   line-height: 1.5rem;
   transition: all 0.2s ease;
-  border-radius: 5px;
+  border-radius: 3px;
 }
 
 .multiselect__tag-icon:after {
@@ -609,7 +609,7 @@ fieldset[disabled] .multiselect {
   white-space: nowrap;
   margin: 0;
   text-decoration: none;
-  border-radius: 5px;
+  border-radius: 3px;
   border: 1px solid #E8E8E8;
   cursor: pointer;
 }
