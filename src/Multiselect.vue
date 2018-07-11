@@ -6,7 +6,7 @@
     @blur="searchable ? false : deactivate()"
     @keydown.self.down.prevent="pointerForward()"
     @keydown.self.up.prevent="pointerBackward()"
-    @keydown.enter.tab.stop.self="addPointerElement($event)"
+    @keydown.enter.tab.prevent.stop.self="addPointerElement($event)"
     @keyup.esc="deactivate()"
     class="multiselect">
       <slot name="caret" :toggle="toggle">
