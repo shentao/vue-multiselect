@@ -355,6 +355,33 @@
 <style lang="scss">
 @import url("https://d1azc1qln24ryf.cloudfront.net/26905/Studyportalslineariconset/style-cf.css?p6k6l4");
 
+@function alphaize($desired-color, $background-color) {
+
+    $r1: red($background-color);
+    $g1: green($background-color);
+    $b1: blue($background-color);
+
+    $r2: red($desired-color);
+    $g2: green($desired-color);
+    $b2: blue($desired-color);
+
+    $alpha: 0;
+    $r: -1;
+    $g: -1;
+    $b: -1;
+
+    @while $alpha < 1 and ($r < 0 or $g < 0 or $b < 0
+                           or $r > 255 or $g > 255 or $b > 255) {
+        $alpha: $alpha + 1/256;
+        $inv: 1 / $alpha;
+        $r: $r2 * $inv + $r1 * (1 - $inv);
+        $g: $g2 * $inv + $g1 * (1 - $inv);
+        $b: $b2 * $inv + $b1 * (1 - $inv);
+    }
+
+    @return rgba($r, $g, $b, $alpha);
+}
+
 /* Brand orange colors. */
 // $BrandOrangeL: #F96A4B;
 $BrandOrange: #f95c39;
@@ -364,7 +391,7 @@ $BrandOrangeD: #CC4C2F;
 $GreyDD: #313233;
 $GreyD: #929699;
 $Grey: #C4C9CC;
-// $GreyL: #DCE1E5;
+$GreyL: #DCE1E5;
 $GreyLL: #E8ECED;
 $GreyLLL: #EDF2F4;
 $White: #FFFFFF;
@@ -455,6 +482,7 @@ fieldset[disabled] .multiselect {
   min-height: 40px;
   text-align: left;
   color: $GreyD;
+  margin: 0.5rem 0;
 }
 
 .multiselect * {
@@ -472,6 +500,10 @@ fieldset[disabled] .multiselect {
 
 .multiselect--active {
   z-index: 50;
+
+  .multiselect__tags {
+    border-color: $GreyD;
+  }
 }
 
 .multiselect--active .multiselect__select {
@@ -531,14 +563,10 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect__tags {
+  @extend %FontSize-N;
   min-height: 40px;
-  /* display: block; */
   padding: 0.25rem 2rem 0.25rem 0.5rem;
-  /* border: 1px solid #DCE1E5; */
   background: $White;
-  /* font-size: 14px; */
-  font-size: 0.95rem;
-  line-height: 1.5rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -620,11 +648,11 @@ fieldset[disabled] .multiselect {
   display: block;
   position: absolute;
   box-sizing: border-box;
-  width: 32px;
-  height: 38px;
+  width: 2rem;
   right: 1px;
   top: 1px;
-  padding: 11px 8px;
+  bottom: 1px;
+  padding: 0.5rem;
   margin: 0;
   text-decoration: none;
   text-align: center;
@@ -634,12 +662,14 @@ fieldset[disabled] .multiselect {
 
 .multiselect__select:before {
   @extend %FontSize-N;
-  position: relative;
-  right: 0;
+  position: absolute;
+  left: 50%;
+  top: 50%;
   line-height: 1;
   color: $GreyD;
   content: "\E93A";
   font-family: icomoon;
+  transform: translate(-50%, -50%);
 }
 
 .multiselect__placeholder {
@@ -651,23 +681,24 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect__content-wrapper {
+  @extend %FontSize-N;
+  border: 1px solid $GreyL;
+  border-radius: 3px;
+  box-shadow: 0 2px 4px alphaize($Grey, $White);
   position: absolute;
   display: block;
   background: $White;
   width: 100%;
   max-height: 240px;
   overflow: auto;
-  border-top: none;
-  border-radius: 2px;
   z-index: 200;
   -webkit-overflow-scrolling: touch;
-  box-shadow: 0 1px 1px $GreyD;
-  margin-top: 0.25rem;
+  margin-top: 0.5rem;
 
   @at-root .multiselect--above & {
     bottom: 100%;
-    box-shadow: 0 -1px 1px $GreyD;
-    margin-bottom: 0.25rem;
+    box-shadow: 0 -1px 1px alphaize($Grey, $White);
+    margin-bottom: 0.5rem;
   }
 }
 
@@ -675,7 +706,7 @@ fieldset[disabled] .multiselect {
   list-style: none;
   display: inline-block;
   padding: 0;
-  margin: 0;
+  margin: 0.5rem 0;
   min-width: 100%;
   vertical-align: top;
 }
@@ -685,7 +716,9 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect__element {
+  cursor: pointer;
   display: block;
+  margin: 0;
 }
 
 .multiselect__option {
@@ -765,8 +798,8 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect__option--group {
+  @extend %FontSize-SN;
   color: $GreyD;
-  font-size: 0.75rem;
   padding-left: 0.5rem;
   text-transform: capitalize;
 }
