@@ -112,10 +112,10 @@ export default {
     /**
      * Key to compare objects
      * @default 'id'
-     * @type {String}
+     * @type {String|Array|Function}
      */
     trackBy: {
-      type: String
+      type: [String, Array, Function]
     },
     /**
      * Label to look for in option Object
@@ -371,7 +371,7 @@ export default {
     },
     valueKeys () {
       if (this.trackBy) {
-        return this.internalValue.map(element => element[this.trackBy])
+        return this.internalValue.map(element => this.getOptionKey(element))
       } else {
         return this.internalValue
       }
@@ -459,10 +459,28 @@ export default {
      * @returns {Boolean} returns true if element is selected
      */
     isSelected (option) {
-      const opt = this.trackBy
-        ? option[this.trackBy]
-        : option
+      const opt = this.getOptionKey(option)
       return this.valueKeys.indexOf(opt) > -1
+    },
+    /**
+     * Returns option if trackBy is undefined
+     * Returns option[trackBy] if trackBy is a String
+     * Returns concatenated option[trackBy[i]] values if trackBy is an Array
+     * Returns trackBy(option) result if trackBy is a Function
+     *
+     * @param  {Object||String||Integer} Passed option
+     * @returns {String}
+     */
+    getOptionKey (option) {
+      if (!this.trackBy) return option
+      /* istanbul ignore else */
+      if (typeof this.trackBy === 'string') return option[this.trackBy]
+      /* istanbul ignore else */
+      if (Array.isArray(this.trackBy)) return this.trackBy.map(tb => option[tb]).join('_')
+      /* istanbul ignore else */
+      if (typeof this.trackBy === 'function') return this.trackBy(option)
+
+      return option
     },
     /**
      * Returns empty string when options is null/undefined
@@ -591,7 +609,7 @@ export default {
       }
 
       const index = typeof option === 'object'
-        ? this.valueKeys.indexOf(option[this.trackBy])
+        ? this.valueKeys.indexOf(this.getOptionKey(option))
         : this.valueKeys.indexOf(option)
 
       this.$emit('remove', option, this.id)
