@@ -112,10 +112,10 @@ export default {
     /**
      * Key to compare objects
      * @default 'id'
-     * @type {String|Array|Function}
+     * @type {String|Function}
      */
     trackBy: {
-      type: [String, Array, Function]
+      type: [String, Function]
     },
     /**
      * Label to look for in option Object
@@ -465,7 +465,6 @@ export default {
     /**
      * Returns option if trackBy is undefined
      * Returns option[trackBy] if trackBy is a String
-     * Returns concatenated option[trackBy[i]] values if trackBy is an Array
      * Returns trackBy(option) result if trackBy is a Function
      *
      * @param  {Object||String||Integer} Passed option
@@ -475,8 +474,6 @@ export default {
       if (!this.trackBy) return option
       /* istanbul ignore else */
       if (typeof this.trackBy === 'string') return option[this.trackBy]
-      /* istanbul ignore else */
-      if (Array.isArray(this.trackBy)) return this.trackBy.map(tb => option[tb]).join('_')
       /* istanbul ignore else */
       if (typeof this.trackBy === 'function') return this.trackBy(option)
 
