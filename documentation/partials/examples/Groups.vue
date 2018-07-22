@@ -12,8 +12,8 @@ div
     track-by="name",
     label="name",
   )
-    span(slot="noResult").
-      Oops! No elements found. Consider changing the search query.
+    span(slot="noResult")
+      | Oops! No options found. Consider changing the search query.
   pre.language-json
     code.
       {{ value  }}

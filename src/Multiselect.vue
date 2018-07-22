@@ -1,38 +1,11 @@
 <template>
-<MultiselectCore
-  v-bind="$props"
-  v-on="$listeners"
-  style="position: relative"
->
-  <div
-    slot-scope="{
-      activate,
-      deactivate,
-      handleKeydown,
-      search,
-      disabled,
-      id,
-      isOpen,
-      placeholder,
-      updateSearch,
-      internalValue,
-      filteredOptions,
-      select,
-      toggle,
-      visibleValues,
-      isSingleLabelVisible,
-      singleValue,
-      isPlaceholderVisible,
-      currentOptionLabel,
-      limit,
-      limitText,
-      getOptionLabel,
-      removeElement,
-      multiple
-    }"
+  <MultiselectCore
+    v-bind="$props"
+    v-on="$listeners"
+    style="position: relative"
   >
-    <MultiselectButton
-      v-bind="{
+    <div
+      slot-scope="{
         activate,
         deactivate,
         handleKeydown,
@@ -41,68 +14,130 @@
         id,
         isOpen,
         placeholder,
-        toggle
+        updateSearch,
+        internalValue,
+        filteredOptions,
+        select,
+        toggle,
+        visibleValues,
+        isSingleLabelVisible,
+        singleValue,
+        isPlaceholderVisible,
+        currentOptionLabel,
+        limit,
+        limitText,
+        getOptionLabel,
+        removeElement,
+        multiple
       }"
     >
-      <MultiselectValue
+      <MultiselectWrapper
         v-bind="{
-          toggle,
+          activate,
+          deactivate,
+          handleKeydown,
           search,
-          visibleValues,
-          getOptionLabel,
-          removeElement,
-          internalValue,
-          loading,
-          isSingleLabelVisible,
-          singleValue,
+          disabled,
+          id,
+          isOpen,
           placeholder,
-          isPlaceholderVisible,
-          currentOptionLabel,
-          limit,
-          limitText,
-          multiple,
-          isOpen
-        }"
-        :class="{
-          'multiselect--disabled': disabled
+          toggle
         }"
       >
-        <MultiselectInput
-          v-if="searchable"
-          slot="control"
+        <MultiselectValue
           v-bind="{
-            activate,
-            deactivate,
-            handleKeydown,
+            toggle,
             search,
-            disabled,
-            id,
-            isOpen,
+            visibleValues,
+            getOptionLabel,
+            removeElement,
+            internalValue,
+            loading,
+            isSingleLabelVisible,
+            singleValue,
             placeholder,
-            updateSearch,
+            isPlaceholderVisible,
+            currentOptionLabel,
+            limit,
+            limitText,
+            multiple,
+            isOpen
           }"
-        />
-      </MultiselectValue>
-    </MultiselectButton>
-    <slot
-      name="options"
-      v-bind="$attrs"
-      :is-open="isOpen"
-      :value="internalValue"
-      :filtered-options="filteredOptions"
-      :select="select"
-    >
-      <MultiselectOptions/>
-    </slot>
-  </div>
-</MultiselectCore>
+          :class="{
+            'multiselect--disabled': disabled
+          }"
+        >
+          <MultiselectInput
+            v-if="searchable"
+            slot="control"
+            v-bind="{
+              activate,
+              deactivate,
+              handleKeydown,
+              search,
+              disabled,
+              id,
+              isOpen,
+              placeholder,
+              updateSearch,
+            }"
+          />
+        </MultiselectValue>
+      </MultiselectWrapper>
+
+      <slot
+        name="options"
+        v-bind="$attrs"
+        :is-open="isOpen"
+        :value="internalValue"
+        :filtered-options="filteredOptions"
+        :select="select"
+      >
+        <MultiselectOptions>
+          <template slot="beforeList">
+            <slot name="beforeList"></slot>
+          </template>
+
+          <template slot="maxElements">
+            <slot name="maxElements">
+              Maximum of {{ max }} options selected. First remove a selected option to select another.
+            </slot>
+          </template>
+
+          <template slot="option" slot-scope="props">
+            <slot name="option" v-bind="props">
+              <span>{{ getOptionLabel(props.option) }}</span>
+            </slot>
+          </template>
+
+          <template slot="optionGroup" slot-scope="props">
+            <slot name="optionGroup" v-bind="props">
+              <span>{{ getOptionLabel(props.option) }}</span>
+            </slot>
+          </template>
+
+          <template slot="afterList">
+            <slot name="afterList"></slot>
+          </template>
+
+          <!-- TODO: Those cause the: "Duplicate presence of slot "noResult" found in the same render tree - this will likely cause render errors." to appear -->
+          <template slot="noResult">
+            <slot name="noResult">
+              No options found. Consider changing the search query.
+            </slot>
+          </template>
+
+        </MultiselectOptions>
+      </slot>
+    </div>
+  </MultiselectCore>
 </template>
 
 <script>
 import MultiselectCore from './MultiselectCore'
 import MultiselectOptions from './MultiselectOptions'
 import MultiselectInput from './MultiselectInput'
-import MultiselectButton from './MultiselectButton'
+import MultiselectWrapper from './MultiselectWrapper'
 import MultiselectValue from './MultiselectValue'
 import multiselectCorePropsMixin from './multiselectCorePropsMixin'
 
@@ -113,77 +148,13 @@ export default {
     MultiselectInput,
     MultiselectCore,
     MultiselectOptions,
-    MultiselectButton,
+    MultiselectWrapper,
     MultiselectValue
   }
 }
 </script>
 
 <style>
-.multiselect {
-  // box-sizing: content-box;
-  display: block;
-  position: relative;
-  width: 100%;
-  min-height: 40px;
-  text-align: left;
-  color: #35495E;
-  /* -webkit-appearance: none; */
-  padding: 0;
-  border: none;
-}
-
-fieldset[disabled] .multiselect {
-  pointer-events: none;
-}
-
-.multiselect__spinner {
-  position: absolute;
-  right: 1px;
-  top: 1px;
-  width: 48px;
-  height: 35px;
-  background: #fff;
-  display: block;
-}
-
-.multiselect__spinner:before,
-.multiselect__spinner:after {
-  position: absolute;
-  content: "";
-  top: 50%;
-  left: 50%;
-  margin: -8px 0 0 -8px;
-  width: 16px;
-  height: 16px;
-  border-radius: 100%;
-  border-color: #41B883 transparent transparent;
-  border-style: solid;
-  border-width: 2px;
-  box-shadow: 0 0 0 1px transparent;
-}
-
-.multiselect__spinner:before {
-  animation: spinning 2.4s cubic-bezier(0.41, 0.26, 0.2, 0.62);
-  animation-iteration-count: infinite;
-}
-
-.multiselect__spinner:after {
-  animation: spinning 2.4s cubic-bezier(0.51, 0.09, 0.21, 0.8);
-  animation-iteration-count: infinite;
-}
-
-.multiselect__loading-enter-active,
-.multiselect__loading-leave-active {
-  transition: opacity 0.4s ease-in-out;
-  opacity: 1;
-}
-
-.multiselect__loading-enter,
-.multiselect__loading-leave-active {
-  opacity: 0;
-}
-
 .multiselect__single {
   font-family: inherit;
   font-size: 16px;
@@ -195,19 +166,13 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect--active:not(.multiselect--above) .multiselect__current,
-.multiselect--active:not(.multiselect--above) .multiselect__input,
-.multiselect--active:not(.multiselect--above) .multiselect__tags {
+.multiselect--active:not(.multiselect--above) .multiselect__input {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-.multiselect--active .multiselect__select:before {
-  transform: rotateZ(180deg);
-}
-
 .multiselect--above.multiselect--active .multiselect__current,
-.multiselect--above.multiselect--active .multiselect__input,
-.multiselect--above.multiselect--active .multiselect__tags {
+.multiselect--above.multiselect--active .multiselect__input {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
@@ -246,69 +211,6 @@ fieldset[disabled] .multiselect {
   padding-left: 5px;
 }
 
-.multiselect__tags-wrap {
-  display: flex;
-  flex-wrap: wrap;
-}
-
-.multiselect__tags {
-  min-height: 40px;
-  display: flex;
-  align-items: center;
-  padding: 8px 40px 8px 8px;
-  border-radius: 5px;
-  border: 1px solid #E8E8E8;
-  background: #fff;
-  font-size: 14px;
-}
-
-.multiselect__tag {
-  position: relative;
-  display: inline-block;
-  padding: 4px 26px 4px 10px;
-  border-radius: 5px;
-  margin: 3px;
-  color: #fff;
-  line-height: 1;
-  background: #41B883;
-  white-space: nowrap;
-  overflow: hidden;
-  max-width: 100%;
-  text-overflow: ellipsis;
-}
-
-.multiselect__tag-icon {
-  cursor: pointer;
-  margin-left: 7px;
-  position: absolute;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  font-weight: 700;
-  font-style: initial;
-  width: 22px;
-  text-align: center;
-  line-height: 22px;
-  transition: all 0.2s ease;
-  border-radius: 5px;
-}
-
-.multiselect__tag-icon:after {
-  content: "×";
-  color: #266d4d;
-  font-size: 14px;
-}
-
-.multiselect__tag-icon:focus,
-.multiselect__tag-icon:hover {
-  background: #369a6e;
-}
-
-.multiselect__tag-icon:focus:after,
-.multiselect__tag-icon:hover:after {
-  color: white;
-}
-
 .multiselect__current {
   line-height: 16px;
   min-height: 40px;
@@ -323,33 +225,6 @@ fieldset[disabled] .multiselect {
   border-radius: 5px;
   border: 1px solid #E8E8E8;
   cursor: pointer;
-}
-
-.multiselect__select {
-  line-height: 16px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  box-sizing: border-box;
-  width: 40px;
-  height: 44px;
-  right: 0;
-  padding: 4px 8px;
-  text-decoration: none;
-  text-align: center;
-  cursor: pointer;
-}
-
-.multiselect__select:before {
-  position: relative;
-  right: 0;
-  color: #999;
-  border-style: solid;
-  border-width: 5px 5px 0 5px;
-  border-color: #999999 transparent transparent transparent;
-  content: "";
-  transition: transform 0.2s ease;
 }
 
 .multiselect__placeholder {
@@ -401,112 +276,14 @@ fieldset[disabled] .multiselect {
   display: none;
 }
 
-.multiselect__element {
-  display: block;
-}
-
-.multiselect__option {
-  display: block;
-  padding: 12px;
-  min-height: 40px;
-  line-height: 16px;
-  text-decoration: none;
-  text-transform: none;
-  vertical-align: middle;
-  position: relative;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.multiselect__option:after {
-  top: 0;
-  right: 0;
-  position: absolute;
-  line-height: 40px;
-  padding-right: 12px;
-  padding-left: 20px;
-  font-size: 13px;
-}
-
-.multiselect__option--highlight {
-  background: #41B883;
-  outline: none;
-  color: white;
-}
-
-.multiselect__option--highlight:after {
-  content: attr(data-select);
-  background: #41B883;
-  color: white;
-}
-
-.multiselect__option--selected {
-  background: #F3F3F3;
-  color: #35495E;
-  font-weight: bold;
-}
-
-.multiselect__option--selected:after {
-  content: attr(data-selected);
-  color: silver;
-}
-
-.multiselect__option--selected.multiselect__option--highlight {
-  background: #FF6A6A;
-  color: #fff;
-}
-
-.multiselect__option--selected.multiselect__option--highlight:after {
-  background: #FF6A6A;
-  content: attr(data-deselect);
-  color: #fff;
-}
-
 .multiselect--disabled {
   background: #ededed;
   pointer-events: none;
 }
 
-.multiselect--disabled .multiselect__current,
-.multiselect--disabled .multiselect__select {
+.multiselect--disabled .multiselect__current {
   background: #ededed;
   color: #a6a6a6;
-}
-
-.multiselect__option--disabled {
-  background: #ededed;
-  color: #a6a6a6;
-  cursor: text;
-  pointer-events: none;
-}
-
-.multiselect__option--group {
-  background: #ededed;
-  color: #35495E;
-}
-
-.multiselect__option--group.multiselect__option--highlight {
-  background: #35495E;
-  color: #fff;
-}
-
-.multiselect__option--group.multiselect__option--highlight:after {
-  background: #35495E;
-}
-
-.multiselect__option--disabled.multiselect__option--highlight {
-  background: #dedede;
-}
-
-.multiselect__option--group-selected.multiselect__option--highlight {
-  background: #FF6A6A;
-  color: #fff;
-}
-
-.multiselect__option--group-selected.multiselect__option--highlight:after {
-  background: #FF6A6A;
-  content: attr(data-deselect);
-  color: #fff;
 }
 
 .multiselect-enter-active,
@@ -524,19 +301,6 @@ fieldset[disabled] .multiselect {
   line-height: 22px;
   display: inline-block;
   vertical-align: top;
-}
-
-*[dir="rtl"] .multiselect {
-    text-align: right;
-}
-
-*[dir="rtl"] .multiselect__select {
-    right: auto;
-    left: 1px;
-}
-
-*[dir="rtl"] .multiselect__tags {
-    padding: 8px 8px 0px 40px;
 }
 
 *[dir="rtl"] .multiselect__content {

@@ -65,27 +65,6 @@ export default {
 </script>
 
 <style lang="scss">
-.multiselect {
-  // box-sizing: content-box;
-  display: block;
-  position: relative;
-  width: 100%;
-  min-height: 40px;
-  text-align: left;
-  color: #35495E;
-  -webkit-appearance: none;
-  padding: 0;
-  border: none;
-}
-
-// .multiselect * {
-//   box-sizing: border-box;
-// }
-
-// .multiselect:focus {
-//   outline: none;
-// }
-
 .multiselect--disabled {
   pointer-events: none;
   opacity: 0.6;

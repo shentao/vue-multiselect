@@ -1,10 +1,9 @@
-<template lang="html">
+<template>
   <button
-    class="multiselect"
+    class="multiselect-wrapper"
     :class="{
-      'multiselect--active': isOpen,
-      'multiselect--disabled': disabled,
-      'multiselect--above': isAbove
+      'multiselect-wrapper--active': isOpen,
+      'multiselect-wrapper--disabled': disabled
     }"
     @click.stop="toggle()"
     @keyup.space.prevent.self.stop="toggle()"
@@ -51,30 +50,36 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.multiselect {
-  // box-sizing: content-box;
-  display: block;
+<style>
+.multiselect-wrapper {
+  display: flex;
+  align-items: center;
   position: relative;
   width: 100%;
-  min-height: 40px;
   text-align: left;
   color: #35495E;
   -webkit-appearance: none;
-  padding: 0;
-  border: none;
+  padding: 8px 40px 8px 8px;
+  border-radius: 5px;
+  border: 1px solid #E8E8E8;
+  background: #fff;
+  font-size: 14px;
 }
 
-// .multiselect * {
-//   box-sizing: border-box;
-// }
+.multiselect-wrapper--active {
+  z-index: 50;
+}
 
-// .multiselect:focus {
-//   outline: none;
-// }
-
-.multiselect--disabled {
+.multiselect-wrapper--disabled {
   pointer-events: none;
   opacity: 0.6;
+}
+
+fieldset[disabled] .multiselect-wrapper {
+  pointer-events: none;
+}
+
+*[dir="rtl"] .multiselect-wrapper {
+    text-align: right;
 }
 </style>
