@@ -463,15 +463,14 @@ export default {
       return this.valueKeys.indexOf(opt) > -1
     },
     /**
-     * Returns option if trackBy is undefined
      * Returns option[trackBy] if trackBy is a String
      * Returns trackBy(option) result if trackBy is a Function
+     * Else returns option
      *
      * @param  {Object||String||Integer} Passed option
      * @returns {String}
      */
     getOptionKey (option) {
-      if (!this.trackBy) return option
       /* istanbul ignore else */
       if (typeof this.trackBy === 'string') return option[this.trackBy]
       /* istanbul ignore else */
