@@ -66,9 +66,12 @@ export default {
       this.pointerReset()
     },
     pointerForward () {
+      const wasOpened = this.isOpen
+      if (!this.openOnFocus && !this.isOpen) this.activate(true)
+
       /* istanbul ignore else */
       if (this.pointer < this.filteredOptions.length - 1) {
-        this.pointer++
+        if (wasOpened) this.pointer++
         /* istanbul ignore next */
         if (this.$refs.list.scrollTop <= this.pointerPosition - (this.visibleElements - 1) * this.optionHeight) {
           this.$refs.list.scrollTop = this.pointerPosition - (this.visibleElements - 1) * this.optionHeight
@@ -83,8 +86,11 @@ export default {
       this.pointerDirty = true
     },
     pointerBackward () {
+      const wasOpened = this.isOpen
+      if (!this.openOnFocus && !this.isOpen) this.activate(true)
+
       if (this.pointer > 0) {
-        this.pointer--
+        if (wasOpened) this.pointer--
         /* istanbul ignore else */
         if (this.$refs.list.scrollTop >= this.pointerPosition) {
           this.$refs.list.scrollTop = this.pointerPosition
