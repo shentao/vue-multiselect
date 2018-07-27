@@ -315,6 +315,15 @@ export default {
     preselectFirst: {
       type: Boolean,
       default: false
+    },
+    /**
+     * Allow selecting items using alpha-numeric keys on keyboard
+     * @default false
+     * @type {Boolean}
+    */
+    enableAlphanumericSelection: {
+      type: Boolean,
+      default: false
     }
   },
   mounted () {
@@ -572,6 +581,23 @@ export default {
      */
     wholeGroupSelected (group) {
       return group[this.groupValues].every(this.isSelected)
+    },
+    /**
+     * Selects an item that starts with the pressed alphanumeric key
+     *
+     * @param  {type} event the keypress event
+     */
+    alphanumSelectItem (event) {
+      if (!this.taggable && this.enableAlphanumericSelection) {
+        const alphanum = new RegExp('^[a-zA-Z0-9]+$')
+        const key = String.fromCharCode(!event.charCode ? event.which : event.charCode)
+        if (alphanum.test(key)) {
+          event.preventDefault()
+          event.stopPropagation()
+          const keyIndex = this.filteredOptions.findIndex((x, i) => x[this.label].toLowerCase().indexOf(key.toLowerCase()) === 0)
+          this.select(this.filteredOptions[keyIndex])
+        }
+      }
     },
     /**
      * Removes the given option from the selected options.
