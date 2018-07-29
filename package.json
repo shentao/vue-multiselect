@@ -39,6 +39,7 @@
     "copy-webpack-plugin": "^4.0.0",
     "cross-env": "^3.1.4",
     "css-loader": "^0.25.0",
+    "cypress": "^3.0.2",
     "es6-promise": "^4.2.4",
     "eslint": "^3.14.1",
     "eslint-config-standard": "^6.1.0",
