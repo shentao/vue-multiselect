@@ -10,7 +10,8 @@
     "bundle": "node build/bundle.js",
     "docs": "rm -rf docs && mkdir docs && node build/build.js",
     "unit": "vue-cli-service test --watch",
-    "finish": "npm run lint && npm test && npm run bundle"
+    "finish": "npm run lint && npm test && npm run bundle",
+    "cypress:open": "cypress open"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.0-beta.6",
