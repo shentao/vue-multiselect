@@ -1,6 +1,11 @@
-machine:
-  node:
-    version: 7.2.1
-test:
-  post:
-    - bash <(curl -s https://codecov.io/bash)
+version: 2
+jobs:
+  build-and-deploy:
+    docker:
+      - image: circleci/node:10
+
+    steps:
+      - checkout
+
+      - run: bash <(curl -s https://codecov.io/bash)
+      
