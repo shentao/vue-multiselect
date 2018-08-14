@@ -14,21 +14,23 @@
       </slot>
       <slot name="clear" :search="search"></slot>
       <div ref="tags" class="multiselect__tags">
-        <div class="multiselect__tags-wrap" v-show="visibleValues.length > 0">
-          <template v-for="(option, index) of visibleValues" @mousedown.prevent>
-            <slot name="tag" :option="option" :search="search" :remove="removeElement">
-              <span class="multiselect__tag" :key="index">
-                <span v-text="getOptionLabel(option)"></span>
-                <i aria-hidden="true" tabindex="1" @keydown.enter.prevent="removeElement(option)"  @mousedown.prevent="removeElement(option)" class="multiselect__tag-icon"></i>
-              </span>
+        <slot name="selection" :search="search" :remove="removeElement">
+          <div class="multiselect__tags-wrap" v-show="visibleValues.length > 0">
+            <template v-for="(option, index) of visibleValues" @mousedown.prevent>
+              <slot name="tag" :option="option" :search="search" :remove="removeElement">
+                <span class="multiselect__tag" :key="index">
+                  <span v-text="getOptionLabel(option)"></span>
+                  <i aria-hidden="true" tabindex="1" @keydown.enter.prevent="removeElement(option)"  @mousedown.prevent="removeElement(option)" class="multiselect__tag-icon"></i>
+                </span>
+              </slot>
+            </template>
+          </div>
+          <template v-if="internalValue && internalValue.length > limit">
+            <slot name="limit">
+              <strong class="multiselect__strong" v-text="limitText(internalValue.length - limit)"/>
             </slot>
           </template>
-        </div>
-        <template v-if="internalValue && internalValue.length > limit">
-          <slot name="limit">
-            <strong class="multiselect__strong" v-text="limitText(internalValue.length - limit)"/>
-          </slot>
-        </template>
+        </slot>
         <transition name="multiselect__loading">
           <slot name="loading">
             <div v-show="loading" class="multiselect__spinner"/>
@@ -279,38 +281,38 @@ export default {
     }
   },
   computed: {
-    isSingleLabelVisible() {
+    isSingleLabelVisible () {
       return (
         this.singleValue &&
         (!this.isOpen || !this.searchable) &&
         !this.visibleValues.length
       )
     },
-    isPlaceholderVisible() {
+    isPlaceholderVisible () {
       return !this.internalValue.length && (!this.searchable || !this.isOpen)
     },
-    visibleValues() {
+    visibleValues () {
       return this.multiple ? this.internalValue.slice(0, this.limit) : []
     },
-    singleValue() {
+    singleValue () {
       return this.internalValue[0]
     },
-    deselectLabelText() {
+    deselectLabelText () {
       return this.showLabels ? this.deselectLabel : ''
     },
-    deselectGroupLabelText() {
+    deselectGroupLabelText () {
       return this.showLabels ? this.deselectGroupLabel : ''
     },
-    selectLabelText() {
+    selectLabelText () {
       return this.showLabels ? this.selectLabel : ''
     },
-    selectGroupLabelText() {
+    selectGroupLabelText () {
       return this.showLabels ? this.selectGroupLabel : ''
     },
-    selectedLabelText() {
+    selectedLabelText () {
       return this.showLabels ? this.selectedLabel : ''
     },
-    inputStyle() {
+    inputStyle () {
       if (
         this.searchable ||
         (this.multiple && this.value && this.value.length)
@@ -321,12 +323,12 @@ export default {
           : { width: '0', position: 'absolute', padding: '0' }
       }
     },
-    contentStyle() {
+    contentStyle () {
       return this.options.length
         ? { display: 'inline-block' }
         : { display: 'block' }
     },
-    isAbove() {
+    isAbove () {
       if (this.openDirection === 'above' || this.openDirection === 'top') {
         return true
       } else if (
@@ -338,7 +340,7 @@ export default {
         return this.prefferedOpenDirection === 'above'
       }
     },
-    showSearchInput() {
+    showSearchInput () {
       return (
         this.searchable &&
         (this.hasSingleSelectedSlot &&
@@ -727,8 +729,8 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect__option--disabled {
-  background: #ededed;
-  color: #a6a6a6;
+  background: #ededed !important;
+  color: #a6a6a6 !important;
   cursor: text;
   pointer-events: none;
 }
