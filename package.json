@@ -2,6 +2,7 @@
   "name": "vue-multiselect",
   "version": "2.1.3",
   "private": false,
+  "types": "index.d.ts",
   "scripts": {
     "test": "vue-cli-service test",
     "lint": "eslint --ext .js,.vue src tests/unit/specs",
