@@ -90,7 +90,6 @@
             </li>
             <template v-if="!max || internalValue.length < max">
               <li class="multiselect__element" v-for="(option, index) of filteredOptions" :key="index">
-                <!--@mouseenter.self="pointerSet(index)"-->
                 <span
                   v-if="!(option && (option.$isLabel || option.$isDisabled))"
                   :class="optionHighlight(index, option)"
@@ -103,7 +102,6 @@
                       <span>{{ getOptionLabel(option) }}</span>
                     </slot>
                 </span>
-                <!--@mouseenter.self="groupSelect && pointerSet(index)"-->
                 <span
                   v-if="option && (option.$isLabel || option.$isDisabled)"
                   :data-select="groupSelect && selectGroupLabelText"
@@ -137,16 +135,6 @@
     name: 'vue-multiselect',
     mixins: [multiselectMixin, pointerMixin],
     props: {
-
-      /**
-       * set search value
-       * @default ''
-       * @type {String}
-       */
-      searchValue: {
-        type: String,
-        default: ''
-      },
       /**
        * name attribute to match optional label element
        * @default ''
@@ -343,11 +331,6 @@
       },
       showSearchInput () {
         return this.searchable && (this.hasSingleSelectedSlot && (this.visibleSingleValue || this.visibleSingleValue === 0) ? this.isOpen : true)
-      }
-    },
-    watch: {
-      searchValue (val) {
-        this.search = val
       }
     }
   }

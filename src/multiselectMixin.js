@@ -32,32 +32,31 @@ function filtering (options, search, label, lvl) {
     })
   }
 
-// filter
+  // filter
   result = result.filter(function (r) {
     return r.dist <= lvl ? r : null
   })
 
-// sort
+  // sort
   result.sort(function (a, b) {
     return (a.dist - b.dist) ||
-                (a.index - b.index) // save order
-            // || ([a.suggest, b.suggest].sort()[0] == a.suggest ? -1 : 1); // secondary sort as alfabet
+      (a.index - b.index) // save order
   })
 
-// slice
+  // slice
   result = result.slice(0, 9999)
 
   return result
 }
 
 function distance (q, s, threshold) {
-    // string params must be in lower case
+  // string params must be in lower case
 
   var WORDS_SEPARATOR = /[^a-zа-яё]+/
 
   var qd
   var fi
-    // words
+  // words
   var qw = q ? q.trim().split(WORDS_SEPARATOR) : [],
     qw_length = qw.length,
     sw = s ? s.trim().split(WORDS_SEPARATOR) : [],
@@ -66,25 +65,27 @@ function distance (q, s, threshold) {
 
   if (qw_length > sw_length) return Infinity
 
-    // source words positions
+  // source words positions
   var si2p = []
-  for (var si = 0; si < sw_length; si++) { si2p.push(si) }
+  for (var si = 0; si < sw_length; si++) {
+    si2p.push(si)
+  }
 
-    // compare (mini/max method)
+  // compare (mini/max method)
   for (var qi = 0, sd = -Infinity; qi < qw_length; qi++) {
     q = qw[qi]
     for (si = 0, qd = Infinity, fi = -1; si < sw_length; si++) {
       s = sw[si]
 
-            // ignore: not equals first letters
+      // ignore: not equals first letters
       if (q.substr(0, 1) !== s.substr(0, 1)) continue
 
       var d = leftHandLevenshtein(q, s, threshold)
 
-            // delta position [0..1)
+      // delta position [0..1)
       d += Math.abs(qi - si2p[si]) / w_max
 
-            // find minimal delta
+      // find minimal delta
       if (qd > d) {
         qd = d
         fi = si
@@ -92,12 +93,12 @@ function distance (q, s, threshold) {
     }
     if (fi === -1) return Infinity
 
-        // cut finding word
+    // cut finding word
     sw.splice(fi, 1)
     sw_length--
     si2p.splice(fi, 1)
 
-        // save max delta
+    // save max delta
     sd = Math.max(sd, qd)
   }
   return sd
@@ -118,11 +119,15 @@ function leftHandLevenshtein (q, s, threshold) {
 
 // thanks for https://gist.github.com/graphnode/979790
 function levenshteinAlg (s1, s2, threshold) {
-    // string lengths diff gte threshold
-  if (Math.abs(s1.length - s2.length) >= threshold) { return threshold }
+  // string lengths diff gte threshold
+  if (Math.abs(s1.length - s2.length) >= threshold) {
+    return threshold
+  }
 
-    // equals
-  if (s1 === s2) { return 0 }
+  // equals
+  if (s1 === s2) {
+    return 0
+  }
 
   var s1_len = s1.length
   var s2_len = s2.length
@@ -133,14 +138,14 @@ function levenshteinAlg (s1, s2, threshold) {
     return s1_len
   }
 
-    // BEGIN STATIC
+  // BEGIN STATIC
   var split = false
   try {
     split = !('0')[0]
   } catch (e) {
     split = true // Earlier IE may not support access by string index
   }
-    // END STATIC
+  // END STATIC
   if (split) {
     s1 = s1.split('')
     s2 = s2.split('')
@@ -194,7 +199,7 @@ function filterOptions (options, search, label, customLabel, levenshtein) {
   if (levenshtein >= 0) {
     var result = filtering(options, search, label, levenshtein)
     if (!result.length) {
-// trying to change keyboard layout
+      // trying to change keyboard layout
       result = filtering(options, en2ru(search), label, levenshtein)
     }
     result = result.map(function (item) {
@@ -399,7 +404,7 @@ export default {
      * String to show when highlighting a potential tag
      * @default 'Press enter to create a tag'
      * @type {String}
-    */
+     */
     tagPlaceholder: {
       type: String,
       default: 'Press enter to create a tag'
@@ -410,7 +415,7 @@ export default {
      * and will proritize the search results
      * @default 'top'
      * @type {String}
-    */
+     */
     tagPosition: {
       type: String,
       default: 'top'
@@ -419,7 +424,7 @@ export default {
      * Number of allowed selected options. No limit if 0.
      * @default 0
      * @type {Number}
-    */
+     */
     max: {
       type: [Number, Boolean],
       default: false
@@ -429,7 +434,7 @@ export default {
      * Useful for identifying events origin.
      * @default null
      * @type {String|Integer}
-    */
+     */
     id: {
       default: null
     },
@@ -438,7 +443,7 @@ export default {
      * to the first X options.
      * @default 1000
      * @type {Integer}
-    */
+     */
     optionsLimit: {
       type: Number,
       default: 1000
@@ -448,7 +453,7 @@ export default {
      * the group values
      * @default 1000
      * @type {String}
-    */
+     */
     groupValues: {
       type: String
     },
@@ -457,7 +462,7 @@ export default {
      * the group label
      * @default 1000
      * @type {String}
-    */
+     */
     groupLabel: {
       type: String
     },
@@ -476,7 +481,7 @@ export default {
      * when selecting
      * @default 1000
      * @type {String}
-    */
+     */
     blockKeys: {
       type: Array,
       default () {
@@ -487,7 +492,7 @@ export default {
      * Prevent from wiping up the search value
      * @default false
      * @type {Boolean}
-    */
+     */
     preserveSearch: {
       type: Boolean,
       default: false
@@ -496,7 +501,7 @@ export default {
      * Select 1st options if value is empty
      * @default false
      * @type {Boolean}
-    */
+     */
     preselectFirst: {
       type: Boolean,
       default: false
@@ -505,7 +510,7 @@ export default {
      * Levenshtein lvl
      * @default -1
      * @type {Number}
-    */
+     */
     levenshtein: {
       type: Number,
       default: -1
@@ -555,9 +560,9 @@ export default {
       /* istanbul ignore else */
       if (this.taggable && normalizedSearch.length && !this.isExistingOption(normalizedSearch)) {
         if (this.tagPosition === 'bottom') {
-          options.push({ isTag: true, label: search })
+          options.push({isTag: true, label: search})
         } else {
-          options.unshift({ isTag: true, label: search })
+          options.unshift({isTag: true, label: search})
         }
       }
 
@@ -595,10 +600,6 @@ export default {
     }
   },
   methods: {
-    addPointerElement () {
-      alert(1)
-      // this.$emit('search-change', this.search, this.id)
-    },
     /**
      * Returns the internalValue in a way it can be emited to the parent
      * @returns {Object||Array||String||Integer}
@@ -859,7 +860,7 @@ export default {
      * Closes the multiselect’s dropdown.
      * Sets this.isOpen to FALSE
      */
-    deactivate (d) {
+    deactivate () {
       /* istanbul ignore else */
       if (!this.isOpen) return
 
