@@ -134,7 +134,7 @@ h2.typo__h2#sub-props(data-section) Props
         tr.table__tr
           td.table__td: strong optionsLimit
           td.table__td Number
-          td.table__td 1000
+          td.table__td: kbd 1000
           td.table__td
             | Limits the options displayed in the dropdown to the first X options.
         tr.table__tr
@@ -152,45 +152,45 @@ h2.typo__h2#sub-props(data-section) Props
         tr.table__tr
           td.table__td: strong groupSelect
           td.table__td Boolean
-          td.table__td false
+          td.table__td: kbd false
           td.table__td
             | Allow to select all group values by selecting the group label
         tr.table__tr
           td.table__td: strong blockKeys
           td.table__td Array
-          td.table__td []
+          td.table__td: kbd []
           td.table__td
             | Array of keyboard key aliases to block when selecting
         tr.table__tr
           td.table__td: strong internalSearch
           td.table__td Boolean
-          td.table__td true
+          td.table__td: kbd true
           td.table__td
             | Decide whether to filter the results internally based on search query.
             | Useful for async filtering, where we search through more complex data.
         tr.table__tr
           td.table__td: strong levenshtein
           td.table__td Number
-          td.table__td -1
+          td.table__td: kbd -1
           td.table__td
             | Levenshtein algorithm for smart list filtering.
             | Pass a value from 0 to 10 depending on the hardness of the filtration.
         tr.table__tr
           td.table__td: strong searchValue
           td.table__td String
-          td.table__td ''
+          td.table__td: kbd ''
           td.table__td
             | Set value to input.
         tr.table__tr
           td.table__td: strong preserveSearch
           td.table__td Boolean
-          td.table__td false
+          td.table__td: kbd false
           td.table__td
             | If set to true, will preserve the search query when opening/closing the component.
         tr.table__tr
           td.table__td: strong preselectFirst
           td.table__td Boolean
-          td.table__td false
+          td.table__td: kbd false
           td.table__td
             | Selects the first option if initial value is empty
 
