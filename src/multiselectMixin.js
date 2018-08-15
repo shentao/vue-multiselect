@@ -10,7 +10,6 @@ function not (fun) {
 }
 
 function includes (str, query) {
-  /* istanbul ignore else */
   if (str === undefined) str = 'undefined'
   if (str === null) str = 'null'
   if (str === false) str = 'false'
@@ -32,18 +31,15 @@ function filtering (options, search, label, lvl) {
     })
   }
 
-  // filter
   result = result.filter(function (r) {
     return r.dist <= lvl ? r : null
   })
 
-  // sort
   result.sort(function (a, b) {
     return (a.dist - b.dist) ||
-      (a.index - b.index) // save order
+      (a.index - b.index)
   })
 
-  // slice
   result = result.slice(0, 9999)
 
   return result
@@ -104,7 +100,6 @@ function distance (q, s, threshold) {
   return sd
 }
 
-// left-hand levenshtein
 function leftHandLevenshtein (q, s, threshold) {
   var base = levenshteinAlg(q, s, threshold)
 
@@ -117,14 +112,13 @@ function leftHandLevenshtein (q, s, threshold) {
   return base
 }
 
-// thanks for https://gist.github.com/graphnode/979790
 function levenshteinAlg (s1, s2, threshold) {
-  // string lengths diff gte threshold
+  // thanks for https://gist.github.com/graphnode/979790
+
   if (Math.abs(s1.length - s2.length) >= threshold) {
     return threshold
   }
 
-  // equals
   if (s1 === s2) {
     return 0
   }
@@ -138,14 +132,12 @@ function levenshteinAlg (s1, s2, threshold) {
     return s1_len
   }
 
-  // BEGIN STATIC
   var split = false
   try {
     split = !('0')[0]
   } catch (e) {
-    split = true // Earlier IE may not support access by string index
+    split = true
   }
-  // END STATIC
   if (split) {
     s1 = s1.split('')
     s2 = s2.split('')
@@ -184,7 +176,6 @@ function levenshteinAlg (s1, s2, threshold) {
   return v0[s1_len]
 }
 
-// switch keyboard layout
 function en2ru (s) {
   var en = 'qwertyuiop[]asdfghjkl;\'zxcvbnm,.'
   var ru = 'йцукенгшщзхъфывапролджэячсмитьбю'
