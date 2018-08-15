@@ -6,3 +6,4 @@ tests/unit/coverage
 tests/e2e/reports
 .editorconfig
 .tern-project
+.idea

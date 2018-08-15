@@ -54,3 +54,22 @@ h2.typo__h2#sub-events(data-section) Events
           td.table__td: kbd @close
           td.table__td
             | Emitted when the dropdown closes
+        tr.table__tr
+          td.table__td: strong PressEnter
+          td.table__td: kbd (focusedOption, filteredOptions)
+          td.table__td: kbd @press-enter
+          td.table__td
+            | Emitted when key "Enter" is pressed.
+        tr.table__tr
+          td.table__td: strong PressUp
+          td.table__td: kbd (filteredOptions)
+          td.table__td: kbd @press-up
+          td.table__td
+            | Emitted when key "Up" is pressed.
+        tr.table__tr
+          td.table__td: strong PressDown
+          td.table__td: kbd (filteredOptions)
+          td.table__td: kbd @press-down
+          td.table__td
+            | Emitted when key "Down" is pressed.
+        tr.table__tr
