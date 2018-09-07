@@ -81,39 +81,96 @@
 
 <script>
 export default {
+  inject: [
+    '_toggle',
+    '_search',
+    '_getOptionLabel',
+    '_removeElement',
+    '_loading',
+    '_placeholder',
+    '_limit',
+    '_limitText',
+    '_multiple',
+    '_isOpen'
+  ],
   props: {
     toggle: {
-      type: Function
+      type: Function,
+      default () {
+        return this._toggle(...arguments)
+      }
     },
     search: {
-      type: String
-    },
-    visibleValues: {
-      type: Array
+      type: String,
+      default () {
+        return this._search
+      }
     },
     getOptionLabel: {
-      type: Function
+      type: Function,
+      default () {
+        return this._getOptionLabel(...arguments)
+      }
     },
     removeElement: {
-      type: Function
+      type: Function,
+      default () {
+        return this._removeElement(...arguments)
+      }
     },
     internalValue: {
-      type: Array
+      type: Array,
+      required: true
     },
     loading: {
-      type: Boolean
+      type: Boolean,
+      default () {
+        return this._loading
+      }
     },
     isSingleLabelVisible: {
-      type: Boolean
+      type: Boolean,
+      required: true
     },
     singleValue: {
+      required: true
     },
-    placeholder: {},
-    isPlaceholderVisible: {},
-    currentOptionLabel: {},
-    limit: {},
-    limitText: {},
-    isOpen: {}
+    placeholder: {
+      type: String,
+      default () {
+        return this._placeholder
+      }
+    },
+    isPlaceholderVisible: {
+      type: Boolean,
+      required: true
+    },
+    currentOptionLabel: {
+      type: String,
+      required: true
+    },
+    limit: {
+      type: Number,
+      default () {
+        return this._limit
+      }
+    },
+    limitText: {
+      type: Function,
+      default () {
+        return this._limitText(...arguments)
+      }
+    },
+    isOpen: {
+      type: Boolean,
+      default () {
+        return this._isOpen
+      }
+    },
+    visibleValues: {
+      type: Array,
+      required: true
+    }
   }
 }
 </script>

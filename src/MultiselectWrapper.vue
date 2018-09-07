@@ -19,27 +19,59 @@
 
 <script>
 export default {
+  inject: [
+    '_activate',
+    '_deactivate',
+    '_handleKeydown',
+    '_search',
+    '_disabled',
+    '_id',
+    '_isOpen',
+    '_placeholder',
+    '_toggle'
+  ],
   props: {
     activate: {
-      type: Function
+      type: Function,
+      default () {
+        return this._activate()
+      }
     },
     deactivate: {
-      type: Function
+      type: Function,
+      default () {
+        return this._deactivate()
+      }
     },
     handleKeydown: {
-      type: Function
+      type: Function,
+      default () {
+        return this._handleKeydown(...arguments)
+      }
     },
     disabled: {
-      type: Boolean
+      type: Boolean,
+      default () {
+        return this._disabled
+      }
     },
     isAbove: {
-      type: Boolean
+      type: Boolean,
+      default () {
+        return this._isAbove
+      }
     },
     isOpen: {
-      type: Boolean
+      type: Boolean,
+      default () {
+        return this._isOpen
+      }
     },
     toggle: {
-      type: Function
+      type: Function,
+      default () {
+        return this._toggle()
+      }
     }
   },
   watch: {

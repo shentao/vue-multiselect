@@ -6,62 +6,24 @@
   >
     <div
       slot-scope="{
-        activate,
-        deactivate,
-        handleKeydown,
-        search,
-        disabled,
-        id,
-        isOpen,
-        placeholder,
-        updateSearch,
         internalValue,
         filteredOptions,
-        select,
-        toggle,
         visibleValues,
         isSingleLabelVisible,
         singleValue,
         isPlaceholderVisible,
-        currentOptionLabel,
-        limit,
-        limitText,
-        getOptionLabel,
-        removeElement,
-        multiple
+        currentOptionLabel
       }"
     >
-      <MultiselectWrapper
-        v-bind="{
-          activate,
-          deactivate,
-          handleKeydown,
-          search,
-          disabled,
-          id,
-          isOpen,
-          placeholder,
-          toggle
-        }"
-      >
+      <MultiselectWrapper>
         <MultiselectValue
           v-bind="{
-            toggle,
-            search,
             visibleValues,
-            getOptionLabel,
-            removeElement,
             internalValue,
-            loading,
             isSingleLabelVisible,
             singleValue,
-            placeholder,
             isPlaceholderVisible,
-            currentOptionLabel,
-            limit,
-            limitText,
-            multiple,
-            isOpen
+            currentOptionLabel
           }"
           :class="{
             'multiselect--disabled': disabled
@@ -70,17 +32,6 @@
           <MultiselectInput
             v-if="searchable"
             slot="control"
-            v-bind="{
-              activate,
-              deactivate,
-              handleKeydown,
-              search,
-              disabled,
-              id,
-              isOpen,
-              placeholder,
-              updateSearch,
-            }"
           />
         </MultiselectValue>
       </MultiselectWrapper>
@@ -88,18 +39,16 @@
       <slot
         name="options"
         v-bind="$attrs"
-        :is-open="isOpen"
         :value="internalValue"
         :filtered-options="filteredOptions"
-        :select="select"
       >
         <MultiselectOptions>
-          <template slot="beforeList">
-            <slot name="beforeList"></slot>
+          <template slot="beforeList" slot-scope="props">
+            <slot name="beforeList" v-bind="props"></slot>
           </template>
 
-          <template slot="maxElements">
-            <slot name="maxElements">
+          <template slot="maxElements" slot-scope="props">
+            <slot name="maxElements" v-bind="props">
               Maximum of {{ max }} options selected. First remove a selected option to select another.
             </slot>
           </template>
@@ -116,13 +65,13 @@
             </slot>
           </template>
 
-          <template slot="afterList">
-            <slot name="afterList"></slot>
+          <template slot="afterList" slot-scope="props">
+            <slot name="afterList" v-bind="props"></slot>
           </template>
 
           <!-- TODO: Those cause the: "Duplicate presence of slot "noResult" found in the same render tree - this will likely cause render errors." to appear -->
-          <template slot="noResult">
-            <slot name="noResult">
+          <template slot="noResult" slot-scope="props">
+            <slot name="noResult" v-bind="props">
               No options found. Consider changing the search query.
             </slot>
           </template>

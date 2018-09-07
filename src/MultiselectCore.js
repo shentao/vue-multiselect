@@ -10,10 +10,38 @@ import {
 import multiselectCorePropsMixin from './multiselectCorePropsMixin'
 
 export default {
-  name: 'vue-multiselect-core',
   mixins: [multiselectCorePropsMixin],
   render () {
     return this.$scopedSlots.default(this)
+  },
+  provide () {
+    return {
+      _activate: this.activate,
+      _deactivate: this.deactivate,
+      _handleKeydown: this.handleKeydown,
+      _search: this.search,
+      _disabled: this.disabled,
+      _id: this.id,
+      _isOpen: this.isOpen,
+      _placeholder: this.placeholder,
+      _updateSearch: this.updateSearch,
+      _select: this.select,
+      _toggle: this.toggle,
+      _limit: this.limit,
+      _limitText: this.limitText,
+      _getOptionLabel: this.getOptionLabel,
+      _removeElement: this.removeElement,
+      _multiple: this.multiple,
+      _loading: this.loading,
+      _showNoResults: this.showNoResults,
+      _pointerSet: this.pointerSet,
+      _groupHighlight: this.groupHighlight,
+      _optionHighlight: this.optionHighlight,
+      _groupSelect: this.groupSelect,
+      _selectGroup: this.selectGroup,
+      _max: this.max,
+      _optimizedHeight: this.optimizedHeight
+    }
   },
   data () {
     return {
@@ -96,9 +124,9 @@ export default {
           : this.searchable ? '' : this.placeholder
     },
     isSingleLabelVisible () {
-      return this.singleValue &&
-        (!this.isOpen || !this.searchable) &&
-        !this.visibleValues.length
+      if (!this.singleValue) return false
+
+      return (!this.isOpen || !this.searchable) && !this.visibleValues.length
     },
     isPlaceholderVisible () {
       return !this.internalValue.length && (!this.searchable || !this.isOpen)

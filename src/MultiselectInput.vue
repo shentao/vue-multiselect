@@ -26,36 +26,77 @@ import MultiselectValue from './MultiselectValue'
 
 export default {
   components: { MultiselectValue },
+  inject: [
+    '_activate',
+    '_deactivate',
+    '_handleKeydown',
+    '_search',
+    '_disabled',
+    '_id',
+    '_isOpen',
+    '_placeholder',
+    '_updateSearch'
+  ],
   props: {
     activate: {
-      type: Function
+      type: Function,
+      default () {
+        return this._activate
+      }
     },
     deactivate: {
-      type: Function
+      type: Function,
+      default () {
+        return this._deactivate
+      }
     },
     handleKeydown: {
-      type: Function
+      type: Function,
+      default () {
+        return this._handleKeydown
+      }
     },
     updateSearch: {
-      type: Function
+      type: Function,
+      default () {
+        return this._updateSearch
+      }
     },
     disabled: {
-      type: Boolean
+      type: Boolean,
+      default () {
+        return this._disabled
+      }
     },
     isAbove: {
-      type: Boolean
+      type: Boolean,
+      default () {
+        return this._isAbove
+      }
     },
     isOpen: {
-      type: Boolean
+      type: Boolean,
+      default () {
+        return this._isOpen
+      }
     },
     search: {
-      type: String
+      type: String,
+      default () {
+        return this._search
+      }
     },
     placeholder: {
-      type: String
+      type: String,
+      default () {
+        return this._placeholder
+      }
     },
     id: {
-      type: String
+      type: String,
+      default () {
+        return this._id
+      }
     }
   },
   mounted () {
