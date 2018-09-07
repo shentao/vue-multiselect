@@ -539,10 +539,10 @@ export default {
       /* istanbul ignore else */
       if (this.pointer < this.filteredOptions.length - 1) {
         this.pointer++
-        /* istanbul ignore next */
-        if (this.$refs.list.scrollTop <= this.pointerPosition - (this.visibleElements - 1) * this.optionHeight) {
-          this.$refs.list.scrollTop = this.pointerPosition - (this.visibleElements - 1) * this.optionHeight
-        }
+        // /* istanbul ignore next */
+        // if (this.$refs.list.scrollTop <= this.pointerPosition - (this.visibleElements - 1) * this.optionHeight) {
+        //   this.$refs.list.scrollTop = this.pointerPosition - (this.visibleElements - 1) * this.optionHeight
+        // }
         /* istanbul ignore else */
         if (
           this.filteredOptions[this.pointer] &&
@@ -556,9 +556,9 @@ export default {
       if (this.pointer > 0) {
         this.pointer--
         /* istanbul ignore else */
-        if (this.$refs.list.scrollTop >= this.pointerPosition) {
-          this.$refs.list.scrollTop = this.pointerPosition
-        }
+        // if (this.$refs.list.scrollTop >= this.pointerPosition) {
+        //   this.$refs.list.scrollTop = this.pointerPosition
+        // }
         /* istanbul ignore else */
         if (
           this.filteredOptions[this.pointer] &&

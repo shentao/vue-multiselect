@@ -28,7 +28,17 @@
         limitText,
         getOptionLabel,
         removeElement,
-        multiple
+        multiple,
+        optionHighlight,
+        max,
+        contentStyle,
+        optimizedHeight,
+        isAbove,
+        pointerSet,
+        showNoResults,
+        pointerPosition,
+        visibleElements,
+        optionHeight
       }"
     >
       <MultiselectWrapper
@@ -93,7 +103,43 @@
         :filtered-options="filteredOptions"
         :select="select"
       >
-        <MultiselectOptions>
+        <MultiselectOptions
+          v-bind="{
+            activate,
+            deactivate,
+            handleKeydown,
+            search,
+            disabled,
+            id,
+            isOpen,
+            placeholder,
+            updateSearch,
+            internalValue,
+            filteredOptions,
+            select,
+            toggle,
+            visibleValues,
+            isSingleLabelVisible,
+            singleValue,
+            isPlaceholderVisible,
+            currentOptionLabel,
+            limit,
+            limitText,
+            getOptionLabel,
+            removeElement,
+            multiple,
+            optionHighlight,
+            max,
+            contentStyle,
+            optimizedHeight,
+            isAbove,
+            pointerSet,
+            showNoResults,
+            pointerPosition,
+            visibleElements,
+            optionHeight
+          }"
+        >
           <template slot="beforeList">
             <slot name="beforeList"></slot>
           </template>

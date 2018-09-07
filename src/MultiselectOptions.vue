@@ -4,28 +4,28 @@
       ref="list"
       class="multiselect__content-wrapper"
       :class="{
-        'multiselect--above': $parent.isAbove
+        'multiselect--above': isAbove
       }"
-      :style="{ maxHeight: $parent.optimizedHeight + 'px' }"
-      v-if="$parent.isOpen"
-      @focus="$parent.activate"
+      :style="{ maxHeight: optimizedHeight + 'px' }"
+      v-if="isOpen"
+      @focus="activate"
       @click.prevent
     >
-      <ul class="multiselect__content" :style="$parent.contentStyle">
+      <ul class="multiselect__content" :style="contentStyle">
 
         <slot name="beforeList"></slot>
 
-        <li v-if="$parent.multiple && $parent.max === $parent.internalValue.length">
+        <li v-if="multiple && max === internalValue.length">
           <span class="multiselect__option">
             <slot name="maxElements">
-              Maximum of {{ $parent.max }} options selected. First remove a selected option to select another.
+              Maximum of {{ max }} options selected. First remove a selected option to select another.
             </slot>
           </span>
         </li>
 
-        <template v-if="!$parent.max || $parent.internalValue.length < $parent.max">
+        <template v-if="!max || internalValue.length < max">
           <li
-            v-for="(option, index) of $parent.filteredOptions"
+            v-for="(option, index) of filteredOptions"
             class="multiselect__element"
             :key="index"
           >
@@ -33,25 +33,25 @@
             <span
               v-if="!(option && (option.$isLabel || option.$isDisabled))"
               class="multiselect__option"
-              :class="$parent.optionHighlight(index, option)"
-              @click.stop.prevent="$parent.select(option)"
+              :class="optionHighlight(index, option)"
+              @click.stop.prevent="select(option)"
               @mousedown.stop.prevent=""
-              @mouseenter.self="$parent.pointerSet(index)"
+              @mouseenter.self="pointerSet(index)"
             >
               <slot name="option" :option="option">
-                <span>{{ $parent.getOptionLabel(option) }}</span>
+                <span>{{ getOptionLabel(option) }}</span>
               </slot>
             </span>
 
             <span
               v-if="option && option.$isLabel"
               class="multiselect__option"
-              :class="$parent.groupHighlight(index, option)"
-              @mouseenter.self="$parent.groupSelect && $parent.pointerSet(index)"
-              @mousedown.prevent="$parent.selectGroup(option)"
+              :class="groupHighlight(index, option)"
+              @mouseenter.self="groupSelect && pointerSet(index)"
+              @mousedown.prevent="selectGroup(option)"
             >
-              <slot name="optionGroup" :option="option" :search="$parent.search">
-                <span>{{ $parent.getOptionLabel(option) }}</span>
+              <slot name="optionGroup" :option="option" :search="search">
+                <span>{{ getOptionLabel(option) }}</span>
               </slot>
             </span>
 
@@ -59,7 +59,7 @@
         </template>
 
         <li
-          v-show="$parent.showNoResults && ($parent.filteredOptions.length === 0 && $parent.search && !$parent.loading)"
+          v-show="showNoResults && (filteredOptions.length === 0 && search && !loading)"
           class="multiselect__option"
         >
           <slot name="noResult">
@@ -74,31 +74,88 @@
 </template>
 
 <script>
-import {
-  isSelected,
-  isEmpty
-} from './utils'
+// import {
+//   isSelected,
+//   isEmpty
+// } from './utils'
 
 export default {
+  props: [
+    'activate',
+    'deactivate',
+    'handleKeydown',
+    'search',
+    'disabled',
+    'id',
+    'isOpen',
+    'placeholder',
+    'updateSearch',
+    'internalValue',
+    'filteredOptions',
+    'select',
+    'toggle',
+    'visibleValues',
+    'isSingleLabelVisible',
+    'singleValue',
+    'isPlaceholderVisible',
+    'currentOptionLabel',
+    'limit',
+    'limitText',
+    'getOptionLabel',
+    'removeElement',
+    'multiple',
+    'optionHighlight',
+    'max',
+    'contentStyle',
+    'optimizedHeight',
+    'isAbove',
+    'pointerSet',
+    'showNoResults',
+    'pointerPosition',
+    'visibleElements',
+    'optionHeight'
+  ],
+  watch: {
+    pointerPosition (newPos, oldPos) {
+      if (newPos > oldPos) {
+        this.handlePointerForward()
+      } else {
+        this.handlePointerBackward()
+      }
+    }
+  },
   methods: {
-    optionHighlight (index, option) {
-      return {
-        'multiselect__option--highlight': index === this.pointer && this.showPointer,
-        'multiselect__option--selected': isSelected(option, this.$parent.value)
+    handlePointerForward () {
+      console.log('handle forward')
+      /* istanbul ignore next */
+      if (this.$refs.list.scrollTop <= this.pointerPosition - (this.visibleElements - 1) * this.optionHeight) {
+        this.$refs.list.scrollTop = this.pointerPosition - (this.visibleElements - 1) * this.optionHeight
       }
     },
-    getOptionLabel (option) {
-      if (isEmpty(option)) return ''
-      /* istanbul ignore else */
-      if (option.isTag) return option.label
-      /* istanbul ignore else */
-      if (option.$isLabel) return option.$groupLabel
-
-      let label = this.$parent.customLabel(option, this.label)
-      /* istanbul ignore else */
-      if (isEmpty(label)) return ''
-      return label
+    handlePointerBackward () {
+      /* istanbul ignore next */
+      if (this.$refs.list.scrollTop >= this.pointerPosition) {
+        this.$refs.list.scrollTop = this.pointerPosition
+      }
     }
+    // optionHighlight (index, option) {
+    //   return {
+    //     'multiselect__option--highlight': index === this.pointer && this.showPointer,
+    //     'multiselect__option--selected': isSelected(option, this.internalValue)
+    //   }
+    // }
+    // getOptionLabel (option) {
+    //   if (isEmpty(option)) return ''
+    //   /* istanbul ignore else */
+    //   if (option.isTag) return option.label
+    //   /* istanbul ignore else */
+    //   if (option.$isLabel) return option.$groupLabel
+    //
+    //   let label = this.customLabel(option, this.label)
+    //   /* istanbul ignore else */
+    //   if (isEmpty(label)) return ''
+    //   return label
+    // }
   }
 }
 </script>
