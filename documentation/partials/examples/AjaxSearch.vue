@@ -19,16 +19,11 @@ div
     :limit="3",
     :limit-text="limitText",
     :max-height="600",
-    :show-no-results="false",
+    :show-no-results="true",
     :hide-selected="true",
     @search-change="asyncFind"
   )
-    template(slot="clear", slot-scope="props")
-      div.multiselect__clear(
-        v-if="selectedCountries.length",
-        @mousedown.prevent.stop="clearAll(props.search)"
-      )
-    span(slot="noResult").
+    span(slot="noResult", slot-scope="props").
       Oops! No elements found. Consider changing the search query.
   pre.language-json
     code.

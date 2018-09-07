@@ -507,12 +507,6 @@ export default {
         this.optimizedHeight = Math.min(spaceAbove - 40, this.maxHeight)
       }
     },
-    optionHighlight (index, option) {
-      return {
-        'multiselect__option--highlight': index === this.pointer && this.showPointer,
-        'multiselect__option--selected': this.isSelected(option)
-      }
-    },
     groupHighlight (index, selectedGroup) {
       if (!this.groupSelect) {
         return ['multiselect__option--disabled']

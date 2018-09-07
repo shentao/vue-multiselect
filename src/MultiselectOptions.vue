@@ -13,11 +13,11 @@
     >
       <ul class="multiselect__content" :style="contentStyle">
 
-        <slot name="beforeList"></slot>
+        <slot name="_beforeList"></slot>
 
         <li v-if="multiple && max === internalValue.length">
           <span class="multiselect__option">
-            <slot name="maxElements">
+            <slot name="_maxElements">
               Maximum of {{ max }} options selected. First remove a selected option to select another.
             </slot>
           </span>
@@ -38,7 +38,7 @@
               @mousedown.stop.prevent=""
               @mouseenter.self="pointerSet(index)"
             >
-              <slot name="option" :option="option">
+              <slot name="_option" :option="option">
                 <span>{{ getOptionLabel(option) }}</span>
               </slot>
             </span>
@@ -50,7 +50,7 @@
               @mouseenter.self="groupSelect && pointerSet(index)"
               @mousedown.prevent="selectGroup(option)"
             >
-              <slot name="optionGroup" :option="option" :search="search">
+              <slot name="_optionGroup" :option="option" :search="search">
                 <span>{{ getOptionLabel(option) }}</span>
               </slot>
             </span>
@@ -59,25 +59,24 @@
         </template>
 
         <li
-          v-show="showNoResults && (filteredOptions.length === 0 && search && !loading)"
+          v-if="showNoResults && (filteredOptions.length === 0 && search && !loading)"
           class="multiselect__option"
         >
-          <slot name="noResult">
-            No elements found. Consider changing the search query.
+          <slot name="_noResult">
+            No elements found.
           </slot>
         </li>
 
-        <slot name="afterList"></slot>
+        <slot name="_afterList"></slot>
       </ul>
     </div>
   </transition>
 </template>
 
 <script>
-// import {
-//   isSelected,
-//   isEmpty
-// } from './utils'
+import {
+  isSelected
+} from './utils'
 
 export default {
   props: [
@@ -104,7 +103,6 @@ export default {
     'getOptionLabel',
     'removeElement',
     'multiple',
-    'optionHighlight',
     'max',
     'contentStyle',
     'optimizedHeight',
@@ -113,20 +111,24 @@ export default {
     'showNoResults',
     'pointerPosition',
     'visibleElements',
-    'optionHeight'
+    'optionHeight',
+    'showPointer',
+    'pointer',
+    'loading'
   ],
   watch: {
     pointerPosition (newPos, oldPos) {
-      if (newPos > oldPos) {
-        this.handlePointerForward()
-      } else {
-        this.handlePointerBackward()
-      }
+      this.$nextTick(() => {
+        if (newPos > oldPos) {
+          this.handlePointerForward()
+        } else {
+          this.handlePointerBackward()
+        }
+      })
     }
   },
   methods: {
     handlePointerForward () {
-      console.log('handle forward')
       /* istanbul ignore next */
       if (this.$refs.list.scrollTop <= this.pointerPosition - (this.visibleElements - 1) * this.optionHeight) {
         this.$refs.list.scrollTop = this.pointerPosition - (this.visibleElements - 1) * this.optionHeight
@@ -137,25 +139,13 @@ export default {
       if (this.$refs.list.scrollTop >= this.pointerPosition) {
         this.$refs.list.scrollTop = this.pointerPosition
       }
+    },
+    optionHighlight (index, option) {
+      return {
+        'multiselect__option--highlight': index === this.pointer && this.showPointer,
+        'multiselect__option--selected': isSelected(option, this.internalValue)
+      }
     }
-    // optionHighlight (index, option) {
-    //   return {
-    //     'multiselect__option--highlight': index === this.pointer && this.showPointer,
-    //     'multiselect__option--selected': isSelected(option, this.internalValue)
-    //   }
-    // }
-    // getOptionLabel (option) {
-    //   if (isEmpty(option)) return ''
-    //   /* istanbul ignore else */
-    //   if (option.isTag) return option.label
-    //   /* istanbul ignore else */
-    //   if (option.$isLabel) return option.$groupLabel
-    //
-    //   let label = this.customLabel(option, this.label)
-    //   /* istanbul ignore else */
-    //   if (isEmpty(label)) return ''
-    //   return label
-    // }
   }
 }
 </script>

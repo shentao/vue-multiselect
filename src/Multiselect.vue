@@ -29,7 +29,6 @@
         getOptionLabel,
         removeElement,
         multiple,
-        optionHighlight,
         max,
         contentStyle,
         optimizedHeight,
@@ -38,7 +37,9 @@
         showNoResults,
         pointerPosition,
         visibleElements,
-        optionHeight
+        optionHeight,
+        showPointer,
+        pointer
       }"
     >
       <MultiselectWrapper
@@ -128,7 +129,6 @@
             getOptionLabel,
             removeElement,
             multiple,
-            optionHighlight,
             max,
             contentStyle,
             optimizedHeight,
@@ -137,42 +137,44 @@
             showNoResults,
             pointerPosition,
             visibleElements,
-            optionHeight
+            optionHeight,
+            showPointer,
+            pointer,
+            loading
           }"
         >
-          <template slot="beforeList">
+          <template slot="_beforeList">
             <slot name="beforeList"></slot>
           </template>
 
-          <template slot="maxElements">
+          <template slot="_maxElements">
             <slot name="maxElements">
               Maximum of {{ max }} options selected. First remove a selected option to select another.
             </slot>
           </template>
 
-          <template slot="option" slot-scope="props">
+          <template slot="_option" slot-scope="props">
             <slot name="option" v-bind="props">
               <span>{{ getOptionLabel(props.option) }}</span>
             </slot>
           </template>
 
-          <template slot="optionGroup" slot-scope="props">
+          <template slot="_optionGroup" slot-scope="props">
             <slot name="optionGroup" v-bind="props">
               <span>{{ getOptionLabel(props.option) }}</span>
             </slot>
           </template>
 
-          <template slot="afterList">
-            <slot name="afterList"></slot>
+          <template slot="_afterList" slot-scope="props">
+            <slot name="afterList" v-bind="props"></slot>
           </template>
 
           <!-- TODO: Those cause the: "Duplicate presence of slot "noResult" found in the same render tree - this will likely cause render errors." to appear -->
-          <template slot="noResult">
-            <slot name="noResult">
+          <template slot="_noResult" slot-scope="props">
+            <slot name="noResult" v-bind="props">
               No options found. Consider changing the search query.
             </slot>
           </template>
-
         </MultiselectOptions>
       </slot>
     </div>

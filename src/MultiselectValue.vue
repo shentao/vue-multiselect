@@ -1,7 +1,10 @@
 <template>
   <div>
     <slot name="caret" :toggle="toggle" :isOpen="isOpen">
-      <div class="multiselect__caret"/>
+      <div
+        class="multiselect__caret"
+        :class="{ 'multiselect__caret--active': isOpen }"
+      />
     </slot>
 
     <transition name="multiselect__loading">
@@ -127,7 +130,7 @@ export default {
   position: absolute;
   box-sizing: border-box;
   width: 40px;
-  height: 44px;
+  height: 28px;
   right: 0;
   padding: 4px 8px;
   text-decoration: none;
@@ -146,7 +149,7 @@ export default {
   }
 }
 
-.multiselect--active .multiselect__caret:before {
+.multiselect__caret--active:before {
   transform: rotateZ(180deg);
 }
 
@@ -237,7 +240,7 @@ export default {
   right: 1px;
   top: 1px;
   width: 48px;
-  height: 35px;
+  height: 40px;
   background: #fff;
   display: block;
 }
