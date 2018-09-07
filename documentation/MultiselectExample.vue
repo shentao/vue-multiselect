@@ -11,14 +11,9 @@ div
     :limit="3",
     @tag="onTagging"
   )
-    .multiselect__content-wrapper(slot="options", slot-scope="props")
-      ul.multiselect__content(v-if="props.isOpen")
-        li.multiselect__element(
-          v-for="(option, index) of props.filteredOptions",
-          :key="index"
-        )
-          span.multiselect__option(@click="props.select(option)")
-            | {{ option.name }}
+    template(slot="option", slot-scope="{ option }")
+      span.badge__name {{ option.name }}
+      img.badge__img(:src="option.img")
 </template>
 
 <script>

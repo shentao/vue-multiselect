@@ -38,8 +38,8 @@ new Vue({
       firstColor: Math.floor(Math.random() * 255),
       secondColor: Math.floor(Math.random() * 255),
       currentPosition: '',
-      versions: ['v1.x', 'v2.0'],
-      version: 'v2.0'
+      versions: ['v1.x', 'v2.0', 'v3.0'],
+      version: 'v3.0'
     }
   },
   computed: {
@@ -56,7 +56,11 @@ new Vue({
           window.location.assign('v1/index.html')
           break
         case 'v2.0':
-          window.location.assign('https://monterail.github.io/vue-multiselect/')
+          // TOOD: Change redirect
+          window.location.assign('https://vue-multiselect.js.org/vue-multiselect/')
+          break
+        case 'v3.0':
+          window.location.assign('https://vue-multiselect.js.org/vue-multiselect/')
           break
       }
     },
