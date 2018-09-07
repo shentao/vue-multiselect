@@ -118,13 +118,13 @@ export default {
   ],
   watch: {
     pointerPosition (newPos, oldPos) {
-      this.$nextTick(() => {
-        if (newPos > oldPos) {
-          this.handlePointerForward()
-        } else {
-          this.handlePointerBackward()
-        }
-      })
+      if (!this.$refs.list) return
+
+      if (newPos > oldPos) {
+        this.handlePointerForward()
+      } else {
+        this.handlePointerBackward()
+      }
     }
   },
   methods: {

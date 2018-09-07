@@ -193,7 +193,7 @@ export default {
   display: inline-block;
   padding: 4px 26px 4px 10px;
   border-radius: 5px;
-  margin: 3px;
+  margin: 2px 3px 1px;
   color: #fff;
   line-height: 1;
   background: #41B883;
