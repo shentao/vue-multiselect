@@ -6,11 +6,11 @@
     type="text"
     autocomplete="off"
     :id="id"
-    :placeholder="placeholder"
+    :placeholder="computedPlaceholder"
     :value="search"
     :disabled="disabled"
     @click.stop=""
-    @keyup.space.stop.prevent=""
+    @keydown.space.stop.prevent="handleSpace"
     @keydown.self.down.prevent="handleKeydown('down')"
     @keydown.self.delete="handleKeydown('delete')"
     @keydown.self.up.prevent="handleKeydown('up')"
@@ -51,7 +51,7 @@ export default {
     search: {
       type: String
     },
-    placeholder: {
+    computedPlaceholder: {
       type: String
     },
     id: {
@@ -60,6 +60,14 @@ export default {
   },
   mounted () {
     this.$el.focus()
+  },
+  methods: {
+    handleSpace (e) {
+      if (!this.search.length) {
+        this.handleKeydown('enter', { key: 'Enter' })
+        this.deactivate()
+      }
+    }
   }
 }
 </script>

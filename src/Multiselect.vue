@@ -39,7 +39,8 @@
         visibleElements,
         optionHeight,
         showPointer,
-        pointer
+        pointer,
+        computedPlaceholder
       }"
     >
       <MultiselectWrapper
@@ -91,6 +92,7 @@
               isOpen,
               placeholder,
               updateSearch,
+              computedPlaceholder
             }"
           />
         </MultiselectValue>

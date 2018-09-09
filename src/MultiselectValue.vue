@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="{ 'multiselect--disabled': disabled }">
     <slot name="caret" :toggle="toggle" :isOpen="isOpen">
       <div
         class="multiselect__caret"
@@ -33,7 +33,7 @@
         isOpen
       }"
     >
-      <template v-for="option of visibleValues" @mousedown.prevent>
+      <template v-for="option of visibleValues">
         <slot
           name="tag"
           :option="option"
@@ -109,8 +109,10 @@ export default {
     isSingleLabelVisible: {
       type: Boolean
     },
-    singleValue: {
+    disabled: {
+      type: Boolean
     },
+    singleValue: {},
     placeholder: {},
     isPlaceholderVisible: {},
     currentOptionLabel: {},
@@ -280,5 +282,15 @@ export default {
 .multiselect__loading-enter,
 .multiselect__loading-leave-active {
   opacity: 0;
+}
+
+.multiselect--disabled {
+  background: #ededed;
+  pointer-events: none;
+}
+
+.multiselect--disabled .multiselect__current {
+  background: #ededed;
+  color: #a6a6a6;
 }
 </style>

@@ -5,7 +5,7 @@ div
     v-model="value",
     :options="options",
     :searchable="true",
-    :multiple="true",
+    :multiple="false",
     :close-on-select="false",
     :show-labels="false"
     placeholder="Pick a value"

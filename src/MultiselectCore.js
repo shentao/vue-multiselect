@@ -164,6 +164,11 @@ export default {
     },
     visibleElements () {
       return this.optimizedHeight / this.optionHeight
+    },
+    computedPlaceholder () {
+      return this.multiple
+        ? this.placeholder
+        : this.singleValue || this.placeholder
     }
   },
   watch: {

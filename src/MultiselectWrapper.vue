@@ -5,6 +5,7 @@
       'multiselect-wrapper--active': isOpen,
       'multiselect-wrapper--disabled': disabled
     }"
+    @focus="activate()"
     @click.stop="toggle()"
     @keyup.space.prevent.self.stop="toggle()"
     @keydown.down.prevent.self="handleKeydown('down')"
@@ -50,7 +51,7 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .multiselect-wrapper {
   display: flex;
   align-items: center;
@@ -64,9 +65,14 @@ export default {
   border: 1px solid #E8E8E8;
   background: #fff;
   font-size: 14px;
+
+  &:focus {
+    outline: none;
+  }
 }
 
 .multiselect-wrapper--active {
+  border-color: #41B883;
   z-index: 50;
 }
 
