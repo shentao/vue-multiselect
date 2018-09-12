@@ -277,19 +277,19 @@ export default {
       default: true
     },
     autocomplete: {
-      type: 'String',
+      type: String,
       default: 'off'
     },
     autocorrect: {
-      type: 'String',
+      type: String,
       default: 'off'
     },
     autocapitalize: {
-      type: 'String',
+      type: String,
       default: 'off'
     },
     spellcheck: {
-      type: 'String',
+      type: String,
       default: 'false'
     },
     tabindex: {
