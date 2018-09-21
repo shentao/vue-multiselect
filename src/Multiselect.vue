@@ -6,7 +6,7 @@
     @blur="searchable ? false : deactivate()"
     @keydown.self.down.prevent="pointerForward()"
     @keydown.self.up.prevent="pointerBackward()"
-    @keydown.enter.tab.stop.self="addPointerElement($event)"
+    @keydown.enter.stop.self="addPointerElement($event)"
     @keyup.esc="deactivate()"
     class="multiselect">
       <slot name="caret" :toggle="toggle">
@@ -279,38 +279,38 @@ export default {
     }
   },
   computed: {
-    isSingleLabelVisible() {
+    isSingleLabelVisible () {
       return (
         this.singleValue &&
         (!this.isOpen || !this.searchable) &&
         !this.visibleValues.length
       )
     },
-    isPlaceholderVisible() {
+    isPlaceholderVisible () {
       return !this.internalValue.length && (!this.searchable || !this.isOpen)
     },
-    visibleValues() {
+    visibleValues () {
       return this.multiple ? this.internalValue.slice(0, this.limit) : []
     },
-    singleValue() {
+    singleValue () {
       return this.internalValue[0]
     },
-    deselectLabelText() {
+    deselectLabelText () {
       return this.showLabels ? this.deselectLabel : ''
     },
-    deselectGroupLabelText() {
+    deselectGroupLabelText () {
       return this.showLabels ? this.deselectGroupLabel : ''
     },
-    selectLabelText() {
+    selectLabelText () {
       return this.showLabels ? this.selectLabel : ''
     },
-    selectGroupLabelText() {
+    selectGroupLabelText () {
       return this.showLabels ? this.selectGroupLabel : ''
     },
-    selectedLabelText() {
+    selectedLabelText () {
       return this.showLabels ? this.selectedLabel : ''
     },
-    inputStyle() {
+    inputStyle () {
       if (
         this.searchable ||
         (this.multiple && this.value && this.value.length)
@@ -321,12 +321,12 @@ export default {
           : { width: '0', position: 'absolute', padding: '0' }
       }
     },
-    contentStyle() {
+    contentStyle () {
       return this.options.length
         ? { display: 'inline-block' }
         : { display: 'block' }
     },
-    isAbove() {
+    isAbove () {
       if (this.openDirection === 'above' || this.openDirection === 'top') {
         return true
       } else if (
@@ -338,7 +338,7 @@ export default {
         return this.prefferedOpenDirection === 'above'
       }
     },
-    showSearchInput() {
+    showSearchInput () {
       return (
         this.searchable &&
         (this.hasSingleSelectedSlot &&
