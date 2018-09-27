@@ -1,6 +1,6 @@
 {
   "name": "@studyportals/vue-multiselect",
-  "version": "2.1.2",
+  "version": "2.1.3",
   "private": false,
   "scripts": {
     "test": "vue-cli-service test",
