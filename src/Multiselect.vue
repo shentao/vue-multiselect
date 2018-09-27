@@ -730,6 +730,7 @@ fieldset[disabled] .multiselect {
   min-height: 1rem;
   text-decoration: none;
   text-transform: none;
+  color: $GreyDD;
 }
 
 .multiselect__option:after {
