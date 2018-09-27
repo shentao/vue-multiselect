@@ -722,7 +722,7 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect__option {
-  @extend %FontSize-SN;
+  @extend %FontSize-N;
   cursor: pointer;
   display: block;
   padding: 0.25rem 1rem;
