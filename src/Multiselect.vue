@@ -40,7 +40,10 @@
         optionHeight,
         showPointer,
         pointer,
-        computedPlaceholder
+        computedPlaceholder,
+        isFocused,
+        focus,
+        blur
       }"
     >
       <MultiselectWrapper
@@ -53,7 +56,10 @@
           id,
           isOpen,
           placeholder,
-          toggle
+          toggle,
+          isFocused,
+          focus,
+          blur
         }"
       >
         <MultiselectValue

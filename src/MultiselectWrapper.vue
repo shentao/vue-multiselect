@@ -2,17 +2,18 @@
   <button
     class="multiselect-wrapper"
     :class="{
-      'multiselect-wrapper--active': isOpen,
+      'multiselect-wrapper--active': isFocused,
       'multiselect-wrapper--disabled': disabled
     }"
-    @focus="activate()"
+    @focus="focus()"
+    @blur="blur()"
     @click.stop="toggle()"
-    @keyup.space.prevent.self.stop="toggle()"
+    @keyup.space.prevent.self.stop="handleKeydown('space', $event)"
     @keydown.down.prevent.self="handleKeydown('down')"
     @keydown.up.prevent.self="handleKeydown('up')"
     @keydown.enter="handleKeydown('enter', $event)"
-    @keydown.tab="handleKeydown('tab', $event)"
     @keyup.esc="deactivate()"
+    @keydown.tab="handleKeydown('tab', $event)"
   >
     <slot/>
   </button>
@@ -41,6 +42,15 @@ export default {
     },
     toggle: {
       type: Function
+    },
+    focus: {
+      type: Function
+    },
+    blur: {
+      type: Function
+    },
+    isFocused: {
+      type: Boolean
     }
   },
   watch: {

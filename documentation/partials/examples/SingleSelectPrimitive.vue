@@ -4,7 +4,7 @@ div
   multiselect(
     v-model="value",
     :options="options",
-    :searchable="true",
+    :searchable="false",
     :multiple="false",
     :close-on-select="false",
     :show-labels="false"

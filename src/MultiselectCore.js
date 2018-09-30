@@ -18,6 +18,7 @@ export default {
   data () {
     return {
       search: '',
+      isFocused: false,
       isOpen: false,
       prefferedOpenDirection: 'below',
       optimizedHeight: this.maxHeight,
@@ -204,7 +205,7 @@ export default {
 
         case 'enter':
           if (!this.isOpen) this.activate()
-          else this.addPointerElement($event)
+          else this.addPointerElement()
           return
 
         case 'esc':
@@ -215,8 +216,18 @@ export default {
           this.removeLastElement()
           return
 
+        case 'space':
+          if (!this.isOpen) {
+            this.activate()
+            $event.preventDefault()
+          } else if (!this.search.length) {
+            this.addPointerElement()
+            $event.preventDefault()
+          }
+          return
+
         case 'tab':
-          this.deactivate()
+          this.blur()
           return
       }
     },
@@ -317,15 +328,15 @@ export default {
         this.selectGroup(option)
         return
       }
-      if (this.blockKeys.indexOf(key) !== -1 ||
-        this.disabled ||
-        option.$isDisabled ||
-        option.$isLabel
-      ) return
+      // if (this.blockKeys.indexOf(key) !== -1 ||
+      //   this.disabled ||
+      //   option.$isDisabled ||
+      //   option.$isLabel
+      // ) return
       /* istanbul ignore else */
       if (this.max && this.multiple && this.internalValue.length === this.max) return
       /* istanbul ignore else */
-      if (key === 'Tab' && !this.pointerDirty) return
+      // if (key === 'Tab' && !this.pointerDirty) return
       if (option.isTag) {
         this.$emit('tag', option.label, this.id)
         this.search = ''
@@ -334,7 +345,8 @@ export default {
         const isSelected = this.isSelected(option)
 
         if (isSelected) {
-          if (key !== 'Tab') this.removeElement(option)
+          // if (key !== 'Tab') this.removeElement(option)
+          this.removeElement(option)
           return
         }
 
@@ -443,6 +455,12 @@ export default {
         this.deactivate()
       }
     },
+    focus () {
+      this.isFocused = true
+    },
+    blur () {
+      this.isFocused = false
+    },
     /**
      * Opens the multiselect’s dropdown.
      * Sets this.isOpen to TRUE
@@ -461,8 +479,8 @@ export default {
 
       this.isOpen = true
       /* istanbul ignore else  */
-      if (this.searchable && !this.preserveSearch) this.search = ''
-      this.$emit('open', this.id)
+      // if (this.searchable && !this.preserveSearch) this.search = ''
+      // this.$emit('open', this.id)
     },
     /**
      * Closes the multiselect’s dropdown.
@@ -527,10 +545,10 @@ export default {
         { 'multiselect__option--group-selected': this.wholeGroupSelected(group) }
       ]
     },
-    addPointerElement ({ key } = 'Enter') {
+    addPointerElement () {
       /* istanbul ignore else */
       if (this.filteredOptions.length > 0) {
-        this.select(this.filteredOptions[this.pointer], key)
+        this.select(this.filteredOptions[this.pointer])
       }
       this.pointerReset()
     },

@@ -1,31 +1,32 @@
 <template lang="html">
   <input
     slot="control"
+    autocapitalize="none"
+    autocorrect="off"
+    autocomplete="off"
+    spellcheck="false"
+    aria-autocomplete="list"
+    type="text"
     class="multiselect__input"
     :class="isOpen && 'multiselect__input--show'"
-    type="text"
-    autocomplete="off"
     :id="id"
     :placeholder="computedPlaceholder"
     :value="search"
     :disabled="disabled"
     @click.stop=""
-    @keydown.space.stop.prevent="handleSpace"
+    @keydown.space.stop="handleKeydown('space', $event)"
+    @keydown.self.up.prevent="handleKeydown('up')"
     @keydown.self.down.prevent="handleKeydown('down')"
     @keydown.self.delete="handleKeydown('delete')"
-    @keydown.self.up.prevent="handleKeydown('up')"
     @keydown.enter.stop.self="handleKeydown('enter', $event)"
+    @keyup.tab="handleKeydown('tab')"
     @keyup.esc="deactivate()"
-    @keyup.tab="deactivate()"
     @input="updateSearch($event.target.value)"
   />
 </template>
 
 <script>
-import MultiselectValue from './MultiselectValue'
-
 export default {
-  components: { MultiselectValue },
   props: {
     activate: {
       type: Function
@@ -60,14 +61,6 @@ export default {
   },
   mounted () {
     this.$el.focus()
-  },
-  methods: {
-    handleSpace (e) {
-      if (!this.search.length) {
-        this.handleKeydown('enter', { key: 'Enter' })
-        this.deactivate()
-      }
-    }
   }
 }
 </script>
