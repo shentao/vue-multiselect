@@ -14,10 +14,10 @@
     "finish": "npm run lint && npm test && npm run bundle"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.0.0-beta.6",
-    "@vue/cli-plugin-unit-jest": "^3.0.0-beta.6",
-    "@vue/cli-service": "^3.0.0-beta.6",
-    "@vue/test-utils": "^1.0.0-beta.10",
+    "@vue/cli-plugin-babel": "^3.0.4",
+    "@vue/cli-plugin-unit-jest": "^3.0.4",
+    "@vue/cli-service": "^3.0.4",
+    "@vue/test-utils": "^1.0.0-beta.25",
     "autoprefixer": "^6.7.2",
     "babel-cli": "^6.23.0",
     "babel-core": "^7.0.0-0",
