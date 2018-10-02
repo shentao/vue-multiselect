@@ -37,7 +37,6 @@
 
       #### Optional configuration flags:
       - `:close-on-select="false"` – the dropdown stays open after selecting an option
-      - `:hide-selected="true"` – already selected options will not be displayed in the dropdown
       - `:clear-on-select="false"` – the search query stays the same after selecting an option
       #### New in v2.0.0 stable:
       - You can now pass `<template slot="tag" slot-scope="props"><Your code></template>` to use a different markup for selected options (tags)
@@ -51,6 +50,7 @@
       It is convenient to set the `:loading` prop to `true`, whenever a request is in progress. Look at the provided `asyncFind` method for an example usage.
 
       #### Optional configuration flags:
+      - `:hide-selected="true"` – already selected options will not be displayed in the dropdown
       - `:internal-search="false"` – disables the multiselect’s internal search engine. If you do that, you have to manually update the available `:options`.
       - `:limit="3"` – limits the visible results to 3.
       - `:limit-text="limitText"` – function that receives the current selected options count and should return a string to show when the `:limit` count is exceed
