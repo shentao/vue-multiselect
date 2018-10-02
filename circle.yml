@@ -6,6 +6,9 @@ jobs:
 
     steps:
       - checkout
-
-      - run: bash <(curl -s https://codecov.io/bash)
-      
+      - run:
+          name: test
+          command: npm run test
+      - run:
+          name: code-coverage
+          command: bash <(curl -s https://codecov.io/bash)
