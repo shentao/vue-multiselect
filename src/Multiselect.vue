@@ -63,7 +63,7 @@
             <template>{{ currentOptionLabel }}</template>
           </slot>
         </span>
-        <span 
+        <span
           v-if="isPlaceholderVisible"
           class="multiselect__placeholder"
           @mousedown.prevent="toggle">
@@ -77,6 +77,7 @@
           class="multiselect__content-wrapper"
           v-show="isOpen"
           @focus="activate"
+          tabindex="-1"
           @mousedown.prevent
           :style="{ maxHeight: optimizedHeight + 'px' }"
           ref="list">
