@@ -7,17 +7,18 @@ div
     :multiple="true",
     :close-on-select="false",
     :clear-on-select="false",
-    :hide-selected="true",
     :preserve-search="true",
     placeholder="Pick some"
     label="name",
     track-by="name",
     :preselect-first="true"
   )
-    template(slot="tag", slot-scope="props")
-      span.custom__tag
-        span {{ props.option.language }}
-        span.custom__remove(@click="props.remove(props.option)") ❌
+    template(
+      slot="selection"
+      slot-scope="{ values, search, isOpen }"
+    )
+      span.multiselect__single(v-if="values.length && !isOpen")
+        | {{ values.length }} options selected
   pre.language-json
     code.
       {{ value  }}

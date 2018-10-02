@@ -14,7 +14,13 @@
       </slot>
       <slot name="clear" :search="search"></slot>
       <div ref="tags" class="multiselect__tags">
-        <slot name="selection" :search="search" :remove="removeElement">
+        <slot
+          name="selection"
+          :search="search"
+          :remove="removeElement"
+          :values="visibleValues"
+          :is-open="isOpen"
+        >
           <div class="multiselect__tags-wrap" v-show="visibleValues.length > 0">
             <template v-for="(option, index) of visibleValues" @mousedown.prevent>
               <slot name="tag" :option="option" :search="search" :remove="removeElement">
