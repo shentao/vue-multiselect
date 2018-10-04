@@ -22,7 +22,7 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: npm install
+      - run: yarn install
 
       - save_cache:
           paths:
@@ -32,6 +32,7 @@ jobs:
       # run tests!
       - run: npm test
 
-      - run:
-          name: Send code coverage
-          command: './node_modules/.bin/codecov'
+      # To reeneable that the lib needs an account on codecov
+      # - run:
+      #     name: Send code coverage
+      #     command: './node_modules/.bin/codecov'
