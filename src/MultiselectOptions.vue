@@ -169,7 +169,7 @@ export default {
 .multiselect__option {
   display: block;
   padding: 12px;
-  min-height: 40px;
+  /* min-height: 40px; */
   line-height: 16px;
   text-decoration: none;
   text-transform: none;
