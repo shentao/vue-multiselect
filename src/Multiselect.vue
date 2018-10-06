@@ -2,7 +2,6 @@
   <MultiselectCore
     v-bind="$props"
     v-on="$listeners"
-    style="position: relative"
   >
     <div
       slot-scope="{
@@ -45,6 +44,7 @@
         focus,
         blur
       }"
+      style="position: relative;"
     >
       <MultiselectWrapper
         v-bind="{

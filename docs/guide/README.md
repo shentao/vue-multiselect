@@ -51,7 +51,7 @@ Some architecture
 
 ## Examples
 
-### Single Select /w Primitive Values
+### Single Select
 
 The basic single select / dropdown doesn’t require much configuration.
 
