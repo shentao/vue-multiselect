@@ -1,31 +1,23 @@
-<template lang="pug">
-div
-  label.typo__label Groups
-  multiselect(
-    v-model="value",
-    :options="options",
-    :multiple="true",
-    group-values="libs",
-    group-label="language",
-    :group-select="true",
-    placeholder="Type to search",
-    track-by="name",
-    label="name",
-  )
-    span(slot="noResult")
+<template lang="html">
+  <VueMultiselect
+    v-model="value"
+    :options="options"
+    :multiple="true"
+    group-values="libs"
+    group-label="language"
+    :group-select="true"
+    placeholder="Type to search"
+    track-by="name"
+    label="name"
+  >
+    <span slot="noResult">
       | Oops! No options found. Consider changing the search query.
-  pre.language-json
-    code.
-      {{ value  }}
+    </span>
+  </VueMultiselect>
 </template>
 
 <script>
-import Multiselect from 'vue-multiselect'
-
 export default {
-  components: {
-    Multiselect
-  },
   data () {
     return {
       options: [
@@ -56,6 +48,3 @@ export default {
   }
 }
 </script>
-
-<style lang="css">
-</style>

@@ -1,26 +1,16 @@
-<template lang="pug">
-div
-  label.typo__label Select with search
-  multiselect(
-    v-model="value",
-    :options="options",
+<template lang="html">
+  <VueMultiselect
+    v-model="value"
+    :options="options"
     :custom-label="nameWithLang"
-    placeholder="Select one",
-    label="name",
+    placeholder="Select one"
+    label="name"
     track-by="name"
-  )
-  pre.language-json
-    code.
-      {{ value  }}
+  />
 </template>
 
 <script>
-import Multiselect from 'vue-multiselect'
-
 export default {
-  components: {
-    Multiselect
-  },
   data () {
     return {
       value: { name: 'Vue.js', language: 'JavaScript' },
@@ -40,6 +30,3 @@ export default {
   }
 }
 </script>
-
-<style lang="css">
-</style>

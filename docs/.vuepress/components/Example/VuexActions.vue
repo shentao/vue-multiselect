@@ -1,19 +1,16 @@
-<template lang="pug">
-div
-  label.typo__label Vuex example.
-  multiselect(
-    placeholder="Pick action",
-    :value="value",
-    :options="options",
-    :searchable="false",
-    @input="updateValueAction",
-  )
+<template lang="html">
+  <VueMultiselect
+    placeholder="Pick action"
+    :value="value"
+    :options="options"
+    :searchable="false"
+    @input="updateValueAction"
+  />
 </template>
 
 <script>
 import Vue from 'vue'
 import Vuex from 'vuex'
-import Multiselect from 'vue-multiselect'
 
 const { mapActions, mapState } = Vuex
 
@@ -38,9 +35,6 @@ const store = new Vuex.Store({
 
 export default {
   store,
-  components: {
-    Multiselect
-  },
   computed: {
     ...mapState(['value', 'options'])
   },

@@ -1,22 +1,15 @@
-<template lang="pug">
-div
-  label.typo__label Open console to see logs.
-  VueMultiselect(
-    placeholder="Pick action",
-    :options="actions",
-    :searchable="false",
-    :reset-after="true",
+<template lang="html">
+  <VueMultiselect
+    placeholder="Pick action"
+    :options="actions"
+    :searchable="false"
+    :reset-after="true"
     @select="dispatchAction"
-  )
+  />
 </template>
 
 <script>
-import Multiselect from 'vue-multiselect'
-
 export default {
-  components: {
-    Multiselect
-  },
   data () {
     return {
       actions: ['alert', 'console.log', 'scrollTop']

@@ -1,37 +1,40 @@
-<template lang="pug">
-div
-  label.typo__label Custom option template
-  multiselect(
-    v-model="value",
-    placeholder="Fav No Man’s Sky path",
-    label="title",
-    track-by="title",
-    :options="options",
-    :option-height="104",
-    :custom-label="customLabel",
+<template lang="html">
+  <VueMultiselect
+    v-model="value"
+    placeholder="Fav No Man’s Sky path"
+    label="title"
+    track-by="title"
+    :options="options"
+    :option-height="104"
+    :custom-label="customLabel"
     :show-labels="false"
-  )
-    template(slot="singleLabel", slot-scope="props")
-      img.option__image(:src="props.option.img", alt="No Man’s Sky")
-      span.option__desc
-        span.option__title {{ props.option.title }}
-    template(slot="option", slot-scope="props")
-      img.option__image(:src="props.option.img", alt="No Man’s Sky")
-      .option__desc
-        span.option__title {{ props.option.title }}
-        span.option__small {{ props.option.desc }}
-  pre.language-json
-    code.
-      {{ value  }}
+  >
+    <template slot="singleLabel" slot-scope="props">
+      <img
+        class="option__image"
+        :src="props.option.img"
+        alt="No Man’s Sky"
+      >
+      <span class="option__desc">
+        <span class="option__title">{{ props.option.title }}</span>
+      </span>
+    </template>
+    <template slot="option" slot-scope="props">
+      <img
+        class="option__image"
+        :src="props.option.img"
+        alt="No Man’s Sky"
+      >
+      <span class="option__desc">
+        <span class="option__title"> {{ props.option.title }}</span>
+        <span class="option__small"> {{ props.option.desc }}</span>
+      </span>
+    </template>
+  </VueMultiselect>
 </template>
 
 <script>
-import Multiselect from 'vue-multiselect'
-
 export default {
-  components: {
-    Multiselect
-  },
   data () {
     return {
       value: { title: 'Explorer', desc: 'Discovering new species!', img: 'static/posters/creatures.png' },

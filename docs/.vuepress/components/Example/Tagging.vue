@@ -1,29 +1,19 @@
-<template lang="pug">
-div
-  label.typo__label Tagging
-  multiselect(
-    v-model="value",
-    tag-placeholder="Add this as new tag",
-    placeholder="Search or add a tag",
-    label="name",
-    track-by="code",
-    :options="options",
-    :multiple="true",
-    :taggable="true",
+<template lang="html">
+  <VueMultiselect
+    v-model="value"
+    tag-placeholder="Add this as new tag"
+    placeholder="Search or add a tag"
+    label="name"
+    track-by="code"
+    :options="options"
+    :multiple="true"
+    :taggable="true"
     @tag="addTag"
-  )
-  pre.language-json
-    code.
-      {{ value  }}
+  />
 </template>
 
 <script>
-import Multiselect from 'vue-multiselect'
-
 export default {
-  components: {
-    Multiselect
-  },
   data () {
     return {
       value: [
@@ -48,6 +38,3 @@ export default {
   }
 }
 </script>
-
-<style lang="css">
-</style>

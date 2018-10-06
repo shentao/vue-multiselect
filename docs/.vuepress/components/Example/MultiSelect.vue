@@ -1,36 +1,33 @@
-<template lang="pug">
-div
-  label.typo__label Simple select / dropdown
-  multiselect(
-    v-model="value",
-    :options="options",
-    :multiple="true",
-    :close-on-select="false",
-    :clear-on-select="false",
-    :hide-selected="true",
-    :preserve-search="true",
+<template lang="html">
+  <VueMultiselect
+    v-model="value"
+    :options="options"
+    :multiple="true"
+    :close-on-select="false"
+    :clear-on-select="false"
+    :hide-selected="true"
+    :preserve-search="true"
     placeholder="Pick some"
-    label="name",
-    track-by="name",
+    label="name"
+    track-by="name"
     :preselect-first="true"
-  )
-    template(slot="tag", slot-scope="props")
-      span.custom__tag
-        span {{ props.option.language }}
-        span.custom__remove(@click="props.remove(props.option)") ❌
-  pre.language-json
-    code.
-      {{ value  }}
-
+  >
+    <template slot="tag" slot-scope="props">
+      <span class="custom__tag">
+        {{ props.option.language }}
+        <span
+          class="custom__remove"
+          @click="props.remove(props.option)"
+        >
+          ❌
+        </span>
+      </span>
+    </template>
+  </VueMultiselect>
 </template>
 
 <script>
-import Multiselect from 'vue-multiselect'
-
 export default {
-  components: {
-    Multiselect
-  },
   data () {
     return {
       value: [],

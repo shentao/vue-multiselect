@@ -1,37 +1,33 @@
-<template lang="pug">
-div
-  label.typo__label(for="ajax") Async multiselect
-  multiselect(
-    v-model="selectedCountries",
-    id="ajax",
-    label="name",
-    track-by="code",
-    placeholder="Type to search",
-    open-direction="bottom",
-    :options="countries",
-    :multiple="true",
-    :searchable="true",
-    :loading="isLoading",
-    :internal-search="false",
-    :clear-on-select="false",
-    :close-on-select="false",
-    :options-limit="300",
-    :limit="3",
-    :limit-text="limitText",
-    :max-height="600",
-    :show-no-results="true",
-    :hide-selected="true",
+<template lang="html">
+  <VueMultiselect
+    v-model="selectedCountries"
+    id="ajax"
+    label="name"
+    track-by="code"
+    placeholder="Type to search"
+    open-direction="bottom"
+    :options="countries"
+    :multiple="true"
+    :searchable="true"
+    :loading="isLoading"
+    :internal-search="false"
+    :clear-on-select="false"
+    :close-on-select="false"
+    :options-limit="300"
+    :limit="3"
+    :limit-text="limitText"
+    :max-height="600"
+    :show-no-results="true"
+    :hide-selected="true"
     @search-change="asyncFind"
-  )
-    span(slot="noResult", slot-scope="props").
+  >
+    <span slot="noResult" slot-scope="props">
       Oops! No elements found. Consider changing the search query.
-  pre.language-json
-    code.
-      {{ selectedCountries  }}
+    </span>
+  </VueMultiselect>
 </template>
 
 <script>
-import Multiselect from 'vue-multiselect'
 // import countries from '../../countries.json'
 const countries = []
 
@@ -47,9 +43,6 @@ export function ajaxFindCountry (query) {
 }
 
 export default {
-  components: {
-    Multiselect
-  },
   data () {
     return {
       selectedCountries: [],
