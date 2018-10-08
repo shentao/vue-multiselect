@@ -163,7 +163,7 @@ To ensure the keyboard navigation works properly, remember to set the `:option-h
   <<< @/docs/.vuepress/components/Example/CustomOption.vue
 </SplitTab>
 
-### Custom Option Template
+### Option Groups
 
 The options list can also contain groups. It requires passing 3 additional props: `group-label`, `group-values` and `group-select`. `group-label` is used to locate the group label. `group-values` should point to the group’s option list. `group-select` is used to define if selecting the group label should select/unselect all values in the group, or do nothing.
 
@@ -174,19 +174,6 @@ Please look at the provided example for a example options list structure.
 <SplitTab>
   <Example-Groups slot="example"/>
   <<< @/docs/.vuepress/components/Example/Groups.vue
-</SplitTab>
-
-
-### Custom Option Template
-
-Due to the one-way data-flow enforced by Vuex you should not be using `v-model` for manipulating the currently selected value.
-Because Vue-Multiselect always uses it’s own internal copy of the value it never mutates the `:value` by itself, which means it can can safely used with Vuex or even Redux.
-
-In Vue 2.0 `v-model` is just a syntax sugar for `:value` and `@input`. Because of this we can use the `@input` event to trigger Vuex actions or mutations. Whenever we mutate the `:value` in Vuex, Multiselect’s internal value will update.
-
-<SplitTab>
-  <Example-VuexActions slot="example"/>
-  <<< @/docs/.vuepress/components/Example/VuexActions.vue
 </SplitTab>
 
 

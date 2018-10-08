@@ -101,6 +101,18 @@
               computedPlaceholder
             }"
           />
+          <template slot="singleLabel" slot-scope="props">
+            <slot name="singleLabel" v-bind="props">
+              {{ props.currentOptionLabel }}
+            </slot>
+          </template>
+          <template slot="placeholder" slot-scope="props">
+            <slot name="placeholder" v-bind="props">
+              <span class="multiselect__single">
+                {{ props.placeholder }}
+              </span>
+            </slot>
+          </template>
         </MultiselectValue>
       </MultiselectWrapper>
 
@@ -292,21 +304,6 @@ export default {
 
 .multiselect--active .multiselect__placeholder {
   display: none;
-}
-
-.multiselect__content-wrapper {
-  position: absolute;
-  display: block;
-  background: #fff;
-  width: 100%;
-  max-height: 240px;
-  overflow: auto;
-  border: 1px solid #E8E8E8;
-  border-top: none;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-  z-index: 50;
-  -webkit-overflow-scrolling: touch;
 }
 
 .multiselect__content {

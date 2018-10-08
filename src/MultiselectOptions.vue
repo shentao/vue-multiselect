@@ -79,43 +79,118 @@ import {
 } from './utils'
 
 export default {
-  props: [
-    'activate',
-    'deactivate',
-    'handleKeydown',
-    'search',
-    'disabled',
-    'id',
-    'isOpen',
-    'placeholder',
-    'updateSearch',
-    'internalValue',
-    'filteredOptions',
-    'select',
-    'toggle',
-    'visibleValues',
-    'isSingleLabelVisible',
-    'singleValue',
-    'isPlaceholderVisible',
-    'currentOptionLabel',
-    'limit',
-    'limitText',
-    'getOptionLabel',
-    'removeElement',
-    'multiple',
-    'max',
-    'contentStyle',
-    'optimizedHeight',
-    'isAbove',
-    'pointerSet',
-    'showNoResults',
-    'pointerPosition',
-    'visibleElements',
-    'optionHeight',
-    'showPointer',
-    'pointer',
-    'loading'
-  ],
+  props: {
+    name: {
+      type: String,
+      default: ''
+    },
+    activate: {
+      type: Function
+    },
+    deactivate: {
+      type: Function
+    },
+    handleKeydown: {
+      type: Function,
+      required: true
+    },
+    search: {
+      type: String
+    },
+    disabled: {
+      type: Boolean
+    },
+    id: {
+      type: [String, Number]
+    },
+    isOpen: {
+      type: Boolean
+    },
+    placeholder: {
+      type: String
+    },
+    updateSearch: {
+      type: Function
+    },
+    internalValue: {
+      type: Array
+    },
+    filteredOptions: {
+      type: Array
+    },
+    select: {
+      type: Function
+    },
+    toggle: {
+      type: Function
+    },
+    visibleValues: {
+      type: Array
+    },
+    isSingleLabelVisible: {
+      type: Boolean
+    },
+    singleValue: {
+      type: [Object, Number, String]
+    },
+    isPlaceholderVisible: {
+      type: Boolean
+    },
+    currentOptionLabel: {
+      type: String
+    },
+    limit: {
+      type: Number
+    },
+    limitText: {
+      type: Function
+    },
+    getOptionLabel: {
+      type: Function
+    },
+    removeElement: {
+      type: Function
+    },
+    multiple: {
+      type: Boolean
+    },
+    max: {
+      type: [Number, Boolean]
+    },
+    contentStyle: {
+      type: Object
+    },
+    optimizedHeight: {
+      type: Number
+    },
+    isAbove: {
+      type: Boolean
+    },
+    pointerSet: {
+      type: Function
+    },
+    showNoResults: {
+      type: Boolean
+    },
+    pointerPosition: {
+      type: Number
+    },
+    visibleElements: {
+      type: Number
+    },
+    optionHeight: {
+      type: Number
+    },
+    showPointer: {
+      type: Boolean
+    },
+    pointer: {
+      type: Number
+    },
+    loading: {
+      type: Boolean
+    }
+  },
   watch: {
     pointerPosition (newPos, oldPos) {
       if (!this.$refs.list) return
@@ -153,12 +228,13 @@ export default {
 <style>
 .multiselect__content-wrapper {
   position: absolute;
+  box-sizing: border-box;
   display: block;
   background: #fff;
   width: 100%;
   max-height: 240px;
   overflow: auto;
-  border: 1px solid #E8E8E8;
+  border: 1px solid #41B883;
   border-top: none;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;

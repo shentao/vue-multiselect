@@ -2,7 +2,8 @@
   <button
     class="multiselect-wrapper"
     :class="{
-      'multiselect-wrapper--active': isFocused,
+      'multiselect-wrapper--active': isFocused || isOpen,
+      'multiselect-wrapper--open': isOpen,
       'multiselect-wrapper--disabled': disabled
     }"
     @focus="focus()"
@@ -84,6 +85,11 @@ export default {
 .multiselect-wrapper--active {
   border-color: #41B883;
   z-index: 50;
+}
+
+.multiselect-wrapper--open {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
 }
 
 .multiselect-wrapper--disabled {

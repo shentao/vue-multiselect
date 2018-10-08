@@ -22,7 +22,7 @@
       type="button"
       @click="setDisplay('both')"
     >
-      Both
+      Example+Code
     </button>
     <div class="split">
       <div

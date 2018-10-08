@@ -8,7 +8,14 @@
     :options="options"
     :searchable="false"
     :allow-empty="false"
-  />
+  >
+    <template slot="singleLabel" slot-scope="{ option }">
+      {{ option.name + ' | ' + option.language }}
+    </template>
+    <template slot="option" slot-scope="{ option }">
+      {{ option.name + ' | ' + option.language }}
+    </template>
+  </VueMultiselect>
 </template>
 
 <script>

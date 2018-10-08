@@ -3,7 +3,6 @@ module.exports = {
   description: 'The most complete selecting solution for Vue.js',
   alias: {
   },
-  theme: 'vue',
   themeConfig: {
     docsDir: 'docs',
     editLinks: true,

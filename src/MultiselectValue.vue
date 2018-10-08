@@ -67,12 +67,18 @@
         v-if="isSingleLabelVisible"
         class="multiselect__single"
       >
-        <slot name="singleLabel" :option="singleValue">
-          <template>{{ currentOptionLabel }}</template>
+        <slot
+          name="singleLabel"
+          v-bind="{
+            option: singleValue,
+            currentOptionLabel
+          }"
+        >
+          {{ currentOptionLabel }}
         </slot>
       </span>
       <span v-if="isPlaceholderVisible">
-        <slot name="placeholder">
+        <slot name="placeholder" :placeholder="placeholder">
           <span class="multiselect__single">
             {{ placeholder }}
           </span>

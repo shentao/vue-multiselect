@@ -53,7 +53,7 @@ export default {
       type: String
     },
     computedPlaceholder: {
-      type: String
+      type: [String, Object]
     },
     id: {
       type: String
