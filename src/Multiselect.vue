@@ -360,44 +360,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
-
-$multiselect-primary-light: #41b883 !default;
-$multiselect-primary-dark: #266d4d !default;
-
-$multiselect-accent-00: #ffffff !default;
-$multiselect-accent-10: #efefef !default;
-$multiselect-accent-20: #cfcfcf !default;
-$multiselect-accent-50: #a8a8a8 !default;
-
-$multiselect-default-text-color: #35495e !default;
-$multiselect-default-background-color: $multiselect-accent-00 !default;
-
-$multiselect-default-border-color: $multiselect-primary-light !default;
-$multiselect-default-border-color-focus: $multiselect-accent-50 transparent transparent !default;
-$multiselect-default-border-color-hover: $multiselect-accent-20 transparent transparent !default;
-
-$multiselect-input-background-color: $multiselect-default-background-color !default;
-$multiselect-input-border-color-focus: $multiselect-default-border-color-focus !default;
-$multiselect-input-border-color-hover: $multiselect-default-border-color-hover !default;
-$multiselect-input-text-color: $multiselect-default-text-color !default;
-
-$multiselect-option-highlight-color: $multiselect-primary-light !default;
-$multiselect-option-highlight-text-color: $multiselect-accent-00 !default;
-
-$multiselect-spinner-background-color: $multiselect-default-background-color !default;
-$multiselect-spinner-border-color: $multiselect-default-border-color !default;
-
-$multiselect-tag-background-color: $multiselect-primary-light !default;
-$multiselect-tag-border-color: $multiselect-accent-10 !default;
-$multiselect-tag-text-color: $multiselect-accent-00 !default;
-$multiselect-tag-highlight-color: $multiselect-primary-light !default;
-
-$multiselect-tag-toggle-color: $multiselect-primary-dark !default;
-$multiselect-tag-toggle-highlight-color: $multiselect-accent-00 !default;
-
-$multiselect-tags-background-color: $multiselect-default-background-color !default;
-
+<style>
 fieldset[disabled] .multiselect {
   pointer-events: none;
 }
@@ -408,7 +371,7 @@ fieldset[disabled] .multiselect {
   top: 1px;
   width: 48px;
   height: 35px;
-  background: $multiselect-spinner-background-color;
+  background: #fff;
   display: block;
 }
 
@@ -422,7 +385,7 @@ fieldset[disabled] .multiselect {
   width: 16px;
   height: 16px;
   border-radius: 100%;
-  border-color: $multiselect-spinner-border-color;
+  border-color: #41b883 transparent transparent;
   border-style: solid;
   border-width: 2px;
   box-shadow: 0 0 0 1px transparent;
@@ -464,7 +427,7 @@ fieldset[disabled] .multiselect {
   width: 100%;
   min-height: 40px;
   text-align: left;
-  color: $multiselect-default-text-color;
+  color: #35495e;
 }
 
 .multiselect * {
@@ -510,7 +473,7 @@ fieldset[disabled] .multiselect {
   line-height: 20px;
   border: none;
   border-radius: 5px;
-  background: $multiselect-input-background-color;
+  background: #fff;
   padding: 0 0 0 5px;
   width: calc(100%);
   transition: border 0.1s ease;
@@ -520,7 +483,7 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect__input::placeholder {
-  color: $multiselect-default-text-color;
+  color: #35495e;
 }
 
 .multiselect__tag ~ .multiselect__input,
@@ -530,12 +493,12 @@ fieldset[disabled] .multiselect {
 
 .multiselect__input:hover,
 .multiselect__single:hover {
-  border-color: $multiselect-input-border-color-hover;
+  border-color: #cfcfcf;
 }
 
 .multiselect__input:focus,
 .multiselect__single:focus {
-  border-color: $multiselect-input-border-color-focus;
+  border-color: #a8a8a8;
   outline: none;
 }
 
@@ -553,8 +516,8 @@ fieldset[disabled] .multiselect {
   display: block;
   padding: 8px 40px 0 8px;
   border-radius: 5px;
-  border: 1px solid $multiselect-tag-border-color;
-  background: $multiselect-tags-background-color;
+  border: 1px solid #e8e8e8;
+  background: #fff;
   font-size: 14px;
 }
 
@@ -564,9 +527,9 @@ fieldset[disabled] .multiselect {
   padding: 4px 26px 4px 10px;
   border-radius: 5px;
   margin-right: 10px;
-  color: $multiselect-tag-text-color;
+  color: #fff;
   line-height: 1;
-  background: $multiselect-tag-background-color;
+  background: #41b883;
   margin-bottom: 5px;
   white-space: nowrap;
   overflow: hidden;
@@ -592,18 +555,18 @@ fieldset[disabled] .multiselect {
 
 .multiselect__tag-icon:after {
   content: "×";
-  color: $multiselect-tag-toggle-color;
+  color: #266d4d;
   font-size: 14px;
 }
 
 .multiselect__tag-icon:focus,
 .multiselect__tag-icon:hover {
-  background: $multiselect-tag-highlight-color;
+  background: #369a6e;
 }
 
 .multiselect__tag-icon:focus:after,
 .multiselect__tag-icon:hover:after {
-  color: $multiselect-tag-toggle-highlight-color;
+  color: white;
 }
 
 .multiselect__current {
@@ -728,15 +691,15 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect__option--highlight {
-  background: $multiselect-option-highlight-color;
+  background: #41b883;
   outline: none;
-  color: $multiselect-option-highlight-text-color;
+  color: white;
 }
 
 .multiselect__option--highlight:after {
   content: attr(data-select);
-  background: $multiselect-option-highlight-color;
-  color: $multiselect-option-highlight-text-color;
+  background: #41b883;
+  color: white;
 }
 
 .multiselect__option--selected {
