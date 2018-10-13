@@ -1520,6 +1520,19 @@ describe('Multiselect.vue', () => {
       })
       expect(wrapper.vm.currentOptionLabel).toBe(0)
     })
+    test('should display selected value even when is the number zero', () => {
+      const wrapper = shallowMount(Multiselect, {
+        propsData: {
+          value: 0,
+          options: [0, 1, 2, 3, 4, 5]
+        }
+      })
+
+      expect(wrapper.vm.isSingleLabelVisible).toBe(true)
+      expect(wrapper.find('.multiselect__single').text()).toContainEqual(
+        '0'
+      )
+    })
     describe('when MULTIPLE is FALSE', () => {
       test('should return the current option label', () => {
         const wrapper = shallowMount(Multiselect, {
