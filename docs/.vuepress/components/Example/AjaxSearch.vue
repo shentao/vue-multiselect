@@ -28,10 +28,9 @@
 </template>
 
 <script>
-// import countries from '../../countries.json'
-const countries = []
+import countries from '../../../countries.json'
 
-export function ajaxFindCountry (query) {
+function ajaxFindCountry (query) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       const results = countries.filter((element, index, array) => {

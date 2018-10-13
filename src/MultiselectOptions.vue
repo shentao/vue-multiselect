@@ -189,6 +189,16 @@ export default {
     },
     loading: {
       type: Boolean
+    },
+    groupHighlight: {
+      type: Function
+    },
+    groupSelect: {
+      type: Boolean,
+      default: false
+    },
+    selectGroup: {
+      type: Function
     }
   },
   watch: {

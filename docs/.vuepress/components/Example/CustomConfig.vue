@@ -1,7 +1,8 @@
 <template lang="html">
   <div :class="{ 'invalid': isInvalid }">
-    <label class="typo__label">Customized multiselect</label>
+    <label for="custom-multiselect" class="label">Customized multiselect</label>
     <VueMultiselect
+      id="custom-multiselect"
       placeholder="Pick at least one"
       select-label="Enter doesn’t work here!"
       :value="value"
@@ -19,7 +20,7 @@
       @select="onSelect"
     />
     <label
-      class="typo__label form__label"
+      class="label error"
       v-show="isInvalid"
     >
       Must have at least one value
@@ -58,7 +59,19 @@ export default {
 </script>
 
 <style lang="css">
-  .form__label {
-    margin-top: 5px !important;
-  }
+.error {
+  margin-top: 5px;
+  margin-left: 10px;
+  color: #FF2600;
+}
+
+.invalid .multiselect-wrapper {
+  border-color: #FF2600;
+}
+
+.label {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 12px;
+}
 </style>

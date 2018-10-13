@@ -42,7 +42,10 @@
         computedPlaceholder,
         isFocused,
         focus,
-        blur
+        blur,
+        groupHighlight,
+        groupSelect,
+        selectGroup
       }"
       style="position: relative;"
     >
@@ -160,7 +163,10 @@
             optionHeight,
             showPointer,
             pointer,
-            loading
+            loading,
+            groupHighlight,
+            groupSelect,
+            selectGroup
           }"
         >
           <template slot="_beforeList">

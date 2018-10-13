@@ -1,7 +1,7 @@
 <template lang="html">
   <VueMultiselect
     v-model="value"
-    placeholder="Fav No Man’s Sky path"
+    placeholder="Select your path"
     label="title"
     track-by="title"
     :options="options"
@@ -10,21 +10,14 @@
     :show-labels="false"
   >
     <template slot="singleLabel" slot-scope="props">
-      <img
-        class="option__image"
-        :src="props.option.img"
-        alt="No Man’s Sky"
-      >
+      <img :src="props.option.img" class="option__image">
       <span class="option__desc">
         <span class="option__title">{{ props.option.title }}</span>
+        <span class="option__small">{{ props.option.desc }}</span>
       </span>
     </template>
     <template slot="option" slot-scope="props">
-      <img
-        class="option__image"
-        :src="props.option.img"
-        alt="No Man’s Sky"
-      >
+      <img :src="props.option.img" class="option__image">
       <span class="option__desc">
         <span class="option__title"> {{ props.option.title }}</span>
         <span class="option__small"> {{ props.option.desc }}</span>
@@ -34,15 +27,20 @@
 </template>
 
 <script>
+const creaturesImg = require('../../../images/posters/creatures.png')
+const fleetImg = require('../../../images/posters/fleet.png')
+const tradingImg = require('../../../images/posters/trading_post.png')
+const labImg = require('../../../images/posters/resource_lab.png')
+
 export default {
   data () {
     return {
-      value: { title: 'Explorer', desc: 'Discovering new species!', img: 'static/posters/creatures.png' },
+      value: { title: 'Explorer', desc: 'Discovering new species!', img: creaturesImg },
       options: [
-        { title: 'Space Pirate', desc: 'More space battles!', img: 'static/posters/fleet.png' },
-        { title: 'Merchant', desc: 'PROFIT!', img: 'static/posters/trading_post.png' },
-        { title: 'Explorer', desc: 'Discovering new species!', img: 'static/posters/creatures.png' },
-        { title: 'Miner', desc: 'We need to go deeper!', img: 'static/posters/resource_lab.png' }
+        { title: 'Space Pirate', desc: 'More space battles!', img: fleetImg },
+        { title: 'Merchant', desc: 'PROFIT!', img: tradingImg },
+        { title: 'Explorer', desc: 'Discovering new species!', img: creaturesImg },
+        { title: 'Miner', desc: 'We need to go deeper!', img: labImg }
       ]
     }
   },
@@ -54,9 +52,9 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .option__image {
-  max-height: 80px;
+  max-height: 40px;
   margin-right: 10px;
   display: inline-block;
   vertical-align: middle;
@@ -65,15 +63,17 @@ export default {
 .option__desc {
   display: inline-block;
   vertical-align: middle;
-  padding: rem(10px);
 }
 
 .option__title {
-  font-size: rem(24px);
+  font-size: 18px;
+  line-height: 1;
 }
 
 .option__small {
-  margin-top: rem(10px);
+  margin-top: 3px;
+  font-size: 12px;
   display: block;
+  line-height: 1;
 }
 </style>
