@@ -44,7 +44,7 @@ export default {
 }
 </script>
 
-<style lang="sass">
+<style lang="stylus">
 .custom__tag
   display: inline-block
   padding: 3px 12px

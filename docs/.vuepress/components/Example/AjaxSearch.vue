@@ -67,7 +67,7 @@ export default {
 }
 </script>
 
-<style lang="sass">
+<style lang="stylus">
 .multiselect__clear
   position: absolute
   right: 41px

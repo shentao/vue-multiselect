@@ -71,7 +71,7 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
+<style lang="stylus" scoped>
 .split-container
   margin: 20px 0
   padding: 20px
