@@ -13,7 +13,7 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
+<style lang="stylus" scoped>
 .slot-name
   width: 20px
   text-transform: uppercase

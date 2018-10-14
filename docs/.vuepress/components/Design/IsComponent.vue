@@ -15,7 +15,7 @@ export default {
 }
 </script>
 
-<style lang="sass" scoped>
+<style lang="stylus" scoped>
 h1
   font-size: 20px
   letter-spacing: 0.5

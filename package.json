@@ -21,11 +21,8 @@
     "@vue/cli-plugin-unit-jest": "^3.0.4",
     "@vue/cli-service": "^3.0.4",
     "@vue/eslint-config-standard": "^3.0.4",
-    "node-sass": "^4.0.0",
-    "optimize-css-assets-webpack-plugin": "^1.3.0",
-    "sass-loader": "^7.1.0",
     "vue": "^2.5.16",
-    "vue-template-compiler": "^2.5.16",
+    "vue-template-compiler": "^2.5.17",
     "vuepress": "^0.14.4",
     "vuex": "^2.1.1"
   },

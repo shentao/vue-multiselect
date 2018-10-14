@@ -41,6 +41,3 @@ export default {
   components: { IsComponent, InSlot }
 }
 </script>
-
-<style lang="css">
-</style>
