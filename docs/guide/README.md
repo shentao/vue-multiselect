@@ -47,7 +47,7 @@ Vue.component('vue-multiselect', window.VueMultiselect.default)
 
 ## Architecture
 
-Some architecture
+<Design-Multiselect/>
 
 ## Examples
 
