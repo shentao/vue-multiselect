@@ -49,7 +49,7 @@
   "description": "Multiselect component for vue.js",
   "unpkg": "dist/vue-multiselect.min.js",
   "engines": {
-    "node": ">= 4.0.0",
+    "node": ">= 10.0.0",
     "npm": ">= 3.0.0"
   },
   "files": [
