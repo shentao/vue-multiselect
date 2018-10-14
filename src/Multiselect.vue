@@ -290,7 +290,7 @@ export default {
   computed: {
     isSingleLabelVisible () {
       return (
-        this.singleValue &&
+        (this.singleValue || this.singleValue === 0) &&
         (!this.isOpen || !this.searchable) &&
         !this.visibleValues.length
       )
