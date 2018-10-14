@@ -62,7 +62,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="stylus">
 .multiselect-wrapper {
   display: flex;
   align-items: center;

@@ -129,7 +129,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="stylus">
 .multiselect__caret {
   line-height: 16px;
   display: flex;
