@@ -2,7 +2,7 @@
   <IsComponent background="#3eaf7c" color="#fff" border="none">
     <span slot="name">Multiselect.vue</span>
     <span slot="desc">
-      The default composition that implements the features known from Vue-Multiselect v2.x. It proxies all of it’s props and listeners to the MultiselectCore component.
+      The default composition that implements the features known from Vue-Multiselect v2.x. It proxies all of its props and listeners to the MultiselectCore component.
     </span>
     <span slot="type">Composition</span>
     <IsComponent background="#f5f5f5" border="none">
