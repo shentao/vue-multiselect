@@ -15,13 +15,15 @@
     "finish": "npm run lint && npm test && npm run bundle"
   },
   "devDependencies": {
-    "@vue/cli-plugin-babel": "^3.0.4",
-    "@vue/cli-plugin-e2e-cypress": "^3.0.4",
-    "@vue/cli-plugin-eslint": "^3.0.4",
-    "@vue/cli-plugin-unit-jest": "^3.0.4",
-    "@vue/cli-service": "^3.0.4",
-    "@vue/eslint-config-standard": "^3.0.4",
-    "vue": "^2.5.16",
+    "@vue/cli-plugin-babel": "^3.0.5",
+    "@vue/cli-plugin-e2e-cypress": "^3.0.5",
+    "@vue/cli-plugin-eslint": "^3.0.5",
+    "@vue/cli-plugin-unit-jest": "^3.0.5",
+    "@vue/cli-service": "^3.0.5",
+    "@vue/eslint-config-standard": "^3.0.5",
+    "@vue/test-utils": "^1.0.0-beta.25",
+    "babel-core": "^7.0.0-bridge",
+    "vue": "^2.5.17",
     "vue-template-compiler": "^2.5.17",
     "vuepress": "^0.14.4",
     "vuex": "^2.1.1"
@@ -43,11 +45,10 @@
     "type": "git",
     "url": "git+https://github.com/shentao/vue-multiselect.git"
   },
-  "description": "Multiselect component for vue.js",
+  "description": "Multiselect component for Vue.js",
   "unpkg": "dist/vue-multiselect.min.js",
   "files": [
     "dist",
     "src"
-  ],
-  "dependencies": {}
+  ]
 }

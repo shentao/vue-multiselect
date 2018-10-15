@@ -218,6 +218,7 @@ import multiselectCorePropsMixin from './multiselectCorePropsMixin'
 export default {
   name: 'vue-multiselect',
   mixins: [multiselectCorePropsMixin],
+  inheritAttrs: false,
   components: {
     MultiselectInput,
     MultiselectCore,

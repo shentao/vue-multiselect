@@ -227,7 +227,11 @@ export default {
           return
 
         case 'tab':
-          this.deactivate()
+          if (this.isOpen) {
+            this.addPointerElement('Tab')
+            this.deactivate()
+            $event.preventDefault()
+          }
       }
     },
     /**
@@ -327,15 +331,17 @@ export default {
         this.selectGroup(option)
         return
       }
-      // if (this.blockKeys.indexOf(key) !== -1 ||
-      //   this.disabled ||
-      //   option.$isDisabled ||
-      //   option.$isLabel
-      // ) return
+      if (this.blockKeys.indexOf(key) !== -1 ||
+        this.disabled ||
+        option.$isDisabled ||
+        option.$isLabel
+      ) return
       /* istanbul ignore else */
       if (this.max && this.multiple && this.internalValue.length === this.max) return
+
       /* istanbul ignore else */
       // if (key === 'Tab' && !this.pointerDirty) return
+
       if (option.isTag) {
         this.$emit('tag', option.label, this.id)
         this.search = ''
@@ -344,8 +350,8 @@ export default {
         const isSelected = this.isSelected(option)
 
         if (isSelected) {
-          // if (key !== 'Tab') this.removeElement(option)
-          this.removeElement(option)
+          if (key !== 'Tab') this.removeElement(option)
+          // this.removeElement(option)
           return
         }
 
@@ -479,7 +485,7 @@ export default {
       this.isOpen = true
       /* istanbul ignore else  */
       // if (this.searchable && !this.preserveSearch) this.search = ''
-      // this.$emit('open', this.id)
+      this.$emit('open', this.id)
     },
     /**
      * Closes the multiselect’s dropdown.
@@ -515,7 +521,7 @@ export default {
      * detecting where to expand the dropdown
      */
     adjustPosition () {
-      if (typeof window === 'undefined') return
+      if (typeof window === 'undefined' || !this.$el.getBoundingClientRect) return
 
       const spaceAbove = this.$el.getBoundingClientRect().top
       const spaceBelow = window.innerHeight - this.$el.getBoundingClientRect().bottom
@@ -544,10 +550,10 @@ export default {
         { 'multiselect__option--group-selected': this.wholeGroupSelected(group) }
       ]
     },
-    addPointerElement () {
+    addPointerElement (withKey) {
       /* istanbul ignore else */
       if (this.filteredOptions.length > 0) {
-        this.select(this.filteredOptions[this.pointer])
+        this.select(this.filteredOptions[this.pointer], withKey)
       }
       this.pointerReset()
     },
