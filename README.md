@@ -1,4 +1,5 @@
 # Vue Multiselect
+Probably the most complete selecting solution for Vue.js 2.0, without jQuery.
 
 ## Changes:
 * Added property for smart filtration algorithm "Levenshtein"
