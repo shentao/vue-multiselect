@@ -221,3 +221,12 @@ Shows error when touched, but nothing is selected.
   <Example-CustomConfig slot="example"/>
   <<< @/docs/.vuepress/components/Example/CustomConfig.vue
 </SplitTab>
+
+## Advanced Examples
+
+### Using MultiselectCore
+
+<SplitTab>
+  <Example-CoreUsingTable slot="example"/>
+  <<< @/docs/.vuepress/components/Example/CoreExample.vue
+</SplitTab>

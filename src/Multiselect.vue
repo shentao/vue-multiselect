@@ -94,7 +94,6 @@
             v-bind="{
               activate,
               deactivate,
-              handleKeydown,
               search,
               disabled,
               id,
@@ -103,6 +102,13 @@
               updateSearch,
               computedPlaceholder
             }"
+            @up="handleKeydown('up')"
+            @down="handleKeydown('down')"
+            @delete="handleKeydown('delete')"
+            @enter="handleKeydown('enter', $event)"
+            @space="handleKeydown('space', $event)"
+            @tab="handleKeydown('tab')"
+            @esc="deactivate"
           />
           <template slot="singleLabel" slot-scope="props">
             <slot name="singleLabel" v-bind="props">

@@ -8,19 +8,18 @@
     aria-autocomplete="list"
     type="text"
     class="multiselect__input"
-    :class="isOpen && 'multiselect__input--show'"
     :id="id"
     :placeholder="computedPlaceholder"
     :value="search"
     :disabled="disabled"
     @click.stop=""
-    @keydown.space.stop="handleKeydown('space', $event)"
-    @keydown.self.up.prevent="handleKeydown('up')"
-    @keydown.self.down.prevent="handleKeydown('down')"
-    @keydown.self.delete="handleKeydown('delete')"
-    @keydown.enter.stop.self="handleKeydown('enter', $event)"
-    @keyup.tab="handleKeydown('tab')"
-    @keyup.esc="deactivate()"
+    @keydown.space.stop="$emit('space', $event)"
+    @keydown.self.up.prevent="$emit('up')"
+    @keydown.self.down.prevent="$emit('down')"
+    @keydown.self.delete="$emit('delete')"
+    @keydown.enter.stop.self="$emit('enter', $event)"
+    @keyup.tab="$emit('tab')"
+    @keyup.esc="$emit('esc')"
     @input="updateSearch($event.target.value)"
   />
 </template>
@@ -85,15 +84,10 @@ export default {
   box-sizing: border-box;
   vertical-align: top;
   margin: 3px 0;
-  width: 0;
-}
-
-.multiselect__input--show {
-  width: auto;
 }
 
 .multiselect__input::placeholder {
-  color: #35495E;
+  color: #999;
 }
 
 .multiselect__input:hover {
