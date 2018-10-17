@@ -64,12 +64,12 @@
 </template>
 
 <script>
-import MultiselectCore from 'vue-multiselect/src/MultiselectCore.js'
-import MultiselectOptions from 'vue-multiselect/src/MultiselectOptions.vue'
-import MultiselectInput from 'vue-multiselect/src/MultiselectInput.vue'
-import MultiselectWrapper from 'vue-multiselect/src/MultiselectWrapper.vue'
-import MultiselectValue from 'vue-multiselect/src/MultiselectValue.vue'
-import multiselectCorePropsMixin from 'vue-multiselect/src/multiselectCorePropsMixin'
+import MultiselectCore from '../../../../src/MultiselectCore.js'
+import MultiselectOptions from '../../../../src/MultiselectOptions.vue'
+import MultiselectInput from '../../../../src/MultiselectInput.vue'
+import MultiselectWrapper from '../../../../src/MultiselectWrapper.vue'
+import MultiselectValue from '../../../../src/MultiselectValue.vue'
+import multiselectCorePropsMixin from '../../../../src/multiselectCorePropsMixin'
 
 export default {
   inheritAttrs: false,
