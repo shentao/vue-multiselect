@@ -52,6 +52,7 @@ export function filterGroups (search, label, values, groupLabel, customLabel) {
     groups.map(group => {
       /* istanbul ignore else */
       if (!group[values]) {
+        //  eslint-disable-next-line no-console
         console.warn(`Options passed to vue-multiselect do not contain groups, despite the config.`)
         return []
       }
@@ -86,11 +87,11 @@ export function scrollIntoView (node, rootNode) {
   const scrollParentRect = scrollParent.getBoundingClientRect()
   const scrollParentBorderTopWidth = parseInt(
     scrollParentStyles.borderTopWidth,
-    10,
+    10
   )
   const scrollParentBorderBottomWidth = parseInt(
     scrollParentStyles.borderBottomWidth,
-    10,
+    10
   )
   const bordersWidth =
     scrollParentBorderTopWidth + scrollParentBorderBottomWidth
@@ -139,7 +140,7 @@ export function scrollIntoView (node, rootNode) {
 
 const getClosestScrollParent = findParent.bind(
   null,
-  node => node.scrollHeight > node.clientHeight,
+  node => node.scrollHeight > node.clientHeight
 )
 
 function findParent (finder, node, rootNode) {

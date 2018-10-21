@@ -33,14 +33,14 @@
         isOpen
       }"
     >
-      <template v-for="option of visibleValues">
+      <template v-for="(option, index) of visibleValues">
         <slot
           name="tag"
           :option="option"
           :search="search"
           :remove="removeElement"
         >
-          <span class="multiselect__tag">
+          <span class="multiselect__tag" :key="index">
             <span v-text="getOptionLabel(option)"></span>
             <i
               aria-hidden="true"
