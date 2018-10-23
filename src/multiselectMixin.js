@@ -8,17 +8,17 @@ function not (fun) {
   return (...params) => !fun(...params)
 }
 
-function includes (str, query) {
+function includes (str, query, ignoreDiacritics) {
   /* istanbul ignore else */
   if (str === undefined) str = 'undefined'
   if (str === null) str = 'null'
   if (str === false) str = 'false'
-  const text = str.toString().toLowerCase()
+  const text = ignoreDiacritics ? str.toString().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '') : str.toString().toLowerCase()
   return text.indexOf(query.trim()) !== -1
 }
 
-function filterOptions (options, search, label, customLabel) {
-  return options.filter(option => includes(customLabel(option, label), search))
+function filterOptions (options, search, label, customLabel, ignoreDiacritics) {
+  return options.filter(option => includes(customLabel(option, label), search, ignoreDiacritics))
 }
 
 function stripGroups (options) {
@@ -48,7 +48,7 @@ function filterGroups (search, label, values, groupLabel, customLabel) {
         console.warn(`Options passed to vue-multiselect do not contain groups, despite the config.`)
         return []
       }
-      const groupOptions = filterOptions(group[values], search, label, customLabel)
+      const groupOptions = filterOptions(group[values], search, label, customLabel, this.internalSearchIgnoreDiacritics)
 
       return groupOptions.length
         ? {
@@ -79,6 +79,14 @@ export default {
     internalSearch: {
       type: Boolean,
       default: true
+    },
+    /**
+     * Decide whether to normalize diacritics in internal search.
+     * @type {Boolean}
+     */
+    internalSearchIgnoreDiacritics: {
+      type: Boolean,
+      default: false
     },
     /**
      * Array of available options: Objects, Strings or Integers.
@@ -338,7 +346,7 @@ export default {
     },
     filteredOptions () {
       const search = this.search || ''
-      const normalizedSearch = search.toLowerCase().trim()
+      const normalizedSearch = this.internalSearchIgnoreDiacritics ? search.toLowerCase().trim().normalize('NFD').replace(/[\u0300-\u036f]/g, '') : search.toLowerCase().trim()
 
       let options = this.options.concat()
 
@@ -346,7 +354,7 @@ export default {
       if (this.internalSearch) {
         options = this.groupValues
           ? this.filterAndFlat(options, normalizedSearch, this.label)
-          : filterOptions(options, normalizedSearch, this.label, this.customLabel)
+          : filterOptions(options, normalizedSearch, this.label, this.customLabel, this.internalSearchIgnoreDiacritics)
       } else {
         options = this.groupValues ? flattenOptions(this.groupValues, this.groupLabel)(options) : options
       }
