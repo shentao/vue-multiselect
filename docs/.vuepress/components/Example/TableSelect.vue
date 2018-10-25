@@ -16,8 +16,9 @@
       <label>Search</label>
       <MultiselectInput
         v-bind="{ handleKeydown, updateSearch }"
+        @enter="selectAllVisible(filteredOptions, select)"
         class="input"
-        computedPlaceholder="Search libraries"
+        computedPlaceholder="Press enter to select all"
       />
       <div style="display: flex;">
         <table>
@@ -77,6 +78,13 @@ export default {
   components: {
     MultiselectCore,
     MultiselectInput
+  },
+  methods: {
+    selectAllVisible (options, select) {
+      console.log(options);
+      debugger
+      options.forEach(select)
+    }
   }
 }
 </script>

@@ -169,7 +169,7 @@ export default {
     computedPlaceholder () {
       return this.multiple
         ? this.placeholder
-        : this.singleValue || this.placeholder
+        : this.getOptionLabel(this.singleValue) || this.placeholder
     }
   },
   watch: {

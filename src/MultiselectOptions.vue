@@ -59,7 +59,7 @@
         </template>
 
         <li
-          v-if="showNoResults && (filteredOptions.length === 0 && search && !loading)"
+          v-if="showNoResults && (filteredOptions.length === 0 && !loading)"
           class="multiselect__option"
         >
           <slot name="_noResult">
