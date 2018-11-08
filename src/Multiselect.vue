@@ -771,6 +771,32 @@ fieldset[disabled] .multiselect {
   color: #fff;
 }
 
+.multiselect__clear {
+  position: absolute;
+  right: 41px;
+  height: 40px;
+  width: 40px;
+  display: block;
+  cursor: pointer;
+  z-index: 2;
+}
+.multiselect__clear::before {
+  transform: rotate(45deg);
+}
+.multiselect__clear::after {
+  transform: rotate(-45deg);
+}
+.multiselect__clear::after, .multiselect__clear::before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 3px;
+  height: 16px;
+  background: #aaa;
+  top: 12px;
+  right: 4px;
+}
+
 .multiselect-enter-active,
 .multiselect-leave-active {
   transition: all 0.15s ease;
