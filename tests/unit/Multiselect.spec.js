@@ -487,6 +487,39 @@ describe('Multiselect.vue', () => {
         expect(wrapper.emitted().input).toEqual([[[], null]])
       })
     })
+    describe('when selecting a group label, groupSelect == TRUE and $isDisabled == TRUE', () => {
+      test('should add values to selected array except disabled values', () => {
+        const wrapper = shallowMount(Multiselect, {
+          propsData: {
+            value: [],
+            options: [
+              {
+                label: 'Label 1',
+                values: [
+                  { key: 'Value 1', value: 'Value 1' },
+                  { key: 'Value 2', value: 'Value 2', $isDisabled: true }
+                ]
+              },
+              {
+                label: 'Label 2',
+                values: [
+                  { key: 'Value 3', value: 'Value 3' },
+                  { key: 'Value 4', value: 'Value 4' }
+                ]
+              }
+            ],
+            multiple: true,
+            groupValues: 'values',
+            groupLabel: 'label',
+            groupSelect: true
+          }
+        })
+        wrapper.vm.select(wrapper.vm.filteredOptions[0])
+        expect(wrapper.emitted().input).toEqual([
+          [[{ key: 'Value 1', value: 'Value 1' }], null]
+        ])
+      })
+    })
   })
   describe('#removeElement()', () => {
     test('should not do anything if disabled == TRUE', () => {
