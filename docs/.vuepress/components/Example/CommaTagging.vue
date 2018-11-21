@@ -22,46 +22,6 @@
         computedPlaceholder="Press enter to select all visible results"
       />
       <button class="button" @click="selectAllVisible(filteredOptions, value)">Select all</button>
-      <div style="display: flex;">
-        <table>
-          <thead>Available</thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Action</th>
-          </tr>
-          <tr v-for="record of filteredOptions">
-            <td>{{ record.id }}</td>
-            <td>{{ record.name }}</td>
-            <td>{{ record.desc }}</td>
-            <td>
-              <button type="button" @click="select(record)">
-                Select
-              </button>
-            </td>
-          </tr>
-        </table>
-        <table>
-          <thead>Selected</thead>
-          <tr>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Action</th>
-          </tr>
-          <tr v-for="record of value">
-            <td>{{ record.id }}</td>
-            <td>{{ record.name }}</td>
-            <td>{{ record.desc }}</td>
-            <td>
-              <button type="button" @click="removeElement(record)">
-                Remove
-              </button>
-            </td>
-          </tr>
-        </table>
-      </div>
     </div>
   </MultiselectCore>
 </template>

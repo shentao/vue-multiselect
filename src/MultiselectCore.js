@@ -27,13 +27,6 @@ export default {
     }
   },
   mounted () {
-    /* istanbul ignore else */
-    // if (!this.multiple && !this.clearOnSelect) {
-    //   console.warn('[Vue-Multiselect warn]: ClearOnSelect and Multiple props can’t be both set to false.')
-    // }
-    // if (!this.multiple && this.max) {
-    //   console.warn('[Vue-Multiselect warn]: Max prop should not be used when prop Multiple equals false.')
-    // }
     if (
       this.preselectFirst &&
       !this.internalValue.length &&
@@ -414,8 +407,7 @@ export default {
      * Additionally checks this.allowEmpty prop if option can be removed when
      * it is the last selected option.
      *
-     * @param  {type} option description
-     * @returns {type}        description
+     * @param  {Object||String||Integer} option description
      */
     removeElement (option, shouldClose = true) {
       /* istanbul ignore else */
