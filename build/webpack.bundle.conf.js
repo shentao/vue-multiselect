@@ -1,10 +1,10 @@
-const webpack = require('webpack')
-const base = require('./webpack.base.conf')
-const config = require('../config')
-const ExtractTextPlugin = require('extract-text-webpack-plugin')
-const utils = require('./utils')
-const merge = require('webpack-merge')
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
+const webpack           = require('webpack')
+const base              = require('./webpack.base.conf')
+const config            = require('../config')
+const utils             = require('./utils')
+const merge             = require('webpack-merge')
+const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
 
 const env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
@@ -34,12 +34,11 @@ const webpackConfig = merge(base, {
       'process.env': env
     }),
     new webpack.optimize.UglifyJsPlugin({
-      compress: { warnings: false }
+      compress: {warnings: false}
     }),
-    new ExtractTextPlugin({
-      filename: 'vue-multiselect.min.css'
-    }),
-    new OptimizeCssAssetsPlugin({
+    utils.processedExtractor,
+    utils.rawExtractor,
+    new OptimizeCSSPlugin()
       cssProcessor: require('cssnano')
     })
   ]
