@@ -374,7 +374,7 @@
     $multiselect-color-background-active: $multiselect-color-brand-light;
     $multiselect-color-background-disabled: #ededed;
     $multiselect-color-background-group-highlight: $multiselect-color-text;
-    $multiselect-color-background-group-disabled: #dedede; // TODO: is this maybe just a type of $multiselect-color-background-disabled?
+    $multiselect-color-background-group-disabled: #dedede;
     $multiselect-color-background-group-selected: #f3f3f3;
 
     $multiselect-color-border-focus: #a8a8a8;
