@@ -7511,6 +7511,11 @@ ms@^2.1.1:
   resolved "https://registry.yarnpkg.com/ms/-/ms-2.1.1.tgz#30a5864eb3ebb0a66f2ebe6d727af06a09d86e0a"
   integrity sha512-tgp+dl5cGk28utYktBsrFqA7HKgrhgPsg6Z/EfhWI4gl1Hwq8B/GmY/0oXZ6nF8hDVesS/FpnYaD/kOWhYQvyg==
 
+multi-loader@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/multi-loader/-/multi-loader-0.1.0.tgz#2f0cc7438ec6e4a4ebc1a387015849b04f875f44"
+  integrity sha1-LwzHQ47G5KTrwaOHAVhJsE+HX0Q=
+
 multicast-dns-service-types@^1.1.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/multicast-dns-service-types/-/multicast-dns-service-types-1.1.0.tgz#899f11d9686e5e05cb91b35d5f0e63b773cfc901"
