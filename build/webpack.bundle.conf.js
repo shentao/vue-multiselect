@@ -38,7 +38,7 @@ const webpackConfig = merge(base, {
     }),
     utils.processedExtractor,
     utils.rawExtractor,
-    new OptimizeCSSPlugin()
+    new OptimizeCSSPlugin({
       cssProcessor: require('cssnano')
     })
   ]

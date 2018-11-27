@@ -37,16 +37,16 @@ exports.cssLoaders = function (options) {
         use: 'raw-loader',
         fallback: 'vue-style-loader'
       })
-      return multi([
-        // processedExtractor.extract({
-        //   use: sourceLoaders,
-        //   fallback: 'vue-style-loader'
-        // }),
-        // rawExtractor.extract({
-        //   use: 'raw-loader',
-        //   fallback: 'vue-style-loader'
-        // })
-      ])
+      // return multi([
+      //   processedExtractor.extract({
+      //     use: sourceLoaders,
+      //     fallback: 'vue-style-loader'
+      //   }),
+      //   rawExtractor.extract({
+      //     use: 'raw-loader',
+      //     fallback: 'vue-style-loader'
+      //   })
+      // ])
     } else {
       return ['vue-style-loader', sourceLoaders].join('!')
     }
