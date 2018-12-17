@@ -171,6 +171,15 @@ export default {
       default: true
     },
     /**
+     * Enable/disable considering parent height
+     * @default true
+     * @type {Boolean}
+     */
+    considerParentHeight: {
+      type: Boolean,
+      default: false
+    },
+    /**
      * Reset this.internalValue, this.search after this.internalValue changes.
      * Useful if want to create a stateless dropdown.
      * @default false
@@ -698,13 +707,22 @@ export default {
       const spaceBelow = window.innerHeight - this.$el.getBoundingClientRect().bottom
       const hasEnoughSpaceBelow = spaceBelow > this.maxHeight
 
+      let possibleHeights = [this.maxHeight]
+
       if (hasEnoughSpaceBelow || spaceBelow > spaceAbove || this.openDirection === 'below' || this.openDirection === 'bottom') {
         this.prefferedOpenDirection = 'below'
-        this.optimizedHeight = Math.min(spaceBelow - 40, this.maxHeight)
+        possibleHeights.push(spaceBelow - 40)
       } else {
         this.prefferedOpenDirection = 'above'
-        this.optimizedHeight = Math.min(spaceAbove - 40, this.maxHeight)
+        possibleHeights.push(spaceAbove - 40)
       }
+
+      if (this.considerParentHeight) {
+        const parentHeight = this.$el.parentNode.getBoundingClientRect().height
+        possibleHeights.push(parentHeight - 40)
+      }
+
+      this.optimizedHeight = Math.min(...possibleHeights)
     }
   }
 }
