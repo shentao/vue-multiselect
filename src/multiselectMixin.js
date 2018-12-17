@@ -723,7 +723,6 @@ export default {
       }
 
       this.optimizedHeight = Math.min(...possibleHeights)
-      console.log('adjustPosition()')
     }
   }
 }
