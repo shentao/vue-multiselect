@@ -66,7 +66,7 @@ export default {
     return {
       search: '',
       isOpen: false,
-      prefferedOpenDirection: 'below',
+      preferredOpenDirection: 'below',
       optimizedHeight: this.maxHeight
     }
   },
@@ -699,10 +699,10 @@ export default {
       const hasEnoughSpaceBelow = spaceBelow > this.maxHeight
 
       if (hasEnoughSpaceBelow || spaceBelow > spaceAbove || this.openDirection === 'below' || this.openDirection === 'bottom') {
-        this.prefferedOpenDirection = 'below'
+        this.preferredOpenDirection = 'below'
         this.optimizedHeight = Math.min(spaceBelow - 40, this.maxHeight)
       } else {
-        this.prefferedOpenDirection = 'above'
+        this.preferredOpenDirection = 'above'
         this.optimizedHeight = Math.min(spaceAbove - 40, this.maxHeight)
       }
     }
