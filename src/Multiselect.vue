@@ -687,7 +687,7 @@
         border-top-left-radius: 5px;
         border-top-right-radius: 5px;
         border-bottom: none;
-        border-top: 1px solid #e8e8e8;
+         border-top: 1px solid $multiselect-color-item-border;
     }
 
     .multiselect__content::webkit-scrollbar {
@@ -749,8 +749,7 @@
             background: $multiselect-color-group;
             color: $multiselect-color-text-active;
 
-            &
-            :after {
+            &:after {
                 background: $multiselect-color-group;
                 content: attr(data-deselect);
                 color: $multiselect-color-text-active;
