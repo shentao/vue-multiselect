@@ -319,9 +319,6 @@ export default {
   },
   mounted () {
     /* istanbul ignore else */
-    if (!this.multiple && !this.clearOnSelect) {
-      console.warn('[Vue-Multiselect warn]: ClearOnSelect and Multiple props can’t be both set to false.')
-    }
     if (!this.multiple && this.max) {
       console.warn('[Vue-Multiselect warn]: Max prop should not be used when prop Multiple equals false.')
     }
@@ -463,13 +460,21 @@ export default {
       return this.valueKeys.indexOf(opt) > -1
     },
     /**
+     * Finds out if the given option is disabled
+     * @param  {Object||String||Integer} option passed element to check
+     * @returns {Boolean} returns true if element is disabled
+     */
+    isOptionDisabled (option) {
+      return !!option.$isDisabled
+    },
+    /**
      * Returns option[trackBy] if trackBy is a String
      * Returns trackBy(option) result if trackBy is a Function
      * Else returns option
      *
      * @param  {Object||String||Integer} Passed option
      * @returns {String}
-     */
+    */
     getOptionKey (option) {
       /* istanbul ignore else */
       if (typeof this.trackBy === 'string') return option[this.trackBy]
@@ -569,7 +574,7 @@ export default {
 
         this.$emit('input', newValue, this.id)
       } else {
-        const optionsToAdd = group[this.groupValues].filter(not(this.isSelected))
+        const optionsToAdd = group[this.groupValues].filter(not(this.isOptionDisabled || this.isSelected))
 
         this.$emit('select', optionsToAdd, this.id)
         this.$emit(
@@ -585,7 +590,16 @@ export default {
      * @param {Object} group to validated selected values against
      */
     wholeGroupSelected (group) {
-      return group[this.groupValues].every(this.isSelected)
+      return group[this.groupValues].every(option => this.isSelected(option) || this.isOptionDisabled(option)
+      )
+    },
+    /**
+     * Helper to identify if all values in a group are disabled
+     *
+     * @param {Object} group to check for disabled values
+     */
+    wholeGroupDisabled (group) {
+      return group[this.groupValues].every(this.isOptionDisabled)
     },
     /**
      * Removes the given option from the selected options.

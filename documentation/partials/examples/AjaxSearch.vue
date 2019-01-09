@@ -23,6 +23,10 @@ div
     :hide-selected="true",
     @search-change="asyncFind"
   )
+    template(slot="tag", slot-scope="{ option, remove }")
+      span.custom__tag
+        span {{ option.name }}
+        span.custom__remove(@click="remove(option)") ❌
     template(slot="clear", slot-scope="props")
       div.multiselect__clear(
         v-if="selectedCountries.length",

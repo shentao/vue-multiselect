@@ -4,5 +4,3 @@ npm-debug.log
 selenium-debug.log
 tests/unit/coverage
 tests/e2e/reports
-.editorconfig
-.tern-project

@@ -6,7 +6,7 @@
     @blur="searchable ? false : deactivate()"
     @keydown.self.down.prevent="pointerForward()"
     @keydown.self.up.prevent="pointerBackward()"
-    @keydown.enter.tab.stop.self="addPointerElement($event)"
+    @keypress.enter.tab.stop.self="addPointerElement($event)"
     @keyup.esc="deactivate()"
     class="multiselect">
       <slot name="caret" :toggle="toggle">
@@ -14,21 +14,29 @@
       </slot>
       <slot name="clear" :search="search"></slot>
       <div ref="tags" class="multiselect__tags">
-        <div class="multiselect__tags-wrap" v-show="visibleValues.length > 0">
-          <template v-for="(option, index) of visibleValues" @mousedown.prevent>
-            <slot name="tag" :option="option" :search="search" :remove="removeElement">
-              <span class="multiselect__tag" :key="index">
-                <span v-text="getOptionLabel(option)"></span>
-                <i aria-hidden="true" tabindex="1" @keydown.enter.prevent="removeElement(option)"  @mousedown.prevent="removeElement(option)" class="multiselect__tag-icon"></i>
-              </span>
+        <slot
+          name="selection"
+          :search="search"
+          :remove="removeElement"
+          :values="visibleValues"
+          :is-open="isOpen"
+        >
+          <div class="multiselect__tags-wrap" v-show="visibleValues.length > 0">
+            <template v-for="(option, index) of visibleValues" @mousedown.prevent>
+              <slot name="tag" :option="option" :search="search" :remove="removeElement">
+                <span class="multiselect__tag" :key="index">
+                  <span v-text="getOptionLabel(option)"></span>
+                  <i aria-hidden="true" tabindex="1" @keypress.enter.prevent="removeElement(option)"  @mousedown.prevent="removeElement(option)" class="multiselect__tag-icon"></i>
+                </span>
+              </slot>
+            </template>
+          </div>
+          <template v-if="internalValue && internalValue.length > limit">
+            <slot name="limit">
+              <strong class="multiselect__strong" v-text="limitText(internalValue.length - limit)"/>
             </slot>
           </template>
-        </div>
-        <template v-if="internalValue && internalValue.length > limit">
-          <slot name="limit">
-            <strong class="multiselect__strong" v-text="limitText(internalValue.length - limit)"/>
-          </slot>
-        </template>
+        </slot>
         <transition name="multiselect__loading">
           <slot name="loading">
             <div v-show="loading" class="multiselect__spinner"/>
@@ -52,7 +60,7 @@
           @keyup.esc="deactivate()"
           @keydown.down.prevent="pointerForward()"
           @keydown.up.prevent="pointerBackward()"
-          @keydown.enter.prevent.stop.self="addPointerElement($event)"
+          @keypress.enter.prevent.stop.self="addPointerElement($event)"
           @keydown.delete.stop="removeLastElement()"
           class="multiselect__input"/>
         <span
@@ -63,7 +71,7 @@
             <template>{{ currentOptionLabel }}</template>
           </slot>
         </span>
-        <span 
+        <span
           v-if="isPlaceholderVisible"
           class="multiselect__placeholder"
           @mousedown.prevent="toggle">
@@ -77,6 +85,7 @@
           class="multiselect__content-wrapper"
           v-show="isOpen"
           @focus="activate"
+          tabindex="-1"
           @mousedown.prevent
           :style="{ maxHeight: optimizedHeight + 'px' }"
           ref="list">
@@ -281,7 +290,7 @@ export default {
   computed: {
     isSingleLabelVisible () {
       return (
-        this.singleValue &&
+        (this.singleValue || this.singleValue === 0) &&
         (!this.isOpen || !this.searchable) &&
         !this.visibleValues.length
       )
@@ -727,8 +736,8 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect__option--disabled {
-  background: #ededed;
-  color: #a6a6a6;
+  background: #ededed !important;
+  color: #a6a6a6 !important;
   cursor: text;
   pointer-events: none;
 }
