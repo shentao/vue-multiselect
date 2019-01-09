@@ -1,20 +1,20 @@
-$multiselect-color-brand-light: #41b883;
-$multiselect-color-brand-dark: darken($multiselect-color-brand-light, 20%);
+$multiselect-color-brand-light: #41b883 !default;
+$multiselect-color-brand-dark: darken($multiselect-color-brand-light, 20%) !default;
 
-$multiselect-color-group: #ff6a6a;
+$multiselect-color-group: #ff6a6a !default;
 
-$multiselect-color-text: #35495e;
-$multiselect-color-text-active: #fff;
-$multiselect-color-group-text-disabled: #a6a6a6;
+$multiselect-color-text: #35495e !default;
+$multiselect-color-text-active: #fff !default;
+$multiselect-color-group-text-disabled: #a6a6a6 !default;
 
-$multiselect-color-background: #fff;
-$multiselect-color-background-active: $multiselect-color-brand-light;
-$multiselect-color-background-disabled: #ededed;
-$multiselect-color-background-group-highlight: $multiselect-color-text;
-$multiselect-color-background-group-disabled: #dedede;
-$multiselect-color-background-group-selected: #f3f3f3;
+$multiselect-color-background: #fff !default;
+$multiselect-color-background-active: $multiselect-color-brand-light !default;
+$multiselect-color-background-disabled: #ededed !default;
+$multiselect-color-background-group-highlight: $multiselect-color-text !default;
+$multiselect-color-background-group-disabled: #dedede !default;
+$multiselect-color-background-group-selected: #f3f3f3 !default;
 
-$multiselect-color-border-focus: #a8a8a8;
-$multiselect-color-border-hover: #cfcfcf;
+$multiselect-color-border-focus: #a8a8a8 !default;
+$multiselect-color-border-hover: #cfcfcf !default;
 
-$multiselect-color-item-border: #e8e8e8;
+$multiselect-color-item-border: #e8e8e8 !default;
