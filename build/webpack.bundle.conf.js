@@ -5,6 +5,7 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const utils = require('./utils')
 const merge = require('webpack-merge')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
 
 const env = process.env.NODE_ENV === 'testing'
   ? require('../config/test.env')
@@ -41,7 +42,14 @@ const webpackConfig = merge(base, {
     }),
     new OptimizeCssAssetsPlugin({
       cssProcessor: require('cssnano')
-    })
+    }),
+    new CopyPlugin([
+      {
+        from: './src/*.scss',
+        to: '[name].[ext]',
+        toType: 'template'
+      }
+    ])
   ]
 })
 
