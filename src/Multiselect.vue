@@ -362,7 +362,7 @@
 
 <style lang="scss">
     $multiselect-color-brand-light: #41b883;
-    $multiselect-color-brand-dark: darken(#41b883, 20%);
+    $multiselect-color-brand-dark: darken($multiselect-color-brand-light, 20%);
 
     $multiselect-color-group: #ff6a6a;
 
@@ -527,8 +527,7 @@
 
     .multiselect__single {
 
-        &
-        :focus {
+        &:focus {
             border-color: $multiselect-color-border-focus;
             outline: none;
         }
@@ -632,8 +631,7 @@
         cursor: pointer;
         transition: transform 0.2s ease;
 
-        &
-        :before {
+        &:before {
             position: relative;
             right: 0;
             top: 65%;
@@ -712,8 +710,7 @@
         cursor: pointer;
         white-space: nowrap;
 
-        &
-        :after {
+        &:after {
             top: 0;
             right: 0;
             position: absolute;
@@ -730,8 +727,7 @@
         outline: none;
         color: $multiselect-color-text-active;
 
-        &
-        :after {
+        &:after {
             content: attr(data-select);
             background: $multiselect-color-background-active;
             color: $multiselect-color-text-active;
@@ -744,14 +740,12 @@
         color: $multiselect-color-text;
         font-weight: bold;
 
-        &
-        :after {
+        &:after {
             content: attr(data-selected);
             color: silver;
         }
 
-        &
-        .multiselect__option--highlight {
+        &.multiselect__option--highlight {
             background: $multiselect-color-group;
             color: $multiselect-color-text-active;
 
@@ -787,13 +781,11 @@
         background: $multiselect-color-background-disabled;
         color: $multiselect-color-text;
 
-        &
-        .multiselect__option--highlight {
+        &.multiselect__option--highlight {
             background: $multiselect-color-background-group-highlight;
             color: $multiselect-color-text-active;
 
-            &
-            :after {
+            &:after {
                 background: $multiselect-color-background-group-highlight;
             }
 
@@ -808,8 +800,7 @@
         background: $multiselect-color-group;
         color: $multiselect-color-text-active;
 
-        &
-        :after {
+        &:after {
             background: $multiselect-color-group;
             content: attr(data-deselect);
             color: $multiselect-color-text-active;
