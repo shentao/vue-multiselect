@@ -1,0 +1,20 @@
+$multiselect-color-brand-light: #41b883;
+$multiselect-color-brand-dark: darken($multiselect-color-brand-light, 20%);
+
+$multiselect-color-group: #ff6a6a;
+
+$multiselect-color-text: #35495e;
+$multiselect-color-text-active: #fff;
+$multiselect-color-group-text-disabled: #a6a6a6;
+
+$multiselect-color-background: #fff;
+$multiselect-color-background-active: $multiselect-color-brand-light;
+$multiselect-color-background-disabled: #ededed;
+$multiselect-color-background-group-highlight: $multiselect-color-text;
+$multiselect-color-background-group-disabled: #dedede;
+$multiselect-color-background-group-selected: #f3f3f3;
+
+$multiselect-color-border-focus: #a8a8a8;
+$multiselect-color-border-hover: #cfcfcf;
+
+$multiselect-color-item-border: #e8e8e8;
