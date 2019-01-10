@@ -344,7 +344,7 @@ export default {
       ) {
         return false
       } else {
-        return this.prefferedOpenDirection === 'above'
+        return this.preferredOpenDirection === 'above'
       }
     },
     showSearchInput () {
