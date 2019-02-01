@@ -1,11 +1,7 @@
 import {
   isEmpty,
   not,
-  flattenOptions,
-  flow,
-  filterOptions,
-  filterGroups,
-  stripGroups
+  filterOptions
 } from './utils'
 import multiselectCorePropsMixin from './multiselectCorePropsMixin'
 
@@ -49,12 +45,15 @@ export default {
 
       /* istanbul ignore else */
       if (this.internalSearch) {
-        options = this.groupValues
-          ? this.filterAndFlat(options, normalizedSearch, this.label)
-          : filterOptions(options, normalizedSearch, this.label, this.customLabel)
-      } else {
-        options = this.groupValues ? flattenOptions(this.groupValues, this.groupLabel)(options) : options
+        options = filterOptions(options, normalizedSearch, this.label, this.customLabel)
       }
+      // if (this.internalSearch) {
+      //   options = this.groupValues
+      //     ? this.filterAndFlat(options, normalizedSearch, this.label)
+      //     : filterOptions(options, normalizedSearch, this.label, this.customLabel)
+      // } else {
+      //   options = this.groupValues ? flattenOptions(this.groupValues, this.groupLabel)(options) : options
+      // }
 
       options = this.hideSelected
         ? options.filter(not(this.isSelected))
@@ -110,19 +109,9 @@ export default {
         ? this.deselectLabel
         : ''
     },
-    deselectGroupLabelText () {
-      return this.showLabels
-        ? this.deselectGroupLabel
-        : ''
-    },
     selectLabelText () {
       return this.showLabels
         ? this.selectLabel
-        : ''
-    },
-    selectGroupLabelText () {
-      return this.showLabels
-        ? this.selectGroupLabel
         : ''
     },
     selectedLabelText () {
@@ -239,28 +228,6 @@ export default {
           : this.internalValue[0]
     },
     /**
-     * Filters and then flattens the options list
-     * @param  {Array}
-     * @returns {Array} returns a filtered and flat options list
-     */
-    filterAndFlat (options, search, label) {
-      return flow(
-        filterGroups(search, label, this.groupValues, this.groupLabel, this.customLabel),
-        flattenOptions(this.groupValues, this.groupLabel)
-      )(options)
-    },
-    /**
-     * Flattens and then strips the group labels from the options list
-     * @param  {Array}
-     * @returns {Array} returns a flat options list without group labels
-     */
-    flatAndStrip (options) {
-      return flow(
-        flattenOptions(this.groupValues, this.groupLabel),
-        stripGroups
-      )(options)
-    },
-    /**
      * Updates the search value
      * @param  {String}
      */
@@ -310,25 +277,7 @@ export default {
       if (isEmpty(label)) return ''
       return label
     },
-    /**
-     * Add the given option to the list of selected options
-     * or sets the option as the selected option.
-     * If option is already selected -> remove it from the results.
-     *
-     * @param  {Object||String||Integer} option to select/deselect
-     * @param  {Boolean} block removing
-     */
-    select (option, key) {
-      /* istanbul ignore else */
-      if (option.$isLabel && this.groupSelect) {
-        this.selectGroup(option)
-        return
-      }
-      if (this.blockKeys.indexOf(key) !== -1 ||
-        this.disabled ||
-        option.$isDisabled ||
-        option.$isLabel
-      ) return
+    selectSingle (option, key) {
       /* istanbul ignore else */
       if (this.max && this.multiple && this.internalValue.length === this.max) return
 
@@ -359,48 +308,35 @@ export default {
         /* istanbul ignore else */
         if (this.clearOnSelect) this.search = ''
       }
+    },
+    /**
+     * Add the given option to the list of selected options
+     * or sets the option as the selected option.
+     * If option is already selected -> remove it from the results.
+     *
+     * @param  {Object||String||Integer} option to select/deselect
+     * @param  {Boolean} block removing
+     */
+    select (options, key) {
+      /* istanbul ignore else */
+      // if (option.$isLabel && this.groupSelect) {
+      //   this.selectGroup(option)
+      //   return
+      // }
+      if (
+        this.blockKeys.indexOf(key) !== -1 ||
+        this.disabled ||
+        options.$isDisabled
+      ) return
+
+      if (!Array.isArray(options)) {
+        this.selectSingle(options)
+      } else {
+
+      }
+
       /* istanbul ignore else */
       if (this.closeOnSelect) this.deactivate()
-    },
-    /**
-     * Add the given group options to the list of selected options
-     * If all group optiona are already selected -> remove it from the results.
-     *
-     * @param  {Object||String||Integer} group to select/deselect
-     */
-    selectGroup (selectedGroup) {
-      const group = this.options.find(option => {
-        return option[this.groupLabel] === selectedGroup.$groupLabel
-      })
-
-      if (!group) return
-
-      if (this.wholeGroupSelected(group)) {
-        this.$emit('remove', group[this.groupValues], this.id)
-
-        const newValue = this.internalValue.filter(
-          option => group[this.groupValues].indexOf(option) === -1
-        )
-
-        this.$emit('input', newValue, this.id)
-      } else {
-        const optionsToAdd = group[this.groupValues].filter(not(this.isSelected))
-
-        this.$emit('select', optionsToAdd, this.id)
-        this.$emit(
-          'input',
-          this.internalValue.concat(optionsToAdd),
-          this.id
-        )
-      }
-    },
-    /**
-     * Helper to identify if all values in a group are selected
-     *
-     * @param {Object} group to validated selected values against
-     */
-    wholeGroupSelected (group) {
-      return group[this.groupValues].every(this.isSelected)
     },
     /**
      * Removes the given option from the selected options.
@@ -526,21 +462,6 @@ export default {
         this.prefferedOpenDirection = 'above'
         this.optimizedHeight = Math.min(spaceAbove - 40, this.maxHeight)
       }
-    },
-    groupHighlight (index, selectedGroup) {
-      if (!this.groupSelect) {
-        return ['multiselect__option--disabled']
-      }
-
-      const group = this.options.find(option => {
-        return option[this.groupLabel] === selectedGroup.$groupLabel
-      })
-
-      return [
-        this.groupSelect ? 'multiselect__option--group' : 'multiselect__option--disabled',
-        { 'multiselect__option--highlight': index === this.pointer && this.showPointer },
-        { 'multiselect__option--group-selected': this.wholeGroupSelected(group) }
-      ]
     },
     addPointerElement (withKey) {
       /* istanbul ignore else */

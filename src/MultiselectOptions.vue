@@ -25,7 +25,7 @@
 
         <template v-if="!max || internalValue.length < max">
           <li
-            v-for="(option, index) of filteredOptions"
+            v-for="(option, index) of optionsList"
             class="multiselect__element"
             :key="index"
           >
@@ -35,7 +35,6 @@
               class="multiselect__option"
               :class="optionHighlight(index, option)"
               @click.stop.prevent="select(option)"
-              @mousedown.stop.prevent=""
               @mouseenter.self="pointerSet(index)"
             >
               <slot name="_option" :option="option">
@@ -47,8 +46,8 @@
               v-if="option && option.$isLabel"
               class="multiselect__option"
               :class="groupHighlight(index, option)"
+              @click.stop.prevent="selectGroup(option)"
               @mouseenter.self="groupSelect && pointerSet(index)"
-              @mousedown.prevent="selectGroup(option)"
             >
               <slot name="_optionGroup" :option="option" :search="search">
                 <span>{{ getOptionLabel(option) }}</span>
@@ -59,7 +58,7 @@
         </template>
 
         <li
-          v-if="showNoResults && (filteredOptions.length === 0 && !loading)"
+          v-if="showNoResults && (optionsList.length === 0 && !loading)"
           class="multiselect__option"
         >
           <slot name="_noResult">
@@ -75,7 +74,12 @@
 
 <script>
 import {
-  isSelected
+  isSelected,
+  not,
+  flattenOptions,
+  flow,
+  filterGroups,
+  stripGroups
 } from './utils'
 
 export default {
@@ -190,15 +194,74 @@ export default {
     loading: {
       type: Boolean
     },
-    groupHighlight: {
-      type: Function
+    /**
+     * String to show when pointing to an alredy selected option
+     * @default 'Press enter to remove'
+     * @type {String}
+    */
+    deselectGroupLabel: {
+      type: String,
+      default: 'Press enter to deselect group'
     },
+    /**
+     * String to show when pointing to an option
+     * @default 'Press enter to select'
+     * @type {String}
+     */
+    selectGroupLabel: {
+      type: String,
+      default: 'Press enter to select group'
+    },
+    /**
+     * Name of the property containing
+     * the group values
+     * @default 1000
+     * @type {String}
+    */
+    groupValues: {
+      type: String
+    },
+    /**
+     * Name of the property containing
+     * the group label
+     * @default 1000
+     * @type {String}
+    */
+    groupLabel: {
+      type: String
+    },
+    /**
+     * Allow to select all group values
+     * by selecting the group label
+     * @default false
+     * @type {Boolean}
+     */
     groupSelect: {
       type: Boolean,
       default: false
     },
-    selectGroup: {
+    customLabel: {
       type: Function
+    },
+    isSelected: {
+      type: Function
+    }
+  },
+  computed: {
+    deselectGroupLabelText () {
+      return this.showLabels
+        ? this.deselectGroupLabel
+        : ''
+    },
+    selectGroupLabelText () {
+      return this.showLabels
+        ? this.selectGroupLabel
+        : ''
+    },
+    optionsList () {
+      return this.groupSelect
+        ? this.filterAndFlat(this.filteredOptions, this.search, this.label)
+        : this.filteredOptions
     }
   },
   watch: {
@@ -230,6 +293,83 @@ export default {
         'multiselect__option--highlight': index === this.pointer && this.showPointer,
         'multiselect__option--selected': isSelected(option, this.internalValue)
       }
+    },
+    /**
+     * Add the given group options to the list of selected options
+     * If all group optiona are already selected -> remove it from the results.
+     *
+     * @param  {Object||String||Integer} group to select/deselect
+     */
+    selectGroup (selectedGroup) {
+      const group = this.filteredOptions.find(option => {
+        return option[this.groupLabel] === selectedGroup.$groupLabel
+      })
+
+      if (!group) return
+
+      if (this.wholeGroupSelected(group)) {
+        this.$emit('remove', group[this.groupValues], this.id)
+
+        const newValue = this.internalValue.filter(
+          option => group[this.groupValues].indexOf(option) === -1
+        )
+
+        this.$emit('input', newValue, this.id)
+      } else {
+        const optionsToAdd = group[this.groupValues].filter(not(this.isSelected))
+
+        this.$emit('select', optionsToAdd, this.id)
+        this.$emit(
+          'input',
+          this.internalValue.concat(optionsToAdd),
+          this.id
+        )
+      }
+    },
+    groupHighlight (index, selectedGroup) {
+      if (!this.groupSelect) {
+        return ['multiselect__option--disabled']
+      }
+
+      const group = this.filteredOptions.find(option => {
+        return option[this.groupLabel] === selectedGroup.$groupLabel
+      })
+
+      return [
+        this.groupSelect ? 'multiselect__option--group' : 'multiselect__option--disabled',
+        { 'multiselect__option--highlight': index === this.pointer && this.showPointer },
+        { 'multiselect__option--group-selected': this.wholeGroupSelected(group) }
+      ]
+    },
+    /**
+     * Filters and then flattens the options list
+     * @param  {Array}
+     * @returns {Array} returns a filtered and flat options list
+     */
+    filterAndFlat (options, search, label) {
+      return flow(
+        filterGroups(search, label, this.groupValues, this.groupLabel, this.customLabel),
+        flattenOptions(this.groupValues, this.groupLabel)
+      )(options)
+    },
+    /**
+     * Flattens and then strips the group labels from the options list
+     * @param  {Array}
+     * @returns {Array} returns a flat options list without group labels
+     */
+    flatAndStrip (options) {
+      return flow(
+        flattenOptions(this.groupValues, this.groupLabel),
+        stripGroups
+      )(options)
+    },
+    /**
+     * Helper to identify if all values in a group are selected
+     *
+     * @param {Object} group to validated selected values against
+     */
+    wholeGroupSelected (group) {
+      return group[this.groupValues].every(this.isSelected)
     }
   }
 }

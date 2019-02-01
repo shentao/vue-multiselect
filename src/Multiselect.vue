@@ -2,6 +2,7 @@
   <MultiselectCore
     v-bind="$props"
     v-on="$listeners"
+    :internalSearch="internalSearch && !groupSelect"
   >
     <div
       slot-scope="{
@@ -43,9 +44,8 @@
         isFocused,
         focus,
         blur,
-        groupHighlight,
-        groupSelect,
-        selectGroup
+        customLabel,
+        isSelected
       }"
       style="position: relative;"
     >
@@ -170,9 +170,13 @@
             showPointer,
             pointer,
             loading,
-            groupHighlight,
             groupSelect,
-            selectGroup
+            groupLabel,
+            groupValues,
+            selectGroupLabel,
+            deselectGroupLabel,
+            customLabel,
+            isSelected
           }"
         >
           <template slot="_beforeList">
@@ -231,6 +235,54 @@ export default {
     MultiselectOptions,
     MultiselectWrapper,
     MultiselectValue
+  },
+  props: {
+    /**
+     * String to show when pointing to an alredy selected option
+     * @default 'Press enter to remove'
+     * @type {String}
+    */
+    deselectGroupLabel: {
+      type: String,
+      default: 'Press enter to deselect group'
+    },
+    /**
+     * String to show when pointing to an option
+     * @default 'Press enter to select'
+     * @type {String}
+     */
+    selectGroupLabel: {
+      type: String,
+      default: 'Press enter to select group'
+    },
+    /**
+     * Name of the property containing
+     * the group values
+     * @default 1000
+     * @type {String}
+    */
+    groupValues: {
+      type: String
+    },
+    /**
+     * Name of the property containing
+     * the group label
+     * @default 1000
+     * @type {String}
+    */
+    groupLabel: {
+      type: String
+    },
+    /**
+     * Allow to select all group values
+     * by selecting the group label
+     * @default false
+     * @type {Boolean}
+     */
+    groupSelect: {
+      type: Boolean,
+      default: false
+    }
   }
 }
 </script>
