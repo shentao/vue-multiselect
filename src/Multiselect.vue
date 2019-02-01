@@ -439,6 +439,7 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect--disabled {
+  background: #ededed;
   pointer-events: none;
   opacity: 0.6;
 }
@@ -722,11 +723,6 @@ fieldset[disabled] .multiselect {
   background: #ff6a6a;
   content: attr(data-deselect);
   color: #fff;
-}
-
-.multiselect--disabled {
-  background: #ededed;
-  pointer-events: none;
 }
 
 .multiselect--disabled .multiselect__current,
