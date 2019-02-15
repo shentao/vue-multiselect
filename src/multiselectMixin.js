@@ -599,7 +599,7 @@ export default {
       /* istanbul ignore else */
       if (this.disabled) return
       /* istanbul ignore else */
-      if (this.option.$isDisabled) return
+      if (option.$isDisabled) return
       /* istanbul ignore else */
       if (!this.allowEmpty && this.internalValue.length <= 1) {
         this.deactivate()
