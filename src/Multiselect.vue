@@ -326,7 +326,7 @@ export default {
       ) {
         // Hide input by setting the width to 0 allowing it to receive focus
         return this.isOpen
-          ? { width: 'auto' }
+          ? { width: '100%' }
           : { width: '0', position: 'absolute', padding: '0' }
       }
     },
