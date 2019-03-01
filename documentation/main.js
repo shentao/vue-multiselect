@@ -56,7 +56,7 @@ new Vue({
           window.location.assign('v1/index.html')
           break
         case 'v2.0':
-          window.location.assign('https://monterail.github.io/vue-multiselect/')
+          window.location.assign('https://vue-multiselect.js.org/')
           break
       }
     },
