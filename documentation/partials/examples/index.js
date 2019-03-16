@@ -9,6 +9,7 @@ import VuexActions from './VuexActions'
 import CustomConfig from './CustomConfig'
 import Groups from './Groups'
 import ActionDispatcher from './ActionDispatcher'
+import ProgrammaticCtrl from './ProgrammaticCtrl'
 
 export {
   SingleSelectPrimitive,
@@ -21,5 +22,6 @@ export {
   VuexActions,
   CustomConfig,
   Groups,
-  ActionDispatcher
+  ActionDispatcher,
+  ProgrammaticCtrl
 }
