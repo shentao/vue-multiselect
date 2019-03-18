@@ -631,7 +631,7 @@ export default {
       /* istanbul ignore else */
       if (this.blockKeys.indexOf('Delete') !== -1) return
       /* istanbul ignore else */
-      if (this.search.length === 0 && Array.isArray(this.internalValue)) {
+      if (this.search.length === 0 && Array.isArray(this.internalValue) && this.internalValue.length) {
         this.removeElement(this.internalValue[this.internalValue.length - 1], false)
       }
     },
