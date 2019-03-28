@@ -48,7 +48,10 @@
           :name="name"
           :id="id"
           type="text"
-          autocomplete="off"
+          :autocomplete="autocomplete"
+          :autocorrect="autocorrect"
+          :autocapitalize="autocapitalize"
+          :spellcheck="spellcheck"
           :placeholder="placeholder"
           :style="inputStyle"
           :value="search"
@@ -281,6 +284,22 @@ export default {
     showNoResults: {
       type: Boolean,
       default: true
+    },
+    autocomplete: {
+      type: String,
+      default: 'off'
+    },
+    autocorrect: {
+      type: String,
+      default: 'off'
+    },
+    autocapitalize: {
+      type: String,
+      default: 'off'
+    },
+    spellcheck: {
+      type: String,
+      default: 'false'
     },
     tabindex: {
       type: Number,
