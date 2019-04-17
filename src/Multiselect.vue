@@ -48,7 +48,7 @@
           :name="name"
           :id="id"
           type="text"
-          autocomplete="off"
+          autocomplete="nope"
           :placeholder="placeholder"
           :style="inputStyle"
           :value="search"
@@ -326,7 +326,7 @@ export default {
       ) {
         // Hide input by setting the width to 0 allowing it to receive focus
         return this.isOpen
-          ? { width: 'auto' }
+          ? { width: '100%' }
           : { width: '0', position: 'absolute', padding: '0' }
       }
     },
@@ -344,7 +344,7 @@ export default {
       ) {
         return false
       } else {
-        return this.prefferedOpenDirection === 'above'
+        return this.preferredOpenDirection === 'above'
       }
     },
     showSearchInput () {
@@ -439,6 +439,7 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect--disabled {
+  background: #ededed;
   pointer-events: none;
   opacity: 0.6;
 }
@@ -722,11 +723,6 @@ fieldset[disabled] .multiselect {
   background: #ff6a6a;
   content: attr(data-deselect);
   color: #fff;
-}
-
-.multiselect--disabled {
-  background: #ededed;
-  pointer-events: none;
 }
 
 .multiselect--disabled .multiselect__current,

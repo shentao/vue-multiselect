@@ -66,7 +66,7 @@ export default {
     return {
       search: '',
       isOpen: false,
-      prefferedOpenDirection: 'below',
+      preferredOpenDirection: 'below',
       optimizedHeight: this.maxHeight
     }
   },
@@ -613,6 +613,8 @@ export default {
       /* istanbul ignore else */
       if (this.disabled) return
       /* istanbul ignore else */
+      if (option.$isDisabled) return
+      /* istanbul ignore else */
       if (!this.allowEmpty && this.internalValue.length <= 1) {
         this.deactivate()
         return
@@ -643,7 +645,7 @@ export default {
       /* istanbul ignore else */
       if (this.blockKeys.indexOf('Delete') !== -1) return
       /* istanbul ignore else */
-      if (this.search.length === 0 && Array.isArray(this.internalValue)) {
+      if (this.search.length === 0 && Array.isArray(this.internalValue) && this.internalValue.length) {
         this.removeElement(this.internalValue[this.internalValue.length - 1], false)
       }
     },
@@ -713,10 +715,10 @@ export default {
       const hasEnoughSpaceBelow = spaceBelow > this.maxHeight
 
       if (hasEnoughSpaceBelow || spaceBelow > spaceAbove || this.openDirection === 'below' || this.openDirection === 'bottom') {
-        this.prefferedOpenDirection = 'below'
+        this.preferredOpenDirection = 'below'
         this.optimizedHeight = Math.min(spaceBelow - 40, this.maxHeight)
       } else {
-        this.prefferedOpenDirection = 'above'
+        this.preferredOpenDirection = 'above'
         this.optimizedHeight = Math.min(spaceAbove - 40, this.maxHeight)
       }
     }
