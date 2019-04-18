@@ -560,7 +560,7 @@ export default {
 
         this.$emit('input', newValue, this.id)
       } else {
-        const optionsToAdd = group[this.groupValues].filter(not(this.isOptionDisabled || this.isSelected))
+        const optionsToAdd = group[this.groupValues].filter(not(this.isOptionDisabled && this.isSelected))
 
         this.$emit('select', optionsToAdd, this.id)
         this.$emit(
