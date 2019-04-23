@@ -14,7 +14,16 @@ function includes (str, query) {
   if (str === null) str = 'null'
   if (str === false) str = 'false'
   const text = str.toString().toLowerCase()
-  return text.indexOf(query.trim()) !== -1
+  const arrQueryStr = query.toString().toLowerCase().trim().split(' ')
+  let retVal = false
+  let index
+  for (index = 0; index < arrQueryStr.length; index++) {
+    if (text.indexOf(arrQueryStr[index]) !== -1) {
+      retVal = true
+      break
+    }
+  }
+  return retVal
 }
 
 function filterOptions (options, search, label, customLabel) {
