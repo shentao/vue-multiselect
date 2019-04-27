@@ -9,6 +9,7 @@
     "dev": "node build/dev-server.js",
     "bundle:dist": "rm -rf dist && webpack --config build/webpack.bundle.conf.js",
     "bundle": "node build/bundle.js",
+    "prepare": "npm run bundle:dist",
     "docs": "rm -rf docs && mkdir docs && node build/build.js",
     "unit": "vue-cli-service test:unit --watch",
     "finish": "npm run lint && npm test && npm run bundle"
