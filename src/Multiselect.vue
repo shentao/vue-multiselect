@@ -62,11 +62,13 @@
           @keydown.up.prevent="pointerBackward()"
           @keypress.enter.prevent.stop.self="addPointerElement($event)"
           @keydown.delete.stop="removeLastElement()"
-          class="multiselect__input"/>
+          class="multiselect__input"
+        />
         <span
           v-if="isSingleLabelVisible"
           class="multiselect__single"
-          @mousedown.prevent="toggle">
+          @mousedown.prevent="toggle"
+        >
           <slot name="singleLabel" :option="singleValue">
             <template>{{ currentOptionLabel }}</template>
           </slot>
@@ -74,9 +76,10 @@
         <span
           v-if="isPlaceholderVisible"
           class="multiselect__placeholder"
-          @mousedown.prevent="toggle">
+          @mousedown.prevent="toggle"
+        >
           <slot name="placeholder">
-              {{ placeholder }}
+            {{ placeholder }}
           </slot>
         </span>
       </div>
@@ -88,7 +91,8 @@
           tabindex="-1"
           @mousedown.prevent
           :style="{ maxHeight: optimizedHeight + 'px' }"
-          ref="list">
+          ref="list"
+        >
           <ul class="multiselect__content" :style="contentStyle">
             <slot name="beforeList"></slot>
             <li v-if="multiple && max === internalValue.length">
