@@ -7,6 +7,15 @@ export default {
   },
   props: {
     /**
+     * Scroll to selected index when dropdown opens
+     * @type {Boolean}
+     * @default false
+     */
+    scrollToSelected: {
+      type: Boolean,
+      default: false
+    },
+    /**
      * Enable/disable highlighting of the pointed value.
      * @type {Boolean}
      * @default true
@@ -33,6 +42,20 @@ export default {
       this.pointerAdjust()
     },
     isOpen () {
+      if (!this.hideSelected && this.scrollToSelected && this.value) {
+        let value = JSON.parse(JSON.stringify(this.value))
+        if (typeof this.value === 'object' && this.trackBy) {
+          value = this.multiple ? this.value[0] : this.value
+          this.pointer = this.filteredOptions.findIndex(opt => opt[this.trackBy] === value[this.trackBy])
+        } else {
+          this.pointer = this.filteredOptions.indexOf(value)
+        }
+        if (this.$refs.list) {
+          this.$nextTick(() => {
+            this.$refs.list.scrollTop = this.pointerPosition
+          })
+        }
+      }
       this.pointerDirty = false
     }
   },
