@@ -228,5 +228,5 @@ Shows error when touched, but nothing is selected.
 
 <SplitTab>
   <Example-CoreUsingTable slot="example"/>
-  <<< @/docs/.vuepress/components/Example/CoreExample.vue
+  <<< @/docs/.vuepress/components/Example/CoreUsingTable.vue
 </SplitTab>
