@@ -15,11 +15,11 @@ function includes (str, query) {
   if (str === false) str = 'false'
   const text = str.toString().toLowerCase()
   const arrQueryStr = query.toString().toLowerCase().trim().split(' ')
-  let retVal = false
-  let index
+  let retVal = true
+  let index = 0
   for (index = 0; index < arrQueryStr.length; index++) {
-    if (text.indexOf(arrQueryStr[index]) !== -1) {
-      retVal = true
+    if (text.indexOf(arrQueryStr[index]) === -1) {
+      retVal = false
       break
     }
   }
