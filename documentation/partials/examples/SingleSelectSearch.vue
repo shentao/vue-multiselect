@@ -29,7 +29,11 @@ export default {
         { name: 'Rails', language: 'Ruby' },
         { name: 'Sinatra', language: 'Ruby' },
         { name: 'Laravel', language: 'PHP' },
-        { name: 'Phoenix', language: 'Elixir' }
+        { name: 'Phoenix', language: 'Elixir' },
+        { name: 'Frac Sample Number One', language: 'Frac Sample Number One' },
+        { name: 'Sample Frac One Number', language: 'Sample Frac One Number' },
+        { name: 'Frac Sample', language: 'Frac Sample' },
+        { name: 'Sample Number One', language: 'Sample Number One' },
       ]
     }
   },
