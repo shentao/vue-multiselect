@@ -9,6 +9,7 @@
     "lint": "vue-cli-service lint",
     "docs:dev": "vuepress dev docs",
     "docs:build": "vuepress build docs",
+    "prepare": "npm run build",
     "test:unit": "vue-cli-service test:unit",
     "test:watch": "vue-cli-service test:unit --watch",
     "test:e2e": "vue-cli-service test:e2e",
