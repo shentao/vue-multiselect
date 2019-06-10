@@ -38,7 +38,7 @@
   },
   "license": "MIT",
   "homepage": "https://shentao.github.io/vue-multiselect/",
-  "main": "dist/vueMultiselect.umd.min.js"
+  "main": "dist/vueMultiselect.umd.min.js",
   "author": "Damian Dulisz <damian.dulisz@gmail.com>",
   "jsnext:main": "dist/vueMultiselect.umd.min.js",
   "bugs": {
