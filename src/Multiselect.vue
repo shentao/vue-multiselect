@@ -49,6 +49,7 @@
           :id="id"
           type="text"
           autocomplete="nope"
+          spellcheck="false"
           :placeholder="placeholder"
           :style="inputStyle"
           :value="search"
