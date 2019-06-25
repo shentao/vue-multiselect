@@ -12,7 +12,9 @@
       <slot name="caret" :toggle="toggle">
         <div @mousedown.prevent.stop="toggle()" class="multiselect__select"></div>
       </slot>
-      <slot name="clear" :search="search"></slot>
+      <slot name="clear" :search="search">
+        <div v-if="clearAllButton" class="multiselect__clear" @mousedown.prevent="clearValue">❌</div>
+      </slot>
       <div ref="tags" class="multiselect__tags">
         <slot
           name="selection"
@@ -284,12 +286,15 @@ export default {
       default: true
     },
     showNoResults: {
-      type: Boolean,
-      default: true
+
     },
     tabindex: {
       type: Number,
       default: 0
+    },
+    clearAllButton: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -828,5 +833,15 @@ fieldset[disabled] .multiselect {
   to {
     transform: rotate(2turn);
   }
+}
+.multiselect__clear {
+  position: absolute;
+  right: 18px;
+  top: 10px;
+  height: 40px;
+  width: 40px;
+  display: block;
+  cursor: pointer;
+  z-index: 2;
 }
 </style>
