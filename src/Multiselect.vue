@@ -286,7 +286,8 @@ export default {
       default: true
     },
     showNoResults: {
-
+      type: Boolean,
+      default: true
     },
     tabindex: {
       type: Number,
