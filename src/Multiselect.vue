@@ -49,6 +49,7 @@
           :id="id"
           type="text"
           autocomplete="nope"
+          spellcheck="false"
           :placeholder="placeholder"
           :style="inputStyle"
           :value="search"
@@ -62,11 +63,13 @@
           @keydown.up.prevent="pointerBackward()"
           @keypress.enter.prevent.stop.self="addPointerElement($event)"
           @keydown.delete.stop="removeLastElement()"
-          class="multiselect__input"/>
+          class="multiselect__input"
+        />
         <span
           v-if="isSingleLabelVisible"
           class="multiselect__single"
-          @mousedown.prevent="toggle">
+          @mousedown.prevent="toggle"
+        >
           <slot name="singleLabel" :option="singleValue">
             <template>{{ currentOptionLabel }}</template>
           </slot>
@@ -74,9 +77,10 @@
         <span
           v-if="isPlaceholderVisible"
           class="multiselect__placeholder"
-          @mousedown.prevent="toggle">
+          @mousedown.prevent="toggle"
+        >
           <slot name="placeholder">
-              {{ placeholder }}
+            {{ placeholder }}
           </slot>
         </span>
       </div>
@@ -88,7 +92,8 @@
           tabindex="-1"
           @mousedown.prevent
           :style="{ maxHeight: optimizedHeight + 'px' }"
-          ref="list">
+          ref="list"
+        >
           <ul class="multiselect__content" :style="contentStyle">
             <slot name="beforeList"></slot>
             <li v-if="multiple && max === internalValue.length">
@@ -127,7 +132,7 @@
             </template>
             <li v-show="showNoResults && (filteredOptions.length === 0 && search && !loading)">
               <span class="multiselect__option">
-                <slot name="noResult">No elements found. Consider changing the search query.</slot>
+                <slot name="noResult" :search="search">No elements found. Consider changing the search query.</slot>
               </span>
             </li>
             <li v-show="showNoOptions && (options.length === 0 && !search && !loading)">

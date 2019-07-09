@@ -526,6 +526,25 @@ describe('Multiselect.vue', () => {
         wrapper.vm.select(wrapper.vm.filteredOptions[0])
         expect(wrapper.emitted().input).toEqual([[[], null]])
       })
+      test('should not add duplicate values to selected array', () => {
+        const wrapper = shallowMount(Multiselect, {
+          propsData: {
+            value: ['Value 1'],
+            options: [
+              { label: 'Label 1', values: ['Value 1', 'Value 2'] },
+              { label: 'Label 2', values: ['Value 3', 'Value 4'] }
+            ],
+            multiple: true,
+            groupValues: 'values',
+            groupLabel: 'label',
+            groupSelect: true
+          }
+        })
+        wrapper.vm.select(wrapper.vm.filteredOptions[0])
+        expect(wrapper.emitted().input).toEqual([
+          [['Value 1', 'Value 2'], null]
+        ])
+      })
     })
     describe('when selecting a group label, groupSelect == TRUE and $isDisabled == TRUE', () => {
       test('should add values to selected array except disabled values', () => {
