@@ -110,7 +110,8 @@
   },
   "files": [
     "dist",
-    "src"
+    "src",
+    "index.d.ts"
   ],
   "dependencies": {}
 }
