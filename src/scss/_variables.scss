@@ -1,0 +1,22 @@
+$vuemultiselect-selector: 'multiselect' !default;
+
+$vuemultiselect-color-brand-light: #41b883 !default;
+$vuemultiselect-color-brand-dark: darken($vuemultiselect-color-brand-light, 20%) !default;
+
+$vuemultiselect-color-group: #ff6a6a !default;
+
+$vuemultiselect-color-text: #35495e !default;
+$vuemultiselect-color-text-active: #fff !default;
+$vuemultiselect-color-group-text-disabled: #a6a6a6 !default;
+
+$vuemultiselect-color-background: #fff !default;
+$vuemultiselect-color-background-active: $vuemultiselect-color-brand-light !default;
+$vuemultiselect-color-background-disabled: #ededed !default;
+$vuemultiselect-color-background-group-highlight: $vuemultiselect-color-text !default;
+$vuemultiselect-color-background-group-disabled: #dedede !default;
+$vuemultiselect-color-background-group-selected: #f3f3f3 !default;
+
+$vuemultiselect-color-border-focus: #a8a8a8 !default;
+$vuemultiselect-color-border-hover: #cfcfcf !default;
+
+$vuemultiselect-color-item-border: #e8e8e8 !default;
