@@ -59,7 +59,7 @@
     "html-loader": "^0.4.4",
     "html-webpack-plugin": "^2.28.0",
     "http-proxy-middleware": "^0.19.0",
-    "inject-loader": "^2.0.1",
+    "inject-loader": "^4.0.1",
     "json-loader": "^0.5.4",
     "jstransformer-markdown-it": "^2.0.0",
     "lolex": "^1.5.2",
