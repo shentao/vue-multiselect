@@ -47,7 +47,7 @@
     "eslint-config-standard": "^6.1.0",
     "eslint-friendly-formatter": "^2.0.5",
     "eslint-loader": "^1.6.1",
-    "eslint-plugin-html": "^2.0.0",
+    "eslint-plugin-html": "^6.0.0",
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-standard": "^2.0.1",
     "eventsource-polyfill": "^0.9.6",
