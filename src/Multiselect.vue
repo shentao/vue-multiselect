@@ -50,7 +50,7 @@
           :name="name"
           :id="id"
           type="text"
-          autocomplete="nope"
+          autocomplete="off"
           spellcheck="false"
           :placeholder="placeholder"
           :style="inputStyle"
