@@ -721,7 +721,6 @@ export default {
         this.deactivate();
         return
       }
-      console.log('clear multiselect', this.internalValue);
       for(let option of this.internalValue) {
         this.$emit('remove', option, this.id);
       }
