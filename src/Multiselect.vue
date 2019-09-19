@@ -27,7 +27,8 @@
             <template v-for="(option, index) of visibleValues" @mousedown.prevent>
               <slot name="tag" :option="option" :search="search" :remove="removeElement">
                 <span class="multiselect__tag" :key="index">
-                  <span v-text="getOptionLabel(option)"></span>
+                  <span v-if="labelHtml" v-html="getOptionLabel(option)"></span>
+                  <span v-else v-text="getOptionLabel(option)"></span>
                   <i aria-hidden="true" tabindex="1" @keypress.enter.prevent="removeElement(option)"  @mousedown.prevent="removeElement(option)" class="multiselect__tag-icon"></i>
                 </span>
               </slot>
@@ -120,7 +121,8 @@
                   :data-deselect="deselectLabelText"
                   class="multiselect__option">
                     <slot name="option" :option="option" :search="search">
-                      <span>{{ getOptionLabel(option) }}</span>
+                      <span v-if="labelHtml" v-html="getOptionLabel(option)"></span>
+                      <span v-else v-text="getOptionLabel(option)"></span>
                     </slot>
                 </span>
                 <span
@@ -132,7 +134,8 @@
                   @mousedown.prevent="selectGroup(option)"
                   class="multiselect__option">
                     <slot name="option" :option="option" :search="search">
-                      <span>{{ getOptionLabel(option) }}</span>
+                      <span v-if="labelHtml" v-html="getOptionLabel(option)"></span>
+                      <span v-else v-text="getOptionLabel(option)"></span>
                     </slot>
                 </span>
               </li>

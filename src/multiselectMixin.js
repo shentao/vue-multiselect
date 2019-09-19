@@ -162,6 +162,13 @@ export default {
       default: 'Select option'
     },
     /**
+    * Weather the label should be v-html or v-text
+    */
+    labelHtml: {
+      type: Boolean,
+      default: false
+    },
+    /**
      * Allow to remove all selected values
      * @default true
      * @type {Boolean}
