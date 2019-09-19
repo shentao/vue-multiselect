@@ -36,8 +36,8 @@ export default {
       this.pointerDirty = false
     },
     pointer () {
-      if (! this.$refs.search) {
-        return;
+      if (!this.$refs.search) {
+        return
       }
 
       this.$refs.search.setAttribute('aria-activedescendant', this.id + '-' + this.pointer.toString())
