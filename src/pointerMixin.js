@@ -60,6 +60,10 @@ export default {
     },
     addPointerElement ({ key } = 'Enter') {
       /* istanbul ignore else */
+      if (!this.isOpen) {
+        this.activate()
+        return
+      }
       if (this.filteredOptions.length > 0) {
         this.select(this.filteredOptions[this.pointer], key)
       }

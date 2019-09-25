@@ -2,7 +2,7 @@
   <div
     :tabindex="searchable ? -1 : tabindex"
     :class="{ 'multiselect--active': isOpen, 'multiselect--disabled': disabled, 'multiselect--above': isAbove }"
-    @focus="activate()"
+    @click="activate()"
     @blur="searchable ? false : deactivate()"
     @keydown.self.down.prevent="pointerForward()"
     @keydown.self.up.prevent="pointerBackward()"
@@ -47,7 +47,7 @@
           :disabled="disabled"
           :tabindex="tabindex"
           @input="updateSearch($event.target.value)"
-          @focus.prevent="activate()"
+          @click.prevent="activate()"
           @blur.prevent="deactivate()"
           @keyup.esc="deactivate()"
           @keydown.down.prevent="pointerForward()"
@@ -75,7 +75,7 @@
         <div
           class="multiselect__content-wrapper"
           v-show="isOpen"
-          @focus="activate"
+          @click="activate"
           @mousedown.prevent
           :style="{ maxHeight: optimizedHeight + 'px' }"
           ref="list">
