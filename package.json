@@ -22,7 +22,7 @@
     "autoprefixer": "^9.6.1",
     "babel-cli": "^6.26.0",
     "babel-core": "^7.0.0-0",
-    "babel-eslint": "^7.1.1",
+    "babel-eslint": "^9.0.0",
     "babel-helper-vue-jsx-merge-props": "^2.0.2",
     "babel-jest": "^22.0.4",
     "babel-loader": "^7.1.2",
