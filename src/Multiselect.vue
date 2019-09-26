@@ -12,7 +12,7 @@
     role="combobox"
     :aria-owns="'listbox-'+id">
       <slot name="caret" :toggle="toggle">
-        <div @mousedown.prevent.stop="toggle()" class="multiselect__select"></div>
+        <div @mousedown.prevent.stop="toggle($event)" class="multiselect__select"></div>
       </slot>
       <slot name="clear" :search="search"></slot>
       <div ref="tags" class="multiselect__tags">
@@ -71,7 +71,7 @@
         <span
           v-if="isSingleLabelVisible"
           class="multiselect__single"
-          @mousedown.prevent="toggle"
+          @mousedown.prevent="toggle($event)"
         >
           <slot name="singleLabel" :option="singleValue">
             <template>{{ currentOptionLabel }}</template>
@@ -80,7 +80,7 @@
         <span
           v-if="isPlaceholderVisible"
           class="multiselect__placeholder"
-          @mousedown.prevent="toggle"
+          @mousedown.prevent="toggle($event)"
         >
           <slot name="placeholder">
             {{ placeholder }}
