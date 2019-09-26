@@ -680,7 +680,7 @@ export default {
       this.$emit('close', this.getValue(), this.id, event)
     },
     /**
-     * Call this.activate() or this.deactivate()
+     * Call this.activate() or this.deactivate(event)
      * depending on this.isOpen value.
      *
      * @fires this#activate || this#deactivate
