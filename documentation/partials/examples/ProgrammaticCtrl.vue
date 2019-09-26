@@ -2,7 +2,7 @@
 	div
 		<button @click="toggle" class="button button-small">Toggle</button>
 		<button @click="open" class="button button-small">Open</button>
-		<button @click="close" class="button button-small">Close</button>
+		<button @click="close($event)" class="button button-small">Close</button>
 		<pre>Multiselect Open: {{ isOpen }}</pre>
 
 		label.typo__label Controlling multiselect programmatically
@@ -47,8 +47,9 @@ export default {
 		open () {
 			this.$refs.multiselect.activate()
 		},
-		close () {
-			this.$refs.multiselect.deactivate()
+		close (event) {
+			console.log('trigged by the event', event)
+			this.$refs.multiselect.deactivate(event)
 		}
 	}
 }
