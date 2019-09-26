@@ -665,7 +665,7 @@ export default {
      * Closes the multiselect’s dropdown.
      * Sets this.isOpen to FALSE
      */
-    deactivate () {
+    deactivate (event = {'message': 'Closed without event'}) {
       /* istanbul ignore else */
       if (!this.isOpen) return
 
@@ -677,7 +677,7 @@ export default {
         this.$el.blur()
       }
       if (!this.preserveSearch) this.search = ''
-      this.$emit('close', this.getValue(), this.id)
+      this.$emit('close', this.getValue(), this.id, event)
     },
     /**
      * Call this.activate() or this.deactivate()

@@ -62,7 +62,22 @@ describe('Multiselect.vue', () => {
     })
 
     describe('@close', () => {
-      test('should be called after closing the dropdown with the current value and id', () => {
+      test('should be called after closing the dropdown with the current value, id and event', () => {
+        const wrapper = shallowMount(Multiselect, {
+          propsData: {
+            value: ['2'],
+            options: ['1', '2', '3'],
+            id: 'id'
+          }
+        })
+
+        const mockEvent = new Object()
+        wrapper.vm.activate()
+        wrapper.vm.deactivate(mockEvent)
+        expect(wrapper.emitted().close).toEqual([['2', 'id', mockEvent]])
+      })
+
+      test('should be called after closing the dropdown with the default event object if nothing is given', () => {
         const wrapper = shallowMount(Multiselect, {
           propsData: {
             value: ['2'],
@@ -73,7 +88,7 @@ describe('Multiselect.vue', () => {
 
         wrapper.vm.activate()
         wrapper.vm.deactivate()
-        expect(wrapper.emitted().close).toEqual([['2', 'id']])
+        expect(wrapper.emitted().close).toEqual([['2', 'id', {'message': 'Closed without event'}]])
       })
     })
 
