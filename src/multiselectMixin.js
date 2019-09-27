@@ -497,7 +497,7 @@ export default {
      * @param  {Object||String||Integer} option to select/deselect
      * @param  {Boolean} block removing
      */
-    select (option, key) {
+    select (option, key, event) {
       /* istanbul ignore else */
       if (option.$isLabel && this.groupSelect) {
         this.selectGroup(option)
@@ -515,7 +515,7 @@ export default {
       if (option.isTag) {
         this.$emit('tag', option.label, this.id)
         this.search = ''
-        if (this.closeOnSelect && !this.multiple) this.deactivate()
+        if (this.closeOnSelect && !this.multiple) this.deactivate(event)
       } else {
         const isSelected = this.isSelected(option)
 
@@ -536,7 +536,7 @@ export default {
         if (this.clearOnSelect) this.search = ''
       }
       /* istanbul ignore else */
-      if (this.closeOnSelect) this.deactivate()
+      if (this.closeOnSelect) this.deactivate(event)
     },
     /**
      * Add the given group options to the list of selected options
