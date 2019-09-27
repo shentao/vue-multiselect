@@ -677,7 +677,7 @@ export default {
         this.$el.blur()
       }
       if (!this.preserveSearch) this.search = ''
-      this.$emit('close', this.getValue(), this.id, event)
+      this.$emit('close', event, this.getValue(), this.id)
     },
     /**
      * Call this.activate() or this.deactivate(event)

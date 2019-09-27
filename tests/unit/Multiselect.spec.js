@@ -74,7 +74,7 @@ describe('Multiselect.vue', () => {
         const mockEvent = new Object()
         wrapper.vm.activate()
         wrapper.vm.deactivate(mockEvent)
-        expect(wrapper.emitted().close).toEqual([['2', 'id', mockEvent]])
+        expect(wrapper.emitted().close).toEqual([[mockEvent, '2', 'id']])
       })
 
       test('should be called after closing the dropdown with the default event object if nothing is given', () => {
@@ -88,7 +88,7 @@ describe('Multiselect.vue', () => {
 
         wrapper.vm.activate()
         wrapper.vm.deactivate()
-        expect(wrapper.emitted().close).toEqual([['2', 'id', {'message': 'Closed without event'}]])
+        expect(wrapper.emitted().close).toEqual([[{'message': 'Closed without event'}, '2', 'id']])
       })
     })
 
