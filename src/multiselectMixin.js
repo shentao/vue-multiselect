@@ -339,6 +339,7 @@ export default {
     }
     document.body.appendChild(this.$refs.list);
     window.addEventListener('resize', this.updateListStyles);
+    this.updateListStyles();
   },
   computed: {
     internalValue () {
