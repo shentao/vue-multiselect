@@ -315,7 +315,15 @@ export default {
     preselectFirst: {
       type: Boolean,
       default: false
+    },
+    listClass: {
+      type: String,
+      default: ''
     }
+  },
+  beforeDestroy() {
+    document.body.removeChild(this.$refs.list);
+    window.removeEventListener('resize', this.updateListStyles);
   },
   mounted () {
     /* istanbul ignore else */
@@ -329,6 +337,8 @@ export default {
     ) {
       this.select(this.filteredOptions[0])
     }
+    document.body.appendChild(this.$refs.list);
+    window.addEventListener('resize', this.updateListStyles);
   },
   computed: {
     internalValue () {
@@ -398,6 +408,14 @@ export default {
     }
   },
   methods: {
+    updateListStyles() {
+      const clientRect = this.$refs.multiselect.getBoundingClientRect();
+      this.$refs.list.style.setProperty('z-index', '10000');
+      this.$refs.list.style.setProperty('position', 'fixed');
+      this.$refs.list.style.setProperty('left', `${clientRect.left}px`);
+      this.$refs.list.style.setProperty('top', `${clientRect.top + clientRect.height}px`);
+      this.$refs.list.style.setProperty('width', `${clientRect.width}px`);
+    },
     /**
      * Returns the internalValue in a way it can be emited to the parent
      * @returns {Object||Array||String||Integer}
@@ -650,7 +668,6 @@ export default {
       if (this.groupValues && this.pointer === 0 && this.filteredOptions.length) {
         this.pointer = 1
       }
-
       this.isOpen = true
       /* istanbul ignore else  */
       if (this.searchable) {
@@ -659,6 +676,9 @@ export default {
       } else {
         this.$el.focus()
       }
+      this.$nextTick(() => {
+        this.updateListStyles();
+      })
       this.$emit('open', this.id)
     },
     /**

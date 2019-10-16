@@ -1,5 +1,6 @@
 <template>
   <div
+    ref="multiselect"
     :tabindex="searchable ? -1 : tabindex"
     :class="{ 'multiselect--active': isOpen, 'multiselect--disabled': disabled, 'multiselect--above': isAbove }"
     @focus="activate()"
@@ -90,65 +91,67 @@
       <transition name="multiselect">
         <div
           class="multiselect__content-wrapper"
+          :class="listClass"
           v-show="isOpen"
           @focus="activate"
           tabindex="-1"
           @mousedown.prevent
-          :style="{ maxHeight: optimizedHeight + 'px' }"
           ref="list"
         >
-          <ul class="multiselect__content" :style="contentStyle" role="listbox" :id="'listbox-'+id">
-            <slot name="beforeList"></slot>
-            <li v-if="multiple && max === internalValue.length">
-              <span class="multiselect__option">
-                <slot name="maxElements">Maximum of {{ max }} options selected. First remove a selected option to select another.</slot>
-              </span>
-            </li>
-            <template v-if="!max || internalValue.length < max">
-              <li class="multiselect__element"
-                v-for="(option, index) of filteredOptions"
-                :key="index"
-                v-bind:id="id + '-' + index"
-                v-bind:role="!(option && (option.$isLabel || option.$isDisabled)) ? 'option' : null">
-                <span
-                  v-if="!(option && (option.$isLabel || option.$isDisabled))"
-                  :class="optionHighlight(index, option)"
-                  @click.stop="select(option)"
-                  @mouseenter.self="pointerSet(index)"
-                  :data-select="option && option.isTag ? tagPlaceholder : selectLabelText"
-                  :data-selected="selectedLabelText"
-                  :data-deselect="deselectLabelText"
-                  class="multiselect__option">
-                    <slot name="option" :option="option" :search="search">
-                      <span>{{ getOptionLabel(option) }}</span>
-                    </slot>
-                </span>
-                <span
-                  v-if="option && (option.$isLabel || option.$isDisabled)"
-                  :data-select="groupSelect && selectGroupLabelText"
-                  :data-deselect="groupSelect && deselectGroupLabelText"
-                  :class="groupHighlight(index, option)"
-                  @mouseenter.self="groupSelect && pointerSet(index)"
-                  @mousedown.prevent="selectGroup(option)"
-                  class="multiselect__option">
-                    <slot name="option" :option="option" :search="search">
-                      <span>{{ getOptionLabel(option) }}</span>
-                    </slot>
+          <div :style="{ maxHeight: optimizedHeight + 'px' }">
+            <ul class="multiselect__content" :style="contentStyle" role="listbox" :id="'listbox-'+id">
+              <slot name="beforeList"></slot>
+              <li v-if="multiple && max === internalValue.length">
+                <span class="multiselect__option">
+                  <slot name="maxElements">Maximum of {{ max }} options selected. First remove a selected option to select another.</slot>
                 </span>
               </li>
-            </template>
-            <li v-show="showNoResults && (filteredOptions.length === 0 && search && !loading)">
-              <span class="multiselect__option">
-                <slot name="noResult" :search="search">No elements found. Consider changing the search query.</slot>
-              </span>
-            </li>
-            <li v-show="showNoOptions && (options.length === 0 && !search && !loading)">
-              <span class="multiselect__option">
-                <slot name="noOptions">List is empty.</slot>
-              </span>
-            </li>
-            <slot name="afterList"></slot>
-          </ul>
+              <template v-if="!max || internalValue.length < max">
+                <li class="multiselect__element"
+                  v-for="(option, index) of filteredOptions"
+                  :key="index"
+                  v-bind:id="id + '-' + index"
+                  v-bind:role="!(option && (option.$isLabel || option.$isDisabled)) ? 'option' : null">
+                  <span
+                    v-if="!(option && (option.$isLabel || option.$isDisabled))"
+                    :class="optionHighlight(index, option)"
+                    @click.stop="select(option)"
+                    @mouseenter.self="pointerSet(index)"
+                    :data-select="option && option.isTag ? tagPlaceholder : selectLabelText"
+                    :data-selected="selectedLabelText"
+                    :data-deselect="deselectLabelText"
+                    class="multiselect__option">
+                      <slot name="option" :option="option" :search="search">
+                        <span>{{ getOptionLabel(option) }}</span>
+                      </slot>
+                  </span>
+                  <span
+                    v-if="option && (option.$isLabel || option.$isDisabled)"
+                    :data-select="groupSelect && selectGroupLabelText"
+                    :data-deselect="groupSelect && deselectGroupLabelText"
+                    :class="groupHighlight(index, option)"
+                    @mouseenter.self="groupSelect && pointerSet(index)"
+                    @mousedown.prevent="selectGroup(option)"
+                    class="multiselect__option">
+                      <slot name="option" :option="option" :search="search">
+                        <span>{{ getOptionLabel(option) }}</span>
+                      </slot>
+                  </span>
+                </li>
+              </template>
+              <li v-show="showNoResults && (filteredOptions.length === 0 && search && !loading)">
+                <span class="multiselect__option">
+                  <slot name="noResult" :search="search">No elements found. Consider changing the search query.</slot>
+                </span>
+              </li>
+              <li v-show="showNoOptions && (options.length === 0 && !search && !loading)">
+                <span class="multiselect__option">
+                  <slot name="noOptions">List is empty.</slot>
+                </span>
+              </li>
+              <slot name="afterList"></slot>
+            </ul>
+          </div>
         </div>
       </transition>
   </div>
@@ -428,7 +431,7 @@ fieldset[disabled] .multiselect {
 .multiselect__input,
 .multiselect__single {
   font-family: inherit;
-  font-size: 16px;
+  /* font-size: 16px; */
   touch-action: manipulation;
 }
 
@@ -486,7 +489,7 @@ fieldset[disabled] .multiselect {
   line-height: 20px;
   border: none;
   border-radius: 5px;
-  background: #fff;
+  background: transparent;
   padding: 0 0 0 5px;
   width: calc(100%);
   transition: border 0.1s ease;
@@ -525,13 +528,13 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect__tags {
-  min-height: 40px;
+  /* min-height: unset; */
   display: block;
-  padding: 8px 40px 0 8px;
-  border-radius: 5px;
-  border: 1px solid #e8e8e8;
-  background: #fff;
-  font-size: 14px;
+  padding: 0.5rem;
+  /* border-radius: 2px; */
+  /* border: 1px solid #e8e8e8; */
+  /* background: #fff; */
+  /* font-size: 14px; */
 }
 
 .multiselect__tag {
@@ -569,7 +572,7 @@ fieldset[disabled] .multiselect {
 .multiselect__tag-icon:after {
   content: "×";
   color: #266d4d;
-  font-size: 14px;
+  /* font-size: 14px; */
 }
 
 .multiselect__tag-icon:focus,
@@ -630,8 +633,8 @@ fieldset[disabled] .multiselect {
 .multiselect__placeholder {
   color: #adadad;
   display: inline-block;
-  margin-bottom: 10px;
-  padding-top: 2px;
+  /* margin-bottom: 10px;
+  padding-top: 2px; */
 }
 
 .multiselect--active .multiselect__placeholder {
@@ -643,14 +646,17 @@ fieldset[disabled] .multiselect {
   display: block;
   background: #fff;
   width: 100%;
-  max-height: 240px;
-  overflow: auto;
   border: 1px solid #e8e8e8;
   border-top: none;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
   z-index: 50;
   -webkit-overflow-scrolling: touch;
+}
+
+.multiselect__content-wrapper > div {
+  max-height: 240px;
+  overflow: auto;
 }
 
 .multiselect__content {
@@ -682,14 +688,18 @@ fieldset[disabled] .multiselect {
 
 .multiselect__option {
   display: block;
-  padding: 12px;
-  min-height: 40px;
-  line-height: 16px;
+  padding: 6px 8px;
+  min-height: 16px;
+  line-height: 1;
   text-decoration: none;
   text-transform: none;
   vertical-align: middle;
   position: relative;
   cursor: pointer;
+  /* white-space: nowrap; */
+}
+
+.multiselect__option > span {
   white-space: nowrap;
 }
 
@@ -700,7 +710,7 @@ fieldset[disabled] .multiselect {
   line-height: 40px;
   padding-right: 12px;
   padding-left: 20px;
-  font-size: 13px;
+  /* font-size: 13px; */
 }
 
 .multiselect__option--highlight {
