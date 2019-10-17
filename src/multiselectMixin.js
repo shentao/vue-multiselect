@@ -411,10 +411,16 @@ export default {
   methods: {
     updateListStyles() {
       const clientRect = this.$refs.multiselect.getBoundingClientRect();
+      const contentRect = this.$refs.listcontent.getBoundingClientRect();
+      // check if not visible
+      let top = clientRect.top + clientRect.height;
+      if (clientRect.top + clientRect.height + contentRect.height > window.innerHeight) {
+        top = window.innerHeight - contentRect.height;
+      }
       this.$refs.list.style.setProperty('z-index', '10000');
       this.$refs.list.style.setProperty('position', 'fixed');
       this.$refs.list.style.setProperty('left', `${clientRect.left}px`);
-      this.$refs.list.style.setProperty('top', `${clientRect.top + clientRect.height}px`);
+      this.$refs.list.style.setProperty('top', `${top}px`);
       this.$refs.list.style.setProperty('width', `${clientRect.width}px`);
     },
     /**
@@ -669,6 +675,7 @@ export default {
       if (this.groupValues && this.pointer === 0 && this.filteredOptions.length) {
         this.pointer = 1
       }
+      this.updateListStyles();
       this.isOpen = true
       /* istanbul ignore else  */
       if (this.searchable) {

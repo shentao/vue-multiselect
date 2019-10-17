@@ -98,7 +98,7 @@
           @mousedown.prevent
           ref="list"
         >
-          <div :style="{ maxHeight: optimizedHeight + 'px' }">
+          <div ref="listcontent" :style="{ maxHeight: optimizedHeight + 'px' }">
             <ul class="multiselect__content" :style="contentStyle" role="listbox" :id="'listbox-'+id">
               <slot name="beforeList"></slot>
               <li v-if="multiple && max === internalValue.length">
