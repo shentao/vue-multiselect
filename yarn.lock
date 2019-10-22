@@ -7347,10 +7347,10 @@ loglevel@^1.6.3:
   resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.6.3.tgz#77f2eb64be55a404c9fd04ad16d57c1d6d6b1280"
   integrity sha512-LoEDv5pgpvWgPF4kNYuIp0qqSJVWak/dML0RY74xlzMZiT9w77teNAwKYKWBTYjlokMirg+o3jBwp+vlLrcfAA==
 
-lolex@^1.5.2:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/lolex/-/lolex-1.6.0.tgz#3a9a0283452a47d7439e72731b9e07d7386e49f6"
-  integrity sha1-OpoCg0UqR9dDnnJzG54H1zhuSfY=
+lolex@^5.1.1:
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/lolex/-/lolex-5.1.1.tgz#9587144854511d27940ee5e113dcb7de9b0fd666"
+  integrity sha512-dEwHz1CJ8DsdgfpiimgQQEhEJYOEiJ69a0s4aJDNHajaTqOJuF34vBAWVa/sS0V8aQvt72p+KgQ3pRmEVJM+iA==
 
 longest@^1.0.1:
   version "1.0.1"
