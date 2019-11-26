@@ -353,7 +353,6 @@
 </script>
 
 <style lang="scss">
-@import url("https://d1azc1qln24ryf.cloudfront.net/26905/Studyportalslineariconset/style-cf.css?p6k6l4");
 
 @function alphaize($desired-color, $background-color) {
 
