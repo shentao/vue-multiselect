@@ -571,6 +571,8 @@ export default {
           this.id
         )
       }
+      
+      if (this.closeOnSelect) this.deactivate()
     },
     /**
      * Helper to identify if all values in a group are selected
