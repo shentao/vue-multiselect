@@ -16,6 +16,14 @@ Probably the most complete *selecting* solution for Vue.js 2.0, without jQuery.
   </a>
 </p>
 
+### Silver
+
+<p align="center">
+  <a href="https://www.storyblok.com/developers?utm_source=newsletter&utm_medium=logo&utm_campaign=vuejs-newsletter" target="_blank">
+    <img src="https://a.storyblok.com/f/51376/3856x824/fea44d52a9/colored-full.png" alt="Storyblok" width="240px">
+  </a>
+</p>
+
 ### Bronze
 
 <p align="center">
