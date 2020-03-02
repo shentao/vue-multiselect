@@ -104,7 +104,7 @@
                 <slot name="maxElements">Maximum of {{ max }} options selected. First remove a selected option to select another.</slot>
               </span>
             </li>
-            <template v-if="!max || internalValue.length < max">
+            <template v-if="(!max || internalValue.length < max) && !collapseGroupsEnabled">
               <li class="multiselect__element"
                 v-for="(option, index) of filteredOptions"
                 :key="index"
@@ -137,6 +137,40 @@
                 </span>
               </li>
             </template>
+            <template v-if="(!max || internalValue.length < max) && collapseGroupsEnabled">
+              <li class="multiselect__element" v-for="(group, index) of filteredCollapsibleOptions" :key="index">
+                <span
+                  :data-select="groupSelect && selectGroupLabelText"
+                  :data-deselect="groupSelect && deselectGroupLabelText"
+                  :class="groupHighlight(index, index, true)"
+                  @mouseenter.self="groupSelect && pointerSet(index)"
+                  @mousedown.prevent="selectGroup(index, true)"
+                  class="multiselect__option multiselect__accordion">
+                    <slot name="option" :option="index" :search="search">
+                      <span>{{ index }}</span>
+                      <span class="multiselect__accordion-toggle" @mousedown.prevent.stop="toggleAccordion(index)"></span>
+                    </slot>
+                </span>
+                <height-transition>
+                  <ul v-if="!closedAccordions.includes(index)">
+                    <li class="multiselect__element" v-for="(option, optionIndex) of group" :key="optionIndex">
+                      <span
+                        :class="optionHighlight(getIndexFromGroup(index, optionIndex), option)"
+                        @click.stop="select(option)"
+                        @mouseenter.self="pointerSet(getIndexFromGroup(index, optionIndex))"
+                        :data-select="option && option.isTag ? tagPlaceholder : selectLabelText"
+                        :data-selected="selectedLabelText"
+                        :data-deselect="deselectLabelText"
+                        class="multiselect__option">
+                          <slot name="option" :option="option" :search="search">
+                            <span>{{ getOptionLabel(option) }}</span>
+                          </slot>
+                      </span>
+                    </li>
+                  </ul>
+                </height-transition>
+              </li>
+            </template>
             <li v-show="showNoResults && (filteredOptions.length === 0 && search && !loading)">
               <span class="multiselect__option">
                 <slot name="noResult" :search="search">No elements found. Consider changing the search query.</slot>
@@ -157,19 +191,42 @@
 <script>
 import multiselectMixin from './multiselectMixin'
 import pointerMixin from './pointerMixin'
+import HeightTransition from './HeightTransition.vue'
 
 export default {
   name: 'vue-multiselect',
   mixins: [multiselectMixin, pointerMixin],
+  components: {
+    'height-transition': HeightTransition
+  },
+  data() {
+    return {
+      /**
+       * Array to track accordions that are collapsed
+       * @default []
+       * @type {String[]}
+       */
+      closedAccordions: []
+    }
+  },
   props: {
     /**
-     * name attribute to match optional label element
+     * Name attribute to match optional label element
      * @default ''
      * @type {String}
      */
     name: {
       type: String,
       default: ''
+    },
+    /**
+     * Allow selection groups to collapse in accordions
+     * @default False
+     * @type {Boolean}
+     */
+    collapseGroups: {
+      type: Boolean,
+      defualt: false
     },
     /**
      * String to show when pointing to an option
@@ -316,6 +373,9 @@ export default {
     singleValue () {
       return this.internalValue[0]
     },
+    collapseGroupsEnabled () {
+      return this.collapseGroups
+    },
     deselectLabelText () {
       return this.showLabels ? this.deselectLabel : ''
     },
@@ -341,6 +401,7 @@ export default {
           ? { width: '100%' }
           : { width: '0', position: 'absolute', padding: '0' }
       }
+      return null
     },
     contentStyle () {
       return this.options.length
@@ -367,6 +428,39 @@ export default {
           ? this.isOpen
           : true)
       )
+    }
+  },
+  methods: {
+    /**
+     * Get the index for an option element based on the group its in,
+     * this helps with reindexing the elements that are nested 
+     * @param index {String} - Parent index, the group that contains the nested list items
+     * @param optionIndex {Number} - The index of the nested element in the parents children array
+     * 
+     * @return {Number} - The index of the list item
+     */
+    getIndexFromGroup (index, optionIndex) {
+      let allOptions = this.filteredCollapsibleOptions
+      let indexCounter = 0
+      if (allOptions) {
+        Object.keys(allOptions).forEach(v => {
+          indexCounter++
+          if (v == index) {
+            indexCounter += optionIndex + 1
+          } else {
+            indexCounter += allOptions[index].length
+          }
+        })
+      } 
+      return indexCounter
+    },
+    /**
+     * Toggles the accordion by adding it to or removing it from the closedAccordions array
+     * @param index {String} - Parent accordion index to toggle
+     */
+    toggleAccordion (index) {
+      let itemIndex = this.closedAccordions.findIndex(v => v == index)
+      this.closedAccordions.includes(index) ? this.closedAccordions.splice(itemIndex, 1) : this.closedAccordions.push(index)
     }
   }
 }
@@ -687,7 +781,6 @@ fieldset[disabled] .multiselect {
   line-height: 16px;
   text-decoration: none;
   text-transform: none;
-  vertical-align: middle;
   position: relative;
   cursor: pointer;
   white-space: nowrap;
@@ -779,6 +872,46 @@ fieldset[disabled] .multiselect {
   color: #fff;
 }
 
+.multiselect__accordion + ul{
+  overflow: hidden; padding-left: 0px;
+}
+
+.multiselect__accordion::after{
+  margin-right: 35px;
+}
+
+.multiselect__accordion-toggle{
+  z-index: 5;
+  display: flex;
+  height: 100%;
+  width: 35px;
+  position: absolute;
+  right: 0px;
+  align-items: center;
+  justify-content: center;
+  top: 0px;
+  pointer-events: all;
+  cursor: pointer;
+}
+
+.multiselect__option--disabled .multiselect__accordion-toggle:hover{
+  background-color: #e0e0e0;
+}
+
+.multiselect__accordion-toggle::after{
+  right: auto;
+  top: auto;
+  margin: 0px;
+  border-color: #859aad transparent transparent;
+  border-style: solid;
+  border-width: 5px 5px 0;
+  content: "";
+  color: #999;
+}
+
+.multiselect__accordion-toggle:hover{
+  background-color: #2c3d4e;
+}
 .multiselect-enter-active,
 .multiselect-leave-active {
   transition: all 0.15s ease;
