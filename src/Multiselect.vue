@@ -142,7 +142,7 @@
                 <span
                   :data-select="groupSelect && selectGroupLabelText"
                   :data-deselect="groupSelect && deselectGroupLabelText"
-                  :class="groupHighlight(index, index, true)"
+                  :class="groupHighlight(index, index, true, !closedAccordions.includes(index) ? 'open' : '')"
                   @mouseenter.self="groupSelect && pointerSet(index)"
                   @mousedown.prevent="selectGroup(index, true)"
                   class="multiselect__option multiselect__accordion">
@@ -880,6 +880,10 @@ fieldset[disabled] .multiselect {
   margin-right: 35px;
 }
 
+.multiselect__accordion:not(.open) .multiselect__accordion-toggle:after{
+  transform: rotate(180deg);
+}
+
 .multiselect__accordion-toggle{
   z-index: 5;
   display: flex;
@@ -907,6 +911,7 @@ fieldset[disabled] .multiselect {
   border-width: 5px 5px 0;
   content: "";
   color: #999;
+  transition: transform .2s ease;
 }
 
 .multiselect__accordion-toggle:hover{
