@@ -41,6 +41,7 @@ Probably the most complete *selecting* solution for Vue.js 2.0, without jQuery.
 * Multiple select
 * Tagging
 * Dropdowns
+* Collapsible Groups
 * Filtering
 * Search with suggestions
 * Logic split into mixins
@@ -136,6 +137,21 @@ multiselect(
   placeholder="Pick some",
   label="name",
   track-by="name"
+)
+```
+
+### Collapsible Groups
+``` jade
+multiselect(
+  v-model="multiValue"
+  :options="source"
+  group-values="children"
+  group-label="category"
+  track-by="value"
+  label="name"
+  :group-select="true"
+  :multiple="true"
+  :collapseGroups="true"
 )
 ```
 
