@@ -2,7 +2,7 @@
 Probably the most complete *selecting* solution for Vue.js 2.0, without jQuery.
 
 <a href="https://vue-multiselect.js.org/">
-  <img src="/multiselect-screen-203.png">
+  <img src="/multiselect-screen-203.png" alt="Vue-Multiselect Screen">
 </a>
 
 ## Sponsors
