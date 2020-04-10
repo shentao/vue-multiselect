@@ -4,9 +4,14 @@ module.exports = {
   extends: [
     'standard'
   ],
-  parser: 'babel-eslint',
+  // parser: 'babel-eslint',
   parserOptions: {
-    sourceType: 'module'
+    parser: 'babel-eslint',
+    ecmaVersion: 2016,
+    sourceType: 'module',
+    ecmaFeatures: {
+      legacyDecorators: true
+    }
   },
   // required to lint *.vue files
   plugins: ['html'],
