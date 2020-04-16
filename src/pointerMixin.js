@@ -46,7 +46,7 @@ export default {
         'multiselect__option--selected': this.isSelected(option)
       }
     },
-    groupHighlight (index, selectedGroup) {
+    groupHighlight (index, selectedGroup, collapsible = false, open = false) {
       if (!this.groupSelect) {
         return [
           'multiselect__option--disabled',
@@ -55,13 +55,15 @@ export default {
       }
 
       const group = this.options.find(option => {
-        return option[this.groupLabel] === selectedGroup.$groupLabel
+        let comparisonString = collapsible ? selectedGroup : selectedGroup.$groupLabel
+        return option[this.groupLabel] === comparisonString
       })
 
       return group && !this.wholeGroupDisabled(group) ? [
         'multiselect__option--group',
         { 'multiselect__option--highlight': index === this.pointer && this.showPointer },
-        { 'multiselect__option--group-selected': this.wholeGroupSelected(group) }
+        { 'multiselect__option--group-selected': this.wholeGroupSelected(group) },
+        { 'open': open }
       ] : 'multiselect__option--disabled'
     },
     addPointerElement ({ key } = 'Enter') {

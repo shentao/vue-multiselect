@@ -366,6 +366,29 @@ export default {
 
       return options.slice(0, this.optionsLimit)
     },
+    filteredCollapsibleOptions () {
+      let options = this.filteredOptions
+      let groupedOptions = {}
+      let ungroupedOptions = []
+      let currentGroup = null
+
+      if (options.length) {
+        options.forEach(v => {
+          if (v['$isLabel']) {
+            currentGroup = v['$groupLabel']
+            groupedOptions[`${v['$groupLabel']}`] = []
+          } else if (currentGroup) {
+            groupedOptions[currentGroup].push(v)
+          } else{
+            ungroupedOptions.push(v)
+          }
+        })
+      }
+
+      if (ungroupedOptions.length) groupedOptions['Uncategorized'] = ungroupedOptions
+
+      return groupedOptions
+    },
     valueKeys () {
       if (this.trackBy) {
         return this.internalValue.map(element => element[this.trackBy])
@@ -543,10 +566,12 @@ export default {
      * If all group optiona are already selected -> remove it from the results.
      *
      * @param  {Object||String||Integer} group to select/deselect
+     * @param {Booelan} collapsible use selection logic to check nested elements
      */
-    selectGroup (selectedGroup) {
+    selectGroup (selectedGroup, collapsible = false) {
       const group = this.options.find(option => {
-        return option[this.groupLabel] === selectedGroup.$groupLabel
+        let comparisonString = collapsible ? selectedGroup : selectedGroup.$groupLabel
+        return option[this.groupLabel] === comparisonString
       })
 
       if (!group) return
