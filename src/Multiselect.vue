@@ -119,7 +119,7 @@
                   :data-selected="selectedLabelText"
                   :data-deselect="deselectLabelText"
                   class="multiselect__option">
-                    <slot name="option" :option="option" :search="search">
+                    <slot name="option" :option="option" :search="search" :index="index">
                       <span>{{ getOptionLabel(option) }}</span>
                     </slot>
                 </span>
@@ -131,7 +131,7 @@
                   @mouseenter.self="groupSelect && pointerSet(index)"
                   @mousedown.prevent="selectGroup(option)"
                   class="multiselect__option">
-                    <slot name="option" :option="option" :search="search">
+                    <slot name="option" :option="option" :search="search" :index="index">
                       <span>{{ getOptionLabel(option) }}</span>
                     </slot>
                 </span>
