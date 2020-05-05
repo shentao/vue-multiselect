@@ -341,6 +341,7 @@ export default {
           ? { width: '100%' }
           : { width: '0', position: 'absolute', padding: '0' }
       }
+      return ''
     },
     contentStyle () {
       return this.options.length
