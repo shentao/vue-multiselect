@@ -51,7 +51,7 @@ export default {
         return [
           'multiselect__option--disabled',
           { 'multiselect__option--group': selectedGroup.$isLabel }
-        ];
+        ]
       }
 
       const group = this.options.find(option => {

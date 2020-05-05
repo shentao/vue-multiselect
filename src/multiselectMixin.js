@@ -571,7 +571,7 @@ export default {
           this.id
         )
       }
-      
+
       if (this.closeOnSelect) this.deactivate()
     },
     /**
