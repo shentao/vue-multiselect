@@ -54,6 +54,7 @@
           autocomplete="off"
           spellcheck="false"
           :placeholder="placeholder"
+          :aria-label="inputAriaLabel"
           :style="inputStyle"
           :value="search"
           :disabled="disabled"
@@ -298,6 +299,15 @@ export default {
     tabindex: {
       type: Number,
       default: 0
+    },
+    /**
+     * Set aria-label on the input
+     * @default ''
+     * @type {String}
+     */
+    inputAriaLabel: {
+      type: String,
+      default: ''
     }
   },
   computed: {
