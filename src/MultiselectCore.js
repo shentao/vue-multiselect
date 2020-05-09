@@ -16,7 +16,7 @@ export default {
       search: '',
       isFocused: false,
       isOpen: false,
-      prefferedOpenDirection: 'below',
+      preferredOpenDirection: 'below',
       optimizedHeight: this.maxHeight,
       pointer: 0,
       pointerDirty: false
@@ -136,7 +136,7 @@ export default {
       } else if (this.openDirection === 'below' || this.openDirection === 'bottom') {
         return false
       } else {
-        return this.prefferedOpenDirection === 'above'
+        return this.preferredOpenDirection === 'above'
       }
     },
     showSearchInput () {
@@ -217,7 +217,7 @@ export default {
       }
     },
     /**
-     * Returns the internalValue in a way it can be emited to the parent
+     * Returns the internalValue in a way it can be emitted to the parent
      * @returns {Object||Array||String||Integer}
      */
     getValue () {
@@ -456,10 +456,10 @@ export default {
       const hasEnoughSpaceBelow = spaceBelow > this.maxHeight
 
       if (hasEnoughSpaceBelow || spaceBelow > spaceAbove || this.openDirection === 'below' || this.openDirection === 'bottom') {
-        this.prefferedOpenDirection = 'below'
+        this.preferredOpenDirection = 'below'
         this.optimizedHeight = Math.min(spaceBelow - 40, this.maxHeight)
       } else {
-        this.prefferedOpenDirection = 'above'
+        this.preferredOpenDirection = 'above'
         this.optimizedHeight = Math.min(spaceAbove - 40, this.maxHeight)
       }
     },

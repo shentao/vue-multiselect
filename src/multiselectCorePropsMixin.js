@@ -32,7 +32,7 @@ export default {
       default: 'Selected'
     },
     /**
-     * String to show when pointing to an alredy selected option
+     * String to show when pointing to an already selected option
      * @default 'Press enter to remove'
      * @type {String}
     */
@@ -137,7 +137,7 @@ export default {
     /**
      * Array of available options: Objects, Strings or Integers.
      * If array of objects, visible label will default to option.label.
-     * If `labal` prop is passed, label will equal option['label']
+     * If `label` prop is passed, label will equal option['label']
      * @type {Array}
      */
     options: {
@@ -264,7 +264,7 @@ export default {
     /**
      * By default new tags will appear above the search results.
      * Changing to 'bottom' will revert this behaviour
-     * and will proritize the search results
+     * and will prioritize the search results
      * @default 'top'
      * @type {String}
     */
