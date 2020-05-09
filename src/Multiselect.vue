@@ -4,8 +4,7 @@
     v-on="$listeners"
     :internalSearch="internalSearch && !groupSelect"
   >
-    <div
-      slot-scope="{
+    <div slot-scope="{
         activate,
         deactivate,
         handleKeydown,
@@ -24,9 +23,11 @@
         singleValue,
         isPlaceholderVisible,
         currentOptionLabel,
+        label,
         limit,
         limitText,
         getOptionLabel,
+        remove,
         removeElement,
         multiple,
         max,
@@ -146,7 +147,6 @@
             updateSearch,
             internalValue,
             filteredOptions,
-            select,
             toggle,
             visibleValues,
             isSingleLabelVisible,
@@ -156,7 +156,6 @@
             limit,
             limitText,
             getOptionLabel,
-            removeElement,
             multiple,
             max,
             contentStyle,
@@ -173,10 +172,13 @@
             groupSelect,
             groupLabel,
             groupValues,
+            select,
             selectGroupLabel,
+            remove,
             deselectGroupLabel,
             customLabel,
-            isSelected
+            isSelected,
+            label
           }"
         >
           <template slot="_beforeList">
@@ -189,13 +191,13 @@
             </slot>
           </template>
 
-          <template slot="_option" slot-scope="props">
+          <template #_option="props">
             <slot name="option" v-bind="props">
               <span>{{ getOptionLabel(props.option) }}</span>
             </slot>
           </template>
 
-          <template slot="_optionGroup" slot-scope="props">
+          <template #_optionGroup="props">
             <slot name="optionGroup" v-bind="props">
               <span>{{ getOptionLabel(props.option) }}</span>
             </slot>

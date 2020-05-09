@@ -76,6 +76,7 @@ export default {
   border: 1px solid #E8E8E8;
   background: #fff;
   font-size: 14px;
+  z-index: 51;
 
   &:focus {
     outline: none;
@@ -84,12 +85,8 @@ export default {
 
 .multiselect-wrapper--active {
   border-color: #41B883;
+  box-shadow: 0 0 0px 1px #41B883;
   z-index: 50;
-}
-
-.multiselect-wrapper--open {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
 }
 
 .multiselect-wrapper--disabled {

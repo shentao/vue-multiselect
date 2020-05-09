@@ -270,7 +270,7 @@ export default {
     */
     tagPosition: {
       type: String,
-      default: 'top'
+      default: 'bottom'
     },
     /**
      * Number of allowed selected options. No limit if 0.
