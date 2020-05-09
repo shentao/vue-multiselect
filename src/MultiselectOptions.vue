@@ -27,6 +27,7 @@
           <li
             v-for="(option, index) of optionsList"
             class="multiselect__element"
+            :id="`${id}${pointer}HighlightedOption`"
             :key="index"
           >
             <span

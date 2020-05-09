@@ -12,6 +12,11 @@
     :placeholder="computedPlaceholder"
     :value="search"
     :disabled="disabled"
+    role="combobox"
+    :aria-expanded="isOpen ? 'true' : 'false'"
+    aria-haspopup="true"
+    :aria-controls="`${id}OptionsList`"
+    :aria-aria-activedescendant="`${id}${pointer}HighlightedOption`"
     @click.stop=""
     @keydown.space.stop="$emit('space', $event)"
     @keydown.self.up.prevent="$emit('up')"
@@ -55,7 +60,10 @@ export default {
       type: [String, Object]
     },
     id: {
-      type: String
+      type: [String, Number]
+    },
+    pointer: {
+      type: Number
     }
   },
   mounted () {
