@@ -222,7 +222,7 @@ export default {
   font-style: initial;
   width: 22px;
   text-align: center;
-  line-height: 22px;
+  line-height: 20px;
   transition: all 0.2s ease;
   border-radius: 5px;
 }

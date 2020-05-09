@@ -47,13 +47,6 @@ export default {
       if (this.internalSearch) {
         options = filterOptions(options, normalizedSearch, this.label, this.customLabel)
       }
-      // if (this.internalSearch) {
-      //   options = this.groupValues
-      //     ? this.filterAndFlat(options, normalizedSearch, this.label)
-      //     : filterOptions(options, normalizedSearch, this.label, this.customLabel)
-      // } else {
-      //   options = this.groupValues ? flattenOptions(this.groupValues, this.groupLabel)(options) : options
-      // }
 
       options = this.hideSelected
         ? options.filter(not(this.isSelected))
@@ -258,6 +251,16 @@ export default {
       return this.valueKeys.indexOf(opt) > -1
     },
     /**
+     * Finds out if the given option is same as another option
+     * @param  {Object||String||Integer} option passed element to check
+     * @returns {Function} returns closure accepting 2nd option
+     */
+    isSameOption (optionA) {
+      return optionB => this.trackBy
+        ? optionA[this.trackBy] === optionB[this.trackBy]
+        : optionA === optionB
+    },
+    /**
      * Returns empty string when options is null/undefined
      * Returns tag query if option is tag.
      * Returns the customLabel() results and casts it to string.
@@ -268,7 +271,7 @@ export default {
     getOptionLabel (option) {
       if (isEmpty(option)) return ''
       /* istanbul ignore else */
-      if (option.isTag) return option.label
+      if (option.isTag) return `Create: ${option.label}`
       /* istanbul ignore else */
       if (option.$isLabel) return option.$groupLabel
 
@@ -278,12 +281,6 @@ export default {
       return label
     },
     selectSingle (option, key) {
-      /* istanbul ignore else */
-      if (this.max && this.multiple && this.internalValue.length === this.max) return
-
-      /* istanbul ignore else */
-      // if (key === 'Tab' && !this.pointerDirty) return
-
       if (option.isTag) {
         this.$emit('tag', option.label, this.id)
         this.search = ''
@@ -304,10 +301,10 @@ export default {
         } else {
           this.$emit('input', option, this.id)
         }
-
-        /* istanbul ignore else */
-        if (this.clearOnSelect) this.search = ''
       }
+    },
+    selectMany (options, key) {
+      this.$emit('input', this.internalValue.concat(options), this.id)
     },
     /**
      * Add the given option to the list of selected options
@@ -318,6 +315,12 @@ export default {
      * @param  {Boolean} block removing
      */
     select (options, key) {
+      /* istanbul ignore else */
+      if (this.max && this.multiple && this.internalValue.length === this.max) return
+
+      /* istanbul ignore else */
+      if (key === 'Tab' && !this.pointerDirty) return
+
       /* istanbul ignore else */
       // if (option.$isLabel && this.groupSelect) {
       //   this.selectGroup(option)
@@ -330,13 +333,30 @@ export default {
       ) return
 
       if (!Array.isArray(options)) {
-        this.selectSingle(options)
+        this.selectSingle(options, key)
       } else {
-
+        this.selectMany(options, key)
       }
 
       /* istanbul ignore else */
       if (this.closeOnSelect) this.deactivate()
+
+      /* istanbul ignore else */
+      if (this.clearOnSelect) this.search = ''
+    },
+    remove (options) {
+      if (!Array.isArray(options)) {
+        this.removeElement(options)
+      } else {
+        this.removeMany(options)
+      }
+    },
+    removeMany (options) {
+      const newValue = this.internalValue.filter(
+        selectedOption => !options.find(this.isSameOption(selectedOption))
+      )
+
+      this.$emit('input', newValue)
     },
     /**
      * Removes the given option from the selected options.
