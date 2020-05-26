@@ -2,11 +2,13 @@ module.exports = {
   root: true,
   // https://github.com/feross/standard/blob/master/RULES.md#javascript-standard-style
   extends: [
-    'standard'
+    'standard',
+    'plugin:vue/essential'
   ],
-  parser: 'babel-eslint',
   parserOptions: {
-    sourceType: 'module'
+    'ecmaVersion': 2017,
+    'sourceType': 'module',
+    'parser': 'babel-eslint',
   },
   // required to lint *.vue files
   plugins: ['html'],

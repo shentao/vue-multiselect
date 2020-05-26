@@ -8,7 +8,9 @@
     @keydown.self.up.prevent="pointerBackward()"
     @keypress.enter.tab.stop.self="addPointerElement($event)"
     @keyup.esc="deactivate()"
-    class="multiselect">
+    class="multiselect"
+    role="combobox"
+    :aria-owns="'listbox-'+id">
       <slot name="caret" :toggle="toggle">
         <div @mousedown.prevent.stop="toggle()" class="multiselect__select"></div>
       </slot>
@@ -26,7 +28,7 @@
               <slot name="tag" :option="option" :search="search" :remove="removeElement">
                 <span class="multiselect__tag" :key="index">
                   <span v-text="getOptionLabel(option)"></span>
-                  <i aria-hidden="true" tabindex="1" @keypress.enter.prevent="removeElement(option)"  @mousedown.prevent="removeElement(option)" class="multiselect__tag-icon"></i>
+                  <i tabindex="1" @keypress.enter.prevent="removeElement(option)"  @mousedown.prevent="removeElement(option)" class="multiselect__tag-icon"></i>
                 </span>
               </slot>
             </template>
@@ -48,7 +50,7 @@
           :name="name"
           :id="id"
           type="text"
-          autocomplete="nope"
+          autocomplete="off"
           spellcheck="false"
           :placeholder="placeholder"
           :style="inputStyle"
@@ -64,6 +66,7 @@
           @keypress.enter.prevent.stop.self="addPointerElement($event)"
           @keydown.delete.stop="removeLastElement()"
           class="multiselect__input"
+          :aria-controls="'listbox-'+id"
         />
         <span
           v-if="isSingleLabelVisible"
@@ -94,7 +97,7 @@
           :style="{ maxHeight: optimizedHeight + 'px' }"
           ref="list"
         >
-          <ul class="multiselect__content" :style="contentStyle">
+          <ul class="multiselect__content" :style="contentStyle" role="listbox" :id="'listbox-'+id">
             <slot name="beforeList"></slot>
             <li v-if="multiple && max === internalValue.length">
               <span class="multiselect__option">
@@ -102,7 +105,11 @@
               </span>
             </li>
             <template v-if="!max || internalValue.length < max">
-              <li class="multiselect__element" v-for="(option, index) of filteredOptions" :key="index">
+              <li class="multiselect__element"
+                v-for="(option, index) of filteredOptions"
+                :key="index"
+                v-bind:id="id + '-' + index"
+                v-bind:role="!(option && (option.$isLabel || option.$isDisabled)) ? 'option' : null">
                 <span
                   v-if="!(option && (option.$isLabel || option.$isDisabled))"
                   :class="optionHighlight(index, option)"
@@ -112,7 +119,7 @@
                   :data-selected="selectedLabelText"
                   :data-deselect="deselectLabelText"
                   class="multiselect__option">
-                    <slot name="option" :option="option" :search="search">
+                    <slot name="option" :option="option" :search="search" :index="index">
                       <span>{{ getOptionLabel(option) }}</span>
                     </slot>
                 </span>
@@ -124,7 +131,7 @@
                   @mouseenter.self="groupSelect && pointerSet(index)"
                   @mousedown.prevent="selectGroup(option)"
                   class="multiselect__option">
-                    <slot name="option" :option="option" :search="search">
+                    <slot name="option" :option="option" :search="search" :index="index">
                       <span>{{ getOptionLabel(option) }}</span>
                     </slot>
                 </span>
@@ -334,6 +341,7 @@ export default {
           ? { width: '100%' }
           : { width: '0', position: 'absolute', padding: '0' }
       }
+      return ''
     },
     contentStyle () {
       return this.options.length

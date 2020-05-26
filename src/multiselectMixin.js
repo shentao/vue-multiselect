@@ -585,6 +585,8 @@ export default {
           this.id
         )
       }
+
+      if (this.closeOnSelect) this.deactivate()
     },
     /**
      * Helper to identify if all values in a group are selected
@@ -669,7 +671,7 @@ export default {
       /* istanbul ignore else  */
       if (this.searchable) {
         if (!this.preserveSearch) this.search = ''
-        this.$nextTick(() => this.$refs.search.focus())
+        this.$nextTick(() => this.$refs.search && this.$refs.search.focus())
       } else {
         this.$el.focus()
       }
@@ -686,7 +688,7 @@ export default {
       this.isOpen = false
       /* istanbul ignore else  */
       if (this.searchable) {
-        this.$refs.search.blur()
+        this.$refs.search && this.$refs.search.blur()
       } else {
         this.$el.blur()
       }
