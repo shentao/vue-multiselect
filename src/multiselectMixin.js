@@ -8,17 +8,34 @@ function not (fun) {
   return (...params) => !fun(...params)
 }
 
+function slugify (str) {
+  const map = {
+    a: 'á|à|ã|â|ä|A|À|Á|Ã|Â|Ä',
+    e: 'é|è|ê|ë|E|É|È|Ê|Ë',
+    i: 'í|ì|î|ï|I|Í|Ì|Î|Ï',
+    o: 'ó|ò|ô|õ|ö|O|Ó|Ò|Ô|Õ|Ö',
+    u: 'ú|ù|û|ü|U|Ú|Ù|Û|Ü'
+  }
+
+  str = str.toLowerCase()
+
+  for (const pattern in map) {
+    str = str.replace(new RegExp(map[pattern], 'g'), pattern)
+  }
+  return str
+}
+
 function includes (str, query) {
   /* istanbul ignore else */
   if (str === undefined) str = 'undefined'
   if (str === null) str = 'null'
   if (str === false) str = 'false'
-  const text = str.toString().toLowerCase()
+  const text = slugify(str.toString().toLowerCase())
   return text.indexOf(query.trim()) !== -1
 }
 
 function filterOptions (options, search, label, customLabel) {
-  return options.filter(option => includes(customLabel(option, label), search))
+  return options.filter(option => includes(customLabel(option, label), slugify(search)))
 }
 
 function stripGroups (options) {
@@ -395,6 +412,7 @@ export default {
     },
     search () {
       this.$emit('search-change', this.search, this.id)
+      this.$emit('filtered-options', this.filteredOptions)
     }
   },
   methods: {
@@ -571,7 +589,7 @@ export default {
           this.id
         )
       }
-      
+
       if (this.closeOnSelect) this.deactivate()
     },
     /**
