@@ -1,7 +1,7 @@
 export default {
   data () {
     return {
-      pointer: 0,
+      pointer: null,
       pointerDirty: false
     }
   },
@@ -22,21 +22,24 @@ export default {
   },
   computed: {
     pointerPosition () {
-      return this.pointer * this.optionHeight
+      if (this.pointer !== null) {
+        this.pointer * this.optionHeight
+      }
+      return 0
     },
     visibleElements () {
       return this.optimizedHeight / this.optionHeight
     }
   },
   watch: {
-    filteredOptions () {
-      this.pointerAdjust()
-    },
+    // filteredOptions () {
+    //   this.pointerAdjust()
+    // },
     isOpen () {
       this.pointerDirty = false
     },
     pointer () {
-      if(this.$refs.search) this.$refs.search.setAttribute('aria-activedescendant', this.id + '-' + this.pointer.toString())
+      if (this.$refs.search && this.pointer !== null) this.$refs.search.setAttribute('aria-activedescendant', this.id + '-' + this.pointer.toString())
     }
   },
   methods: {
@@ -51,7 +54,7 @@ export default {
         return [
           'multiselect__option--disabled',
           { 'multiselect__option--group': selectedGroup.$isLabel }
-        ];
+        ]
       }
 
       const group = this.options.find(option => {
@@ -67,11 +70,16 @@ export default {
     addPointerElement ({ key } = 'Enter') {
       /* istanbul ignore else */
       if (this.filteredOptions.length > 0) {
-        this.select(this.filteredOptions[this.pointer], key)
+        if (this.pointer !== null) {
+          this.select(this.filteredOptions[this.pointer], key)
+        } else this.deactivate()
       }
       this.pointerReset()
     },
     pointerForward () {
+      if (this.pointer === null) {
+        this.pointer = 0
+      }
       /* istanbul ignore else */
       if (this.pointer < this.filteredOptions.length - 1) {
         this.pointer++
@@ -89,6 +97,9 @@ export default {
       this.pointerDirty = true
     },
     pointerBackward () {
+      if (this.pointer === null) {
+        this.pointer = 0
+      }
       if (this.pointer > 0) {
         this.pointer--
         /* istanbul ignore else */
@@ -96,31 +107,38 @@ export default {
           this.$refs.list.scrollTop = this.pointerPosition
         }
         /* istanbul ignore else */
-        if (
-          this.filteredOptions[this.pointer] &&
-          this.filteredOptions[this.pointer].$isLabel &&
-          !this.groupSelect
-        ) this.pointerBackward()
+        if (this.pointer !== null) {
+          if (
+            this.filteredOptions[this.pointer] &&
+            this.filteredOptions[this.pointer].$isLabel &&
+            !this.groupSelect
+          ) this.pointerBackward()
+        }
       } else {
         /* istanbul ignore else */
-        if (
-          this.filteredOptions[this.pointer] &&
-          this.filteredOptions[0].$isLabel &&
-          !this.groupSelect
-        ) this.pointerForward()
+        if (this.pointer !== null) {
+          if (
+            this.filteredOptions[this.pointer] &&
+            this.filteredOptions[0].$isLabel &&
+            !this.groupSelect
+          ) this.pointerForward()
+        }
       }
       this.pointerDirty = true
     },
     pointerReset () {
       /* istanbul ignore else */
       if (!this.closeOnSelect) return
-      this.pointer = 0
+      this.pointer = null
       /* istanbul ignore else */
       if (this.$refs.list) {
         this.$refs.list.scrollTop = 0
       }
     },
     pointerAdjust () {
+      if (this.pointer === null) {
+        this.pointer = 0
+      }
       /* istanbul ignore else */
       if (this.pointer >= this.filteredOptions.length - 1) {
         this.pointer = this.filteredOptions.length
