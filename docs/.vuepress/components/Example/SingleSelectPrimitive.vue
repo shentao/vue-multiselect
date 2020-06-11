@@ -16,10 +16,9 @@ export default {
     return {
       value: [],
       options: [
-        'Select option',
         'options',
         'selected',
-        'mulitple',
+        'multiple',
         'label',
         'searchable',
         'clearOnSelect',

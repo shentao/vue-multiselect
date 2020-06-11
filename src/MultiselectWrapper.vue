@@ -1,26 +1,26 @@
 <template>
-  <button
+  <div
     class="multiselect-wrapper"
     :class="{
       'multiselect-wrapper--active': isFocused || isOpen,
       'multiselect-wrapper--open': isOpen,
       'multiselect-wrapper--disabled': disabled
     }"
-    @focus="focus()"
-    @blur="blur()"
     @click.stop="toggle()"
-    @keyup.space.prevent.self.stop="handleKeydown('space', $event)"
-    @keydown.down.prevent.self="handleKeydown('down')"
-    @keydown.up.prevent.self="handleKeydown('up')"
-    @keydown.enter="handleKeydown('enter', $event)"
-    @keyup.esc="deactivate()"
-    @keydown.tab="handleKeydown('tab', $event)"
   >
     <slot/>
-  </button>
+  </div>
 </template>
 
 <script>
+// @blur="blur()"
+// @click.stop="toggle()"
+// @keyup.space.prevent.self.stop="handleKeydown('space', $event)"
+// @keydown.down.prevent.self="handleKeydown('down')"
+// @keydown.up.prevent.self="handleKeydown('up')"
+// @keydown.enter="handleKeydown('enter', $event)"
+// @keyup.esc="deactivate()"
+// @keydown.tab="handleKeydown('tab', $event)"
 export default {
   props: {
     activate: {
@@ -53,21 +53,16 @@ export default {
     isFocused: {
       type: Boolean
     }
-  },
-  watch: {
-    isOpen (isOpen) {
-      if (isOpen) this.$el.focus()
-    }
   }
 }
 </script>
 
-<style lang="stylus">
+<style>
 .multiselect-wrapper {
   display: flex;
   align-items: center;
   position: relative;
-  width: 100%;
+  /* width: 100%; */
   text-align: left;
   color: #35495E;
   -webkit-appearance: none;
@@ -77,10 +72,10 @@ export default {
   background: #fff;
   font-size: 14px;
   z-index: 51;
+}
 
-  &:focus {
-    outline: none;
-  }
+.multiselect-wrapper:focus {
+  outline: none;
 }
 
 .multiselect-wrapper--active {
@@ -99,6 +94,6 @@ fieldset[disabled] .multiselect-wrapper {
 }
 
 *[dir="rtl"] .multiselect-wrapper {
-    text-align: right;
+  text-align: right;
 }
 </style>

@@ -11,11 +11,11 @@
       @focus="activate"
       @click.prevent
     >
-      <ul class="multiselect__content" :style="contentStyle">
+      <ul class="multiselect__content" :style="contentStyle" role="listbox">
 
         <slot name="_beforeList"></slot>
 
-        <li v-if="multiple && max === internalValue.length">
+        <li v-if="multiple && max === internalValue.length" role="option">
           <span class="multiselect__option">
             <slot name="_maxElements">
               Maximum of {{ max }} options selected. First remove a selected option to select another.
@@ -27,8 +27,10 @@
           <li
             v-for="(option, index) of optionsList"
             class="multiselect__element"
-            :id="`${id}${pointer}HighlightedOption`"
+            :id="isSelected(option, internalValue) ? `${id}${pointer}HighlightedOption` : `${id}${index}Option`"
             :key="index"
+            role="option"
+            :aria-selected="isSelected(option, internalValue) ? 'true' : 'false'"
           >
             <span
               v-if="!(option && (option.$isLabel || option.$isDisabled))"

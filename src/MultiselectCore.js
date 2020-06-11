@@ -15,6 +15,7 @@ export default {
     return {
       search: '',
       isFocused: false,
+      isInputFocused: false,
       isOpen: false,
       preferredOpenDirection: 'below',
       optimizedHeight: this.maxHeight,
@@ -82,12 +83,10 @@ export default {
           : this.searchable ? '' : this.placeholder
     },
     isSingleLabelVisible () {
-      return this.singleValue &&
-        (!this.isOpen || !this.searchable) &&
-        !this.visibleValues.length
+      return this.singleValue && !this.visibleValues.length && !this.search.length
     },
     isPlaceholderVisible () {
-      return !this.internalValue.length && (!this.searchable || !this.isOpen)
+      return !this.internalValue.length && (!this.search)
     },
     visibleValues () {
       return this.multiple
@@ -142,9 +141,11 @@ export default {
       return this.optimizedHeight / this.optionHeight
     },
     computedPlaceholder () {
-      return this.multiple
-        ? this.placeholder
-        : this.getOptionLabel(this.singleValue) || this.placeholder
+      return this.valueKeys.length
+        ? ''
+        : this.multiple
+          ? this.placeholder
+          : this.getOptionLabel(this.singleValue) || this.placeholder
     }
   },
   watch: {
@@ -156,6 +157,7 @@ export default {
       }
     },
     search () {
+      if (!this.isOpen) this.activate()
       this.$emit('search-change', this.search, this.id)
     },
     filteredOptions () {
@@ -169,13 +171,13 @@ export default {
     handleKeydown (key, $event) {
       switch (key) {
         case 'up':
-          this.activate()
-          this.pointerBackward()
+          if (!this.isOpen) this.activate()
+          else this.pointerBackward()
           return
 
         case 'down':
-          this.activate()
-          this.pointerForward()
+          if (!this.isOpen) this.activate()
+          else this.pointerForward()
           return
 
         case 'enter':
@@ -405,14 +407,20 @@ export default {
     },
     clickOutsideHandler (e) {
       if (!this.$el.contains(e.target)) {
-        this.deactivate()
+        setTimeout(() => {
+          this.deactivate()
+          this.blur()
+        }, 10)
       }
     },
     focus () {
       this.isFocused = true
+      this.isInputFocused = true
     },
     blur () {
       this.isFocused = false
+      this.isInputFocused = false
+      this.deactivate()
     },
     /**
      * Opens the multiselect’s dropdown.
@@ -431,6 +439,7 @@ export default {
       }
 
       this.isOpen = true
+      this.focus()
       /* istanbul ignore else  */
       // if (this.searchable && !this.preserveSearch) this.search = ''
       this.$emit('open', this.id)
@@ -460,6 +469,7 @@ export default {
      * @property {Boolean} isOpen indicates if dropdown is open
      */
     toggle () {
+      this.focus()
       this.isOpen
         ? this.deactivate()
         : this.activate()
@@ -525,7 +535,7 @@ export default {
     pointerReset () {
       /* istanbul ignore else */
       if (!this.closeOnSelect) return
-      this.pointer = 0
+      // this.pointer = 0
       /* istanbul ignore else */
       if (this.$refs.list) {
         this.$refs.list.scrollTop = 0
