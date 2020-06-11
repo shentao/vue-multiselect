@@ -35,7 +35,7 @@ export default {
       isDisabled: false,
       isTouched: false,
       value: [],
-      options: ['Select option', 'Disable me!', 'Reset me!', 'mulitple', 'label', 'searchable']
+      options: ['Select option', 'Disable me!', 'Reset me!', 'multiple', 'label', 'searchable']
     }
   },
   computed: {

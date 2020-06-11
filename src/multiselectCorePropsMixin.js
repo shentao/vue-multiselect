@@ -270,7 +270,7 @@ export default {
     */
     tagPosition: {
       type: String,
-      default: 'top'
+      default: 'bottom'
     },
     /**
      * Number of allowed selected options. No limit if 0.
@@ -288,7 +288,8 @@ export default {
      * @type {String|Integer}
     */
     id: {
-      default: null
+      type: [String, Number],
+      default: () => `${Math.floor(Math.random() * 1000000000)}`
     },
     /**
      * Limits the options displayed in the dropdown

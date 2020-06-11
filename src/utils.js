@@ -47,7 +47,7 @@ export function flattenOptions (values, label) {
     }, [])
 }
 
-export function filterGroups (search, label, values, groupLabel, customLabel) {
+export function filterGroups (query, label, values, groupLabel, customLabel) {
   return (groups) =>
     groups.map(group => {
       /* istanbul ignore else */
@@ -56,7 +56,7 @@ export function filterGroups (search, label, values, groupLabel, customLabel) {
         console.warn(`Options passed to vue-multiselect do not contain groups, despite the config.`)
         return []
       }
-      const groupOptions = filterOptions(group[values], search, label, customLabel)
+      const groupOptions = filterOptions(group[values], query, label, customLabel)
 
       return groupOptions.length
         ? {

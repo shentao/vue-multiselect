@@ -11,11 +11,11 @@
       @focus="activate"
       @click.prevent
     >
-      <ul class="multiselect__content" :style="contentStyle">
+      <ul class="multiselect__content" :style="contentStyle" role="listbox">
 
         <slot name="_beforeList"></slot>
 
-        <li v-if="multiple && max === internalValue.length">
+        <li v-if="multiple && max === internalValue.length" role="option">
           <span class="multiselect__option">
             <slot name="_maxElements">
               Maximum of {{ max }} options selected. First remove a selected option to select another.
@@ -27,9 +27,11 @@
           <li
             v-for="(option, index) of optionsList"
             class="multiselect__element"
+            :id="isSelected(option, internalValue) ? `${id}${pointer}HighlightedOption` : `${id}${index}Option`"
             :key="index"
+            role="option"
+            :aria-selected="isSelected(option, internalValue) ? 'true' : 'false'"
           >
-
             <span
               v-if="!(option && (option.$isLabel || option.$isDisabled))"
               class="multiselect__option"
@@ -122,9 +124,6 @@ export default {
     filteredOptions: {
       type: Array
     },
-    select: {
-      type: Function
-    },
     toggle: {
       type: Function
     },
@@ -150,9 +149,6 @@ export default {
       type: Function
     },
     getOptionLabel: {
-      type: Function
-    },
-    removeElement: {
       type: Function
     },
     multiple: {
@@ -240,11 +236,22 @@ export default {
       type: Boolean,
       default: false
     },
+    select: {
+      type: Function,
+      required: true
+    },
+    remove: {
+      type: Function,
+      required: true
+    },
     customLabel: {
       type: Function
     },
     isSelected: {
       type: Function
+    },
+    label: {
+      type: String
     }
   },
   computed: {
@@ -308,22 +315,11 @@ export default {
       if (!group) return
 
       if (this.wholeGroupSelected(group)) {
-        this.$emit('remove', group[this.groupValues], this.id)
-
-        const newValue = this.internalValue.filter(
-          option => group[this.groupValues].indexOf(option) === -1
-        )
-
-        this.$emit('input', newValue, this.id)
+        this.remove(group[this.groupValues])
       } else {
         const optionsToAdd = group[this.groupValues].filter(not(this.isSelected))
 
-        this.$emit('select', optionsToAdd, this.id)
-        this.$emit(
-          'input',
-          this.internalValue.concat(optionsToAdd),
-          this.id
-        )
+        this.select(optionsToAdd, this.id)
       }
     },
     groupHighlight (index, selectedGroup) {
@@ -384,12 +380,12 @@ export default {
   width: 100%;
   max-height: 240px;
   overflow: auto;
-  border: 1px solid #41B883;
-  border-top: none;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
+  margin-top: 5px;
+  border: 1px solid #cecdcd;
+  border-radius: 5px;
   z-index: 50;
   -webkit-overflow-scrolling: touch;
+  box-shadow: 0 2px 10px 4px #31313126;
 }
 
 .multiselect__option {
@@ -416,14 +412,13 @@ export default {
 }
 
 .multiselect__option--highlight {
-  background: #41B883;
+  background: #e2f7ed;
   outline: none;
-  color: white;
 }
 
 .multiselect__option--highlight:after {
   content: attr(data-select);
-  background: #41B883;
+  background: #e2f7ed;
   color: white;
 }
 

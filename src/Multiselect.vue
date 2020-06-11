@@ -4,8 +4,8 @@
     v-on="$listeners"
     :internalSearch="internalSearch && !groupSelect"
   >
-    <div
-      slot-scope="{
+    <div slot-scope="{
+        searchable,
         activate,
         deactivate,
         handleKeydown,
@@ -24,9 +24,11 @@
         singleValue,
         isPlaceholderVisible,
         currentOptionLabel,
+        label,
         limit,
         limitText,
         getOptionLabel,
+        remove,
         removeElement,
         multiple,
         max,
@@ -42,13 +44,26 @@
         pointer,
         computedPlaceholder,
         isFocused,
+        isInputFocused,
         focus,
         blur,
         customLabel,
-        isSelected
+        isSelected,
+        valueKeys
       }"
       style="position: relative;"
     >
+      <MultiselectAccessibility v-bind="{
+        searchable,
+        multiple,
+        disabled,
+        isOpen,
+        isFocused,
+        value: internalValue,
+        getOptionLabel,
+        options: filteredOptions,
+        pointer,
+      }"/>
       <MultiselectWrapper
         v-bind="{
           activate,
@@ -60,9 +75,8 @@
           isOpen,
           placeholder,
           toggle,
-          isFocused,
           focus,
-          blur
+          isFocused
         }"
       >
         <MultiselectValue
@@ -88,36 +102,42 @@
             'multiselect--disabled': disabled
           }"
         >
-          <MultiselectInput
-            v-if="searchable"
-            slot="control"
-            v-bind="{
-              activate,
-              deactivate,
-              search,
-              disabled,
-              id,
-              isOpen,
-              placeholder,
-              updateSearch,
-              computedPlaceholder
-            }"
-            @up="handleKeydown('up')"
-            @down="handleKeydown('down')"
-            @delete="handleKeydown('delete')"
-            @enter="handleKeydown('enter', $event)"
-            @space="handleKeydown('space', $event)"
-            @tab="handleKeydown('tab')"
-            @esc="deactivate"
-          />
-          <template slot="singleLabel" slot-scope="props">
+          <template #control>
+            <MultiselectInput
+              ref="control"
+              v-bind="{
+                searchable,
+                activate,
+                deactivate,
+                search,
+                disabled,
+                id,
+                isOpen,
+                updateSearch,
+                computedPlaceholder,
+                isFocused,
+                isInputFocused,
+                focus,
+                blur,
+                hasValue: !!valueKeys.length
+              }"
+              @up="handleKeydown('up')"
+              @down="handleKeydown('down')"
+              @delete="handleKeydown('delete')"
+              @enter="handleKeydown('enter', $event)"
+              @space="handleKeydown('space', $event)"
+              @tab="handleKeydown('tab')"
+              @esc="deactivate"
+            />
+          </template>
+          <template #singleLabel="props">
             <slot name="singleLabel" v-bind="props">
               {{ props.currentOptionLabel }}
             </slot>
           </template>
-          <template slot="placeholder" slot-scope="props">
+          <template #placeholder="props">
             <slot name="placeholder" v-bind="props">
-              <span class="multiselect__single">
+              <span class="multiselect__single" style="position: absolute; left: 7px; top: 8px; color: #777777;">
                 {{ props.placeholder }}
               </span>
             </slot>
@@ -146,7 +166,6 @@
             updateSearch,
             internalValue,
             filteredOptions,
-            select,
             toggle,
             visibleValues,
             isSingleLabelVisible,
@@ -156,7 +175,6 @@
             limit,
             limitText,
             getOptionLabel,
-            removeElement,
             multiple,
             max,
             contentStyle,
@@ -173,10 +191,13 @@
             groupSelect,
             groupLabel,
             groupValues,
+            select,
             selectGroupLabel,
+            remove,
             deselectGroupLabel,
             customLabel,
-            isSelected
+            isSelected,
+            label
           }"
         >
           <template slot="_beforeList">
@@ -189,13 +210,13 @@
             </slot>
           </template>
 
-          <template slot="_option" slot-scope="props">
+          <template #_option="props">
             <slot name="option" v-bind="props">
               <span>{{ getOptionLabel(props.option) }}</span>
             </slot>
           </template>
 
-          <template slot="_optionGroup" slot-scope="props">
+          <template #_optionGroup="props">
             <slot name="optionGroup" v-bind="props">
               <span>{{ getOptionLabel(props.option) }}</span>
             </slot>
@@ -223,6 +244,7 @@ import MultiselectOptions from './MultiselectOptions'
 import MultiselectInput from './MultiselectInput'
 import MultiselectWrapper from './MultiselectWrapper'
 import MultiselectValue from './MultiselectValue'
+import MultiselectAccessibility from './MultiselectAccessibility'
 import multiselectCorePropsMixin from './multiselectCorePropsMixin'
 
 export default {
@@ -234,7 +256,8 @@ export default {
     MultiselectCore,
     MultiselectOptions,
     MultiselectWrapper,
-    MultiselectValue
+    MultiselectValue,
+    MultiselectAccessibility
   },
   props: {
     /**
@@ -283,17 +306,16 @@ export default {
       type: Boolean,
       default: false
     }
+  },
+  methods: {
+    focus () {
+      this.$refs.control.focus()
+    }
   }
 }
 </script>
 
 <style>
-.multiselect__single {
-  font-family: inherit;
-  font-size: 16px;
-  touch-action: manipulation;
-}
-
 .multiselect--active {
   z-index: 50;
 }
@@ -311,7 +333,13 @@ export default {
 }
 
 .multiselect__single {
+  font-family: inherit;
+  font-size: 16px;
+  touch-action: manipulation;
   position: relative;
+  /* top: 7px; */
+  /* left: 7px; */
+  z-index: 51;
   display: inline-block;
   min-height: 22px;
   line-height: 22px;
@@ -319,8 +347,7 @@ export default {
   border: none;
   border-radius: 5px;
   background: #fff;
-  /* padding: 0 0 0 5px; */
-  width: calc(100%);
+  padding: 0 0 0 5px;
   transition: border 0.1s ease;
   box-sizing: border-box;
   vertical-align: top;

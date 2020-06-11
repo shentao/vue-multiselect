@@ -1,6 +1,5 @@
 <template lang="html">
   <input
-    slot="control"
     autocapitalize="none"
     autocorrect="off"
     autocomplete="off"
@@ -8,11 +7,19 @@
     aria-autocomplete="list"
     type="text"
     class="multiselect__input"
+    :readonly="!searchable"
     :id="id"
-    :placeholder="computedPlaceholder"
     :value="search"
     :disabled="disabled"
-    @click.stop=""
+    role="combobox"
+    aria-haspopup="true"
+    :aria-expanded="isOpen ? 'true' : 'false'"
+    :aria-controls="`${id}OptionsList`"
+    :aria-aria-activedescendant="`${id}${pointer}HighlightedOption`"
+    :aria-owns="`${id}OptionsList`"
+    @focus="focus"
+    @blur="blur"
+    @click.stop="activate"
     @keydown.space.stop="$emit('space', $event)"
     @keydown.self.up.prevent="$emit('up')"
     @keydown.self.down.prevent="$emit('down')"
@@ -25,8 +32,14 @@
 </template>
 
 <script>
+// :placeholder="computedPlaceholder"
+
 export default {
   props: {
+    searchable: {
+      type: Boolean,
+      default: false
+    },
     activate: {
       type: Function
     },
@@ -55,16 +68,39 @@ export default {
       type: [String, Object]
     },
     id: {
-      type: String
+      type: [String, Number]
+    },
+    pointer: {
+      type: Number
+    },
+    focus: {
+      type: Function
+    },
+    blur: {
+      type: Function
+    },
+    isFocused: {
+      type: Boolean
+    },
+    isInputFocused: {
+      type: Boolean
+    },
+    hasValue: {
+      type: Boolean,
+      default: false
     }
   },
-  mounted () {
-    this.$el.focus()
+  watch: {
+    isInputFocused (isInputFocused) {
+      if (isInputFocused) {
+        this.$el.focus()
+      }
+    }
   }
 }
 </script>
 
-<style lang="stylus">
+<style>
 .multiselect--disabled {
   pointer-events: none;
   opacity: 0.6;
@@ -73,13 +109,14 @@ export default {
 .multiselect__input {
   position: relative;
   display: inline-block;
+  z-index: 52;
   min-height: 22px;
   line-height: 22px;
   border: none;
   border-radius: 5px;
-  background: #fff;
+  background: transparent;
   padding: 0 0 0 5px;
-  width: calc(100%);
+  width: 1px;
   transition: border 0.1s ease;
   box-sizing: border-box;
   vertical-align: top;
@@ -95,7 +132,8 @@ export default {
 }
 
 .multiselect__input:focus {
-  border-color: #a8a8a8;
+  /* border-color: #a8a8a8; */
+  width: calc(100%);
   outline: none;
 }
 

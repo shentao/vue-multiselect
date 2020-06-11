@@ -41,7 +41,7 @@
           :remove="removeElement"
         >
           <span class="multiselect__tag" :key="index">
-            <span v-text="getOptionLabel(option)"></span>
+            <span v-text="getOptionLabel(option)"/>
             <i
               aria-hidden="true"
               @keydown.enter.prevent="removeElement(option)"
@@ -52,7 +52,7 @@
         </slot>
       </template>
 
-      <slot v-if="isOpen" name="control"/>
+      <slot name="control"/>
 
       <template v-if="internalValue && internalValue.length > limit">
         <slot name="limit">
@@ -77,13 +77,13 @@
           {{ currentOptionLabel }}
         </slot>
       </span>
-      <span v-if="isPlaceholderVisible">
+      <template v-if="isPlaceholderVisible">
         <slot name="placeholder" :placeholder="placeholder">
-          <span class="multiselect__single">
+          <span class="multiselect__single" style="position: absolute; left: 7px; top: 7px;">
             {{ placeholder }}
           </span>
         </slot>
-      </span>
+      </template>
     </slot>
   </div>
 </template>
@@ -91,6 +91,10 @@
 <script>
 export default {
   props: {
+    multiple: {
+      type: Boolean,
+      default: false,
+    },
     toggle: {
       type: Function
     },
@@ -129,7 +133,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style>
 .multiselect__caret {
   line-height: 16px;
   display: flex;
@@ -144,17 +148,17 @@ export default {
   text-decoration: none;
   text-align: center;
   cursor: pointer;
+}
 
-  &:before {
-    position: relative;
-    right: 0;
-    color: #999;
-    border-style: solid;
-    border-width: 5px 5px 0 5px;
-    border-color: #999999 transparent transparent transparent;
-    content: "";
-    transition: transform 0.2s ease;
-  }
+.multiselect__caret:before {
+  position: relative;
+  right: 0;
+  color: #999;
+  border-style: solid;
+  border-width: 5px 5px 0 5px;
+  border-color: #999999 transparent transparent transparent;
+  content: "";
+  transition: transform 0.2s ease;
 }
 
 .multiselect__caret--active:before {
@@ -173,12 +177,12 @@ export default {
 
 .multiselect-value {
   /* min-height: 40px; */
-  // display: flex;
-  // align-items: center;
+  /* display: flex;
+  align-items: center; */
 }
 
 *[dir="rtl"] .multiselect-value {
-    padding: 8px 8px 0px 40px;
+  padding: 8px 8px 0px 40px;
 }
 
 .multiselect--active:not(.multiselect--above) .multiselect-value {
@@ -191,10 +195,10 @@ export default {
   border-top-right-radius: 0;
 }
 
-// .multiselect-value-wrap {
+/* // .multiselect-value-wrap {
 //   display: flex;
 //   flex-wrap: wrap;
-// }
+// } */
 
 .multiselect__tag {
   position: relative;
@@ -222,7 +226,7 @@ export default {
   font-style: initial;
   width: 22px;
   text-align: center;
-  line-height: 22px;
+  line-height: 20px;
   transition: all 0.2s ease;
   border-radius: 5px;
 }
