@@ -8,14 +8,6 @@ Visit: [vue-multiselect.js.org](https://vue-multiselect.js.org/#sub-getting-star
 
 ## Sponsors
 
-### Gold
-
-<p align="center">
-  <a href="https://vueschool.io?utm_source=dmd&utm_medium=link&friend=vuenews" target="_blank">
-    <img src="https://cdn.discordapp.com/attachments/491313387129667594/678936303089483786/vueschool.png" alt="Vue School" width="320px">
-  </a>
-</p>
-
 ### Silver
 
 <p align="center">
