@@ -22,9 +22,6 @@ Visit: [vue-multiselect.js.org](https://vue-multiselect.js.org/#sub-getting-star
   <a href="https://www.vuemastery.com/" target="_blank">
     <img src="https://cdn.discordapp.com/attachments/258614093362102272/557267759130607630/Vue-Mastery-Big.png" alt="Vue Mastery logo" width="180px">
   </a>
-  <a href="https://vuejobs.com/" target="_blank">
-    <img src="https://cdn.discordapp.com/attachments/560524372897562636/636900598700179456/vuejobs-logo.png" alt="Vue Mastery logo" width="140px">
-  </a>
 </p>
 
 ## Features & characteristics:
