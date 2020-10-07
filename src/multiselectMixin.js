@@ -600,12 +600,14 @@ export default {
      * @returns {type}        description
      */
     removeElement (option, shouldClose = true) {
+      console.log('uso remobe', option)
       /* istanbul ignore else */
       if (this.disabled) return
       /* istanbul ignore else */
       if (option.$isDisabled) return
       /* istanbul ignore else */
       if (!this.allowEmpty && this.internalValue.length <= 1) {
+        console.log('1')
         this.deactivate()
         return
       }
@@ -711,6 +713,31 @@ export default {
         this.preferredOpenDirection = 'above'
         this.optimizedHeight = Math.min(spaceAbove - 40, this.maxHeight)
       }
+    },
+    /**
+     * Clears the multiselect value/s
+     */
+    clearValue (shouldClose = true) {
+      console.log('ulazim', this.internalValue)
+      /* istanbul ignore else */
+      if (this.disabled) return
+      console.log('nije disabled')
+      /* istanbul ignore else */
+      if (!this.allowEmpty && this.internalValue.length <= 1) {
+        console.log('aaaa')
+        this.deactivate()
+        return
+      }
+      /* eslint-disable no-unused-vars */ // eslint issue
+      for (let option of this.internalValue) {
+        setTimeout(() => {
+          console.log('emitam')
+          this.removeElement(option, shouldClose)
+          this.$emit('clear')
+        }, 0)
+      }
+      /* istanbul ignore else */
+      if (this.closeOnSelect && shouldClose) this.deactivate()
     }
   }
 }

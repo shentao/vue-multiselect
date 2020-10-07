@@ -1,7 +1,7 @@
 <template>
   <div
     :tabindex="searchable ? -1 : tabindex"
-    :class="{ 'multiselect--active': isOpen, 'multiselect--disabled': disabled, 'multiselect--above': isAbove }"
+    :class="{ 'multiselect--active': isOpen, 'multiselect--disabled': disabled, 'multiselect--above': isAbove, 'multiselect--clearable': isClearAllButtonVisible }"
     @focus="activate()"
     @blur="searchable ? false : deactivate()"
     @keydown.self.down.prevent="pointerForward()"
@@ -14,7 +14,9 @@
       <slot name="caret" :toggle="toggle">
         <div @mousedown.prevent.stop="toggle()" class="multiselect__select"></div>
       </slot>
-      <slot name="clear" :search="search"></slot>
+      <slot name="clear" :search="search">
+        <button v-if="clearAllButton" class="multiselect__clear" name="Clear All Values" @mousedown.prevent="clearValue"></button>
+      </slot>
       <div ref="tags" class="multiselect__tags">
         <slot
           name="selection"
@@ -297,6 +299,15 @@ export default {
     tabindex: {
       type: Number,
       default: 0
+    },
+    /**
+     * Decide whether to show button for clearing all values
+     * @default false
+     * @type {Boolean}
+     */
+    clearAllButton: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -368,6 +379,9 @@ export default {
           ? this.isOpen
           : true)
       )
+    },
+    isClearAllButtonVisible () {
+      return this.clearAllButton && this.internalValue.length > 0
     }
   }
 }
@@ -827,6 +841,49 @@ fieldset[disabled] .multiselect {
 *[dir="rtl"] .multiselect__spinner {
   right: auto;
   left: 1px;
+}
+
+.multiselect__clear {
+  position: absolute;
+  right: 12px;
+  top: 10px;
+  height: 20px;
+  width: 20px;
+  /* display: block; */
+  cursor: pointer;
+  z-index: 3;
+  border: none;
+  background: #fff;
+  display: none;
+}
+
+.multiselect--clearable:hover > .multiselect__clear{
+  display: block;
+}
+
+.multiselect__clear::before,
+.multiselect__clear::after {
+  content: "";
+  background: #999999;
+  top: 2px;
+  left: 10px;
+  display: block;
+  cursor: pointer;
+  z-index: 3;
+  position: absolute;
+  width: 3px;
+  height: 16px;
+  right: 4px;
+}
+
+.multiselect__clear::before {
+  transform: rotate(45deg)
+
+}
+
+.multiselect__clear::after {
+  transform: rotate(-45deg)
+
 }
 
 @keyframes spinning {
