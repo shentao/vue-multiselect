@@ -72,7 +72,7 @@ export default {
 }
 </script>
 
-<style lang="sass">
+<style lang="sass" scoped>
 .multiselect__clear
   position: absolute
   right: 41px
