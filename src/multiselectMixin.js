@@ -421,9 +421,7 @@ export default {
       let hideScrollLevel = 5 // remove overflow scroll and set it to overflow hidden up to 5 parents by default (useful for scrollable parents)
       let optionsZIndex = 999
       let overflowStates = []
-      if (this.appendToBody === false) {
-        return false
-      } else if (typeof this.appendToBody === 'object') {
+      if (typeof this.appendToBody === 'object') {
         if (this.appendToBody.value === false) {
           return false
         }
