@@ -1,32 +1,33 @@
 export default {
-  inserted (el, bindings, { context }) {
-    if (context.appendToBody) {
-      const {
-        height,
-        top,
-        left,
-        width
-      } = context.$refs.toggle.getBoundingClientRect()
-      let scrollX = window.scrollX || window.pageXOffset
-      let scrollY = window.scrollY || window.pageYOffset
-      el.unbindPosition = context.calculatePosition(el, context, {
-        width: width + 'px',
-        left: scrollX + left + 'px',
-        top: scrollY + top + height + 'px'
-      })
+  inserted (el, bindings, { context, child }) {
+    child.$watch('isOpen', isOpen => {
+      if (isOpen) {
+        context.$children.map(chld => {
+          const optionsRef = chld.$refs.list
+          if (optionsRef) {
+            const { top, left, width } = optionsRef.getBoundingClientRect()
+            let scrollX = window.scrollX || window.pageXOffset
+            let scrollY = window.scrollY || window.pageYOffset
 
-      document.body.appendChild(el)
-    }
+            optionsRef.setAttribute(
+              'style',
+              `position:absolute;
+               width:${width}px;
+               left:${scrollX + left}px;
+               top:${scrollY + top}px;
+               z-index:999`
+            )
+            document.body.appendChild(optionsRef)
+            el._optionsRef = optionsRef
+          }
+        })
+      }
+    })
   },
 
   unbind (el, bindings, { context }) {
-    if (context.appendToBody) {
-      if (el.unbindPosition && typeof el.unbindPosition === 'function') {
-        el.unbindPosition()
-      }
-      if (el.parentNode) {
-        el.parentNode.removeChild(el)
-      }
+    if (el._optionsRef) {
+      document.body.removeChild(el._optionsRef)
     }
   }
 }

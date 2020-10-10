@@ -1,6 +1,7 @@
 <template lang="pug">
 div
   multiselect(
+    v-append-to-body="true",
     v-model="value",
     label="name",
     track-by="name",
