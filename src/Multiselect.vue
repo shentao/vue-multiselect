@@ -157,9 +157,7 @@
 <script>
 import multiselectMixin from './multiselectMixin'
 import pointerMixin from './pointerMixin'
-import appendToBody from './directives/appendToBody'
-import Vue from 'vue'
-Vue.directive('append-to-body', appendToBody)
+
 export default {
   name: 'vue-multiselect',
   mixins: [multiselectMixin, pointerMixin],
@@ -299,6 +297,16 @@ export default {
     tabindex: {
       type: Number,
       default: 0
+    },
+    /**
+       * Append the dropdown element to the end of the body
+       * and size/position it dynamically. Use it if you have
+       * overflow or z-index issues.
+       * @type {Boolean, Object}
+       */
+    appendToBody: {
+      type: [Boolean, Object],
+      default: false
     }
   },
   computed: {

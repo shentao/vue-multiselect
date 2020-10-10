@@ -330,6 +330,11 @@ export default {
       this.select(this.filteredOptions[0])
     }
   },
+  beforeDesroy () {
+    if (this.appendToBody && this.$refs.list) {
+      document.body.removeChild(this.$refs.list)
+    }
+  },
   computed: {
     internalValue () {
       return this.value || this.value === 0
@@ -408,6 +413,55 @@ export default {
         : this.internalValue.length === 0
           ? null
           : this.internalValue[0]
+    },
+    /**
+     * append options to the body so no overflow or z-index issue occurs
+     */
+    appendOptionsToBody () {
+      let hideScrollLevel = 5 // remove overflow scroll and set it to overflow hidden up to 5 parents by default (useful for scrollable parents)
+      let optionsZIndex = 999
+      let overflowStates = []
+      if (this.appendToBody === false) {
+        return false
+      } else if (typeof this.appendToBody === 'object') {
+        if (this.appendToBody.value === false) {
+          return false
+        }
+        hideScrollLevel = this.appendToBody.hideScrollLevel || hideScrollLevel
+        optionsZIndex = this.appendToBody.value.optionsZIndex || optionsZIndex
+      }
+      const optionsRef = this.$refs.list
+      if (this.isOpen && optionsRef) {
+        const { top, left, width, height } = this.$el.getBoundingClientRect()
+        let scrollX = window.scrollX || window.pageXOffset
+        let scrollY = window.scrollY || window.pageYOffset
+        optionsRef.setAttribute(
+          'style',
+          `position:absolute;
+           width:${width}px;
+           left:${scrollX + left}px;
+           top:${scrollY + top + height}px;
+           z-index:${optionsZIndex}`
+        )
+        let tempIndex = Number(hideScrollLevel)
+
+        let parentNode = this.$el.parentNode
+        while (tempIndex) {
+          overflowStates[tempIndex] = parentNode.style.overflow
+          parentNode.style.overflow = 'hidden'
+          parentNode = parentNode.parentNode
+          tempIndex -= 1
+        }
+        document.body.appendChild(optionsRef)
+      } else {
+        let parentNode = this.$el.parentNode
+        let tempIndex = Number(hideScrollLevel)
+        while (tempIndex) {
+          parentNode.style.overflow = overflowStates[tempIndex]
+          parentNode = parentNode.parentNode
+          tempIndex -= 1
+        }
+      }
     },
     /**
      * Filters and then flattens the options list
