@@ -1,18 +1,23 @@
 export default {
   inserted (el, bindings, { context, child }) {
-    let parentCount = 5 // remove scroll up to 5 parents by default
-    let optionsZIndex = 999 // set zindex of options to 999 by default
+    let hideScrollLevel = 5 // remove overflow scroll and set it to overflow hidden up to 5 parents by default (useful for scrollable parents)
+    let optionsZIndex = 999 // set zindex of options to 999 by default (useful for popups)
+    /* usage:
+     *  1. => v-append-to-body // default optionsZindex = 999 , default hideScrollLevel = 5
+     *  2. => v-append-to-body="true" // default optionsZindex = 999 , default hideScrollLevel = 5
+     *  3. => v-append-to-body="{optionsZindex: 999, hideScrollLevel: 5}" // override the optionsZindex and hideScrollLevel
+     *  4. => v-append-to-body="{optionsZindex: 999, hideScrollLevel: 5, value: true}" // override the optionsZindex and hideScrollLevel, value is not requried to be set true
+     */
     let overflowStates = []
-    if (!bindings.value) {
+    if (bindings.value === false) {
       return false
     } else if (typeof bindings.value === 'object') {
       if (bindings.value.value === false) {
         return false
       }
-      parentCount = bindings.value.parentCount || parentCount
+      hideScrollLevel = bindings.value.hideScrollLevel || hideScrollLevel
       optionsZIndex = bindings.value.optionsZIndex || optionsZIndex
     }
-
     child.$watch('isOpen', isOpen => {
       if (isOpen) {
         context.$children.map(chld => {
@@ -29,7 +34,7 @@ export default {
                top:${scrollY + top + height}px;
                z-index:${optionsZIndex}`
             )
-            let tempIndex = Number(parentCount)
+            let tempIndex = Number(hideScrollLevel)
 
             let parentNode = el.parentNode
             while (tempIndex) {
@@ -44,7 +49,7 @@ export default {
         })
       } else {
         let parentNode = el.parentNode
-        let tempIndex = Number(parentCount)
+        let tempIndex = Number(hideScrollLevel)
         while (tempIndex) {
           parentNode.style.overflow = overflowStates[tempIndex]
           parentNode = parentNode.parentNode

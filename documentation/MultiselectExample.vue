@@ -1,47 +1,21 @@
 <template lang="pug">
-div(style="overflow:scroll;height:100px; background: red;")
-  div.
-    hiasdsdas
-    asdasd
-    asdasd
-  div.
-    hiasdsdas
-    asdasd
-    asdasd
-  div.
-    hiasdsdas
-    asdasd
-    asdasd
-  div
-      multiselect(
-        v-append-to-body="{optionsZindex: 999, hideScrollLevel: 5, value: true}",
-        v-model="value",
-        label="name",
-        track-by="name",
-        placeholder="Pick badges",
-        :options="badges",
-        :multiple="true",
-        :show-labels="false",
-        :limit="3",
-        @tag="onTagging"
-      )
-        template(slot="option", slot-scope="props")
-          span.badge__name {{ props.option.name }}
-          img.badge__img(:src="props.option.img", :alt="props.option.name")
-        span(slot="noResult").
-          Badge not found. Suggest a badge <a class="typo__link" href="https://github.com/shentao/vue-multiselect/issues" target="_blank">here</a>.
-  div.
-    hiasdsdas
-    asdasd
-    asdasd
-  div.
-    hiasdsdas
-    asdasd
-    asdasd
-  div.
-    hiasdsdas
-    asdasd
-    asdasd
+div
+  multiselect(
+    v-model="value",
+    label="name",
+    track-by="name",
+    placeholder="Pick badges",
+    :options="badges",
+    :multiple="true",
+    :show-labels="false",
+    :limit="3",
+    @tag="onTagging"
+  )
+    template(slot="option", slot-scope="props")
+      span.badge__name {{ props.option.name }}
+      img.badge__img(:src="props.option.img", :alt="props.option.name")
+    span(slot="noResult").
+      Badge not found. Suggest a badge <a class="typo__link" href="https://github.com/shentao/vue-multiselect/issues" target="_blank">here</a>.
 </template>
 
 <script>
