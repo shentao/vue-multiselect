@@ -436,7 +436,7 @@ export default {
         optionsRef.setAttribute(
           'style',
           `position:absolute;
-           width:${width}px;
+           width:${this.$el.offsetWidth || width}px;
            left:${scrollX + left}px;
            top:${scrollY + top + height}px;
            z-index:${optionsZIndex}`
