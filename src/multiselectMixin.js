@@ -67,7 +67,8 @@ export default {
       search: '',
       isOpen: false,
       preferredOpenDirection: 'below',
-      optimizedHeight: this.maxHeight
+      optimizedHeight: this.maxHeight,
+      overflowStates: []
     }
   },
   props: {
@@ -420,7 +421,6 @@ export default {
     appendOptionsToBody () {
       let hideScrollLevel = 5 // remove overflow scroll and set it to overflow hidden up to 5 parents by default (useful for scrollable parents)
       let optionsZIndex = 999
-      let overflowStates = []
       if (typeof this.appendToBody === 'object') {
         if (this.appendToBody.value === false) {
           return false
@@ -445,7 +445,7 @@ export default {
 
         let parentNode = this.$el.parentNode
         while (tempIndex) {
-          overflowStates[tempIndex] = parentNode.style.overflow
+          this.overflowStates[tempIndex] = parentNode.style.overflow
           parentNode.style.overflow = 'hidden'
           parentNode = parentNode.parentNode
           tempIndex -= 1
@@ -455,7 +455,7 @@ export default {
         let parentNode = this.$el.parentNode
         let tempIndex = Number(hideScrollLevel)
         while (tempIndex) {
-          parentNode.style.overflow = overflowStates[tempIndex]
+          parentNode.style.overflow = this.overflowStates[tempIndex]
           parentNode = parentNode.parentNode
           tempIndex -= 1
         }
