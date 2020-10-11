@@ -426,7 +426,7 @@ export default {
           return false
         }
         hideScrollLevel = this.appendToBody.hideScrollLevel || hideScrollLevel
-        optionsZIndex = this.appendToBody.value.optionsZIndex || optionsZIndex
+        optionsZIndex = this.appendToBody.optionsZIndex || optionsZIndex
       }
       const optionsRef = this.$refs.list
       if (this.isOpen && optionsRef) {
