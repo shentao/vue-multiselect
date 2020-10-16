@@ -452,8 +452,8 @@ export default {
           if (parentNode && this.isScrollable(parentNode)) {
             parentNode.style.overflow = 'hidden'
             parentNode.classList.add('drop-overflow')
-            parentNode = parentNode.parentNode
           }
+          parentNode = parentNode.parentNode
           tempIndex -= 1
         }
         document.body.appendChild(optionsRef)
