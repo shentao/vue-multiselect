@@ -331,7 +331,7 @@ export default {
       this.select(this.filteredOptions[0])
     }
   },
-  beforeDesroy () {
+  beforeDestroy () {
     if (this.appendToBody && this.$refs.list) {
       document.body.removeChild(this.$refs.list)
     }
@@ -415,6 +415,9 @@ export default {
           ? null
           : this.internalValue[0]
     },
+    isScrollable (element) {
+      return element.scrollHeight > element.clientHeight
+    },
     /**
      * append options to the body so no overflow or z-index issue occurs
      */
@@ -446,8 +449,11 @@ export default {
         let parentNode = this.$el.parentNode
         while (tempIndex) {
           this.overflowStates[tempIndex] = parentNode.style.overflow
-          parentNode.style.overflow = 'hidden'
-          parentNode = parentNode.parentNode
+          if (parentNode && this.isScrollable(parentNode)) {
+            parentNode.style.overflow = 'hidden'
+            parentNode.classList.add('drop-overflow')
+            parentNode = parentNode.parentNode
+          }
           tempIndex -= 1
         }
         document.body.appendChild(optionsRef)
@@ -457,6 +463,7 @@ export default {
         while (tempIndex) {
           parentNode.style.overflow = this.overflowStates[tempIndex]
           parentNode = parentNode.parentNode
+          parentNode.classList.remove('drop-overflow')
           tempIndex -= 1
         }
       }
