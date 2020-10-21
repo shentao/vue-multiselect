@@ -331,11 +331,6 @@ export default {
       this.select(this.filteredOptions[0])
     }
   },
-  beforeDestroy () {
-    if (this.appendToBody && this.$refs.list) {
-      document.body.removeChild(this.$refs.list)
-    }
-  },
   computed: {
     internalValue () {
       return this.value || this.value === 0
