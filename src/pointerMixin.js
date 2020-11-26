@@ -2,7 +2,8 @@ export default {
   data () {
     return {
       pointer: 0,
-      pointerDirty: false
+      pointerDirty: false,
+      keyboardNav: false
     }
   },
   props: {
@@ -74,6 +75,8 @@ export default {
     pointerForward () {
       /* istanbul ignore else */
       if (this.pointer < this.filteredOptions.length - 1) {
+        this.keyboardNav = true
+
         this.pointer++
         /* istanbul ignore next */
         if (this.$refs.list.scrollTop <= this.pointerPosition - (this.visibleElements - 1) * this.optionHeight) {
@@ -90,6 +93,8 @@ export default {
     },
     pointerBackward () {
       if (this.pointer > 0) {
+        this.keyboardNav = true
+
         this.pointer--
         /* istanbul ignore else */
         if (this.$refs.list.scrollTop >= this.pointerPosition) {
@@ -136,8 +141,15 @@ export default {
       }
     },
     pointerSet (index) {
+      if (this.keyboardNav) {
+        return
+      }
+
       this.pointer = index
       this.pointerDirty = true
+    },
+    resetKeyboardNav () {
+      this.keyboardNav = false
     }
   }
 }

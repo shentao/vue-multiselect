@@ -21,8 +21,7 @@ div
         | {{ values.length }} options selected
   pre.language-json
     code.
-      {{ value  }}
-
+      {{ value }}
 </template>
 
 <script>
@@ -41,7 +40,13 @@ export default {
         { name: 'Rails', language: 'Ruby' },
         { name: 'Sinatra', language: 'Ruby' },
         { name: 'Laravel', language: 'PHP' },
-        { name: 'Phoenix', language: 'Elixir' }
+        { name: 'Phoenix', language: 'Elixir' },
+        { name: 'React', language: 'JavaScript' },
+        { name: 'Spring', language: 'Java' },
+        { name: 'Ktor', language: 'Kotlin' },
+        { name: 'Angular', language: 'JavaScript' },
+        { name: 'Next.js', language: 'JavaScript' },
+        { name: 'AngularJS', language: 'JavaScript' }
       ]
     }
   }
