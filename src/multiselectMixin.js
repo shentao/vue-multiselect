@@ -308,6 +308,15 @@ export default {
       default: false
     },
     /**
+     * Scroll to top on close
+     * @default false
+     * @type {Boolean}
+    */
+    scrollToTopOnClose: {
+      type: Boolean,
+      default: false
+    },
+    /**
      * Select 1st options if value is empty
      * @default false
      * @type {Boolean}
@@ -670,7 +679,10 @@ export default {
     deactivate () {
       /* istanbul ignore else */
       if (!this.isOpen) return
-
+      /* istanbul ignore else */
+      if (this.scrollToTopOnClose && this.$refs.list) {
+        this.$refs.list.scrollTo(0, 0)
+      }
       this.isOpen = false
       /* istanbul ignore else  */
       if (this.searchable) {

@@ -8,6 +8,7 @@ div
     :close-on-select="false",
     :clear-on-select="false",
     :preserve-search="true",
+    :scroll-to-top-on-close="true",
     placeholder="Pick some"
     label="name",
     track-by="name",
