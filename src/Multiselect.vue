@@ -16,7 +16,8 @@
       </slot>
       <slot name="clear" :search="search"></slot>
       <div ref="tags" class="multiselect__tags"
-           @click="click()">
+           @mousedown="mousedown"
+           @mouseup="mouseup">
         <slot
           name="selection"
           :search="search"

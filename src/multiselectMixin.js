@@ -67,7 +67,8 @@ export default {
       search: '',
       isOpen: false,
       preferredOpenDirection: 'below',
-      optimizedHeight: this.maxHeight
+      optimizedHeight: this.maxHeight,
+      closedOnClick: false
     }
   },
   props: {
@@ -660,10 +661,27 @@ export default {
     /**
      * If enabled, closes multiselect if it's opened.
      */
-    click (e) {
+    mousedown () {
       /* istanbul ignore else */
-      if (this.isOpen && this.closeOnClick) {
+      if (!this.closeOnClick) return
+
+      /* istanbul ignore else */
+      if (this.isOpen && !this.closedOnClick) {
         this.deactivate()
+        this.closedOnClick = true
+      }
+    },
+    /**
+     * If enabled, opens multiselect if it's closed.
+     */
+    mouseup () {
+      /* istanbul ignore else */
+      if (!this.closeOnClick) return
+
+      /* istanbul ignore else */
+      if (!this.isOpen && this.closeOnClick) {
+        this.activate()
+        this.closedOnClick = false
       }
     },
     /**
@@ -673,6 +691,9 @@ export default {
     activate () {
       /* istanbul ignore else */
       if (this.isOpen || this.disabled) return
+
+      /* istanbul ignore else */
+      if (this.closeOnClick && this.closedOnClick) return
 
       this.adjustPosition()
       /* istanbul ignore else  */
