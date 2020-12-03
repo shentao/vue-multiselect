@@ -317,6 +317,15 @@ export default {
       default: false
     },
     /**
+     * Close multiselect on click into the input area
+     * @default false
+     * @type {Boolean}
+    */
+    closeOnClick: {
+      type: Boolean,
+      default: false
+    },
+    /**
      * Select 1st options if value is empty
      * @default false
      * @type {Boolean}
@@ -646,6 +655,15 @@ export default {
       /* istanbul ignore else */
       if (this.search.length === 0 && Array.isArray(this.internalValue) && this.internalValue.length) {
         this.removeElement(this.internalValue[this.internalValue.length - 1], false)
+      }
+    },
+    /**
+     * If enabled, closes multiselect if it's opened.
+     */
+    click (e) {
+      /* istanbul ignore else */
+      if (this.isOpen && this.closeOnClick) {
+        this.deactivate()
       }
     },
     /**

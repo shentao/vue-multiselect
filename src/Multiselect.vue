@@ -15,7 +15,8 @@
         <div @mousedown.prevent.stop="toggle()" class="multiselect__select"></div>
       </slot>
       <slot name="clear" :search="search"></slot>
-      <div ref="tags" class="multiselect__tags">
+      <div ref="tags" class="multiselect__tags"
+           @click="click()">
         <slot
           name="selection"
           :search="search"
