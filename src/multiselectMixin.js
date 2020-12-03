@@ -720,7 +720,15 @@ export default {
       if (!this.isOpen) return
       /* istanbul ignore else */
       if (this.scrollToTopOnClose && this.$refs.list) {
-        this.$refs.list.scrollTo(0, 0)
+        try {
+          this.$refs.list.scrollTo(0, 0)
+        } catch (_ignore) {
+          // fix for IE11 that doesn't support scrollTo on DIVs
+          /* istanbul ignore else */
+          if (this.$refs.list.scrollTop) {
+            this.$refs.list.scrollTop = 0
+          }
+        }
       }
       this.isOpen = false
       /* istanbul ignore else  */
