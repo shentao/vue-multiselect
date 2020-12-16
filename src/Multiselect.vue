@@ -30,7 +30,7 @@
               <slot name="tag" :option="option" :search="search" :remove="removeElement">
                 <span class="multiselect__tag" :key="index">
                   <span v-text="getOptionLabel(option)"></span>
-                  <i tabindex="1" @keypress.enter.prevent="removeElement(option)"  @mousedown.prevent="removeElement(option)" class="multiselect__tag-icon"></i>
+                  <i tabindex="1" @keypress.enter.prevent="removeElement(option)" @mouseup.stop.prevent="removeElement(option)" class="multiselect__tag-icon"></i>
                 </span>
               </slot>
             </template>
