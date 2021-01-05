@@ -451,6 +451,19 @@ export default {
       )(options)
     },
     /**
+     * Triggered on input of the search field
+     * @param  {String}
+     */
+    searchInputInput (query) {
+      // Ensure the dropdown is opened before we do a search
+      if (!this.isOpen && !this.disabled) {
+        this.isOpen = true
+      }
+
+      // Search
+      this.updateSearch(query)
+    },
+    /**
      * Updates the search value
      * @param  {String}
      */
