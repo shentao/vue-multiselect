@@ -66,6 +66,9 @@ export default {
       ] : 'multiselect__option--disabled'
     },
     addPointerElement ({ key } = 'Enter') {
+      // Only do this if the dropdown is opened and not disabled
+      if (!this.isOpen || this.disabled) return
+
       /* istanbul ignore else */
       if (this.filteredOptions.length > 0) {
         this.select(this.filteredOptions[this.pointer], key)
@@ -73,6 +76,9 @@ export default {
       this.pointerReset()
     },
     pointerForward () {
+      // Only do this if the dropdown is opened and not disabled
+      if (!this.isOpen || this.disabled) return
+
       /* istanbul ignore else */
       if (this.pointer < this.filteredOptions.length - 1) {
         this.keyboardNav = true
@@ -92,6 +98,9 @@ export default {
       this.pointerDirty = true
     },
     pointerBackward () {
+      // Only do this if the dropdown is opened and not disabled
+      if (!this.isOpen || this.disabled) return
+
       if (this.pointer > 0) {
         this.keyboardNav = true
 
