@@ -19,8 +19,6 @@ div
       slot="selection"
       slot-scope="{ values, search, isOpen }"
     )
-      span.multiselect__single(v-if="values.length && !isOpen")
-        | {{ values.length }} options selected
   pre.language-json
     code.
       {{ value }}

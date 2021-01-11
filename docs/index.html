@@ -202,8 +202,6 @@ div
       slot=&quot;selection&quot;
       slot-scope=&quot;{ values, search, isOpen }&quot;
     )
-      span.multiselect__single(v-if=&quot;values.length &amp;&amp; !isOpen&quot;)
-        | {{ values.length }} options selected
   pre.language-json
     code.
       {{ value }}
@@ -211,7 +209,7 @@ div
 &lt;div&gt;
   &lt;label class=&quot;typo__label&quot;&gt;Simple select / dropdown&lt;/label&gt;
   &lt;multiselect v-model=&quot;value&quot; :options=&quot;options&quot; :multiple=&quot;true&quot; :close-on-select=&quot;false&quot; :clear-on-select=&quot;false&quot; :preserve-search=&quot;true&quot; :scroll-to-top-on-close=&quot;true&quot; :close-on-click=&quot;true&quot; placeholder=&quot;Pick some&quot; label=&quot;name&quot; track-by=&quot;name&quot; :preselect-first=&quot;true&quot;&gt;
-    &lt;template slot=&quot;selection&quot; slot-scope=&quot;{ values, search, isOpen }&quot;&gt;&lt;span class=&quot;multiselect__single&quot; v-if=&quot;values.length &amp;amp;&amp;amp; !isOpen&quot;&gt;{{ values.length }} options selected&lt;/span&gt;&lt;/template&gt;
+    &lt;template slot=&quot;selection&quot; slot-scope=&quot;{ values, search, isOpen }&quot;&gt;&lt;/template&gt;
   &lt;/multiselect&gt;
   &lt;pre class=&quot;language-json&quot;&gt;&lt;code&gt;{{ value }}&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;</code></pre></div></div></div></div></div><div class=grid__row><div class=grid__column><h2 class=typo__h2 id=sub-asynchronous-select data-section>Asynchronous select</h2><p>Vue-Multiselect supports changing the option list on the fly, thus can be also used a type-a-head search box.</p><p>To react to the search query changes, set a handler function on the <code>@search-change</code> event. It receives the <code>searchQuery</code> as the first param, which can be used to make an asynchronous API call.</p><p>It is convenient to set the <code>:loading</code> prop to <code>true</code>, whenever a request is in progress. Look at the provided <code>asyncFind</code> method for an example usage.</p><h4>Optional configuration flags:</h4><ul><li><code>:hide-selected=&quot;true&quot;</code> – already selected options will not be displayed in the dropdown</li><li><code>:internal-search=&quot;false&quot;</code> – disables the multiselect’s internal search engine. If you do that, you have to manually update the available <code>:options</code>.</li><li><code>:limit=&quot;3&quot;</code> – limits the visible results to 3.</li><li><code>:limit-text=&quot;limitText&quot;</code> – function that receives the current selected options count and should return a string to show when the <code>:limit</code> count is exceed</li><li><code>:options-limit=&quot;300&quot;</code> – limits the displayed options to <code>300</code>. Useful for optimisations purposes.</li></ul><h4>New in v2.0.0 stable:</h4><ul><li><code>id=&quot;ajax&quot;</code> – every event is emitted with this as the second param. Useful for identification which component instance triggered the method (in loops for example). NEW: Can also be used for pointing with <code>&lt;label :for=&quot;id&quot;&gt;</code>.</li><li><code>open-direction=&quot;bottom&quot;</code> – forces the multiselect to always open below. Use <code>top</code> or <code>above</code> to always open above. By default the multiselect will open whereever there is more space once there is not enough space below to open at <code>maxHeight</code>.</li></ul><div class="example grid__row"><div class="grid__column grid__unit--md-5"><ajax-search></ajax-search></div><div class="grid__column grid__unit--md-7"><label class=typo__label>Code sample</label><div><pre class=language-javascript v-pre><code>import Multiselect from 'vue-multiselect'
@@ -690,4 +688,4 @@ WebFontConfig = {
   wf.async = 'true'
   var s = document.getElementsByTagName('script')[0]
   s.parentNode.insertBefore(wf, s)
-})()</script><script type=text/javascript src=static/js/manifest.ffa5112962751ba664c6.js></script><script type=text/javascript src=static/js/vendor.474e0085a0ad43c00c9d.js></script><script type=text/javascript src=static/js/app.5623e85c2e749928ce4f.js></script></body></html>
+})()</script><script type=text/javascript src=static/js/manifest.af0ad1775daccd326374.js></script><script type=text/javascript src=static/js/vendor.474e0085a0ad43c00c9d.js></script><script type=text/javascript src=static/js/app.cd5c41c13217997c21ff.js></script></body></html>
