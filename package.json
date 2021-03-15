@@ -1,16 +1,14 @@
 {
-  "name": "vue3-multiselect",
-  "version": "1.0.0-beta.3",
+  "name": "@suadelabs/vue3-multiselect",
+  "version": "1.0.0-rc.0",
   "private": false,
   "description": "Multiselect component for Vue 3",
-  "author": "Damian Dulisz <damian.dulisz@gmail.com>",
-  "contributors": [
-    {
-      "name": "Matt Elen",
-      "email": "matt@suade.org",
-      "url": "https://suade.org/"
-    }
-  ],
+  "author": {
+    "name": "Matt Elen",
+    "email": "matt@suade.org",
+    "url": "https://suade.org/"
+  },
+  "contributors": ["Damian Dulisz <damian.dulisz@gmail.com>"],
   "scripts": {
     "lint": "vue-cli-service lint",
     "bundle": "vue-cli-service build --target lib ./src/index.js && rm -rf ./dist/demo.html",

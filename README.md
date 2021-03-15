@@ -23,7 +23,7 @@ Feel free to check out our story of how we upgraded our product to Vue 3 on our 
 ## Install & basic usage
 
 ```bash
-npm install vue3-multiselect
+npm install @suadelabs/vue3-multiselect
 ```
 
 ```vue
@@ -37,7 +37,7 @@ npm install vue3-multiselect
 </template>
 
 <script>
-  import Multiselect from 'vue3-multiselect'
+  import Multiselect from '@suadelabs/vue3-multiselect'
   export default {
     components: { Multiselect },
     data () {
@@ -49,7 +49,7 @@ npm install vue3-multiselect
   }
 </script>
 
-<style src="vue3-multiselect/dist/vue3-multiselect.min.css"></style>
+<style src="vue3-multiselect/dist/vue3-multiselect.css"></style>
 ```
 
 ## Examples
