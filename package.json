@@ -1,6 +1,6 @@
 {
   "name": "@suadelabs/vue3-multiselect",
-  "version": "1.0.0-rc.0",
+  "version": "1.0.0",
   "private": false,
   "description": "Multiselect component for Vue 3",
   "author": {

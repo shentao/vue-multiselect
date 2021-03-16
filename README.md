@@ -17,7 +17,7 @@ Feel free to check out our story of how we upgraded our product to Vue 3 on our 
 * V-model support
 * Vuex support
 * Async options support
-* Fully configurable (see props list below)
+* Fully configurable
 
 
 ## Install & basic usage
