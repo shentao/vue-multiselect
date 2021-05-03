@@ -37,22 +37,6 @@ Visit: [vue-multiselect.js.org](https://vue-multiselect.js.org/#sub-getting-star
   </a>
 </p>
 
-## Features & characteristics:
-* NO dependencies
-* Single select
-* Multiple select
-* Tagging
-* Dropdowns
-* Filtering
-* Search with suggestions
-* Logic split into mixins
-* Basic component and support for custom components
-* V-model support
-* Vuex support
-* Async options support
-* Fully configurable
-
-
 ## Install & basic usage
 
 ```bash
@@ -86,7 +70,6 @@ export default {
 ```
 
 ## Examples
-inhtml-lang/pug-lang
 
 ### Single select / dropdown
 ```vue
