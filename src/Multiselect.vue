@@ -384,7 +384,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style>
 
   fieldset[disabled] .multiselect {
     pointer-events: none;
@@ -585,11 +585,11 @@ export default {
     font-size: 14px;
   }
 
-  // Remove these lines to avoid green closing button
+  /* // Remove these lines to avoid green closing button
   //.multiselect__tag-icon:focus,
   //.multiselect__tag-icon:hover {
   //  background: #369a6e;
-  //}
+  //} */
 
   .multiselect__tag-icon:focus::after,
   .multiselect__tag-icon:hover::after {

@@ -4,7 +4,7 @@ module.exports = {
   configureWebpack: {
     resolve: {
       alias: {
-        'vue3-multiselect': path.resolve(__dirname, 'src/')
+        'vue-multiselect': path.resolve(__dirname, 'src/')
       }
     }
   }

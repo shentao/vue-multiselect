@@ -1,23 +1,24 @@
 {
-  "name": "@suadelabs/vue3-multiselect",
-  "version": "1.0.0",
+  "name": "vue-multiselect",
+  "version": "3.0.0-alpha.1",
   "private": false,
   "description": "Multiselect component for Vue 3",
   "author": {
-    "name": "Matt Elen",
-    "email": "matt@suade.org",
-    "url": "https://suade.org/"
+    "name": "Damian Dulisz",
+    "email": "damian@dulisz.com"
   },
-  "contributors": ["Damian Dulisz <damian.dulisz@gmail.com>"],
+  "contributors": [
+    "Matt Elen <matt@suade.org>"
+  ],
   "scripts": {
     "lint": "vue-cli-service lint",
-    "bundle": "vue-cli-service build --target lib ./src/index.js && rm -rf ./dist/demo.html",
+    "bundle": "vue-cli-service build --target lib ./src/index.js && rm -rf ./dist/demo.html && rollup -c --environment BUILD:production",
     "finish": "npm run lint && npm test && npm run bundle",
-    "prepare": "npm run bundle",
     "test": "vue-cli-service test:unit"
   },
-  "main": "dist/vue3-multiselect.umd.min.js",
-  "unpkg": "dist/vue3-multiselect.umd.min.js",
+  "main": "dist/vue-multiselect.esm.js",
+  "unpkg": "dist/vue-multiselect.umd.min.js",
+  "jsnext:main": "dist/vue-multiselect.esm.js",
   "files": [
     "dist",
     "src"
@@ -39,22 +40,24 @@
     "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-vue": "^7.0.0-0",
     "node-sass": "4.14.1",
+    "rollup": "^2.46.0",
+    "rollup-plugin-css-only": "^3.1.0",
+    "rollup-plugin-vue": "^6.0.0",
     "sass-loader": "10.1.1",
     "typescript": "~3.9.3",
     "vue": "^3.0.0",
     "vue-jest": "^5.0.0-alpha.7"
   },
   "bugs": {
-    "url": "https://github.com/suadelabs/vue3-multiselect/issues"
+    "url": "https://github.com/suadelabs/vue-multiselect/issues"
   },
   "engines": {
     "node": ">= 4.0.0",
     "npm": ">= 3.0.0"
   },
-  "jsnext:main": "dist/vue3-multiselect.umd.min.js",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/suadelabs/vue3-multiselect.git"
+    "url": "git+https://github.com/suadelabs/vue-multiselect.git"
   }
 }
