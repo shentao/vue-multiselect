@@ -5,21 +5,20 @@ describe('Multiselect.vue', () => {
   describe(':value', () => {
     test('should work when initial value is null', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: null,
+        props: {
+          modelValue: null,
           options: [{ val: 1, label: '1' }, { val: 2, label: '2' }]
         }
       })
-
       expect(wrapper.vm.internalValue).toEqual([])
     })
   })
   describe('Events emitting', () => {
-    describe('@input', () => {
+    describe('@update:modelValue', () => {
       test('should be called whenever the value changes passing the new value and id', () => {
         const wrapper = shallowMount(Multiselect, {
-          propsData: {
-            value: ['3'],
+          props: {
+            modelValue: ['3'],
             options: ['1', '2', '3'],
             id: 'id',
             multiple: true
@@ -27,15 +26,15 @@ describe('Multiselect.vue', () => {
         })
 
         wrapper.vm.select(wrapper.vm.options[0])
-        expect(wrapper.emitted().input).toEqual([[['3', '1'], 'id']])
+        expect(wrapper.emitted()['update:modelValue']).toEqual([[['3', '1']]])
       })
     })
 
     describe('@select', () => {
       test('should be called after each select passing the selected option and id', () => {
         const wrapper = shallowMount(Multiselect, {
-          propsData: {
-            value: null,
+          props: {
+            modelValue: null,
             options: ['1', '2', '3'],
             id: 'id'
           }
@@ -47,10 +46,10 @@ describe('Multiselect.vue', () => {
     })
 
     describe('@remove', () => {
-      test('should be called after removing an option, passing the removed option and id', () => {
+      test('should be called after removing an option, passing the removed option and id', async () => {
         const wrapper = shallowMount(Multiselect, {
-          propsData: {
-            value: ['3'],
+          props: {
+            modelValue: ['3'],
             options: ['1', '2', '3'],
             id: 'id'
           }
@@ -64,8 +63,8 @@ describe('Multiselect.vue', () => {
     describe('@close', () => {
       test('should be called after closing the dropdown with the current value and id', () => {
         const wrapper = shallowMount(Multiselect, {
-          propsData: {
-            value: ['2'],
+          props: {
+            modelValue: ['2'],
             options: ['1', '2', '3'],
             id: 'id'
           }
@@ -80,8 +79,8 @@ describe('Multiselect.vue', () => {
     describe('@open', () => {
       test('should be called after opening the dropdown passing the id', () => {
         const wrapper = shallowMount(Multiselect, {
-          propsData: {
-            value: ['2'],
+          props: {
+            modelValue: ['2'],
             options: ['1', '2', '3'],
             id: 'id'
           }
@@ -98,8 +97,8 @@ describe('Multiselect.vue', () => {
       describe('when multiple == TRUE', () => {
         test('should preselect passed array of values', () => {
           const wrapper = shallowMount(Multiselect, {
-            propsData: {
-              value: ['1', '2'],
+            props: {
+              modelValue: ['1', '2'],
               options: ['1', '2', '3'],
               multiple: true
             }
@@ -107,22 +106,20 @@ describe('Multiselect.vue', () => {
           expect(wrapper.vm.internalValue).toEqual(['1', '2'])
           expect(
             wrapper
-              .findAll('.multiselect__tag')
-              .at(0)
+              .findAll('.multiselect__tag')[0]
               .text()
           ).toContainEqual('1')
           expect(
             wrapper
-              .findAll('.multiselect__tag')
-              .at(1)
+              .findAll('.multiselect__tag')[1]
               .text()
           ).toContainEqual('2')
         })
 
         test('should preselect passed array of objects', () => {
           const wrapper = shallowMount(Multiselect, {
-            propsData: {
-              value: [{ id: '3' }, { id: '2' }],
+            props: {
+              modelValue: [{ id: '3' }, { id: '2' }],
               options: [{ id: '1' }, { id: '2' }, { id: '3' }],
               label: 'id',
               trackBy: 'id',
@@ -132,22 +129,20 @@ describe('Multiselect.vue', () => {
           expect(wrapper.vm.internalValue).toEqual([{ id: '3' }, { id: '2' }])
           expect(
             wrapper
-              .findAll('.multiselect__tag')
-              .at(0)
+              .findAll('.multiselect__tag')[0]
               .text()
           ).toContainEqual('3')
           expect(
             wrapper
-              .findAll('.multiselect__tag')
-              .at(1)
+              .findAll('.multiselect__tag')[1]
               .text()
           ).toContainEqual('2')
         })
 
         test('should set value to [] when passing null as selected', () => {
           const wrapper = shallowMount(Multiselect, {
-            propsData: {
-              value: null,
+            props: {
+              modelValue: null,
               options: [{ id: '1' }, { id: '2' }, { id: '3' }],
               label: 'id',
               trackBy: 'id',
@@ -162,8 +157,8 @@ describe('Multiselect.vue', () => {
       describe('when multiple == FALSE', () => {
         test('should preselect passed simple value', () => {
           const wrapper = shallowMount(Multiselect, {
-            propsData: {
-              value: '1',
+            props: {
+              modelValue: '1',
               options: ['1', '2', '3']
             }
           })
@@ -175,8 +170,8 @@ describe('Multiselect.vue', () => {
 
         test('should preselect passed object', () => {
           const wrapper = shallowMount(Multiselect, {
-            propsData: {
-              value: { id: '2' },
+            props: {
+              modelValue: { id: '2' },
               options: [{ id: '1' }, { id: '2' }, { id: '3' }],
               label: 'id',
               trackBy: 'id'
@@ -192,8 +187,8 @@ describe('Multiselect.vue', () => {
     describe('when searchable == FALSE', () => {
       test('should preselect passed simple value', () => {
         const wrapper = shallowMount(Multiselect, {
-          propsData: {
-            value: '1',
+          props: {
+            modelValue: '1',
             options: ['1', '2', '3'],
             searchable: false
           }
@@ -204,8 +199,8 @@ describe('Multiselect.vue', () => {
 
       test('should preselect passed object', () => {
         const wrapper = shallowMount(Multiselect, {
-          propsData: {
-            value: { id: '2' },
+          props: {
+            modelValue: { id: '2' },
             options: [{ id: '1' }, { id: '2' }, { id: '3' }],
             label: 'id',
             trackBy: 'id',
@@ -221,34 +216,34 @@ describe('Multiselect.vue', () => {
   describe('#select()', () => {
     test('should do nothing when DISABLED == true', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [],
+        props: {
+          modelValue: [],
           options: ['1', '2', '3'],
           multiple: true,
           disabled: true
         }
       })
       wrapper.vm.select(wrapper.vm.options[0])
-      expect(wrapper.emitted().input).toEqual(undefined)
+      expect(wrapper.emitted()['update:modelValue']).toEqual(undefined)
     })
 
     test('should do nothing when selecting a group label', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [],
+        props: {
+          modelValue: [],
           options: [{ id: 0, $isLabel: true }, '2', '3'],
           multiple: true,
           disabled: true
         }
       })
       wrapper.vm.select(wrapper.vm.options[0])
-      expect(wrapper.emitted().input).toBe(undefined)
+      expect(wrapper.emitted()['update:modelValue']).toBe(undefined)
     })
 
     test('should reset search input when clearOnSelect == TRUE', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [],
+        props: {
+          modelValue: [],
           options: ['1', '2', '3'],
           multiple: true
         }
@@ -261,8 +256,8 @@ describe('Multiselect.vue', () => {
 
     test('should keep search input when clearOnSelect == FALSE', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [],
+        props: {
+          modelValue: [],
           options: ['1', '2', '3'],
           multiple: true,
           clearOnSelect: false,
@@ -278,21 +273,21 @@ describe('Multiselect.vue', () => {
     describe('when multiple == TRUE', () => {
       test('should add values to selected array', () => {
         const wrapper = shallowMount(Multiselect, {
-          propsData: {
+          props: {
             multiple: true,
-            value: ['1'],
+            modelValue: ['1'],
             options: ['1', '2', '3'],
             id: 'id'
           }
         })
         wrapper.vm.select(wrapper.vm.options[1])
-        expect(wrapper.emitted().input).toEqual([[['1', '2'], 'id']])
+        expect(wrapper.emitted()['update:modelValue']).toEqual([[['1', '2']]])
       })
 
       test('should add objects to selected array', () => {
         const wrapper = shallowMount(Multiselect, {
-          propsData: {
-            value: [{ id: '1' }],
+          props: {
+            modelValue: [{ id: '1' }],
             options: [{ id: '1' }, { id: '2' }, { id: '3' }],
             label: 'id',
             trackBy: 'id',
@@ -301,15 +296,15 @@ describe('Multiselect.vue', () => {
           }
         })
         wrapper.vm.select(wrapper.vm.options[1])
-        expect(wrapper.emitted().input).toEqual([
-          [[{ id: '1' }, { id: '2' }], 'id']
+        expect(wrapper.emitted()['update:modelValue']).toEqual([
+          [[{ id: '1' }, { id: '2' }]]
         ])
       })
 
       test('should remove already selected object', () => {
         const wrapper = shallowMount(Multiselect, {
-          propsData: {
-            value: [{ id: '2' }],
+          props: {
+            modelValue: [{ id: '2' }],
             options: [{ id: '1' }, { id: '2' }, { id: '3' }],
             label: 'id',
             trackBy: 'id',
@@ -318,13 +313,13 @@ describe('Multiselect.vue', () => {
           }
         })
         wrapper.vm.select(wrapper.vm.options[1])
-        expect(wrapper.emitted().input).toEqual([[[], 'id']])
+        expect(wrapper.emitted()['update:modelValue']).toEqual([[[]]])
       })
 
       test('should NOT remove already selected object when called with Tab key', () => {
         const wrapper = shallowMount(Multiselect, {
-          propsData: {
-            value: [{ id: '2' }],
+          props: {
+            modelValue: [{ id: '2' }],
             options: [{ id: '1' }, { id: '2' }, { id: '3' }],
             label: 'id',
             trackBy: 'id',
@@ -333,13 +328,13 @@ describe('Multiselect.vue', () => {
           }
         })
         wrapper.vm.select(wrapper.vm.options[1], 'Tab')
-        expect(wrapper.emitted().input).toEqual(undefined)
+        expect(wrapper.emitted()['update:modelValue']).toEqual(undefined)
       })
       describe('and when max == 3', () => {
         test('should prevent from adding more than 3 elements', () => {
           const wrapper = shallowMount(Multiselect, {
-            propsData: {
-              value: [{ id: '1' }, { id: '2' }, { id: '3' }],
+            props: {
+              modelValue: [{ id: '1' }, { id: '2' }, { id: '3' }],
               options: [{ id: '1' }, { id: '2' }, { id: '3' }, { id: '4' }],
               label: 'id',
               trackBy: 'id',
@@ -349,15 +344,15 @@ describe('Multiselect.vue', () => {
             }
           })
           wrapper.vm.select(wrapper.vm.options[3])
-          expect(wrapper.emitted().input).toEqual(undefined)
+          expect(wrapper.emitted()['update:modelValue']).toEqual(undefined)
         })
       })
     })
     describe('when multiple == FALSE', () => {
       test('should not deselect a value when called with Tab key', () => {
         const wrapper = shallowMount(Multiselect, {
-          propsData: {
-            value: [{ id: '2' }],
+          props: {
+            modelValue: [{ id: '2' }],
             options: [{ id: '1' }, { id: '2' }, { id: '3' }],
             label: 'id',
             trackBy: 'id',
@@ -365,14 +360,14 @@ describe('Multiselect.vue', () => {
           }
         })
         wrapper.vm.select(wrapper.vm.options[1], 'Tab')
-        expect(wrapper.emitted().input).toEqual(undefined)
+        expect(wrapper.emitted()['update:modelValue']).toEqual(undefined)
       })
     })
     describe('when closeOnSelect == FALSE', () => {
       test('should not close the dropdown', () => {
         const wrapper = shallowMount(Multiselect, {
-          propsData: {
-            value: [{ id: '2' }],
+          props: {
+            modelValue: [{ id: '2' }],
             options: [{ id: '1' }, { id: '2' }, { id: '3' }],
             label: 'id',
             trackBy: 'id',
@@ -389,8 +384,8 @@ describe('Multiselect.vue', () => {
   describe('#selectGroup()', () => {
     test('should do nothing when selecting a group label and groupSelect == FALSE', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [],
+        props: {
+          modelValue: [],
           options: [
             {
               label: 'Label 1',
@@ -408,13 +403,13 @@ describe('Multiselect.vue', () => {
         }
       })
       wrapper.vm.select(wrapper.vm.filteredOptions[0])
-      expect(wrapper.emitted().input).toEqual(undefined)
+      expect(wrapper.emitted()['update:modelValue']).toEqual(undefined)
     })
     describe('when selecting a group label and groupSelect == TRUE', () => {
       test('should add values to selected array', () => {
         const wrapper = shallowMount(Multiselect, {
-          propsData: {
-            value: [],
+          props: {
+            modelValue: [],
             options: [
               { label: 'Label 1', values: ['Value 1', 'Value 2'] },
               { label: 'Label 2', values: ['Value 3', 'Value 4'] }
@@ -426,14 +421,14 @@ describe('Multiselect.vue', () => {
           }
         })
         wrapper.vm.select(wrapper.vm.filteredOptions[0])
-        expect(wrapper.emitted().input).toEqual([
-          [['Value 1', 'Value 2'], null]
+        expect(wrapper.emitted()['update:modelValue']).toEqual([
+          [['Value 1', 'Value 2']]
         ])
       })
       test('should add objects to selected array', () => {
         const wrapper = shallowMount(Multiselect, {
-          propsData: {
-            value: [],
+          props: {
+            modelValue: [],
             options: [
               {
                 label: 'Label 1',
@@ -452,8 +447,8 @@ describe('Multiselect.vue', () => {
           }
         })
         wrapper.vm.select(wrapper.vm.filteredOptions[0])
-        expect(wrapper.emitted().input).toEqual([
-          [[{ name: 'Value 1' }, { name: 'Value 2' }], null]
+        expect(wrapper.emitted()['update:modelValue']).toEqual([
+          [[{ name: 'Value 1' }, { name: 'Value 2' }]]
         ])
       })
       test('should remove already selected objects', () => {
@@ -464,8 +459,8 @@ describe('Multiselect.vue', () => {
           { name: 'Value 4' }
         ]
         const wrapper = shallowMount(Multiselect, {
-          propsData: {
-            value: [options[0], options[1]],
+          props: {
+            modelValue: [options[0], options[1]],
             options: [
               {
                 label: 'Label 1',
@@ -484,12 +479,12 @@ describe('Multiselect.vue', () => {
           }
         })
         wrapper.vm.select(wrapper.vm.filteredOptions[0])
-        expect(wrapper.emitted().input).toEqual([[[], null]])
+        expect(wrapper.emitted()['update:modelValue']).toEqual([[[]]])
       })
       test('should not add duplicate values to selected array', () => {
         const wrapper = shallowMount(Multiselect, {
-          propsData: {
-            value: ['Value 1'],
+          props: {
+            modelValue: ['Value 1'],
             options: [
               { label: 'Label 1', values: ['Value 1', 'Value 2'] },
               { label: 'Label 2', values: ['Value 3', 'Value 4'] }
@@ -501,16 +496,16 @@ describe('Multiselect.vue', () => {
           }
         })
         wrapper.vm.select(wrapper.vm.filteredOptions[0])
-        expect(wrapper.emitted().input).toEqual([
-          [['Value 1', 'Value 2'], null]
+        expect(wrapper.emitted()['update:modelValue']).toEqual([
+          [['Value 1', 'Value 2']]
         ])
       })
     })
     describe('when selecting a group label, groupSelect == TRUE and $isDisabled == TRUE', () => {
       test('should add values to selected array except disabled values', () => {
         const wrapper = shallowMount(Multiselect, {
-          propsData: {
-            value: [],
+          props: {
+            modelValue: [],
             options: [
               {
                 label: 'Label 1',
@@ -534,8 +529,8 @@ describe('Multiselect.vue', () => {
           }
         })
         wrapper.vm.select(wrapper.vm.filteredOptions[0])
-        expect(wrapper.emitted().input).toEqual([
-          [[{ key: 'Value 1', value: 'Value 1' }], null]
+        expect(wrapper.emitted()['update:modelValue']).toEqual([
+          [[{ key: 'Value 1', value: 'Value 1' }]]
         ])
       })
     })
@@ -543,8 +538,8 @@ describe('Multiselect.vue', () => {
   describe('#removeElement()', () => {
     test('should not do anything if disabled == TRUE', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [{ id: '1' }],
+        props: {
+          modelValue: [{ id: '1' }],
           options: [{ id: '1' }, { id: '2' }, { id: '3' }],
           multiple: true,
           label: 'id',
@@ -553,27 +548,27 @@ describe('Multiselect.vue', () => {
         }
       })
       wrapper.vm.removeElement(wrapper.vm.internalValue[0])
-      expect(wrapper.emitted().input).toEqual(undefined)
+      expect(wrapper.emitted()['update:modelValue']).toEqual(undefined)
     })
 
     test('should remove passed element', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [{ id: '1' }],
+        props: {
+          modelValue: [{ id: '1' }],
           options: [{ id: '1' }, { id: '2' }, { id: '3' }],
           multiple: true,
           label: 'id',
           trackBy: 'id'
         }
       })
-      wrapper.vm.removeElement(wrapper.vm.value[0])
-      expect(wrapper.emitted().input).toEqual([[[], null]])
+      wrapper.vm.removeElement(wrapper.vm.modelValue[0])
+      expect(wrapper.emitted()['update:modelValue']).toEqual([[[]]])
     })
 
     test('should NOT remove passed element when allowEmpty == FALSE & 1 element is left', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [{ id: '1' }],
+        props: {
+          modelValue: [{ id: '1' }],
           options: [{ id: '1' }, { id: '2' }, { id: '3' }],
           multiple: true,
           label: 'id',
@@ -582,15 +577,15 @@ describe('Multiselect.vue', () => {
         }
       })
       wrapper.vm.removeElement(wrapper.vm.internalValue[0])
-      expect(wrapper.emitted().input).toEqual(undefined)
+      expect(wrapper.emitted()['update:modelValue']).toEqual(undefined)
     })
   })
 
   describe('#removeLastElement()', () => {
     test('should remove last selected element', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [{ id: '1' }, { id: '2' }],
+        props: {
+          modelValue: [{ id: '1' }, { id: '2' }],
           options: [{ id: '1' }, { id: '2' }, { id: '3' }],
           label: 'id',
           trackBy: 'id',
@@ -598,12 +593,12 @@ describe('Multiselect.vue', () => {
         }
       })
       wrapper.vm.removeLastElement()
-      expect(wrapper.emitted().input).toEqual([[[{ id: '1' }], null]])
+      expect(wrapper.emitted()['update:modelValue']).toEqual([[[{ id: '1' }]]])
     })
     test('should not do anything if "Delete" key is blocked', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [{ id: '1' }, { id: '2' }],
+        props: {
+          modelValue: [{ id: '1' }, { id: '2' }],
           options: [{ id: '1' }, { id: '2' }, { id: '3' }],
           label: 'id',
           trackBy: 'id',
@@ -612,15 +607,15 @@ describe('Multiselect.vue', () => {
         }
       })
       wrapper.vm.removeLastElement()
-      expect(wrapper.emitted().input).toEqual(undefined)
+      expect(wrapper.emitted()['update:modelValue']).toEqual(undefined)
     })
   })
 
   describe('#addPointerElement()', () => {
     test('should select() currently pointed option', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [],
+        props: {
+          modelValue: [],
           options: [{ id: '1' }, { id: '2' }, { id: '3' }],
           label: 'id',
           trackBy: 'id',
@@ -629,15 +624,15 @@ describe('Multiselect.vue', () => {
       })
       wrapper.vm.pointer = 2
       wrapper.vm.addPointerElement()
-      expect(wrapper.emitted().input).toEqual([[[{ id: '3' }], null]])
+      expect(wrapper.emitted()['update:modelValue']).toEqual([[[{ id: '3' }]]])
     })
   })
 
   describe('#pointerForward()', () => {
     test('should increase the pointer value by 2 if next option is label', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [],
+        props: {
+          modelValue: [],
           options: [{ id: '1' }, { id: '2', $isLabel: true }, { id: '3' }],
           label: 'id',
           trackBy: 'id',
@@ -651,8 +646,8 @@ describe('Multiselect.vue', () => {
 
     test('should increase the pointer value by 1', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [],
+        props: {
+          modelValue: [],
           options: [{ id: '1' }, { id: '2' }, { id: '3' }],
           label: 'id',
           trackBy: 'id',
@@ -667,8 +662,8 @@ describe('Multiselect.vue', () => {
 
     test('should NOT increase the pointer value if pointed at last element', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [],
+        props: {
+          modelValue: [],
           options: [{ id: '1' }, { id: '2' }, { id: '3' }],
           label: 'id',
           trackBy: 'id',
@@ -685,8 +680,8 @@ describe('Multiselect.vue', () => {
   describe('#pointerBackward()', () => {
     test('should increase the pointer value by 1 if the first option is a label', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [],
+        props: {
+          modelValue: [],
           options: [{ id: '1', $isLabel: true }, { id: '2' }, { id: '3' }],
           label: 'id',
           trackBy: 'id'
@@ -698,8 +693,8 @@ describe('Multiselect.vue', () => {
     })
     test('should decrease the pointer value by 2 if previous option is label', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [],
+        props: {
+          modelValue: [],
           options: [{ id: '1' }, { id: '2', $isLabel: true }, { id: '3' }],
           label: 'id',
           trackBy: 'id'
@@ -711,8 +706,8 @@ describe('Multiselect.vue', () => {
     })
     test('should decrease the pointer value by 1', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [],
+        props: {
+          modelValue: [],
           options: [{ id: '1' }, { id: '2' }, { id: '3' }],
           label: 'id',
           trackBy: 'id'
@@ -726,8 +721,8 @@ describe('Multiselect.vue', () => {
 
     test('should NOT decrease the pointer value if pointed at first element', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [],
+        props: {
+          modelValue: [],
           options: [{ id: '1' }, { id: '2' }, { id: '3' }],
           label: 'id',
           trackBy: 'id',
@@ -744,8 +739,8 @@ describe('Multiselect.vue', () => {
   describe('#pointerReset()', () => {
     test('should reset the pointer value to 0', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [],
+        props: {
+          modelValue: [],
           options: [{ id: '1' }, { id: '2' }, { id: '3' }],
           label: 'id',
           trackBy: 'id',
@@ -759,9 +754,9 @@ describe('Multiselect.vue', () => {
     })
     test('should do nothing when closeOnSelect == FALSE', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           label: 'id',
-          value: [],
+          modelValue: [],
           options: [{ id: '1' }, { id: '2' }, { id: '3' }],
           trackBy: 'id',
           multiple: true,
@@ -778,8 +773,8 @@ describe('Multiselect.vue', () => {
   describe('#pointerSet(index)', () => {
     test('should set the pointer value to passed index', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [],
+        props: {
+          modelValue: [],
           options: [{ id: '1' }, { id: '2' }, { id: '3' }],
           label: 'id',
           trackBy: 'id',
@@ -796,8 +791,8 @@ describe('Multiselect.vue', () => {
   describe('#pointerAdjust()', () => {
     test('should adjust the pointer to stay within options', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [],
+        props: {
+          modelValue: [],
           options: [{ id: '1' }, { id: '2' }, { id: '3' }],
           label: 'id',
           trackBy: 'id',
@@ -810,8 +805,8 @@ describe('Multiselect.vue', () => {
     })
     test('should adjust the pointer to the first non-group-label option after changed from empty', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [],
+        props: {
+          modelValue: [],
           options: [],
           label: 'id',
           trackBy: 'id',
@@ -834,7 +829,7 @@ describe('Multiselect.vue', () => {
     // TODO: Fix this test
     // test('resets value, search and selected when resetAfter is TRUE', () => {
     //   const wrapper = shallowMount(Multiselect, {
-    //     propsData: {
+    //     props: {
     //       options: [{ id: '1' }, { id: '2' }, { id: '3' }],
     //       label: 'id',
     //       trackBy: 'id',
@@ -844,35 +839,35 @@ describe('Multiselect.vue', () => {
     //   })
     //   const comp = wrapper.vm
     //   comp.select(comp.options[2])
-    //   expect(wrapper.emitted().input).toEqual([{'id': '3'}, null])
+    //   expect(wrapper.emitted()['update:modelValue']).toEqual([{'id': '3'}, null])
     //   wrapper.update()
-    //   expect(wrapper.emitted().input).toEqual([{'id': '3'}, null])
+    //   expect(wrapper.emitted()['update:modelValue']).toEqual([{'id': '3'}, null])
     //   expect(comp.search).toEqual('')
     // })
   })
 
   describe('#watch:search', () => {
-    test('should call @search-change event callback whenever search value changes', () => {
+    test('should call @search-change event callback whenever search value changes', async () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: null,
+        props: {
+          modelValue: null,
           options: [{ id: '1' }, { id: '2' }, { id: '3' }],
           label: 'id',
           trackBy: 'id',
           clearOnSelect: false
         }
       })
-      wrapper.setData({ search: 'test' })
+      await wrapper.setData({ search: 'test' })
 
-      expect(wrapper.emitted()['search-change']).toEqual([['test', null]])
+      expect(wrapper.emitted()['search-change']).toEqual([['test']])
     })
   })
 
   describe('#activate()', () => {
     test('should set isOpen value to true', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [],
+        props: {
+          modelValue: [],
           options: [{ id: '1' }, { id: '2' }, { id: '3' }],
           label: 'id',
           trackBy: 'id',
@@ -886,13 +881,13 @@ describe('Multiselect.vue', () => {
 
     test('should set set the pointer to the first non-group-label option', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           label: 'id',
           trackBy: 'id',
           multiple: true,
           groupValues: 'group',
           groupLabel: 'groupLabel',
-          value: [],
+          modelValue: [],
           options: [
             { group: [{ id: '1' }, { id: '2' }], groupLabel: 'A' },
             { group: [{ id: '3' }, { id: '4' }], groupLabel: 'B' }
@@ -908,11 +903,11 @@ describe('Multiselect.vue', () => {
   describe('#toggle()', () => {
     test('should set isOpen value to FALSE when it is TRUE', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           label: 'id',
           trackBy: 'id',
           searchable: false,
-          value: null,
+          modelValue: null,
           options: [{ id: '1' }, { id: '2' }, { id: '3' }]
         }
       })
@@ -929,8 +924,8 @@ describe('Multiselect.vue', () => {
   describe('#deactivate()', () => {
     test('should set isOpen value to false', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [],
+        props: {
+          modelValue: [],
           options: [{ id: '1' }, { id: '2' }, { id: '3' }],
           label: 'id',
           trackBy: 'id',
@@ -944,8 +939,8 @@ describe('Multiselect.vue', () => {
 
     test('should reset search value when multiple == TRUE', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [],
+        props: {
+          modelValue: [],
           options: [{ id: '1' }, { id: '2' }, { id: '3' }],
           label: 'id',
           trackBy: 'id',
@@ -963,9 +958,9 @@ describe('Multiselect.vue', () => {
   describe('#isExistingOption()', () => {
     test('should return FALSE when there are no options to look into', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           multiple: true,
-          value: null,
+          modelValue: null,
           options: []
         }
       })
@@ -974,9 +969,9 @@ describe('Multiselect.vue', () => {
 
     test('should return TRUE only when query has matching option', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           multiple: true,
-          value: ['2'],
+          modelValue: ['2'],
           options: ['1', '2', '3']
         }
       })
@@ -988,9 +983,9 @@ describe('Multiselect.vue', () => {
   describe('#isSelected()', () => {
     test('should return TRUE when passed option is selected when multiple == TRUE', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           multiple: true,
-          value: ['1'],
+          modelValue: ['1'],
           options: ['1', '2', '3']
         }
       })
@@ -1000,9 +995,9 @@ describe('Multiselect.vue', () => {
 
     test('should return FALSE when passed option is selected when multiple == TRUE', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           multiple: true,
-          value: ['1'],
+          modelValue: ['1'],
           options: ['1', '2', '3']
         }
       })
@@ -1012,8 +1007,8 @@ describe('Multiselect.vue', () => {
 
     test('should return TRUE when passed option is selected when multiple == FALSE', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: '1',
+        props: {
+          modelValue: '1',
           options: ['1', '2', '3']
         }
       })
@@ -1023,8 +1018,8 @@ describe('Multiselect.vue', () => {
 
     test('should return FALSE when passed option is NOT selected when multiple == FALSE', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: '2',
+        props: {
+          modelValue: '2',
           options: ['1', '2', '3']
         }
       })
@@ -1036,7 +1031,7 @@ describe('Multiselect.vue', () => {
   describe('#getOptionLabel()', () => {
     test('should return empty string for undefined option', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           options: ['1', '2', '3']
         }
       })
@@ -1044,9 +1039,9 @@ describe('Multiselect.vue', () => {
     })
     test('should return value for passed option when simple value', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           multiple: true,
-          value: [],
+          modelValue: [],
           options: ['1', '2', '3']
         }
       })
@@ -1056,8 +1051,8 @@ describe('Multiselect.vue', () => {
 
     test('should return option.label for passed option', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [],
+        props: {
+          modelValue: [],
           options: [{ id: '1' }, { id: '2' }, { id: '3' }],
           label: 'id',
           trackBy: 'id',
@@ -1070,8 +1065,8 @@ describe('Multiselect.vue', () => {
 
     test('should return option’s label when custom label is set', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [],
+        props: {
+          modelValue: [],
           options: [{ id: '1' }, { id: '2' }, { id: '3' }],
           label: 'id',
           trackBy: 'id',
@@ -1084,14 +1079,14 @@ describe('Multiselect.vue', () => {
 
     test('should return customLabel’s interpolation if set for objects options', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           label: 'id',
           trackBy: 'id',
           multiple: true,
           customLabel ({ id }) {
             return `${id}+${id}`
           },
-          value: [],
+          modelValue: [],
           options: [{ id: '1' }, { id: '2' }, { id: '3' }]
         }
       })
@@ -1101,12 +1096,12 @@ describe('Multiselect.vue', () => {
 
     test('should return customLabel’s interpolation if set for primitive options', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           multiple: true,
           customLabel (option) {
             return `${option}+${option}`
           },
-          value: [],
+          modelValue: [],
           options: [1, 2, 3]
         }
       })
@@ -1118,9 +1113,9 @@ describe('Multiselect.vue', () => {
   describe('valueKeys', () => {
     test('should return primitive value Array when no :key is provided', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           multiple: true,
-          value: [1, 2],
+          modelValue: [1, 2],
           options: [1, 2, 3]
         }
       })
@@ -1129,8 +1124,8 @@ describe('Multiselect.vue', () => {
 
     test('should return an Array maped from option[key] values when multiple is TRUE', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [{ id: '1' }, { id: '2' }],
+        props: {
+          modelValue: [{ id: '1' }, { id: '2' }],
           options: [{ id: '1' }, { id: '2' }, { id: '3' }],
           label: 'id',
           trackBy: 'id',
@@ -1143,12 +1138,12 @@ describe('Multiselect.vue', () => {
 
     test('should return option[key] value when multiple is FALSE', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           label: 'id',
           trackBy: 'id',
           searchable: true,
           multiple: false,
-          value: { id: '2' },
+          modelValue: { id: '2' },
           options: [{ id: '1' }, { id: '2' }, { id: '3' }]
         }
       })
@@ -1160,10 +1155,10 @@ describe('Multiselect.vue', () => {
   describe('optionKeys', () => {
     test('should return primitive value Array when no :label is provided', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           multiple: true,
           searchable: true,
-          value: [1, 2],
+          modelValue: [1, 2],
           options: [1, 2, 3]
         }
       })
@@ -1172,12 +1167,12 @@ describe('Multiselect.vue', () => {
 
     test('should return an Array maped from option[label] values', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           label: 'id',
           trackBy: 'id',
           searchable: true,
           multiple: true,
-          value: [{ id: '1' }, { id: '2' }],
+          modelValue: [{ id: '1' }, { id: '2' }],
           options: [{ id: '1' }, { id: '2' }, { id: '3' }]
         }
       })
@@ -1186,7 +1181,7 @@ describe('Multiselect.vue', () => {
 
     test('should return an flat Array maped from option[label] of group values', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           label: 'label',
           trackBy: 'id',
           groupValues: 'values',
@@ -1210,7 +1205,7 @@ describe('Multiselect.vue', () => {
 
     test('when an option group is empty, return null to prevent formatting a non existent item.', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           label: 'label',
           trackBy: 'id',
           groupValues: 'values',
@@ -1245,11 +1240,11 @@ describe('Multiselect.vue', () => {
     describe('when groupValues is passed', () => {
       test('should return a flat options list', () => {
         const wrapper = shallowMount(Multiselect, {
-          propsData: {
+          props: {
             groupValues: 'values',
             groupLabel: 'groupLabel',
             searchable: true,
-            value: [],
+            modelValue: [],
             options: [
               {
                 groupLabel: 'GroupX',
@@ -1277,13 +1272,13 @@ describe('Multiselect.vue', () => {
       })
       test('should return a flat options list when options are objects', () => {
         const wrapper = shallowMount(Multiselect, {
-          propsData: {
+          props: {
             groupValues: 'values',
             groupLabel: 'groupLabel',
             searchable: true,
             trackBy: 'id',
             label: 'label',
-            value: [],
+            modelValue: [],
             options: [
               {
                 groupLabel: 'GroupX',
@@ -1308,11 +1303,11 @@ describe('Multiselect.vue', () => {
       })
       test('should return a filtered flat options list', () => {
         const wrapper = shallowMount(Multiselect, {
-          propsData: {
+          props: {
             groupValues: 'values',
             groupLabel: 'groupLabel',
             searchable: true,
-            value: [],
+            modelValue: [],
             options: [
               {
                 groupLabel: 'GroupX',
@@ -1337,11 +1332,11 @@ describe('Multiselect.vue', () => {
       })
       test('should remove groups without matching results', () => {
         const wrapper = shallowMount(Multiselect, {
-          propsData: {
+          props: {
             groupValues: 'values',
             groupLabel: 'groupLabel',
             searchable: true,
-            value: [],
+            modelValue: [],
             options: [
               {
                 groupLabel: 'GroupX',
@@ -1366,13 +1361,13 @@ describe('Multiselect.vue', () => {
       })
       test('should filter options objects matching query', () => {
         const wrapper = shallowMount(Multiselect, {
-          propsData: {
+          props: {
             groupValues: 'values',
             groupLabel: 'groupLabel',
             searchable: true,
             trackBy: 'value',
             label: 'label',
-            value: [],
+            modelValue: [],
             options: [
               {
                 groupLabel: 'GroupX',
@@ -1407,9 +1402,9 @@ describe('Multiselect.vue', () => {
     })
     test('should return matched options according to search value', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           label: 'id',
-          value: [],
+          modelValue: [],
           options: [{ id: '1' }, { id: '2' }, { id: '3' }],
           trackBy: 'id',
           searchable: true,
@@ -1428,9 +1423,9 @@ describe('Multiselect.vue', () => {
 
     test('should return matched options according to search value', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           label: 'id',
-          value: [],
+          modelValue: [],
           options: [{ id: '1' }, { id: '2' }, { id: '3' }],
           trackBy: 'id',
           searchable: true,
@@ -1449,9 +1444,9 @@ describe('Multiselect.vue', () => {
 
     test('should return no options when there are no matches with search value', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           label: 'id',
-          value: [],
+          modelValue: [],
           options: [{ id: '1' }, { id: '2' }, { id: '3' }],
           trackBy: 'id',
           searchable: true,
@@ -1470,10 +1465,10 @@ describe('Multiselect.vue', () => {
 
     test('should hide already selected elements when :hide-selected is set to true', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           label: 'id',
           trackBy: 'id',
-          value: [{ id: '2' }],
+          modelValue: [{ id: '2' }],
           options: [{ id: '1' }, { id: '2' }, { id: '3' }],
           searchable: true,
           hideSelected: true,
@@ -1485,11 +1480,11 @@ describe('Multiselect.vue', () => {
 
     test('should add additional option at the begining when search is filled and :taggable is TRUE', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           searchable: true,
           multiple: true,
           taggable: true,
-          value: [],
+          modelValue: [],
           options: [10, 20, 30]
         }
       })
@@ -1510,10 +1505,10 @@ describe('Multiselect.vue', () => {
 
     test('should not alter the available options when :internal-search is FALSE', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           multiple: true,
           internalSearch: false,
-          value: [],
+          modelValue: [],
           options: [10, 20, 30]
         }
       })
@@ -1527,10 +1522,10 @@ describe('Multiselect.vue', () => {
 
     test('should return only as many options as set in the :options-limit prop.', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           multiple: true,
           optionsLimit: 2,
-          value: [],
+          modelValue: [],
           options: ['test', 'production', 'testing']
         }
       })
@@ -1543,8 +1538,8 @@ describe('Multiselect.vue', () => {
 
     test('should return all the passed options including falsy options', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: [],
+        props: {
+          modelValue: [],
           options: ['start', undefined, 0, false, null, 'end']
         }
       })
@@ -1563,10 +1558,10 @@ describe('Multiselect.vue', () => {
   describe('currentOptionLabel', () => {
     test('should return the current option label', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           searchable: false,
           multiple: false,
-          value: 0,
+          modelValue: 0,
           options: [0, '1', '2', '3', '4', '5']
         }
       })
@@ -1574,8 +1569,8 @@ describe('Multiselect.vue', () => {
     })
     test('should display selected value even when is the number zero', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
-          value: 0,
+        props: {
+          modelValue: 0,
           options: [0, 1, 2, 3, 4, 5]
         }
       })
@@ -1588,10 +1583,10 @@ describe('Multiselect.vue', () => {
     describe('when MULTIPLE is FALSE', () => {
       test('should return the current option label', () => {
         const wrapper = shallowMount(Multiselect, {
-          propsData: {
+          props: {
             searchable: false,
             multiple: false,
-            value: '3',
+            modelValue: '3',
             options: ['1', '2', '3', '4', '5']
           }
         })
@@ -1601,11 +1596,11 @@ describe('Multiselect.vue', () => {
     describe('when MULTIPLE is TRUE', () => {
       test('should return the placeholder value', () => {
         const wrapper = shallowMount(Multiselect, {
-          propsData: {
+          props: {
             searchable: false,
             multiple: true,
             placeholder: 'Select',
-            value: ['1'],
+            modelValue: ['1'],
             options: ['1', '2', '3', '4', '5']
           }
         })
@@ -1617,11 +1612,11 @@ describe('Multiselect.vue', () => {
   describe('#onTag', () => {
     test('should should push to value and options with default settings and :taggable is TRUE', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           searchable: true,
           multiple: true,
           taggable: true,
-          value: ['1'],
+          modelValue: ['1'],
           options: ['1', '2', '3']
         }
       })
@@ -1634,12 +1629,12 @@ describe('Multiselect.vue', () => {
   describe('#onTagPosition', () => {
     test("should display new tag above search results by default when tag-position is defaulted to 'top'", () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           label: 'name',
           trackBy: 'name',
           searchable: true,
           taggable: true,
-          value: [],
+          modelValue: [],
           options: [{ name: 'Apple' }, { name: 'Banana' }, { name: 'Orange' }]
         }
       })
@@ -1659,13 +1654,13 @@ describe('Multiselect.vue', () => {
 
     test("should display new tag below search results when tag-position is set to 'bottom'", () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           label: 'name',
           trackBy: 'name',
           searchable: true,
           taggable: true,
           tagPosition: 'bottom',
-          value: [],
+          modelValue: [],
           options: [{ name: 'Apple' }, { name: 'Banana' }, { name: 'Orange' }]
         }
       })
@@ -1686,11 +1681,11 @@ describe('Multiselect.vue', () => {
   describe('#limitText', () => {
     test('should by default interpolate the limit text', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           searchable: true,
           multiple: true,
           limit: 2,
-          value: ['1', '2', '3'],
+          modelValue: ['1', '2', '3'],
           options: ['1', '2', '3', '4', '5']
         }
       })
@@ -1702,11 +1697,11 @@ describe('Multiselect.vue', () => {
   describe('visibleValues', () => {
     test('should by default interpolate the limit text', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           searchable: true,
           multiple: true,
           limit: 1,
-          value: ['1', '2', '3'],
+          modelValue: ['1', '2', '3'],
           options: ['1', '2', '3', '4', '5']
         }
       })
@@ -1721,12 +1716,12 @@ describe('Multiselect.vue', () => {
     })
     test('should hide all labels if :show-labels is FALSE', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           searchable: true,
           multiple: true,
           limit: 1,
           showLabels: false,
-          value: ['1', '2', '3'],
+          modelValue: ['1', '2', '3'],
           options: ['1', '2', '3', '4', '5']
         }
       })
@@ -1738,9 +1733,9 @@ describe('Multiselect.vue', () => {
   describe('#updateSearch', () => {
     test('should update the search value', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           searchable: true,
-          value: ['1', '2', '3'],
+          modelValue: ['1', '2', '3'],
           options: ['1', '2', '3', '4', '5']
         }
       })
@@ -1752,14 +1747,14 @@ describe('Multiselect.vue', () => {
   describe('preselectFirst', () => {
     test('should update the search value', () => {
       const wrapper = shallowMount(Multiselect, {
-        propsData: {
+        props: {
           searchable: true,
-          value: [],
+          modelValue: [],
           options: ['1', '2', '3', '4', '5'],
           preselectFirst: true
         }
       })
-      expect(wrapper.emitted().input).toEqual([['1', null]])
+      expect(wrapper.emitted()['update:modelValue']).toEqual([['1']])
     })
   })
 })
