@@ -74,14 +74,14 @@ export default {
 ### Single select / dropdown
 ```vue
 <VueMultiselect
-  :model-value="value",
-  :options="source",
-  :searchable="false",
-  :close-on-select="false",
-  :allow-empty="false",
-  @update:model-value="updateSelected",
-  label="name",
-  placeholder="Select one",
+  :model-value="value"
+  :options="source"
+  :searchable="false"
+  :close-on-select="false"
+  :allow-empty="false"
+  @update:model-value="updateSelected"
+  label="name"
+  placeholder="Select one"
   track-by="name"
 />
 ```
@@ -89,12 +89,12 @@ export default {
 ### Single select with search
 ```vue
 <VueMultiselect
-  v-model="value",
-  :options="source",
-  :close-on-select="true",
-  :clear-on-select="false",
-  placeholder="Select one",
-  label="name",
+  v-model="value"
+  :options="source"
+  :close-on-select="true"
+  :clear-on-select="false"
+  placeholder="Select one"
+  label="name"
   track-by="name"
 />
 ```
@@ -102,12 +102,12 @@ export default {
 ### Multiple select with search
 ```vue
 <VueMultiselect
-  v-model="multiValue",
-  :options="source",
-  :multiple="true",
-  :close-on-select="true",
-  placeholder="Pick some",
-  label="name",
+  v-model="multiValue"
+  :options="source"
+  :multiple="true"
+  :close-on-select="true"
+  placeholder="Pick some"
+  label="name"
   track-by="name"
 />
 ```
@@ -116,14 +116,14 @@ export default {
 with `@tag` event
 ```vue
 <VueMultiselect
-  v-model="taggingSelected",
-  :options="taggingOptions",
-  :multiple="true",
-  :taggable="true",
-  @tag="addTag",
-  tag-placeholder="Add this as new tag",
-  placeholder="Type to search or add tag",
-  label="name",
+  v-model="taggingSelected"
+  :options="taggingOptions"
+  :multiple="true"
+  :taggable="true"
+  @tag="addTag"
+  tag-placeholder="Add this as new tag"
+  placeholder="Type to search or add tag"
+  label="name"
   track-by="code"
 />
 ```
@@ -143,12 +143,12 @@ addTag (newTag) {
 ### Asynchronous dropdown
 ```vue
 <VueMultiselect
-  v-model="selectedCountries",
-  :options="countries",
-  :multiple="multiple",
-  :searchable="searchable",
-  @search-change="asyncFind",
-  placeholder="Type to search",
+  v-model="selectedCountries"
+  :options="countries"
+  :multiple="multiple"
+  :searchable="searchable"
+  @search-change="asyncFind"
+  placeholder="Type to search"
   label="name"
   track-by="code"
 >
