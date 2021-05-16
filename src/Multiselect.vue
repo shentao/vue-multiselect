@@ -3,16 +3,16 @@
     :tabindex="searchable ? -1 : tabindex"
     :class="{ 'multiselect--active': isOpen, 'multiselect--disabled': disabled, 'multiselect--above': isAbove }"
     @focus="activate()"
-    @blur="searchable ? false : deactivate()"
+    @blur="searchable ? false : deactivate($event)"
     @keydown.self.down.prevent="pointerForward()"
     @keydown.self.up.prevent="pointerBackward()"
     @keypress.enter.tab.stop.self="addPointerElement($event)"
-    @keyup.esc="deactivate()"
+    @keyup.esc="deactivate($event)"
     class="multiselect"
     role="combobox"
     :aria-owns="'listbox-'+id">
       <slot name="caret" :toggle="toggle">
-        <div @mousedown.prevent.stop="toggle()" class="multiselect__select"></div>
+        <div @mousedown.prevent.stop="toggle($event)" class="multiselect__select"></div>
       </slot>
       <slot name="clear" :search="search"></slot>
       <div ref="tags" class="multiselect__tags">
@@ -59,8 +59,8 @@
           :tabindex="tabindex"
           @input="updateSearch($event.target.value)"
           @focus.prevent="activate()"
-          @blur.prevent="deactivate()"
-          @keyup.esc="deactivate()"
+          @blur.prevent="deactivate($event)"
+          @keyup.esc="deactivate($event)"
           @keydown.down.prevent="pointerForward()"
           @keydown.up.prevent="pointerBackward()"
           @keypress.enter.prevent.stop.self="addPointerElement($event)"
@@ -71,7 +71,7 @@
         <span
           v-if="isSingleLabelVisible"
           class="multiselect__single"
-          @mousedown.prevent="toggle"
+          @mousedown.prevent="toggle($event)"
         >
           <slot name="singleLabel" :option="singleValue">
             <template>{{ currentOptionLabel }}</template>
@@ -80,7 +80,7 @@
         <span
           v-if="isPlaceholderVisible"
           class="multiselect__placeholder"
-          @mousedown.prevent="toggle"
+          @mousedown.prevent="toggle($event)"
         >
           <slot name="placeholder">
             {{ placeholder }}
@@ -113,7 +113,7 @@
                 <span
                   v-if="!(option && (option.$isLabel || option.$isDisabled))"
                   :class="optionHighlight(index, option)"
-                  @click.stop="select(option)"
+                  @click.stop="select(option, $event.key, $event)"
                   @mouseenter.self="pointerSet(index)"
                   :data-select="option && option.isTag ? tagPlaceholder : selectLabelText"
                   :data-selected="selectedLabelText"

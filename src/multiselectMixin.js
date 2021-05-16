@@ -497,7 +497,7 @@ export default {
      * @param  {Object||String||Integer} option to select/deselect
      * @param  {Boolean} block removing
      */
-    select (option, key) {
+    select (option, key, event) {
       /* istanbul ignore else */
       if (option.$isLabel && this.groupSelect) {
         this.selectGroup(option)
@@ -515,7 +515,7 @@ export default {
       if (option.isTag) {
         this.$emit('tag', option.label, this.id)
         this.search = ''
-        if (this.closeOnSelect && !this.multiple) this.deactivate()
+        if (this.closeOnSelect && !this.multiple) this.deactivate(event)
       } else {
         const isSelected = this.isSelected(option)
 
@@ -536,7 +536,7 @@ export default {
         if (this.clearOnSelect) this.search = ''
       }
       /* istanbul ignore else */
-      if (this.closeOnSelect) this.deactivate()
+      if (this.closeOnSelect) this.deactivate(event)
     },
     /**
      * Add the given group options to the list of selected options
@@ -667,7 +667,7 @@ export default {
      * Closes the multiselect’s dropdown.
      * Sets this.isOpen to FALSE
      */
-    deactivate () {
+    deactivate (event = {'message': 'Closed without event'}) {
       /* istanbul ignore else */
       if (!this.isOpen) return
 
@@ -679,18 +679,18 @@ export default {
         this.$el.blur()
       }
       if (!this.preserveSearch) this.search = ''
-      this.$emit('close', this.getValue(), this.id)
+      this.$emit('close', event, this.getValue(), this.id)
     },
     /**
-     * Call this.activate() or this.deactivate()
+     * Call this.activate() or this.deactivate(event)
      * depending on this.isOpen value.
      *
      * @fires this#activate || this#deactivate
      * @property {Boolean} isOpen indicates if dropdown is open
      */
-    toggle () {
+    toggle (event) {
       this.isOpen
-        ? this.deactivate()
+        ? this.deactivate(event)
         : this.activate()
     },
     /**
