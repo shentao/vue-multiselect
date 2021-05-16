@@ -19,6 +19,11 @@ function includes (str, query) {
 
 function filterOptions (options, search, label, customLabel) {
   return options.filter(option => includes(customLabel(option, label), search))
+    .map(option => {
+      let text = option.label
+      option.index = text.toString().toLowerCase().indexOf(search.toString().toLowerCase())
+      return option
+    }).sort((a, b) => a.index - b.index)
 }
 
 function stripGroups (options) {
