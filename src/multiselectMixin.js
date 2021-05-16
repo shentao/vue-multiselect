@@ -67,7 +67,8 @@ export default {
       search: '',
       isOpen: false,
       preferredOpenDirection: 'below',
-      optimizedHeight: this.maxHeight
+      optimizedHeight: this.maxHeight,
+      closedOnClick: false
     }
   },
   props: {
@@ -308,6 +309,24 @@ export default {
       default: false
     },
     /**
+     * Scroll to top on close
+     * @default false
+     * @type {Boolean}
+    */
+    scrollToTopOnClose: {
+      type: Boolean,
+      default: false
+    },
+    /**
+     * Close multiselect on click into the input area
+     * @default false
+     * @type {Boolean}
+    */
+    closeOnClick: {
+      type: Boolean,
+      default: false
+    },
+    /**
      * Select 1st options if value is empty
      * @default false
      * @type {Boolean}
@@ -430,6 +449,19 @@ export default {
         flattenOptions(this.groupValues, this.groupLabel),
         stripGroups
       )(options)
+    },
+    /**
+     * Triggered on input of the search field
+     * @param  {String}
+     */
+    searchInputInput (query) {
+      // Ensure the dropdown is opened before we do a search
+      if (!this.isOpen && !this.disabled) {
+        this.isOpen = true
+      }
+
+      // Search
+      this.updateSearch(query)
     },
     /**
      * Updates the search value
@@ -640,12 +672,41 @@ export default {
       }
     },
     /**
+     * If enabled, closes multiselect if it's opened.
+     */
+    mousedown () {
+      /* istanbul ignore else */
+      if (!this.closeOnClick) return
+
+      /* istanbul ignore else */
+      if (this.isOpen && !this.closedOnClick) {
+        this.deactivate()
+        this.closedOnClick = true
+      }
+    },
+    /**
+     * If enabled, opens multiselect if it's closed.
+     */
+    mouseup () {
+      /* istanbul ignore else */
+      if (!this.closeOnClick) return
+
+      /* istanbul ignore else */
+      if (!this.isOpen && this.closeOnClick) {
+        this.activate()
+        this.closedOnClick = false
+      }
+    },
+    /**
      * Opens the multiselect’s dropdown.
      * Sets this.isOpen to TRUE
      */
     activate () {
       /* istanbul ignore else */
       if (this.isOpen || this.disabled) return
+
+      /* istanbul ignore else */
+      if (this.closeOnClick && this.closedOnClick) return
 
       this.adjustPosition()
       /* istanbul ignore else  */
@@ -670,7 +731,18 @@ export default {
     deactivate () {
       /* istanbul ignore else */
       if (!this.isOpen) return
-
+      /* istanbul ignore else */
+      if (this.scrollToTopOnClose && this.$refs.list) {
+        try {
+          this.$refs.list.scrollTo(0, 0)
+        } catch (_ignore) {
+          // fix for IE11 that doesn't support scrollTo on DIVs
+          /* istanbul ignore else */
+          if (this.$refs.list.scrollTop) {
+            this.$refs.list.scrollTop = 0
+          }
+        }
+      }
       this.isOpen = false
       /* istanbul ignore else  */
       if (this.searchable) {

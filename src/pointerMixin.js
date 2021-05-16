@@ -2,7 +2,8 @@ export default {
   data () {
     return {
       pointer: 0,
-      pointerDirty: false
+      pointerDirty: false,
+      keyboardNav: false
     }
   },
   props: {
@@ -65,6 +66,9 @@ export default {
       ] : 'multiselect__option--disabled'
     },
     addPointerElement ({ key } = 'Enter') {
+      // Only do this if the dropdown is opened and not disabled
+      if (!this.isOpen || this.disabled) return
+
       /* istanbul ignore else */
       if (this.filteredOptions.length > 0) {
         this.select(this.filteredOptions[this.pointer], key)
@@ -72,8 +76,13 @@ export default {
       this.pointerReset()
     },
     pointerForward () {
+      // Only do this if the dropdown is opened and not disabled
+      if (!this.isOpen || this.disabled) return
+
       /* istanbul ignore else */
       if (this.pointer < this.filteredOptions.length - 1) {
+        this.keyboardNav = true
+
         this.pointer++
         /* istanbul ignore next */
         if (this.$refs.list.scrollTop <= this.pointerPosition - (this.visibleElements - 1) * this.optionHeight) {
@@ -89,7 +98,12 @@ export default {
       this.pointerDirty = true
     },
     pointerBackward () {
+      // Only do this if the dropdown is opened and not disabled
+      if (!this.isOpen || this.disabled) return
+
       if (this.pointer > 0) {
+        this.keyboardNav = true
+
         this.pointer--
         /* istanbul ignore else */
         if (this.$refs.list.scrollTop >= this.pointerPosition) {
@@ -136,8 +150,15 @@ export default {
       }
     },
     pointerSet (index) {
+      if (this.keyboardNav) {
+        return
+      }
+
       this.pointer = index
       this.pointerDirty = true
+    },
+    resetKeyboardNav () {
+      this.keyboardNav = false
     }
   }
 }

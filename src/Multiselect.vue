@@ -15,7 +15,9 @@
         <div @mousedown.prevent.stop="toggle()" class="multiselect__select"></div>
       </slot>
       <slot name="clear" :search="search"></slot>
-      <div ref="tags" class="multiselect__tags">
+      <div ref="tags" class="multiselect__tags"
+           @mousedown="mousedown"
+           @mouseup="mouseup">
         <slot
           name="selection"
           :search="search"
@@ -28,7 +30,7 @@
               <slot name="tag" :option="option" :search="search" :remove="removeElement">
                 <span class="multiselect__tag" :key="index">
                   <span v-text="getOptionLabel(option)"></span>
-                  <i tabindex="1" @keypress.enter.prevent="removeElement(option)"  @mousedown.prevent="removeElement(option)" class="multiselect__tag-icon"></i>
+                  <i tabindex="1" @keypress.enter.prevent="removeElement(option)" @mouseup.stop.prevent="removeElement(option)" class="multiselect__tag-icon"></i>
                 </span>
               </slot>
             </template>
@@ -57,7 +59,7 @@
           :value="search"
           :disabled="disabled"
           :tabindex="tabindex"
-          @input="updateSearch($event.target.value)"
+          @input="searchInputInput($event.target.value)"
           @focus.prevent="activate()"
           @blur.prevent="deactivate()"
           @keyup.esc="deactivate()"
@@ -115,6 +117,7 @@
                   :class="optionHighlight(index, option)"
                   @click.stop="select(option)"
                   @mouseenter.self="pointerSet(index)"
+                  @mousemove.self="resetKeyboardNav"
                   :data-select="option && option.isTag ? tagPlaceholder : selectLabelText"
                   :data-selected="selectedLabelText"
                   :data-deselect="deselectLabelText"
