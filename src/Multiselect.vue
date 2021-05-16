@@ -64,6 +64,7 @@
           @keydown.down.prevent="pointerForward()"
           @keydown.up.prevent="pointerBackward()"
           @keypress.enter.prevent.stop.self="addPointerElement($event)"
+          @keydown.tab.stop.self="addPointerElement($event)"
           @keydown.delete.stop="removeLastElement()"
           class="multiselect__input"
           :aria-controls="'listbox-'+id"
