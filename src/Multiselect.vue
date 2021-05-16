@@ -2,15 +2,18 @@
   <div
     :tabindex="searchable ? -1 : tabindex"
     :class="{ 'multiselect--active': isOpen, 'multiselect--disabled': disabled, 'multiselect--above': isAbove }"
-    @focus="activate()"
-    @blur="searchable ? false : deactivate()"
+    @focusin="activate()"
+    @focusout="checkFocus($event)"
     @keydown.self.down.prevent="pointerForward()"
     @keydown.self.up.prevent="pointerBackward()"
-    @keypress.enter.tab.stop.self="addPointerElement($event)"
+    @keydown.shift.tab.self.exact="deactivate()"
     @keyup.esc="deactivate()"
     class="multiselect"
     role="combobox"
-    :aria-owns="'listbox-'+id">
+    :id="`multiselect-${id}`"
+    :aria-labelledby="id"
+    :aria-owns="'listbox-'+id"
+    :aria-expanded="isOpen ? true : false">
       <slot name="caret" :toggle="toggle">
         <div @mousedown.prevent.stop="toggle()" class="multiselect__select"></div>
       </slot>
@@ -23,12 +26,12 @@
           :values="visibleValues"
           :is-open="isOpen"
         >
-          <div class="multiselect__tags-wrap" v-show="visibleValues.length > 0">
+          <div class="multiselect__tags-wrap" v-show="visibleValues.length > 0" role="list">
             <template v-for="(option, index) of visibleValues" @mousedown.prevent>
               <slot name="tag" :option="option" :search="search" :remove="removeElement">
                 <span class="multiselect__tag" :key="index">
                   <span v-text="getOptionLabel(option)"></span>
-                  <i tabindex="1" @keypress.enter.prevent="removeElement(option)"  @mousedown.prevent="removeElement(option)" class="multiselect__tag-icon"></i>
+                  <i tabindex="0" @keypress.enter.prevent="removeElement(option)"  @mousedown.prevent="removeElement(option)" class="multiselect__tag-icon"></i>
                 </span>
               </slot>
             </template>
@@ -59,7 +62,6 @@
           :tabindex="tabindex"
           @input="updateSearch($event.target.value)"
           @focus.prevent="activate()"
-          @blur.prevent="deactivate()"
           @keyup.esc="deactivate()"
           @keydown.down.prevent="pointerForward()"
           @keydown.up.prevent="pointerBackward()"
@@ -72,6 +74,7 @@
           v-if="isSingleLabelVisible"
           class="multiselect__single"
           @mousedown.prevent="toggle"
+          :tabindex="currentOptionLabel ? 0 : -1"
         >
           <slot name="singleLabel" :option="singleValue">
             <template>{{ currentOptionLabel }}</template>
@@ -109,7 +112,14 @@
                 v-for="(option, index) of filteredOptions"
                 :key="index"
                 v-bind:id="id + '-' + index"
-                v-bind:role="!(option && (option.$isLabel || option.$isDisabled)) ? 'option' : null">
+                v-bind:role="!(option && (option.$isLabel || option.$isDisabled)) ? 'option' : null"   
+                @keypress.enter.tab.stop.self="addPointerElement($event)"
+                @keydown.tab.self.exact="index === filteredOptions.length - 1 ? deactivate() : false"
+                @focus="pointerSet(index)"
+                :aria-label="getOptionLabel(option)"
+                :aria-selected="checkSelected(option)"
+                tabindex="0"
+                >
                 <span
                   v-if="!(option && (option.$isLabel || option.$isDisabled))"
                   :class="optionHighlight(index, option)"
@@ -129,6 +139,7 @@
                   :data-deselect="groupSelect && deselectGroupLabelText"
                   :class="groupHighlight(index, option)"
                   @mouseenter.self="groupSelect && pointerSet(index)"
+                  @focus="groupSelect && pointerSet(index)"
                   @mousedown.prevent="selectGroup(option)"
                   class="multiselect__option">
                     <slot name="option" :option="option" :search="search" :index="index">
@@ -368,6 +379,22 @@ export default {
           ? this.isOpen
           : true)
       )
+    }
+  },
+  methods : {
+    /**
+     * Check if the current element has been selected
+     */
+    checkSelected (element) {
+      if (this.isSingleLabelVisible) return this.currentOptionLabel === element.label ? 'true' : 'false'
+      return this.visibleValues.some(item => item.label === element.label) ? 'true' : 'false'
+    },
+    /**
+     * Controling blur event in a parent
+     */
+    checkFocus (e) {
+      const parent = document.getElementById(`multiselect-${this.id}`)
+      if (!parent.contains(e.relatedTarget)) this.deactivate();
     }
   }
 }
