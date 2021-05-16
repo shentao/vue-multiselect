@@ -711,6 +711,23 @@ export default {
         this.preferredOpenDirection = 'above'
         this.optimizedHeight = Math.min(spaceAbove - 40, this.maxHeight)
       }
+    },
+    /**
+     * Clears the multiselect value/s
+     */
+    clearValue () {
+      /* istanbul ignore else */
+      if (this.disabled) return
+      /* istanbul ignore else */
+      if (!this.allowEmpty && this.internalValue.length <= 1) {
+        this.deactivate();
+        return
+      }
+      for(let option of this.internalValue) {
+        this.$emit('remove', option, this.id);
+      }
+      /* istanbul ignore else */
+      if (this.closeOnSelect && shouldClose) this.deactivate()
     }
   }
 }
