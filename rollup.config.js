@@ -10,7 +10,7 @@ export default [
       file: 'dist/vue-multiselect.esm.js'
     },
     plugins: [
-      css(),
+      css({output:'vue-multiselect.esm.css'}),
       vue()
     ]
   },
@@ -22,7 +22,7 @@ export default [
       file: 'dist/vue-multiselect.ssr.js'
     },
     plugins: [
-      css(),
+      css({output:'vue-multiselect.ssr.css'}),
       vue({ template: { optimizeSSR: true } })
     ]
   },
@@ -34,7 +34,7 @@ export default [
       file: 'dist/vue-multiselect.js'
     },
     plugins: [
-      css(),
+      css({output:'vue-multiselect.css'}),
       vue()
     ]
   }
