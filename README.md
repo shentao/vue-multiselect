@@ -25,7 +25,11 @@ Visit: [vue-multiselect.js.org](https://vue-multiselect.js.org/#sub-getting-star
     <img src="https://cdn.discordapp.com/attachments/793583797454503976/809062891420123166/logo.png" alt="Vue - The Road To Enterprise" width="380px">
   </a>
 </p>
-
+<p align="center">
+  <a href="https://suade.org/" target="_blank">
+    <img src="https://tinyurl.com/suadelogo" alt="Suade Labs" width="200px">
+  </a>
+</p>
 ### Silver
 
 <p align="center">
