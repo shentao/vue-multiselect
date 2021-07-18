@@ -163,6 +163,25 @@ export default {
   mixins: [multiselectMixin, pointerMixin],
   props: {
     /**
+     * a boolean for adding debounced function calls on search
+     * @default false
+     * @type {Boolean}
+     */
+    debounce: {
+      type: Boolean,
+      default: false
+    },
+    /**
+     * debounce wait time to use in debounced function
+     * default is 300ms
+     * @default 300
+     * @type {Number}
+     */
+    debounceTime: {
+      type: Number,
+      default: 300
+    },
+    /**
      * name attribute to match optional label element
      * @default ''
      * @type {String}

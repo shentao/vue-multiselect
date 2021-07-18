@@ -67,7 +67,8 @@ export default {
       search: '',
       isOpen: false,
       preferredOpenDirection: 'below',
-      optimizedHeight: this.maxHeight
+      optimizedHeight: this.maxHeight,
+      searchFunc: null
     }
   },
   props: {
@@ -329,6 +330,14 @@ export default {
     ) {
       this.select(this.filteredOptions[0])
     }
+    if (this.debounce) {
+      this.searchFunc = this.debounced(
+        () => this.$emit('search-change', this.search, this.id),
+        this.debounceTime
+      )
+    } else {
+      this.searchFunc = () => this.$emit('search-change', this.search, this.id)
+    }
   },
   computed: {
     internalValue () {
@@ -394,10 +403,35 @@ export default {
       }
     },
     search () {
-      this.$emit('search-change', this.search, this.id)
+      this.searchFunc()
     }
   },
   methods: {
+    /**
+     * Returns a debounced function
+     * @returns {Function}
+     */
+    debounced (func, wait, immediate = false) {
+      let timeout
+
+      // Calling debounce returns a new anonymous function
+      return function () {
+        // reference the context and args for the setTimeout function
+        let context = this
+        let args = arguments
+        let callNow = immediate && !timeout
+        clearTimeout(timeout)
+
+        // Set the new timeout
+        timeout = setTimeout(function () {
+          timeout = null
+          if (!immediate) {
+            func.apply(context, args)
+          }
+        }, wait)
+        if (callNow) func.apply(context, args)
+      }
+    },
     /**
      * Returns the internalValue in a way it can be emited to the parent
      * @returns {Object||Array||String||Integer}
