@@ -30,6 +30,7 @@ Visit: [vue-multiselect.js.org](https://vue-multiselect.js.org/#sub-getting-star
     <img src="https://tinyurl.com/suadelogo" alt="Suade Labs" width="200px">
   </a>
 </p>
+
 ### Silver
 
 <p align="center">
