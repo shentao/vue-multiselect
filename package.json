@@ -2,6 +2,7 @@
   "name": "vue-multiselect",
   "version": "3.0.0-alpha.2",
   "private": false,
+  "types": "index.d.ts",
   "description": "Multiselect component for Vue 3",
   "author": {
     "name": "Damian Dulisz",
@@ -21,7 +22,8 @@
   "jsnext:main": "dist/vue-multiselect.esm.js",
   "files": [
     "dist",
-    "src"
+    "src",
+    "index.d.ts"
   ],
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",
