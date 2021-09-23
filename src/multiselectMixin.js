@@ -570,6 +570,9 @@ export default {
           this.internalValue.concat(optionsToAdd),
           this.id
         )
+        
+        /* istanbul ignore else */
+        if (this.clearOnSelect) this.search = ''
       }
 
       if (this.closeOnSelect) this.deactivate()
