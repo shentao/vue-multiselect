@@ -50,7 +50,7 @@
           :name="name"
           :id="id"
           type="text"
-          autocomplete="off"
+          :autocomplete="autocomplete"
           spellcheck="false"
           :placeholder="placeholder"
           :style="inputStyle"
@@ -197,6 +197,15 @@ export default {
     selectedLabel: {
       type: String,
       default: 'Selected'
+    },
+    /**
+     * Binding for input autocomplete property
+     * @default 'off'
+     * @type {String}
+     */
+    autocomplete: {
+      type: String,
+      default: 'off'
     },
     /**
      * String to show when pointing to an already selected option
