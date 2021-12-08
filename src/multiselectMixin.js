@@ -67,10 +67,16 @@ export default {
       search: '',
       isOpen: false,
       preferredOpenDirection: 'below',
-      optimizedHeight: this.maxHeight
+      optimizedHeight: this.maxHeight,
+       selectedOptions: []
     }
   },
+  created(){
+     this.selectedOptions = this.value
+    
+  },
   props: {
+    // result:Array,
     /**
      * Decide whether to filter the results based on search query.
      * Useful for async filtering, where we search through more complex data.
@@ -498,6 +504,7 @@ export default {
      * @param  {Boolean} block removing
      */
     select (option, key) {
+    
       /* istanbul ignore else */
       if (option.$isLabel && this.groupSelect) {
         this.selectGroup(option)
@@ -513,6 +520,7 @@ export default {
       /* istanbul ignore else */
       if (key === 'Tab' && !this.pointerDirty) return
       if (option.isTag) {
+      
         this.$emit('tag', option.label, this.id)
         this.search = ''
         if (this.closeOnSelect && !this.multiple) this.deactivate()
@@ -571,8 +579,6 @@ export default {
           this.id
         )
       }
-
-      if (this.closeOnSelect) this.deactivate()
     },
     /**
      * Helper to identify if all values in a group are selected
@@ -615,6 +621,7 @@ export default {
         : this.valueKeys.indexOf(option)
 
       this.$emit('remove', option, this.id)
+      
       if (this.multiple) {
         const newValue = this.internalValue.slice(0, index).concat(this.internalValue.slice(index + 1))
         this.$emit('input', newValue, this.id)
@@ -657,7 +664,7 @@ export default {
       /* istanbul ignore else  */
       if (this.searchable) {
         if (!this.preserveSearch) this.search = ''
-        this.$nextTick(() => this.$refs.search && this.$refs.search.focus())
+        this.$nextTick(() => this.$refs.search.focus())
       } else {
         this.$el.focus()
       }
@@ -674,7 +681,7 @@ export default {
       this.isOpen = false
       /* istanbul ignore else  */
       if (this.searchable) {
-        this.$refs.search && this.$refs.search.blur()
+        this.$refs.search.blur()
       } else {
         this.$el.blur()
       }
