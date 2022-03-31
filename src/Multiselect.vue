@@ -30,7 +30,8 @@
           <draggable
             class="list-group"
             tag="ul"
-            v-model="selectedOptions"
+            v-bind:value="value"
+            v-on:input=" v => $emit('input', v)"
             v-bind="dragOptions"
             @start="isDragging = true"
             @end="isDragging = false"
@@ -39,7 +40,7 @@
             <transition-group type="transition" name="flip-list">
 <!-- here  vuedraggable is used for adding drag and drop functionality -->
               <template
-                v-for="(option, index) of selectedOptions"
+                v-for="(option, index) of value"
                 @mousedown.prevent
                 class="one"
               >
@@ -353,30 +354,7 @@ export default {
     tabindex: {
       type: Number,
       default: 0,
-    },
-  },
-  watch: {
-    value: {
-      // the watch will look to any changes in value to adjust selectedOptions for adding and removing values
-      immediate: true,
-      handler(newVal, oldVal) {
-        if (newVal && oldVal) {
-          if (newVal.length > oldVal.length) {
-            this.selectedOptions.push(newVal[newVal.length - 1]);
-          } else {
-            this.selectedOptions = this.selectedOptions.filter((option) =>
-              newVal.includes(option)
-            );
-          }
-        }
-      },
-    },
-    selectedOptions: {
-      deep: true,
-      handler: function (newVal) {
-        this.$emit("addtag", newVal);
-      },
-    },
+    }
   },
   computed: {
     dragOptions() {

@@ -67,13 +67,8 @@ export default {
       search: '',
       isOpen: false,
       preferredOpenDirection: 'below',
-      optimizedHeight: this.maxHeight,
-       selectedOptions: []
+      optimizedHeight: this.maxHeight
     }
-  },
-  created(){
-     this.selectedOptions = this.value
-    
   },
   props: {
     // result:Array,
