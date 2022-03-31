@@ -23,7 +23,7 @@
         name="selection"
         :search="search"
         :remove="removeElement"
-        :values="selectedOptions"
+        :values="value"
         :is-open="isOpen"
       >
         <div class="multiselect__tags-wrap" v-show="visibleValues.length > 0">
