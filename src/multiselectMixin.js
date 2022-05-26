@@ -659,7 +659,7 @@ export default {
         if (!this.preserveSearch) this.search = ''
         this.$nextTick(() => { if (typeof this.$refs.search !== 'undefined') this.$refs.search.focus() })
       } else {
-        this.$el.focus()
+        if (typeof this.$el !== 'undefined') this.$el.focus()
       }
       this.$emit('open', this.id)
     },
