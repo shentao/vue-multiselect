@@ -11,6 +11,7 @@
       :multiple="true",
       :searchable="true",
       :allow-empty="false",
+      :prevent-autofocus="true",
       :hide-selected="true",
       :max-height="150",
       :max="3",
