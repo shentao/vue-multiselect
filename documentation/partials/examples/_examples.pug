@@ -55,7 +55,7 @@
 			- `:limit="3"` – limits the visible results to 3.
 			- `:limit-text="limitText"` – function that receives the current selected options count and should return a string to show when the `:limit` count is exceed
 			- `:options-limit="300"` – limits the displayed options to `300`. Useful for optimisations purposes.
-			
+
 			#### New in v2.0.0 stable:
 			- `id="ajax"` – every event is emitted with this as the second param. Useful for identification which component instance triggered the method (in loops for example). NEW: Can also be used for pointing with `<label :for="id">`.
 			- `open-direction="bottom"` – forces the multiselect to always open below. Use `top` or `above` to always open above. By default the multiselect will open whereever there is more space once there is not enough space below to open at `maxHeight`.
@@ -110,6 +110,7 @@
 			- `:max-height="150"` – Set the dropdown height to 150px
 			- `:max="3"` – Set the maximal number of selections
 			- `:allow-empty="false"` – Doesn’t allow to remove the last option if it exists
+			- `:prevent-autofocus="true"` – Doesn’t focus to input search on open
 			- `:block-keys="['Tab', 'Enter']"` – Block the `Tab` and `Enter` keys from triggering their default behaviour
 			- `@close="onTouch"` – Event emitted when closing the dropdown
 		+example('CustomConfig')
