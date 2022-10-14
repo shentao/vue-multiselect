@@ -157,9 +157,9 @@ addTag (newTag) {
   label="name"
   track-by="code"
 >
-  <span slot="noResult">
+  <template #noResult>
     Oops! No elements found. Consider changing the search query.
-  </span>
+  </template>
 </VueMultiselect>
 ```
 
