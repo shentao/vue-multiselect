@@ -116,5 +116,8 @@
     "dist",
     "src",
     "index.d.ts"
-  ]
+  ],
+  "dependencies": {
+    "vuedraggable": "^2.24.3"
+  }
 }
