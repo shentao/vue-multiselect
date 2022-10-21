@@ -666,7 +666,7 @@ export default {
       /* istanbul ignore else  */
       if (this.searchable) {
         if (!this.preserveSearch) this.search = ''
-        this.$nextTick(() => this.$refs.search && (!this.preventAutofocus && this.$refs.search.focus()))
+        if (!this.preventAutofocus) this.$nextTick(() => this.$refs.search && this.$refs.search.focus())
       } else if (!this.preventAutofocus) {
         this.$el.focus()
       }
