@@ -3,7 +3,7 @@ const base = require('./webpack.base.conf')
 const config = require('../config')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const utils = require('./utils')
-const merge = require('webpack-merge')
+const { merge } = require('webpack-merge')
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 
 const env = process.env.NODE_ENV === 'testing'
