@@ -1,7 +1,7 @@
 <template>
   <div
     :tabindex="searchable ? -1 : tabindex"
-    :class="{ 'multiselect--active': isOpen, 'multiselect--disabled': disabled, 'multiselect--above': isAbove }"
+    :class="{ 'multiselect--active': isOpen, 'multiselect--disabled': disabled, 'multiselect--above': isAbove, 'multiselect--has-options-group': hasOptionGroup }"
     @focus="activate()"
     @blur="searchable ? false : deactivate()"
     @keydown.self.down.prevent="pointerForward()"
@@ -300,6 +300,9 @@ export default {
     }
   },
   computed: {
+    hasOptionGroup() {
+      return this.groupLabel && this.groupSelect && this.groupValue;
+    },
     isSingleLabelVisible () {
       return (
         (this.singleValue || this.singleValue === 0) &&
