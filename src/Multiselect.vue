@@ -301,7 +301,7 @@ export default {
   },
   computed: {
     hasOptionGroup () {
-      return (this.groupLabel && this.groupSelect && this.groupValue)
+      return this.groupValues && this.groupLabel && this.groupSelect
     },
     isSingleLabelVisible () {
       return (
