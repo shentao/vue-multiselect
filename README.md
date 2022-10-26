@@ -13,33 +13,23 @@ Visit: [vue-multiselect.js.org](https://vue-multiselect.js.org/#sub-getting-star
 
 ## Sponsors
 
-### Gold
+<p align="center">
+  <a href="https://getform.io/" target="_blank">
+    <img src="https://cdn.discordapp.com/attachments/1002927810710605875/1034915542596845728/getform.png" alt="Get Form" width="240px">
+  </a>
+</p>
 
-<p align="center">
-  <a href="https://vuejs.amsterdam/?utm_source=newsletter&utm_medium=logo&utm_campaign=vuejs-newsletter" target="_blank">
-    <img src="https://cdn.discordapp.com/attachments/793583797454503976/793583831369646120/vuejsamsterdam.png" alt="Vuejs Amsterdam" width="380px">
-  </a>
-</p>
-<p align="center">
-  <a href="https://theroadtoenterprise.com/?utm_source=newsletter&utm_medium=logo&utm_campaign=vuejs-newsletter" target="_blank">
-    <img src="https://cdn.discordapp.com/attachments/793583797454503976/809062891420123166/logo.png" alt="Vue - The Road To Enterprise" width="380px">
-  </a>
-</p>
 <p align="center">
   <a href="https://suade.org/" target="_blank">
     <img src="https://tinyurl.com/suadelogo" alt="Suade Labs" width="200px">
   </a>
 </p>
 
-### Silver
-
 <p align="center">
   <a href="https://www.storyblok.com/developers?utm_source=newsletter&utm_medium=logo&utm_campaign=vuejs-newsletter" target="_blank">
     <img src="https://a.storyblok.com/f/51376/3856x824/fea44d52a9/colored-full.png" alt="Storyblok" width="240px">
   </a>
 </p>
-
-### Bronze
 
 <p align="center">
   <a href="https://www.vuemastery.com/" target="_blank">
