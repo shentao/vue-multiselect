@@ -657,9 +657,9 @@ export default {
       /* istanbul ignore else  */
       if (this.searchable) {
         if (!this.preserveSearch) this.search = ''
-        this.$nextTick(() => this.$refs.search && this.$refs.search.focus())
+        this.$nextTick(() => { if (typeof this.$refs.search !== 'undefined') this.$refs.search.focus() })
       } else {
-        this.$el.focus()
+        if (typeof this.$el !== 'undefined') this.$el.focus()
       }
       this.$emit('open', this.id)
     },
@@ -674,9 +674,9 @@ export default {
       this.isOpen = false
       /* istanbul ignore else  */
       if (this.searchable) {
-        this.$refs.search && this.$refs.search.blur()
+        if (typeof this.$refs.search !== 'undefined') this.$refs.search.blur()
       } else {
-        this.$el.blur()
+        if (typeof this.$el !== 'undefined') this.$el.blur()
       }
       if (!this.preserveSearch) this.search = ''
       this.$emit('close', this.getValue(), this.id)
