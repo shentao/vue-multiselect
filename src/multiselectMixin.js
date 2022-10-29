@@ -560,9 +560,14 @@ export default {
 
         this.$emit('input', newValue, this.id)
       } else {
-        const optionsToAdd = group[this.groupValues].filter(
+        let optionsToAdd = group[this.groupValues].filter(
           option => !(this.isOptionDisabled(option) || this.isSelected(option))
         )
+
+        // if max is defined then just select options respecting max
+        if (this.max) {
+          optionsToAdd.splice(this.max - this.internalValue.length)
+        }
 
         this.$emit('select', optionsToAdd, this.id)
         this.$emit(
