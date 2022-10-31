@@ -4697,10 +4697,10 @@ escodegen@^1.9.1:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-config-standard@^6.1.0:
-  version "6.2.1"
-  resolved "https://registry.npmjs.org/eslint-config-standard/-/eslint-config-standard-6.2.1.tgz#d3a68aafc7191639e7ee441e7348739026354292"
-  integrity sha1-06aKr8cZFjnn7kQec0hzkCY1QpI=
+eslint-config-standard@^7.1.0:
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-standard/-/eslint-config-standard-7.1.0.tgz#47e769ea0739f5b2d5693b1a501c21c9650fafcf"
+  integrity sha512-PpVYrGzkXKrwiGF5jBxZkTqGIzIW4LAeIhB7geFpDkRpFf0YsX2LnLrM/CcOVr9TfYKKVE5ZpHYjbOID4kQLoQ==
 
 eslint-friendly-formatter@^4.0.1:
   version "4.0.1"

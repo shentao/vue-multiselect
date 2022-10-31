@@ -44,7 +44,7 @@
     "cssnano": "^4.1.7",
     "es6-promise": "^4.2.4",
     "eslint": "^6.8.0",
-    "eslint-config-standard": "^6.1.0",
+    "eslint-config-standard": "^7.1.0",
     "eslint-friendly-formatter": "^4.0.1",
     "eslint-loader": "^2.2.1",
     "eslint-plugin-html": "^7.1.0",
