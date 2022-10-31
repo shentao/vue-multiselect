@@ -16,7 +16,7 @@
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.0.4",
-    "@vue/cli-plugin-unit-jest": "^3.0.4",
+    "@vue/cli-plugin-unit-jest": "^4.5.19",
     "@vue/cli-service": "^3.0.4",
     "@vue/test-utils": "^1.0.0-beta.25",
     "autoprefixer": "^9.6.1",
