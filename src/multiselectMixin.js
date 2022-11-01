@@ -315,6 +315,15 @@ export default {
     preselectFirst: {
       type: Boolean,
       default: false
+    },
+    /**
+     * Prevent autofocus
+     * @default false
+     * @type {Boolean}
+    */
+    preventAutofocus: {
+      type: Boolean,
+      default: false
     }
   },
   mounted () {
@@ -662,8 +671,8 @@ export default {
       /* istanbul ignore else  */
       if (this.searchable) {
         if (!this.preserveSearch) this.search = ''
-        this.$nextTick(() => { if (typeof this.$refs.search !== 'undefined') this.$refs.search.focus() })
-      } else {
+        if (!this.preventAutofocus) this.$nextTick(() => this.$refs.search && this.$refs.search.focus())
+      } else if (!this.preventAutofocus) {
         if (typeof this.$el !== 'undefined') this.$el.focus()
       }
       this.$emit('open', this.id)
