@@ -628,13 +628,13 @@ export default {
         ? this.valueKeys.indexOf(option[this.trackBy])
         : this.valueKeys.indexOf(option)
 
-      this.$emit('remove', option, this.id)
       if (this.multiple) {
         const newValue = this.internalValue.slice(0, index).concat(this.internalValue.slice(index + 1))
         this.$emit('input', newValue, this.id)
       } else {
         this.$emit('input', null, this.id)
       }
+      this.$emit('remove', option, this.id)
 
       /* istanbul ignore else */
       if (this.closeOnSelect && shouldClose) this.deactivate()
