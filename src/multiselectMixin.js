@@ -533,13 +533,13 @@ export default {
           return
         }
 
-        this.$emit('select', option, this.id)
-
         if (this.multiple) {
           this.$emit('input', this.internalValue.concat([option]), this.id)
         } else {
           this.$emit('input', option, this.id)
         }
+
+        this.$emit('select', option, this.id)
 
         /* istanbul ignore else */
         if (this.clearOnSelect) this.search = ''
