@@ -75,11 +75,30 @@ h2.typo__h2#sub-slots(data-section) Slots
         tr.table__tr
           td.table__td: strong tag
           td.table__td
-            | Slot that is used for all selected options (tags)
+            | Slot that is used for each selected option (tags)
             br
             | Slot-scope
             ul
               li <code>option</code> – selected option
               li <code>search</code> – the search value
               li <code>remove</code> – method to remove the slot (pass the option)
-          
+
+        tr.table__tr
+          td.table__td: strong selection
+          td.table__td
+            | Slot that can be used to show all selected tags. The main different between the
+            code selection
+            | slot and the
+            code tag
+            | slot is that the
+            code tag
+            | slot renders per tag, however this slot renders just once, leaving the display of each
+            | tag to you (if you wish to display each one)
+            br
+            | Slot-scope
+            ul
+              li <code>search</code> – the search value
+              li <code>removeElement</code> – method to remove the slot (pass the option)
+              li <code>values</code> – Array of selected values
+              li <code>is-open</code> – Boolean if the select is open
+
