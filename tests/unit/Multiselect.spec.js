@@ -859,7 +859,7 @@ describe('Multiselect.vue', () => {
   })
 
   describe('#watch:search', () => {
-    test('should call @search-change event callback whenever search value changes', () => {
+    test('should call @search-change event callback whenever search value changes', async () => {
       const wrapper = shallowMount(Multiselect, {
         propsData: {
           value: null,
@@ -869,8 +869,7 @@ describe('Multiselect.vue', () => {
           clearOnSelect: false
         }
       })
-      wrapper.setData({ search: 'test' })
-
+      await wrapper.setData({ search: 'test' })
       expect(wrapper.emitted()['search-change']).toEqual([['test', null]])
     })
   })
