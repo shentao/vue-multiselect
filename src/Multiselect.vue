@@ -728,6 +728,7 @@ fieldset[disabled] .multiselect {
 .multiselect__option--selected:after {
   content: attr(data-selected);
   color: silver;
+  background: inherit;
 }
 
 .multiselect__option--selected.multiselect__option--highlight {
