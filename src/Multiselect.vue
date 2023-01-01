@@ -697,6 +697,10 @@ fieldset[disabled] .multiselect {
   white-space: nowrap;
 }
 
+.multiselect--has-options-group .multiselect__option:not(.multiselect__option--group) {
+  padding-left: 24px;
+}
+
 .multiselect__option:after {
   top: 0;
   right: 0;
