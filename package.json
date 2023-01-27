@@ -5,7 +5,7 @@
   "types": "index.d.ts",
   "scripts": {
     "test": "vue-cli-service test:unit",
-    "lint": "eslint --ext .js,.vue src tests/unit/specs",
+    "lint": "eslint --ext .js,.vue src tests/unit/*.spec.js",
     "dev": "node build/dev-server.js",
     "bundle:dist": "rm -rf dist && webpack --config build/webpack.bundle.conf.js",
     "bundle": "node build/bundle.js",
