@@ -1,7 +1,7 @@
 <template>
   <div
     :tabindex="searchable ? -1 : tabindex"
-    :class="{ 'multiselect--active': isOpen, 'multiselect--disabled': disabled, 'multiselect--above': isAbove }"
+    :class="{ 'multiselect--active': isOpen, 'multiselect--disabled': disabled, 'multiselect--above': isAbove, 'multiselect--has-options-group': hasOptionGroup }"
     @focus="activate()"
     @blur="searchable ? false : deactivate()"
     @keydown.self.down.prevent="pointerForward()"
@@ -143,7 +143,7 @@
               <slot name="noResult" :search="search">No elements found. Consider changing the search query.</slot>
             </span>
           </li>
-          <li v-show="showNoOptions && (options.length === 0 && !search && !loading)">
+            <li v-show="showNoOptions && ((options.length === 0 || (hasOptionGroup === true && filteredOptions.length === 0)) && !search && !loading)">
             <span class="multiselect__option">
               <slot name="noOptions">List is empty.</slot>
             </span>
@@ -311,6 +311,9 @@ export default {
     }
   },
   computed: {
+    hasOptionGroup () {
+      return this.groupValues && this.groupLabel && this.groupSelect
+    },
     isSingleLabelVisible () {
       return (
         (this.singleValue || this.singleValue === 0) &&
@@ -394,8 +397,8 @@ export default {
     position: absolute;
     right: 1px;
     top: 1px;
-    width: 48px;
-    height: 35px;
+  width: 40px;
+  height: 38px;
     background: #fff;
     display: block;
   }
@@ -738,6 +741,7 @@ export default {
   .multiselect__option--selected::after {
     content: attr(data-selected);
     color: silver;
+  background: inherit;
   }
 
   .multiselect__option--selected.multiselect__option--highlight {

@@ -312,7 +312,7 @@ export default {
      * Prevent autofocus
      * @default false
      * @type {Boolean}
-     */
+    */
     preventAutofocus: {
       type: Boolean,
       default: false
@@ -526,13 +526,13 @@ export default {
           return
         }
 
-        this.$emit('select', option, this.id)
-
         if (this.multiple) {
           this.$emit('update:modelValue', this.internalValue.concat([option]))
         } else {
           this.$emit('update:modelValue', option)
         }
+
+        this.$emit('select', option, this.id)
 
         /* istanbul ignore else */
         if (this.clearOnSelect) this.search = ''
@@ -562,9 +562,14 @@ export default {
 
         this.$emit('update:modelValue', newValue)
       } else {
-        const optionsToAdd = group[this.groupValues].filter(
-          (option) => !(this.isOptionDisabled(option) || this.isSelected(option))
+        let optionsToAdd = group[this.groupValues].filter(
+          option => !(this.isOptionDisabled(option) || this.isSelected(option))
         )
+
+        // if max is defined then just select options respecting max
+        if (this.max) {
+          optionsToAdd.splice(this.max - this.internalValue.length)
+        }
 
         this.$emit('select', optionsToAdd, this.id)
         this.$emit(
@@ -615,13 +620,13 @@ export default {
         ? this.valueKeys.indexOf(option[this.trackBy])
         : this.valueKeys.indexOf(option)
 
-      this.$emit('remove', option, this.id)
       if (this.multiple) {
         const newValue = this.internalValue.slice(0, index).concat(this.internalValue.slice(index + 1))
         this.$emit('update:modelValue', newValue)
       } else {
         this.$emit('update:modelValue', null)
       }
+      this.$emit('remove', option, this.id)
 
       /* istanbul ignore else */
       if (this.closeOnSelect && shouldClose) this.deactivate()
@@ -660,7 +665,7 @@ export default {
         if (!this.preserveSearch) this.search = ''
         if (!this.preventAutofocus) this.$nextTick(() => this.$refs.search && this.$refs.search.focus())
       } else if (!this.preventAutofocus) {
-        this.$el.focus()
+        if (typeof this.$el !== 'undefined') this.$el.focus()
       }
       this.$emit('open', this.id)
     },
@@ -675,9 +680,9 @@ export default {
       this.isOpen = false
       /* istanbul ignore else  */
       if (this.searchable) {
-        this.$refs.search && this.$refs.search.blur()
+        if (typeof this.$refs.search !== 'undefined') this.$refs.search.blur()
       } else {
-        this.$el.blur()
+        if (typeof this.$el !== 'undefined') this.$el.blur()
       }
       if (!this.preserveSearch) this.search = ''
       this.$emit('close', this.getValue(), this.id)

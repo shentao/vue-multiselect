@@ -1,6 +1,6 @@
 {
   "name": "vue-multiselect",
-  "version": "3.0.0-alpha.2",
+  "version": "3.0.0-beta.1",
   "private": false,
   "types": "index.d.ts",
   "description": "Multiselect component for Vue 3",

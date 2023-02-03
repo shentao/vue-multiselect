@@ -61,7 +61,7 @@ describe('Multiselect.vue', () => {
     })
 
     describe('@close', () => {
-      test('should be called after closing the dropdown with the current value and id', () => {
+      test('should be called after closing the dropdown with the current value and id', async () => {
         const wrapper = shallowMount(Multiselect, {
           props: {
             modelValue: ['2'],
@@ -71,6 +71,7 @@ describe('Multiselect.vue', () => {
         })
 
         wrapper.vm.activate()
+        await wrapper.vm.$nextTick()
         wrapper.vm.deactivate()
         expect(wrapper.emitted().close).toEqual([['2', 'id']])
       })
@@ -240,7 +241,7 @@ describe('Multiselect.vue', () => {
       expect(wrapper.emitted()['update:modelValue']).toBe(undefined)
     })
 
-    test('should reset search input when clearOnSelect == TRUE', () => {
+    test('should reset search input when clearOnSelect == TRUE', async () => {
       const wrapper = shallowMount(Multiselect, {
         props: {
           modelValue: [],
@@ -248,13 +249,18 @@ describe('Multiselect.vue', () => {
           multiple: true
         }
       })
+      await wrapper.vm.$nextTick()
       wrapper.vm.$refs.search.focus()
+      await wrapper.vm.$nextTick()
       wrapper.vm.search = 'test'
+      await wrapper.vm.$nextTick()
       wrapper.vm.select(wrapper.vm.options[0])
+      await wrapper.vm.$nextTick()
       expect(wrapper.vm.search).toBe('')
+      await wrapper.vm.$nextTick()
     })
 
-    test('should keep search input when clearOnSelect == FALSE', () => {
+    test('should keep search input when clearOnSelect == FALSE', async () => {
       const wrapper = shallowMount(Multiselect, {
         props: {
           modelValue: [],
@@ -265,6 +271,7 @@ describe('Multiselect.vue', () => {
         }
       })
       wrapper.vm.$refs.search.focus()
+      await wrapper.vm.$nextTick()
       wrapper.vm.search = 'test'
       wrapper.vm.select(wrapper.vm.options[0])
       expect(wrapper.vm.search).toBe('test')
