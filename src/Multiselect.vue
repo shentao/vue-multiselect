@@ -74,7 +74,7 @@
         class="multiselect__single"
         @mousedown.prevent="toggle"
       >
-        <slot name="singleLabel" :option="singleValue">
+        <slot name="single-label" :option="singleValue">
           {{ currentOptionLabel }}
         </slot>
       </span>
@@ -99,10 +99,10 @@
         ref="list"
       >
         <ul class="multiselect__content" :style="contentStyle" role="listbox" :id="'listbox-'+id">
-          <slot name="beforeList"></slot>
+          <slot name="before-list"></slot>
           <li v-if="multiple && max === internalValue.length">
             <span class="multiselect__option">
-              <slot name="maxElements">Maximum of {{ max }} options selected. First remove a selected option to select another.</slot>
+              <slot name="max-elements">Maximum of {{ max }} options selected. First remove a selected option to select another.</slot>
             </span>
           </li>
           <template v-if="!max || internalValue.length < max">
@@ -140,15 +140,15 @@
           </template>
           <li v-show="showNoResults && (filteredOptions.length === 0 && search && !loading)">
             <span class="multiselect__option">
-              <slot name="noResult" :search="search">No elements found. Consider changing the search query.</slot>
+              <slot name="no-result" :search="search">No elements found. Consider changing the search query.</slot>
             </span>
           </li>
             <li v-show="showNoOptions && ((options.length === 0 || (hasOptionGroup === true && filteredOptions.length === 0)) && !search && !loading)">
             <span class="multiselect__option">
-              <slot name="noOptions">List is empty.</slot>
+              <slot name="no-options">List is empty.</slot>
             </span>
           </li>
-          <slot name="afterList"></slot>
+          <slot name="after-list"></slot>
         </ul>
       </div>
     </transition>
