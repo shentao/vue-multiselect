@@ -1,0 +1,39 @@
+section.start(:style="gradient")
+  .center-vertically
+    h1.typo__h1
+      img.logo(src=require('assets/vue-logo.png'))
+      | Vue-multiselect
+      small.version
+        =`(${require('../../package.json').version})`
+    h3.typo__h3 The most complete selecting solution for
+      = ' '
+      a.typo__link(href="http://vuejs.org" target="_BLANK") Vue.js
+    .badges
+      img(src="https://img.shields.io/github/stars/shentao/vue-multiselect.svg?label=Stars")
+      img(src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License" data-canonical-src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat")
+      img(src="https://img.shields.io/npm/dm/vue-multiselect.svg" alt="npm" data-canonical-src="https://img.shields.io/npm/dm/vue-multiselect.svg" style="max-width:100%;")
+      img(src="https://img.shields.io/badge/dependencies-none-brightgreen.svg?style=flat" alt="No Dependencies" data-canonical-src="https://img.shields.io/badge/dependencies-none-brightgreen.svg?style=flat" style="max-width:100%;")
+    .grid__row.grid__row--centered
+      .grid__column.grid__unit--md-6
+        .multiselect-example__container
+          multiselect-example
+          .grid__row.start__list
+            .grid__column.grid__unit--md-6.list
+              ul.list__ul
+                li.typo__li Single / multiple select
+                li.typo__li Dropdowns
+                li.typo__li: a.typo__link(href="#sub-select-with-search") Searchable
+                li.typo__li: a.typo__link(href="#sub-tagging") Tagging
+                li.typo__li Server-side Rendering support
+            .grid__column.grid__unit--md-6.list
+              ul.list__ul
+                li.typo__li: a.typo__link(href="#sub-vuex-support") Vuex support by default
+                li.typo__li: a.typo__link(href="#sub-asynchronous-select") Ajax support
+                li.typo__li: a.typo__link(href="#sub-custom-configuration") Fully configurable
+                li.typo__li +99% test coverage
+                li.typo__li No dependencies
+
+    .grid__row.grid__row--centered
+      .grid__column.utils--center
+        a.button.button--large.button--secondary.button--github(href="https://github.com/shentao/vue-multiselect" target="_BLANK") View on GitHub
+        a.button.button--large(href="#sub-getting-started") Getting started & examples

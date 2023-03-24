@@ -1,0 +1,56 @@
+h2.typo__h2#sub-events(data-section) Events
+.grid__row
+  .table__container
+    table.table.table--full-size
+      thead
+        tr.table__tr
+          th.table__th(width="150") Name
+          th.table__th(width="100") Attributes
+          th.table__th(width="150") Listen to
+          th.table__th(width="250") Description
+      tbody
+        tr.table__tr
+          td.table__td: strong Input
+          td.table__td: kbd (value, id)
+          td.table__td: kbd @input
+          td.table__td
+            | Emitted after
+            = " "
+            kbd this.value
+            |  changes
+        tr.table__tr
+          td.table__td: strong Select
+          td.table__td: kbd (selectedOption, id)
+          td.table__td: kbd @select
+          td.table__td
+            | Emitted after selecting an option
+        tr.table__tr
+          td.table__td: strong Remove
+          td.table__td: kbd (removedOption, id)
+          td.table__td: kbd @remove
+          td.table__td
+            | Emitted after removing an option
+        tr.table__tr
+          td.table__td: strong SearchChange
+          td.table__td: kbd (searchQuery, id)
+          td.table__td: kbd @search-change
+          td.table__td
+            | Emitted after the search query changes
+        tr.table__tr
+          td.table__td: strong Tag
+          td.table__td: kbd (searchQuery, id)
+          td.table__td: kbd @tag
+          td.table__td
+            | Emitted after user attempts to add a tag
+        tr.table__tr
+          td.table__td: strong Open
+          td.table__td: kbd (id)
+          td.table__td: kbd @open
+          td.table__td
+            | Emitted when the dropdown opens. Useful for detecting when touched.
+        tr.table__tr
+          td.table__td: strong Close
+          td.table__td: kbd (value, id)
+          td.table__td: kbd @close
+          td.table__td
+            | Emitted when the dropdown closes
