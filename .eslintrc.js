@@ -8,7 +8,7 @@ module.exports = {
   parserOptions: {
     'ecmaVersion': 2017,
     'sourceType': 'module',
-    'parser': 'babel-eslint',
+    'parser': 'babel-eslint'
   },
   // required to lint *.vue files
   plugins: ['html'],

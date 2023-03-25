@@ -15,7 +15,8 @@
     "lint": "vue-cli-service lint",
     "bundle": "vue-cli-service build --target lib ./src/index.js && rm -rf ./dist/demo.html && rollup -c --environment BUILD:production",
     "finish": "npm run lint && npm test && npm run bundle",
-    "test": "vue-cli-service test:unit"
+    "test": "vue-cli-service test:unit",
+    "dev": "vue-cli-service serve documentation/main.js"
   },
   "main": "dist/vue-multiselect.esm.js",
   "unpkg": "dist/vue-multiselect.umd.min.js",
@@ -26,25 +27,24 @@
     "index.d.ts"
   ],
   "devDependencies": {
-    "@vue/cli-plugin-babel": "~4.5.0",
-    "@vue/cli-plugin-eslint": "~4.5.0",
-    "@vue/cli-plugin-unit-jest": "~4.5.0",
-    "@vue/cli-service": "~4.5.0",
+    "@vue/cli-plugin-babel": "5.0.8",
+    "@vue/cli-plugin-eslint": "5.0.8",
+    "@vue/cli-plugin-unit-jest": "5.0.8",
+    "@vue/cli-service": "5.0.8",
     "@vue/compiler-sfc": "^3.0.0",
     "@vue/test-utils": "^2.0.0-0",
-    "babel-eslint": "^10.1.0",
+    "@webdiscus/pug-loader": "^2.10.4",
     "babel-jest": "^26.6.3",
     "core-js": "^3.6.5",
-    "eslint": "^6.7.2",
     "eslint-config-standard": "^6.1.0",
     "eslint-plugin-html": "^6.0.0",
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-standard": "^4.0.1",
     "eslint-plugin-vue": "^7.0.0-0",
-    "node-sass": "4.14.1",
     "rollup": "^2.46.0",
     "rollup-plugin-css-only": "^3.1.0",
     "rollup-plugin-vue": "^6.0.0",
+    "sass": "1.32.7",
     "sass-loader": "10.1.1",
     "typescript": "~3.9.3",
     "vue": "^3.0.0",
@@ -61,5 +61,10 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/suadelabs/vue-multiselect.git"
+  },
+  "dependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.32.0",
+    "vuex": "^4.1.0"
   }
 }

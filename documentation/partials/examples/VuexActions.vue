@@ -11,15 +11,13 @@ div
 </template>
 
 <script>
-import Vue from 'vue'
-import Vuex from 'vuex'
+// import Vue from 'vue'
+// import Vuex from 'vuex'
 import Multiselect from '@'
 
-const { mapActions, mapState } = Vuex
+import { createStore, mapState, mapActions } from 'vuex'
 
-Vue.use(Vuex)
-
-const store = new Vuex.Store({
+const store = createStore({
   state: {
     value: 'Vuex',
     options: ['Vuex', 'Vue', 'Vuelidate', 'Vue-Multiselect', 'Vue-Router']
