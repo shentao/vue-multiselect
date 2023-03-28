@@ -19,7 +19,10 @@
         ></div>
       </slot>
       <slot name="clear" :search="search"></slot>
-      <div ref="tags" class="multiselect__tags">
+      <div ref="tags"
+        class="multiselect__tags"
+        :class="{ 'multiselect__tags--has-label-at-top': multiple && hasLabelAtTop }"
+      >
         <slot
           name="selection"
           :search="search"
@@ -553,6 +556,11 @@ fieldset[disabled] .multiselect {
   border: 1px solid #e8e8e8;
   background: #fff;
   font-size: 14px;
+}
+
+.multiselect__tags--has-label-at-top {
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 .multiselect__tag {
