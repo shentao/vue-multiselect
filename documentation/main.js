@@ -1,8 +1,9 @@
-import { createApp } from 'vue'
+import { createApp, h } from 'vue'
 import * as examples from './partials/examples'
 import LangSwitcher from './LangSwitcher.vue'
 import MultiselectExample from './MultiselectExample.vue'
 import Multiselect from '@'
+import index from './index.pug'
 // require('es6-promise').polyfill()
 
 import './docs.scss'
@@ -23,6 +24,7 @@ let sections
 
 /* eslint-disable no-new */
 createApp({
+  render: () => h(index),
   components: {
     ...examples,
     MultiselectExample,
