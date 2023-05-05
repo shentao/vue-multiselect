@@ -162,6 +162,10 @@ import pointerMixin from './pointerMixin'
 export default {
   name: 'vue-multiselect',
   mixins: [multiselectMixin, pointerMixin],
+  compatConfig: {
+    MODE: 3,
+    ATTR_ENUMERATED_COERCION: false
+  },
   props: {
     /**
        * name attribute to match optional label element
