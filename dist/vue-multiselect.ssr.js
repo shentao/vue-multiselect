@@ -393,12 +393,15 @@ var multiselectMixin = {
     }
   },
   watch: {
-    internalValue () {
+    internalValue: {
+      handler () {
       /* istanbul ignore else */
-      if (this.resetAfter && this.internalValue.length) {
-        this.search = '';
-        this.$emit('update:modelValue', this.multiple ? [] : null);
-      }
+        if (this.resetAfter && this.internalValue.length) {
+          this.search = '';
+          this.$emit('update:modelValue', this.multiple ? [] : null);
+        }
+      },
+      deep: true
     },
     search () {
       this.$emit('search-change', this.search);
@@ -874,6 +877,10 @@ var pointerMixin = {
 var script = {
   name: 'vue-multiselect',
   mixins: [multiselectMixin, pointerMixin],
+  compatConfig: {
+    MODE: 3,
+    ATTR_ENUMERATED_COERCION: false
+  },
   props: {
     /**
        * name attribute to match optional label element
