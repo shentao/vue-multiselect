@@ -489,7 +489,7 @@ export default {
     getOptionLabel (option) {
       if (isEmpty(option)) return ''
       /* istanbul ignore else */
-      if (option.isTag) return option.label
+      if (this.taggable && option.isTag) return option.label
       /* istanbul ignore else */
       if (option.$isLabel) return option.$groupLabel
 
@@ -521,7 +521,7 @@ export default {
       if (this.max && this.multiple && this.internalValue.length === this.max) return
       /* istanbul ignore else */
       if (key === 'Tab' && !this.pointerDirty) return
-      if (option.isTag) {
+      if (this.taggable && option.isTag) {
         this.$emit('tag', option.label, this.id)
         this.search = ''
         if (this.closeOnSelect && !this.multiple) this.deactivate()
