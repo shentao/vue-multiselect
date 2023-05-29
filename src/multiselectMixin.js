@@ -342,7 +342,7 @@ export default {
   computed: {
     internalValue () {
       return this.value || this.value === 0
-        ? Array.isArray(this.value) ? this.value : [this.value]
+        ? Array.isArray(this.value) ? this.value.filter(option => ![null, undefined].includes(option)) : [this.value]
         : []
     },
     filteredOptions () {
