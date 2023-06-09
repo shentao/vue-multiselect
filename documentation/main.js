@@ -38,8 +38,8 @@ new Vue({
       firstColor: Math.floor(Math.random() * 255),
       secondColor: Math.floor(Math.random() * 255),
       currentPosition: '',
-      versions: ['v1.x', 'v2.0'],
-      version: 'v2.0'
+      versions: ['v1.x', 'v2.x'],
+      version: 'v2.x'
     }
   },
   computed: {
