@@ -1,8 +1,11 @@
 # vue-multiselect
 
-## Documentation
+## Documentation for version 3
 
-> Documentation for v3.0.0 is the same as for v2.x as it is mostly backward compatible.
+Documentation for v3.0.0 is almost the same as for v2.x as it is mostly backward compatible. The differences between the two major versions are listed below:
+
+### Events
+`input` is now `update:modelValue`. This is so `v-model` works in Vue 3. 
 
 Visit: [vue-multiselect.js.org](https://vue-multiselect.js.org/#sub-getting-started)
 
@@ -165,7 +168,7 @@ methods: {
 
 Thanks to Matt Elen for contributing this version!
 
-> A Vue 3 upgrade of [@shentao's](https://github.com/shentao) [vue-mulitselect](https://github.com/shentao/vue-multiselect) component. The idea is that when you upgrade to Vue 3, you can swap the two components out, and everything should simply work. Feel free to check out our story of how we upgraded our product to Vue 3 on our blog at  [suade.org](https://suade.org/dev/a-products-vue-3-migration-a-real-life-story/)
+> A Vue 3 upgrade of [@shentao's](https://github.com/shentao) [vue-mulitselect](https://github.com/shentao/vue-multiselect) component. The idea is that when you upgrade to Vue 3, you can swap the two components out, and everything should simply work. Feel free to check out our story of how we upgraded our product to Vue 3 on our blog at  [suade.org](https://suade.org/a-products-vue-3-migration-a-real-life-story/)
 
 ## Contributing
 
