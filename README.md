@@ -2,12 +2,12 @@
 
 ## Documentation for version 3
 
-Documentation for v3.0.0 is almost the same as for v2.x as it is mostly backward compatible. The differences between the two major versions are listed below:
+Documentation for v3.0.0 is almost the same as for v2.x as it is mostly backward compatible. For the full docs for v2.x, check out: [vue-multiselect.js.org](https://vue-multiselect.js.org/#sub-getting-started)
+The differences between the two major versions are listed below:
 
 ### Events
 `input` is now `update:modelValue`. This is so `v-model` works in Vue 3. 
 
-Visit: [vue-multiselect.js.org](https://vue-multiselect.js.org/#sub-getting-started)
 
 ## Sponsors
 
