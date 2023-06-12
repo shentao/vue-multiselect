@@ -52,7 +52,7 @@
         :id="id"
         type="text"
         autocomplete="off"
-        spellcheck="false"
+        :spellcheck="false"
         :placeholder="placeholder"
         :style="inputStyle"
         :value="search"
