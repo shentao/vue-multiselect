@@ -681,9 +681,10 @@ export default {
      * Closes the multiselect’s dropdown.
      * Sets this.isOpen to FALSE
      */
-    deactivate () {
+    deactivate (blurEvent) {
       /* istanbul ignore else */
       if (!this.isOpen) return
+      if (blurEvent && blurEvent.relatedTarget && this.$el.contains(blurEvent.relatedTarget)) return
 
       this.isOpen = false
       /* istanbul ignore else  */
