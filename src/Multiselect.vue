@@ -297,6 +297,10 @@ export default {
     tabindex: {
       type: Number,
       default: 0
+    },
+    preventDeleteWithBackspace: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
