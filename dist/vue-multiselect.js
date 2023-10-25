@@ -686,7 +686,7 @@ var VueMultiselect = (function (exports, vue) {
         this.isOpen = false;
         /* istanbul ignore else  */
         if (this.searchable) {
-          if (typeof this.$refs.search !== 'undefined') this.$refs.search.blur();
+          if (this.$refs.search !== null && typeof this.$refs.search !== 'undefined') this.$refs.search.blur();
         } else {
           if (typeof this.$el !== 'undefined') this.$el.blur();
         }
@@ -1197,7 +1197,7 @@ var VueMultiselect = (function (exports, vue) {
               id: _ctx.id,
               type: "text",
               autocomplete: "off",
-              spellcheck: "false",
+              spellcheck: false,
               placeholder: _ctx.placeholder,
               style: $options.inputStyle,
               value: _ctx.search,
