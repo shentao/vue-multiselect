@@ -129,7 +129,7 @@
                   :data-deselect="groupSelect && deselectGroupLabelText"
                   :class="groupHighlight(index, option)"
                   @mouseenter.self="groupSelect && pointerSet(index)"
-                  @mousedown.prevent="selectGroup(option)"
+                  @mousedown.prevent="select(option, index)"
                   class="multiselect__option">
                     <slot name="option" :option="option" :search="search" :index="index">
                       <span>{{ getOptionLabel(option) }}</span>
