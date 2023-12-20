@@ -6,6 +6,10 @@
         Instead of <code>@update:modelValue</code> you can listen on the <code>@select</code> event. The difference between the two
         is that <code>@select</code> only receives the currently selected value instead of the whole list of selected
         values (if select is multiple).</p>
+       <h4>Optional configuration flags:</h4>
+    <ul>
+      <li><code>:reset-after="true"</code> – Resets the internal value after each select action inside the component.</li>
+    </ul>
     </div>
     <CodeDemoAndExample demo-name="ActionDispatcher"/>
   </div>
