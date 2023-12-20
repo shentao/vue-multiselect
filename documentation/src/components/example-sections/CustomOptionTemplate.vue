@@ -5,8 +5,8 @@
       to provide a custom option template. The available <code>props</code> include <code>props.option</code> and <code>props.search</code>.
       Look at the provided example for more details.</p>
     <p>To ensure the keyboard navigation works properly, remember to set the <code>:option-height</code> so it equals
-      the height of the option template. By default, the component assumes an option height of 40px.</p> <h4>Optional
-      configuration flags:</h4>
+      the height of the option template. By default, the component assumes an option height of 40px.</p>
+    <h4>Optional configuration flags:</h4>
     <ul>
       <li><code>:option-height="104"</code> – The height of the custom option template.</li>
     </ul>

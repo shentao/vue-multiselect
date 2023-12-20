@@ -2,10 +2,10 @@
   <div><label class="typo__label">Custom option template</label>
     <multiselect v-model="value" placeholder="Fav No Man’s Sky path" label="title" track-by="title" :options="options"
                  :option-height="104" :custom-label="customLabel" :show-labels="false">
-      <template slot="singleLabel" slot-scope="props"><img class="option__image" :src="props.option.img"
+      <template #singleLabel="props"><img class="option__image" :src="props.option.img"
                                                            alt="No Man’s Sky"/><span class="option__desc"><span
         class="option__title">{{ props.option.title }}</span></span></template>
-      <template slot="option" slot-scope="props"><img class="option__image" :src="props.option.img" alt="No Man’s Sky"/>
+      <template #option="props"><img class="option__image" :src="props.option.img" alt="No Man’s Sky"/>
         <div class="option__desc"><span class="option__title">{{ props.option.title }}</span><span
           class="option__small">{{ props.option.desc }}</span></div>
       </template>
@@ -23,12 +23,12 @@ export default {
   },
   data () {
     return {
-      value: {title: 'Explorer', desc: 'Discovering new species!', img: 'static/posters/creatures.png'},
+      value: {title: 'Explorer', desc: 'Discovering new species!', img: 'assets/posters/creatures.png'},
       options: [
-        {title: 'Space Pirate', desc: 'More space battles!', img: 'static/posters/fleet.png'},
-        {title: 'Merchant', desc: 'PROFIT!', img: 'static/posters/trading_post.png'},
-        {title: 'Explorer', desc: 'Discovering new species!', img: 'static/posters/creatures.png'},
-        {title: 'Miner', desc: 'We need to go deeper!', img: 'static/posters/resource_lab.png'}
+        {title: 'Space Pirate', desc: 'More space battles!', img: 'assets/posters/fleet.png'},
+        {title: 'Merchant', desc: 'PROFIT!', img: 'assets/posters/trading_post.png'},
+        {title: 'Explorer', desc: 'Discovering new species!', img: 'assets/posters/creatures.png'},
+        {title: 'Miner', desc: 'We need to go deeper!', img: 'assets/posters/resource_lab.png'}
       ]
     }
   },

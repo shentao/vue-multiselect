@@ -1,13 +1,11 @@
 <template>
 <div><label class="typo__label">Vuex example.</label>
-    <multiselect placeholder="Pick action" :value="value" :options="options" :searchable="false" @update:modelValue="updateValueAction"></multiselect>
+    <multiselect placeholder="Pick action" :modelValue="value" :options="options" :searchable="false" @update:modelValue="updateValueAction"></multiselect>
 </div>
 </template>
 
 <script>
-import Multiselect from 'vue-multiselect'
-import { createStore, mapActions, mapState } from 'vuex'
-
+/* Example of store setup
 const store = createStore({
   state () {
     return {
@@ -26,9 +24,12 @@ const store = createStore({
     }
   }
 })
+ */
+
+import Multiselect from 'vue-multiselect'
+import {mapActions, mapState} from 'vuex'
 
 export default {
-  store,
   components: {
     Multiselect
   },

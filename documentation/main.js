@@ -1,9 +1,29 @@
 import {createApp, h} from 'vue'
 import Multiselect from '../src/index'
 import App from './src/App.vue'
+import {createStore} from 'vuex'
 import { setCDN, getHighlighter } from 'shiki'
 setCDN('shiki/')
 import './docs.scss'
+
+const store = createStore({
+  state () {
+    return {
+      value: 'Vuex',
+      options: ['Vuex', 'Vue', 'Vuelidate', 'Vue-Multiselect', 'Vue-Router']
+    }
+  },
+  mutations: {
+    updateValue (state, value) {
+      state.value = value
+    }
+  },
+  actions: {
+    updateValueAction ({ commit }, value) {
+      commit('updateValue', value)
+    }
+  }
+})
 // import 'highlight.js/styles/intellij-light.css'
 // import hljsVuePlugin from '@highlightjs/vue-plugin'
 
@@ -26,7 +46,7 @@ const app = createApp({
       this.value.push({ name: newTag, language: newTag })
     }
   }
-}).component('multiselect', Multiselect)
+}).component('multiselect', Multiselect).use(store)
 
 getHighlighter({
   theme: 'github-light',
