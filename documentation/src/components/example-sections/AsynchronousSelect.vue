@@ -18,9 +18,6 @@
       <li><code>:options-limit="300"</code> – limits the displayed options to <code>300</code>. Useful for optimisations
         purposes.
       </li>
-    </ul>
-    <h4>New in v2.0.0 stable:</h4>
-    <ul>
       <li><code>id="ajax"</code> – every event is emitted with this as the second param. Useful for identification which
         component instance triggered the method (in loops for example). NEW: Can also be used for pointing with <code>&lt;label
           :for="id"&gt;</code>.
