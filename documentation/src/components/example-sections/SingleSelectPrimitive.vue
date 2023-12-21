@@ -1,5 +1,5 @@
 <template>
-  <div class="single-select">
+  <div class="grid__column">
     <h2 id="sub-single-select" data-section="" class="typo__h2">Single select</h2>
     <p>The basic single select / dropdown doesn’t require much configuration.</p>
     <p>The <code>options</code> prop must be an <code>Array</code>.</p>

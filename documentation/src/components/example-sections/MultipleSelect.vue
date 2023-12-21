@@ -1,5 +1,4 @@
 <template>
-  <div class="grid__row">
     <div class="grid__column"><h2 id="sub-multiple-select" data-section="" class="typo__h2">Multiple select</h2>
       <p>To allow multiple selections pass the <code>:multiple="true"</code> prop.</p> <h4>Optional configuration
         flags:</h4>
@@ -10,7 +9,6 @@
           code&gt;&lt;/template&gt;</code> to use a different markup for selected options (tags)
         </li>
       </ul>
-    </div>
     <CodeDemoAndExample demo-name="MultiSelect"/>
   </div>
 </template>

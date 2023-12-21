@@ -10,8 +10,8 @@
     <ul>
       <li><code>:option-height="104"</code> – The height of the custom option template.</li>
     </ul>
+    <CodeDemoAndExample demo-name="CustomOptions"/>
   </div>
-  <CodeDemoAndExample demo-name="CustomOptions" />
 </template>
 
 <script>
