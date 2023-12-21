@@ -41,7 +41,7 @@ import Slots from './components/Slots.vue'
 
 export default defineComponent({
   name: 'App',
-  components: {Slots, Events, Props, Examples, GettingStarted, NavMenu, Start},
+  components: {Slots, Events, Props, Examples, GettingStarted, NavMenu, Start}
 })
 </script>
 
