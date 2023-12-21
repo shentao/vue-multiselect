@@ -5,8 +5,8 @@
                  @update:model-value="pickVersion" select-label="Go to" deselect-label=""
                  selected-label=""></multiselect>
     <li class="list__heading">Setup</li>
-    <li class="list__element"><a href="#sub-getting-started" class="link list__link" :class="{ 'list__link--active': currentPosition === 'sub-getting-started' }">Getting
-      Started</a></li>
+    <li class="list__element"><a href="#sub-getting-started" class="link list__link" :class="{ 'list__link--active': currentPosition === 'sub-getting-started' }">Getting Started</a></li>
+    <li class="list__element"><a href="#sub-migration-guide" class="link list__link" :class="{ 'list__link--active': currentPosition === 'sub-migration-guide' }">Migration Guide</a></li>
     <li class="list__heading"><a href="#examples" class="link blank__link" :class="{ 'list__link--active': currentPosition === 'sub-examples' }">Examples</a></li>
     <li class="list__element"><a href="#sub-single-select" class="link list__link" :class="{ 'list__link--active': currentPosition === 'sub-single-select' }">Single select</a></li>
     <li class="list__element"><a href="#sub-single-select-object" class="link list__link" :class="{ 'list__link--active': currentPosition === 'sub-single-select-object' }">Single select (object)</a>

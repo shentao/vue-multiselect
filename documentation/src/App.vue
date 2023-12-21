@@ -8,6 +8,8 @@
       </div>
       <div class="grid__columns grid__unit--sm-12 grid__unit--md-9">
         <GettingStarted/>
+        <h1 class="typo__h1 additional-padding">Examples</h1>
+        <hr class="typo__hr"/>
         <Examples/>
         <hr class="typo__hr"/>
         <Props/>
@@ -43,3 +45,8 @@ export default defineComponent({
 })
 </script>
 
+<style>
+.additional-padding{
+  padding-top: 40px;
+}
+</style>

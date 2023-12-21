@@ -91,7 +91,7 @@
           <td class="table__td"><strong>resetAfter</strong></td>
           <td class="table__td">Boolean</td>
           <td class="table__td"><kbd>false</kbd></td>
-          <td class="table__td">Reset <kbd>this.value</kbd>, <kbd>this.search</kbd>, <kbd>this.selected</kbd> after
+          <td class="table__td">Reset <kbd>this.modelValue</kbd>, <kbd>this.search</kbd>, <kbd>this.selected</kbd> after
             <kbd>this.modelValue</kbd> changes.
           </td>
         </tr>
