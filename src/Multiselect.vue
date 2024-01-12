@@ -51,7 +51,7 @@
           :id="id"
           type="text"
           autocomplete="off"
-          spellcheck="false"
+          :spellcheck="spellcheck"
           :placeholder="placeholder"
           :style="inputStyle"
           :value="search"
@@ -269,6 +269,15 @@ export default {
      * @type {Boolean}
      */
     disabled: {
+      type: Boolean,
+      default: false
+    },
+    /**
+     * Enables search input's spellcheck if true.
+     * @default false
+     * @type {Boolean}
+     */
+    spellcheck: {
       type: Boolean,
       default: false
     },
