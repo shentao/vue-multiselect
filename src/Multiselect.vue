@@ -301,7 +301,7 @@ export default {
     },
     required: {
       type: Boolean,
-      default: undefined
+      default: false
     }
   },
   computed: {
