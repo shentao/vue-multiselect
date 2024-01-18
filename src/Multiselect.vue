@@ -57,6 +57,7 @@
           :value="search"
           :disabled="disabled"
           :tabindex="tabindex"
+          :required="required"
           @input="updateSearch($event.target.value)"
           @focus.prevent="activate()"
           @blur.prevent="deactivate()"
@@ -297,6 +298,10 @@ export default {
     tabindex: {
       type: Number,
       default: 0
+    },
+    required: {
+      type: Boolean,
+      default: undefined
     }
   },
   computed: {
