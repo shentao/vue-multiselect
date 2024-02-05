@@ -561,7 +561,11 @@ export default {
       if (!group) return
 
       if (this.wholeGroupSelected(group)) {
-        this.$emit('remove', group[this.groupValues], this.id)
+        /*
+        the emit event (custom) is not working for the selected group thus need to workout with the main method, left it commented just to be sure of the changes
+        */ 
+        this.removeElement(group[this.groupValues])
+        // this.$emit('remove', group[this.groupValues], this.id)
 
         const newValue = this.internalValue.filter(
           option => group[this.groupValues].indexOf(option) === -1
@@ -629,7 +633,18 @@ export default {
         : this.valueKeys.indexOf(option)
 
       if (this.multiple) {
-        const newValue = this.internalValue.slice(0, index).concat(this.internalValue.slice(index + 1))
+        let newValue
+        if (Array.isArray(option)) {
+          option.forEach(optionElement => {
+            this.internalValue.forEach(value => {
+              if (JSON.stringify(optionElement) === JSON.stringify(value)) {
+                newValue = this.internalValue.splice(this.internalValue.indexOf(value), 1)
+              }
+            })
+          })
+        } else {
+          newValue = this.internalValue.slice(0, index).concat(this.internalValue.slice(index + 1))
+        }
         this.$emit('input', newValue, this.id)
       } else {
         this.$emit('input', null, this.id)
