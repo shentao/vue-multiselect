@@ -66,8 +66,8 @@
     "url": "https://github.com/suadelabs/vue-multiselect/issues"
   },
   "engines": {
-    "node": ">= 4.0.0",
-    "npm": ">= 3.0.0"
+    "node": ">= 14.18.1",
+    "npm": ">= 6.14.15"
   },
   "license": "MIT",
   "repository": {
