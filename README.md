@@ -2,12 +2,7 @@
 
 ## Documentation for version 3
 
-Documentation for v3.0.0 is almost the same as for v2.x as it is mostly backward compatible. For the full docs for v2.x, check out: [vue-multiselect.js.org](https://vue-multiselect.js.org/#sub-getting-started)
-The differences between the two major versions are listed below:
-
-### Events
-`input` is now `update:modelValue`. This is so `v-model` works in Vue 3. 
-
+Documentation for v3.0.0 is almost the same as for v2.x as it is mostly backward compatible. For the full docs for v3 and previous versions, check out: [vue-multiselect.js.org](https://vue-multiselect.js.org/#sub-getting-started)
 
 ## Sponsors
 
@@ -34,6 +29,22 @@ The differences between the two major versions are listed below:
     <img src="https://cdn.discordapp.com/attachments/258614093362102272/557267759130607630/Vue-Mastery-Big.png" alt="Vue Mastery logo" width="180px">
   </a>
 </p>
+
+## Features & characteristics:
+* NO dependencies
+* Single select
+* Multiple select
+* Tagging
+* Dropdowns
+* Filtering
+* Search with suggestions
+* Logic split into mixins
+* Basic component and support for custom components
+* V-model support
+* Vuex support
+* Async options support
+* Fully configurable (see props list below)
+
 
 ## Install & basic usage
 
