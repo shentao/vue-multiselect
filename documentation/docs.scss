@@ -1,0 +1,164 @@
+@import './assets/main';
+
+$multiselect-height: 140px;
+$multiselect-background: #000;
+
+.invalid {
+  .typo__label {
+    color: $error-color;
+  }
+  .multiselect__tags {
+    border-color: $error-color !important;
+  }
+}
+
+body {
+  background: #fff;
+  color: #35495E;
+  font-family: 'Lato', Helvetica, sans-serif;
+  text-decoration: none;
+}
+
+.start {
+  text-align: center;
+  display: block;
+  background: linear-gradient(to left bottom, #8cc1f7 0%, #9cffd3 100%);
+
+  .typo__h1 {
+    padding-top: rem(40px);
+    position: relative;
+  }
+
+  .typo__h3 {
+    padding: rem(20px 0 0)
+  }
+
+  @media #{$medium-up} {
+    min-height: 100vh;
+  }
+
+  .button {
+    margin-bottom: rem(24px);
+  }
+}
+
+.start__list {
+  padding-top: rem(30px)
+}
+
+.docs {
+  text-align: left;
+  padding-top: rem(30px)
+}
+
+.center-vertically {
+  position: relative;
+
+  @media #{$medium-up} {
+    position: absolute;
+    height: 600px;
+    left: 0;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+.multiselect-example__container {
+  margin: 0 auto 60px;
+}
+
+.button {
+  margin: rem(0 10px)
+}
+
+.logo {
+  height: rem(70px);
+  margin-right: rem(20px);
+  vertical-align: middle;
+  display: inline-block;
+}
+
+.button--github {
+  padding-left: rem(60px);
+
+  &:before {
+    content: url('./assets/github.svg');
+    left: rem(25px);
+    position: absolute;
+  }
+}
+
+.blank__link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.version {
+  position: absolute;
+  bottom: rem(-7px);
+  font-size: rem(20px);
+  color: $secondary-color;
+  transform: translateX(-100%);
+}
+
+.badges {
+  margin-bottom: 15px;
+
+  img {
+    margin: 0 2px
+  }
+}
+
+.list__multiselect {
+  line-height: 1.4
+}
+
+section {
+  margin-bottom: rem(20px)
+}
+
+#examples {
+  .grid__column {
+    & > p > a {
+      font-weight: $global-font-weight-bold;
+      color: $primary-color;
+      text-decoration: none;
+    }
+
+    & > ul {
+      padding-left: rem(25px);
+      margin-top: rem(7px);
+
+      li {
+        line-height: $paragraph-line-height;
+        font-family: $paragraph-family;
+        font-weight: $paragraph-font-weight;
+        font-size: rem($paragraph-font-size-ratio-sm * $global-font-size);
+        padding: rem(4px 0);
+      }
+    }
+  }
+}
+
+p > code, li > code {
+  font-size: rem(14px);
+  color: #41b883;
+  padding: rem(3px 5px);
+  border-radius: rem(4px);
+  background: #f3f3f3;
+}
+
+.shiki {
+  padding: rem(14px 18px);
+  background: #f6f8fa !important; // Override theme setting
+  font-size: rem(14px);
+  line-height: rem(24px);
+}
+
+// Selection Output
+.language-json {
+  padding: rem(14px 18px);
+  background: #f3f3f3;
+  margin:0;
+}

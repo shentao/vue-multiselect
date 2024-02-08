@@ -12,10 +12,16 @@
     "Matt Elen <matt@suade.org>"
   ],
   "scripts": {
+    "copy": "shx mkdir -p documentation/shiki && shx cp -r node_modules/shiki/{dist,languages,samples,themes} documentation/shiki/",
     "lint": "vue-cli-service lint",
     "bundle": "vue-cli-service build --target lib ./src/index.js && rm -rf ./dist/demo.html && rollup -c --environment BUILD:production",
     "finish": "npm run lint && npm test && npm run bundle",
-    "test": "vue-cli-service test:unit"
+    "test": "vue-cli-service test:unit",
+    "dev": "vite serve documentation",
+    "predev": "npm run copy",
+    "prebuild": "npm run copy",
+    "build": "vite build documentation",
+    "preview": "vite preview documentation"
   },
   "main": "dist/vue-multiselect.esm.js",
   "unpkg": "dist/vue-multiselect.umd.min.js",
@@ -26,6 +32,7 @@
     "index.d.ts"
   ],
   "devDependencies": {
+    "@vitejs/plugin-vue": "^4.2.3",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-unit-jest": "~4.5.0",
@@ -45,21 +52,27 @@
     "rollup": "^2.46.0",
     "rollup-plugin-css-only": "^3.1.0",
     "rollup-plugin-vue": "^6.0.0",
+    "sass": "^1.62.1",
     "sass-loader": "10.1.1",
+    "shiki": "^0.14.5",
+    "shx": "^0.3.4",
     "typescript": "~3.9.3",
-    "vue": "^3.0.0",
-    "vue-jest": "^5.0.0-alpha.7"
+    "vite": "^4.3.9",
+    "vue": "^3.2.25",
+    "vue-jest": "^5.0.0-alpha.7",
+    "vuex": "^4.1.0"
   },
   "bugs": {
     "url": "https://github.com/suadelabs/vue-multiselect/issues"
   },
   "engines": {
-    "node": ">= 4.0.0",
-    "npm": ">= 3.0.0"
+    "node": ">= 14.18.1",
+    "npm": ">= 6.14.15"
   },
   "license": "MIT",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/suadelabs/vue-multiselect.git"
-  }
+  },
+  "dependencies": {}
 }
