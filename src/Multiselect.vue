@@ -72,7 +72,7 @@
       <span
         v-if="isSingleLabelVisible"
         class="multiselect__single"
-        @mousedown.prevent="toggle"
+        @mousedown.prevent.stop="toggle"
       >
         <slot name="singleLabel" :option="singleValue">
           {{ currentOptionLabel }}
@@ -81,7 +81,7 @@
       <span
         v-if="isPlaceholderVisible"
         class="multiselect__placeholder"
-        @mousedown.prevent="toggle"
+        @mousedown.prevent.stop="toggle"
       >
         <slot name="placeholder">
           {{ placeholder }}
