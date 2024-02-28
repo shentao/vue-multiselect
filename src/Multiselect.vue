@@ -12,10 +12,17 @@
     role="combobox"
     :aria-owns="'listbox-'+id">
       <slot name="caret" :toggle="toggle">
-        <div @mousedown.prevent.stop="toggle()" class="multiselect__select"></div>
+        <div
+          class="multiselect__select"
+          :class="{ 'multiselect__select--has-label-at-top': hasLabelAtTop }"
+          @mousedown.prevent.stop="toggle()"
+        ></div>
       </slot>
       <slot name="clear" :search="search"></slot>
-      <div ref="tags" class="multiselect__tags">
+      <div ref="tags"
+        class="multiselect__tags"
+        :class="{ 'multiselect__tags--has-label-at-top': multiple && hasLabelAtTop }"
+      >
         <slot
           name="selection"
           :search="search"
@@ -69,21 +76,21 @@
           :aria-controls="'listbox-'+id"
         />
         <span
-          v-if="isSingleLabelVisible"
-          class="multiselect__single"
-          @mousedown.prevent="toggle"
-        >
-          <slot name="singleLabel" :option="singleValue">
-            <template>{{ currentOptionLabel }}</template>
-          </slot>
-        </span>
-        <span
           v-if="isPlaceholderVisible"
           class="multiselect__placeholder"
           @mousedown.prevent="toggle"
         >
           <slot name="placeholder">
             {{ placeholder }}
+          </slot>
+        </span>
+        <span
+          v-if="isSingleLabelVisible"
+          class="multiselect__single"
+          @mousedown.prevent="toggle"
+        >
+          <slot name="singleLabel" :option="singleValue">
+            <template>{{ currentOptionLabel }}</template>
           </slot>
         </span>
       </div>
@@ -297,6 +304,15 @@ export default {
     tabindex: {
       type: Number,
       default: 0
+    },
+    /**
+     * Determine if the label should be placed on top of the input field
+     * @default False
+     * @type {Boolean}
+     */
+    hasLabelAtTop: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -311,6 +327,10 @@ export default {
       )
     },
     isPlaceholderVisible () {
+      if (this.hasLabelAtTop) {
+        return true
+      }
+
       return !this.internalValue.length && (!this.searchable || !this.isOpen)
     },
     visibleValues () {
@@ -538,6 +558,11 @@ fieldset[disabled] .multiselect {
   font-size: 14px;
 }
 
+.multiselect__tags--has-label-at-top {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
 .multiselect__tag {
   position: relative;
   display: inline-block;
@@ -617,6 +642,11 @@ fieldset[disabled] .multiselect {
   text-align: center;
   cursor: pointer;
   transition: transform 0.2s ease;
+}
+
+.multiselect__select.multiselect__select--has-label-at-top {
+  top: 50%;
+  transform: translate(0, -50%);
 }
 
 .multiselect__select:before {
