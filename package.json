@@ -86,7 +86,7 @@
     "vuex": "^3.6.2",
     "webpack": "^2.2.1",
     "webpack-bundle-analyzer": "^4.7.0",
-    "webpack-dev-middleware": "^2.0.6",
+    "webpack-dev-middleware": "^6.0.2",
     "webpack-hot-middleware": "^2.16.1",
     "webpack-merge": "^5.8.0"
   },
