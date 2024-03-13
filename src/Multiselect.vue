@@ -149,6 +149,9 @@
             </li>
             <slot name="afterList"></slot>
           </ul>
+          <div v-if="showFooter" class="multiselect__footer">
+            <slot name="footer" />
+          </div>
         </div>
       </transition>
   </div>
@@ -297,6 +300,10 @@ export default {
     tabindex: {
       type: Number,
       default: 0
+    },
+    showFooter: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -554,6 +561,10 @@ fieldset[disabled] .multiselect {
   text-overflow: ellipsis;
 }
 
+.multiselect__footer {
+  min-height: 40px;
+}
+
 .multiselect__tag-icon {
   cursor: pointer;
   margin-left: 7px;
@@ -647,7 +658,6 @@ fieldset[disabled] .multiselect {
   display: block;
   background: #fff;
   width: 100%;
-  max-height: 240px;
   overflow: auto;
   border: 1px solid #e8e8e8;
   border-top: none;
@@ -658,6 +668,8 @@ fieldset[disabled] .multiselect {
 }
 
 .multiselect__content {
+  max-height: 240px;
+  overflow: auto;
   list-style: none;
   display: inline-block;
   padding: 0;
