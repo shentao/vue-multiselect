@@ -561,7 +561,7 @@ export default {
 
         const groupValues = this.trackBy ? group[this.groupValues].map(val => val[this.trackBy]) : group[this.groupValues]
         const newValue = this.internalValue.filter(
-          (option) => groupValues.indexOf(this.trackBy ? option[this.trackBy] : option) === -1
+          option => groupValues.indexOf(this.trackBy ? option[this.trackBy] : option) === -1
         )
 
         this.$emit('update:modelValue', newValue)

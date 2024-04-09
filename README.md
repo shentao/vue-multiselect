@@ -78,6 +78,10 @@ export default {
 <style src="vue-multiselect/dist/vue-multiselect.css"></style>
 ```
 
+## JSFiddle
+
+[Example JSFiddle](https://jsfiddle.net/mattelen/8cyt3hrn/5/) – Use this for issue reproduction.
+
 ## Examples
 
 ### Single select / dropdown
