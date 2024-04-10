@@ -18,11 +18,13 @@ function includes (str, query) {
 }
 
 function filterOptions (options, search, label, customLabel) {
-  return options.filter(option => includes(customLabel(option, label), search))
+  return search ? options
+    .filter((option) => includes(customLabel(option, label), search))
+    .sort((a, b) => customLabel(a, label).length - customLabel(b, label).length) : options
 }
 
 function stripGroups (options) {
-  return options.filter(option => !option.$isLabel)
+  return options.filter((option) => !option.$isLabel)
 }
 
 function flattenOptions (values, label) {
@@ -42,7 +44,7 @@ function flattenOptions (values, label) {
 
 function filterGroups (search, label, values, groupLabel, customLabel) {
   return (groups) =>
-    groups.map(group => {
+    groups.map((group) => {
       /* istanbul ignore else */
       if (!group[values]) {
         console.warn(`Options passed to vue-multiselect do not contain groups, despite the config.`)
@@ -59,7 +61,7 @@ function filterGroups (search, label, values, groupLabel, customLabel) {
     })
 }
 
-const flow = (...fns) => x => fns.reduce((v, f) => f(v), x)
+const flow = (...fns) => (x) => fns.reduce((v, f) => f(v), x)
 
 export default {
   data () {
@@ -98,16 +100,6 @@ export default {
     multiple: {
       type: Boolean,
       default: false
-    },
-    /**
-     * Presets the selected options value.
-     * @type {Object||Array||String||Integer}
-     */
-    value: {
-      type: null,
-      default () {
-        return []
-      }
     },
     /**
      * Key to compare objects
@@ -341,8 +333,8 @@ export default {
   },
   computed: {
     internalValue () {
-      return this.value || this.value === 0
-        ? Array.isArray(this.value) ? this.value : [this.value]
+      return this.modelValue || this.modelValue === 0
+        ? Array.isArray(this.modelValue) ? this.modelValue : [this.modelValue]
         : []
     },
     filteredOptions () {
@@ -367,9 +359,9 @@ export default {
       /* istanbul ignore else */
       if (this.taggable && normalizedSearch.length && !this.isExistingOption(normalizedSearch)) {
         if (this.tagPosition === 'bottom') {
-          options.push({ isTag: true, label: search })
+          options.push({isTag: true, label: search})
         } else {
-          options.unshift({ isTag: true, label: search })
+          options.unshift({isTag: true, label: search})
         }
       }
 
@@ -377,14 +369,14 @@ export default {
     },
     valueKeys () {
       if (this.trackBy) {
-        return this.internalValue.map(element => element[this.trackBy])
+        return this.internalValue.map((element) => element[this.trackBy])
       } else {
         return this.internalValue
       }
     },
     optionKeys () {
       const options = this.groupValues ? this.flatAndStrip(this.options) : this.options
-      return options.map(element => this.customLabel(element, this.label).toString().toLowerCase())
+      return options.map((element) => this.customLabel(element, this.label).toString().toLowerCase())
     },
     currentOptionLabel () {
       return this.multiple
@@ -395,17 +387,21 @@ export default {
     }
   },
   watch: {
-    internalValue () {
+    internalValue: {
+      handler () {
       /* istanbul ignore else */
-      if (this.resetAfter && this.internalValue.length) {
-        this.search = ''
-        this.$emit('input', this.multiple ? [] : null)
-      }
+        if (this.resetAfter && this.internalValue.length) {
+          this.search = ''
+          this.$emit('update:modelValue', this.multiple ? [] : null)
+        }
+      },
+      deep: true
     },
     search () {
-      this.$emit('search-change', this.search, this.id)
+      this.$emit('search-change', this.search)
     }
   },
+  emits: ['open', 'search-change', 'close', 'select', 'update:modelValue', 'remove', 'tag'],
   methods: {
     /**
      * Returns the internalValue in a way it can be emited to the parent
@@ -421,7 +417,7 @@ export default {
     /**
      * Filters and then flattens the options list
      * @param  {Array}
-     * @returns {Array} returns a filtered and flat options list
+     * @return {Array} returns a filtered and flat options list
      */
     filterAndFlat (options, search, label) {
       return flow(
@@ -432,7 +428,7 @@ export default {
     /**
      * Flattens and then strips the group labels from the options list
      * @param  {Array}
-     * @returns {Array} returns a flat options list without group labels
+     * @return {Array} returns a flat options list without group labels
      */
     flatAndStrip (options) {
       return flow(
@@ -451,7 +447,7 @@ export default {
      * Finds out if the given query is already present
      * in the available options
      * @param  {String}
-     * @returns {Boolean} returns true if element is available
+     * @return {Boolean} returns true if element is available
      */
     isExistingOption (query) {
       return !this.options
@@ -493,7 +489,7 @@ export default {
       /* istanbul ignore else */
       if (option.$isLabel) return option.$groupLabel
 
-      let label = this.customLabel(option, this.label)
+      const label = this.customLabel(option, this.label)
       /* istanbul ignore else */
       if (isEmpty(label)) return ''
       return label
@@ -534,9 +530,9 @@ export default {
         }
 
         if (this.multiple) {
-          this.$emit('input', this.internalValue.concat([option]), this.id)
+          this.$emit('update:modelValue', this.internalValue.concat([option]))
         } else {
-          this.$emit('input', option, this.id)
+          this.$emit('update:modelValue', option)
         }
 
         this.$emit('select', option, this.id)
@@ -554,7 +550,7 @@ export default {
      * @param  {Object||String||Integer} group to select/deselect
      */
     selectGroup (selectedGroup) {
-      const group = this.options.find(option => {
+      const group = this.options.find((option) => {
         return option[this.groupLabel] === selectedGroup.$groupLabel
       })
 
@@ -568,7 +564,7 @@ export default {
           option => groupValues.indexOf(this.trackBy ? option[this.trackBy] : option) === -1
         )
 
-        this.$emit('input', newValue, this.id)
+        this.$emit('update:modelValue', newValue)
       } else {
         let optionsToAdd = group[this.groupValues].filter(
           option => !(this.isOptionDisabled(option) || this.isSelected(option))
@@ -581,9 +577,8 @@ export default {
 
         this.$emit('select', optionsToAdd, this.id)
         this.$emit(
-          'input',
-          this.internalValue.concat(optionsToAdd),
-          this.id
+          'update:modelValue',
+          this.internalValue.concat(optionsToAdd)
         )
       }
 
@@ -595,7 +590,7 @@ export default {
      * @param {Object} group to validated selected values against
      */
     wholeGroupSelected (group) {
-      return group[this.groupValues].every(option => this.isSelected(option) || this.isOptionDisabled(option)
+      return group[this.groupValues].every((option) => this.isSelected(option) || this.isOptionDisabled(option)
       )
     },
     /**
@@ -612,7 +607,7 @@ export default {
      * it is the last selected option.
      *
      * @param  {type} option description
-     * @returns {type}        description
+     * @return {type}        description
      */
     removeElement (option, shouldClose = true) {
       /* istanbul ignore else */
@@ -631,9 +626,9 @@ export default {
 
       if (this.multiple) {
         const newValue = this.internalValue.slice(0, index).concat(this.internalValue.slice(index + 1))
-        this.$emit('input', newValue, this.id)
+        this.$emit('update:modelValue', newValue)
       } else {
-        this.$emit('input', null, this.id)
+        this.$emit('update:modelValue', null)
       }
       this.$emit('remove', option, this.id)
 

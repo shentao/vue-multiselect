@@ -106,7 +106,7 @@ $button-border: 3px
 +button-variant('info', $info-color)
 
 .button__group
-  margin-bottom: $grid-gutter-width / 2
+  margin-bottom: calc($grid-gutter-width / 2)
   width: 100%
 
   .button
@@ -131,4 +131,4 @@ $button-group-count: 3
   .button__group--#{$i}
 
     .button
-      width: 100% / $i
+      width: calc(100% / $i)

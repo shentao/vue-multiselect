@@ -1,5 +1,4 @@
 @import './assets/main';
-@import './assets/prism';
 
 $multiselect-height: 140px;
 $multiselect-background: #000;
@@ -140,4 +139,26 @@ section {
       }
     }
   }
+}
+
+p > code, li > code {
+  font-size: rem(14px);
+  color: #41b883;
+  padding: rem(3px 5px);
+  border-radius: rem(4px);
+  background: #f3f3f3;
+}
+
+.shiki {
+  padding: rem(14px 18px);
+  background: #f6f8fa !important; // Override theme setting
+  font-size: rem(14px);
+  line-height: rem(24px);
+}
+
+// Selection Output
+.language-json {
+  padding: rem(14px 18px);
+  background: #f3f3f3;
+  margin:0;
 }

@@ -79,7 +79,7 @@ $input-addon-weight: 700
   min-height: rem(82px)
   resize: none
   line-height: 1.4
-  padding-top: $input-height / 4
+  padding-top: calc($input-height / 4)
 
 .form__label
   font-size: rem($input-label-size)
@@ -94,8 +94,8 @@ $input-addon-weight: 700
   @extend .form__label
 
   display: inline-block
-  margin-right: rem($grid-gutter-width / 2)
-  margin-left: rem($grid-gutter-width / 5)
+  margin-right: rem(calc($grid-gutter-width / 2))
+  margin-left: rem(calc($grid-gutter-width / 5))
 
 .form-group
   margin-bottom: rem($input-margin-bottom)

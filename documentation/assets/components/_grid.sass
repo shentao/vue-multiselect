@@ -1,21 +1,21 @@
 =calc-grid-columns($class, $i: 1)
   @for $i from 1 through $grid-columns
     .grid__unit--#{$class}-#{$i}
-      width: percentage($i / $grid-columns)
+      width: percentage(calc($i / $grid-columns))
 
     .grid__push--#{$class}-#{$i}
-      left: percentage($i / $grid-columns)
+      left: percentage(calc($i / $grid-columns))
       right: auto
 
     .grid__pull--#{$class}-#{$i}
-      right: percentage($i / $grid-columns)
+      right: percentage(calc($i / $grid-columns))
       left: auto
 
     .grid__offset--#{$class}-#{$i}
-      margin-left: percentage($i / $grid-columns)
+      margin-left: percentage(calc($i / $grid-columns))
 
     .blocks--#{$class}-#{$i} .blocks__element
-      width: calc(#{percentage(1 / ($grid-columns / ($grid-columns / $i)))} - #{$grid-gutter-width / 2})
+      width: calc(#{percentage(calc(1 / ($grid-columns / ($grid-columns / $i))))} - #{calc($grid-gutter-width / 2)})
 
 // config
 $grid-columns: $global-grid-columns
@@ -43,7 +43,7 @@ html
   vertical-align: top
   width: 100%
   position: relative
-  padding: 0 ($grid-gutter-width/2)
+  padding: 0 calc($grid-gutter-width/2)
 
 .grid__column--centered
   display: block
@@ -71,7 +71,7 @@ html
   max-width: $grid-max-width
 
   .grid__row
-    margin: 0 ($grid-gutter-width/-2)
+    margin: 0 calc($grid-gutter-width/-2)
 
 
   &.grid__row--collapse
@@ -91,14 +91,14 @@ html
   right: auto !important
 
 .blocks
-  margin: 0 $grid-gutter-width / -4
+  margin: 0 calc($grid-gutter-width / -4)
 
   .blocks__element
     position: relative
     float: left
     box-sizing: border-box
     transition: background .2s ease
-    margin: $grid-gutter-width/4
+    margin: calc($grid-gutter-width/4)
 
 
 +calc-grid-columns(sm)
