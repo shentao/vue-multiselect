@@ -63,7 +63,7 @@
     "vuex": "^4.1.0"
   },
   "bugs": {
-    "url": "https://github.com/suadelabs/vue-multiselect/issues"
+    "url": "https://github.com/shentao/vue-multiselect"
   },
   "engines": {
     "node": ">= 14.18.1",
@@ -72,7 +72,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/suadelabs/vue-multiselect.git"
+    "url": "git+https://github.com/shentao/vue-multiselect.git"
   },
   "dependencies": {}
 }
