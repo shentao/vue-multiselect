@@ -12,7 +12,7 @@
     "Matt Elen <matt@suade.org>"
   ],
   "scripts": {
-    "copy": "shx mkdir -p documentation/shiki && shx cp -r node_modules/shiki/{dist,languages,samples,themes} documentation/shiki/",
+    "copy": "shx mkdir -p docs/shiki && shx mkdir -p documentation/shiki && shx cp -r node_modules/shiki/{dist,languages,samples,themes} documentation/shiki/ && shx cp -r node_modules/shiki/{dist,languages,samples,themes} docs/shiki/",
     "lint": "vue-cli-service lint",
     "bundle": "vue-cli-service build --target lib ./src/index.js && rm -rf ./dist/demo.html && rollup -c --environment BUILD:production",
     "finish": "npm run lint && npm test && npm run bundle",
