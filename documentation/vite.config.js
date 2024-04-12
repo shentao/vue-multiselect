@@ -9,6 +9,7 @@ export default {
   build: {
     outDir: '../docs/'
   },
+  base: '',
   resolve: {
     alias: {
       'vue-multiselect': path.resolve(__dirname, '../src')
