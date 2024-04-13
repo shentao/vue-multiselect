@@ -9,7 +9,8 @@
     "email": "damian@dulisz.com"
   },
   "contributors": [
-    "Matt Elen <matt@suade.org>"
+    "Matt Elen <matt@suade.org>",
+    "Akshay Jat <https://github.com/akki-jat>"
   ],
   "scripts": {
     "copy": "shx mkdir -p docs/shiki && shx mkdir -p documentation/shiki && shx cp -r node_modules/shiki/{dist,languages,samples,themes} documentation/shiki/ && shx cp -r node_modules/shiki/{dist,languages,samples,themes} docs/shiki/",
