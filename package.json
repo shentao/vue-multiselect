@@ -3,6 +3,7 @@
   "version": "3.0.0",
   "private": false,
   "types": "index.d.ts",
+  "homepage": "vue-multiselect.js.org",
   "description": "Multiselect component for Vue 3",
   "author": {
     "name": "Damian Dulisz",
