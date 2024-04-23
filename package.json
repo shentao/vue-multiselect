@@ -4,7 +4,7 @@
   "private": false,
   "types": "index.d.ts",
   "homepage": "vue-multiselect.js.org",
-  "description": "Multiselect component for Vue 3",
+  "description": "Multiselect component for Vue",
   "author": {
     "name": "Damian Dulisz",
     "email": "damian@dulisz.com"
