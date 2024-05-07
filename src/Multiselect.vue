@@ -54,6 +54,7 @@
         autocomplete="off"
         :spellcheck="false"
         :placeholder="placeholder"
+        :required="required"
         :style="inputStyle"
         :value="search"
         :disabled="disabled"
@@ -312,6 +313,10 @@ export default {
     tabindex: {
       type: Number,
       default: 0
+    },
+    required: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
