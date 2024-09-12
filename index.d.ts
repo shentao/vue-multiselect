@@ -1,6 +1,5 @@
-// Type definitions for Vue-Multislect 2.1.0
-// Definitions by: Akshay Jat https://github.com/akki-jat
-
+// Type definitions originally for Vue-Multislect 2.1.0, rebuilt and tested with Vue 3 version
+// Originally written by: Akshay Jat https://github.com/akki-jat
 import Vue from 'vue';
 
 declare class Multiselect extends Vue {

@@ -1,8 +1,8 @@
 @function no-unit($value)
-  @return $value / ($value * 0 + 1)
+  @return calc($value / ($value * 0 + 1))
 
 @function to-rem($rem, $base-size: 16px)
-  $rem: no-unit($rem) / no-unit($base-size) * 1rem
+  $rem: calc(no-unit($rem) / no-unit($base-size)) * 1rem
   @if ($rem == 0rem)
     $rem: 0
   @return $rem
