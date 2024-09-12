@@ -99,7 +99,7 @@
         :style="{ maxHeight: optimizedHeight + 'px' }"
         ref="list"
       >
-        <ul class="multiselect__content" :style="contentStyle" role="listbox" :id="'listbox-'+id">
+          <ul class="multiselect__content" :style="contentStyle" role="listbox" :id="'listbox-'+id" :aria-multiselectable="multiple">
           <slot name="beforeList"></slot>
           <li v-if="multiple && max === internalValue.length">
             <span class="multiselect__option">
@@ -110,6 +110,7 @@
             <li class="multiselect__element"
                 v-for="(option, index) of filteredOptions"
                 :key="index"
+                :aria-selected="isSelected(option)"
                 v-bind:id="id + '-' + index"
                 v-bind:role="!(option && (option.$isLabel || option.$isDisabled)) ? 'option' : null">
               <span
