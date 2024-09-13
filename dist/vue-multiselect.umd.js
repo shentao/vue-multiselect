@@ -1103,6 +1103,13 @@ module.exports = [
 
 /***/ }),
 
+/***/ "79ee":
+/***/ (function(module, exports, __webpack_require__) {
+
+// extracted by mini-css-extract-plugin
+
+/***/ }),
+
 /***/ "7b0b":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1449,6 +1456,17 @@ module.exports = store.inspectSource;
 /***/ (function(module, exports) {
 
 module.exports = __WEBPACK_EXTERNAL_MODULE__8bbf__;
+
+/***/ }),
+
+/***/ "8f32":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Multiselect_vue_vue_type_style_index_0_id_d4b2bd8c_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("79ee");
+/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Multiselect_vue_vue_type_style_index_0_id_d4b2bd8c_lang_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Multiselect_vue_vue_type_style_index_0_id_d4b2bd8c_lang_css__WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
 
 /***/ }),
 
@@ -2039,17 +2057,6 @@ if (DESCRIPTORS && !(NAME in FunctionPrototype)) {
 
 /***/ }),
 
-/***/ "b14b":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Multiselect_vue_vue_type_style_index_0_id_2fe91855_lang_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("be21");
-/* harmony import */ var _node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Multiselect_vue_vue_type_style_index_0_id_2fe91855_lang_css__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_mini_css_extract_plugin_dist_loader_js_ref_6_oneOf_1_0_node_modules_vue_cli_service_node_modules_css_loader_dist_cjs_js_ref_6_oneOf_1_1_node_modules_vue_loader_v16_dist_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_v16_dist_index_js_ref_0_1_Multiselect_vue_vue_type_style_index_0_id_2fe91855_lang_css__WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
-
-
-/***/ }),
-
 /***/ "b622":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -2153,13 +2160,6 @@ module.exports = {
   filterOut: createMethod(7)
 };
 
-
-/***/ }),
-
-/***/ "be21":
-/***/ (function(module, exports, __webpack_require__) {
-
-// extracted by mini-css-extract-plugin
 
 /***/ }),
 
@@ -2829,7 +2829,7 @@ var es_function_name = __webpack_require__("b0c0");
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__("8bbf");
 
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/@vue/cli-plugin-babel/node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Multiselect.vue?vue&type=template&id=2fe91855
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/@vue/cli-plugin-babel/node_modules/babel-loader/lib!./node_modules/vue-loader-v16/dist/templateLoader.js??ref--6!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader-v16/dist??ref--0-1!./src/Multiselect.vue?vue&type=template&id=d4b2bd8c
 
 
 
@@ -2848,15 +2848,15 @@ var _hoisted_6 = ["textContent"];
 var _hoisted_7 = {
   "class": "multiselect__spinner"
 };
-var _hoisted_8 = ["name", "id", "placeholder", "value", "disabled", "tabindex", "aria-controls"];
-var _hoisted_9 = ["id"];
+var _hoisted_8 = ["name", "id", "spellcheck", "placeholder", "required", "value", "disabled", "tabindex", "aria-controls"];
+var _hoisted_9 = ["id", "aria-multiselectable"];
 var _hoisted_10 = {
   key: 0
 };
 var _hoisted_11 = {
   "class": "multiselect__option"
 };
-var _hoisted_12 = ["id", "role"];
+var _hoisted_12 = ["aria-selected", "id", "role"];
 var _hoisted_13 = ["onClick", "onMouseenter", "data-select", "data-selected", "data-deselect"];
 var _hoisted_14 = ["data-select", "data-deselect", "onMouseenter", "onMousedown"];
 var _hoisted_15 = {
@@ -2962,8 +2962,9 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     id: _ctx.id,
     type: "text",
     autocomplete: "off",
-    spellcheck: false,
+    spellcheck: $props.spellcheck,
     placeholder: _ctx.placeholder,
+    required: $props.required,
     style: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeStyle"])($options.inputStyle),
     value: _ctx.search,
     disabled: $props.disabled,
@@ -3029,7 +3030,8 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         "class": "multiselect__content",
         style: Object(external_commonjs_vue_commonjs2_vue_root_Vue_["normalizeStyle"])($options.contentStyle),
         role: "listbox",
-        id: 'listbox-' + _ctx.id
+        id: 'listbox-' + _ctx.id,
+        "aria-multiselectable": _ctx.multiple
       }, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "beforeList"), _ctx.multiple && _ctx.max === _ctx.internalValue.length ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", _hoisted_10, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementVNode"])("span", _hoisted_11, [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["renderSlot"])(_ctx.$slots, "maxElements", {}, function () {
         return [Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createTextVNode"])("Maximum of " + Object(external_commonjs_vue_commonjs2_vue_root_Vue_["toDisplayString"])(_ctx.max) + " options selected. First remove a selected option to select another.", 1)];
       })])])) : Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createCommentVNode"])("", true), !_ctx.max || _ctx.internalValue.length < _ctx.max ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(true), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])(external_commonjs_vue_commonjs2_vue_root_Vue_["Fragment"], {
@@ -3038,6 +3040,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("li", {
           "class": "multiselect__element",
           key: index,
+          "aria-selected": _ctx.isSelected(option),
           id: _ctx.id + '-' + index,
           role: !(option && (option.$isLabel || option.$isDisabled)) ? 'option' : null
         }, [!(option && (option.$isLabel || option.$isDisabled)) ? (Object(external_commonjs_vue_commonjs2_vue_root_Vue_["openBlock"])(), Object(external_commonjs_vue_commonjs2_vue_root_Vue_["createElementBlock"])("span", {
@@ -3087,7 +3090,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 3
   })], 42, _hoisted_1);
 }
-// CONCATENATED MODULE: ./src/Multiselect.vue?vue&type=template&id=2fe91855
+// CONCATENATED MODULE: ./src/Multiselect.vue?vue&type=template&id=d4b2bd8c
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.number.constructor.js
 var es_number_constructor = __webpack_require__("a9e3");
@@ -4268,6 +4271,16 @@ var flow = function flow() {
     },
 
     /**
+     * Enables search input's spellcheck if true.
+     * @default false
+     * @type {Boolean}
+     */
+    spellcheck: {
+      type: Boolean,
+      "default": false
+    },
+
+    /**
        * Fixed opening direction
        * @default ''
        * @type {String}
@@ -4293,6 +4306,10 @@ var flow = function flow() {
     tabindex: {
       type: Number,
       "default": 0
+    },
+    required: {
+      type: Boolean,
+      "default": false
     }
   },
   computed: {
@@ -4363,8 +4380,8 @@ var flow = function flow() {
 });
 // CONCATENATED MODULE: ./src/Multiselect.vue?vue&type=script&lang=js
  
-// EXTERNAL MODULE: ./src/Multiselect.vue?vue&type=style&index=0&id=2fe91855&lang=css
-var Multiselectvue_type_style_index_0_id_2fe91855_lang_css = __webpack_require__("b14b");
+// EXTERNAL MODULE: ./src/Multiselect.vue?vue&type=style&index=0&id=d4b2bd8c&lang=css
+var Multiselectvue_type_style_index_0_id_d4b2bd8c_lang_css = __webpack_require__("8f32");
 
 // EXTERNAL MODULE: ./node_modules/vue-loader-v16/dist/exportHelper.js
 var exportHelper = __webpack_require__("6b0d");

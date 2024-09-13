@@ -1001,6 +1001,15 @@ var VueMultiselect = (function (exports, vue) {
         default: false
       },
       /**
+       * Enables search input's spellcheck if true.
+       * @default false
+       * @type {Boolean}
+       */
+      spellcheck: {
+        type: Boolean,
+        default: false
+      },
+      /**
          * Fixed opening direction
          * @default ''
          * @type {String}
@@ -1025,6 +1034,10 @@ var VueMultiselect = (function (exports, vue) {
       tabindex: {
         type: Number,
         default: 0
+      },
+      required: {
+        type: Boolean,
+        default: false
       }
     },
     computed: {
@@ -1198,8 +1211,9 @@ var VueMultiselect = (function (exports, vue) {
               id: _ctx.id,
               type: "text",
               autocomplete: "off",
-              spellcheck: false,
+              spellcheck: $props.spellcheck,
               placeholder: _ctx.placeholder,
+              required: $props.required,
               style: $options.inputStyle,
               value: _ctx.search,
               disabled: $props.disabled,
@@ -1216,7 +1230,7 @@ var VueMultiselect = (function (exports, vue) {
               onKeypress: _cache[8] || (_cache[8] = vue.withKeys(vue.withModifiers($event => (_ctx.addPointerElement($event)), ["prevent","stop","self"]), ["enter"])),
               class: "multiselect__input",
               "aria-controls": 'listbox-'+_ctx.id
-            }, null, 44 /* STYLE, PROPS, HYDRATE_EVENTS */, ["name", "id", "placeholder", "value", "disabled", "tabindex", "aria-controls"]))
+            }, null, 44 /* STYLE, PROPS, HYDRATE_EVENTS */, ["name", "id", "spellcheck", "placeholder", "required", "value", "disabled", "tabindex", "aria-controls"]))
           : vue.createCommentVNode("v-if", true),
         ($options.isSingleLabelVisible)
           ? (vue.openBlock(), vue.createBlock("span", {
@@ -1255,7 +1269,8 @@ var VueMultiselect = (function (exports, vue) {
               class: "multiselect__content",
               style: $options.contentStyle,
               role: "listbox",
-              id: 'listbox-'+_ctx.id
+              id: 'listbox-'+_ctx.id,
+              "aria-multiselectable": _ctx.multiple
             }, [
               vue.renderSlot(_ctx.$slots, "beforeList"),
               (_ctx.multiple && _ctx.max === _ctx.internalValue.length)
@@ -1272,6 +1287,7 @@ var VueMultiselect = (function (exports, vue) {
                     return (vue.openBlock(), vue.createBlock("li", {
                       class: "multiselect__element",
                       key: index,
+                      "aria-selected": _ctx.isSelected(option),
                       id: _ctx.id + '-' + index,
                       role: !(option && (option.$isLabel || option.$isDisabled)) ? 'option' : null
                     }, [
@@ -1312,7 +1328,7 @@ var VueMultiselect = (function (exports, vue) {
                             ])
                           ], 42 /* CLASS, PROPS, HYDRATE_EVENTS */, ["data-select", "data-deselect", "onMouseenter", "onMousedown"]))
                         : vue.createCommentVNode("v-if", true)
-                    ], 8 /* PROPS */, ["id", "role"]))
+                    ], 8 /* PROPS */, ["aria-selected", "id", "role"]))
                   }), 128 /* KEYED_FRAGMENT */))
                 : vue.createCommentVNode("v-if", true),
               vue.withDirectives(vue.createVNode("li", null, [
@@ -1334,7 +1350,7 @@ var VueMultiselect = (function (exports, vue) {
                 [vue.vShow, $props.showNoOptions && ((_ctx.options.length === 0 || ($options.hasOptionGroup === true && _ctx.filteredOptions.length === 0)) && !_ctx.search && !$props.loading)]
               ]),
               vue.renderSlot(_ctx.$slots, "afterList")
-            ], 12 /* STYLE, PROPS */, ["id"])
+            ], 12 /* STYLE, PROPS */, ["id", "aria-multiselectable"])
           ], 36 /* STYLE, HYDRATE_EVENTS */), [
             [vue.vShow, _ctx.isOpen]
           ])
