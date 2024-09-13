@@ -53,8 +53,8 @@ export default {
   data () {
     return {
       isNavSticky: false,
-      versions: ['v1.x', 'v2.0', 'v3.0'],
-      version: 'v3.0',
+      versions: ['v1.x', 'v2.x', 'v3.x'],
+      version: 'v3.x',
       currentPosition: ''
     }
   },
@@ -74,10 +74,10 @@ export default {
         case 'v1.x':
           window.location.assign('v1/index.html')
           break
-        case 'v2.0':
+        case 'v2.x':
           window.location.assign('v2/index.html')
           break
-        case 'v3.0':
+        case 'v3.x':
           window.location.assign('https://vue-multiselect.js.org/')
           break
       }
