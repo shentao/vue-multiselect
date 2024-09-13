@@ -1,6 +1,9 @@
 import vue from 'rollup-plugin-vue'
 import css from 'rollup-plugin-css-only'
 
+import fs from 'fs'
+import { minify } from 'csso'
+
 export default [
   // ESM build to be used with webpack/rollup.
   {
@@ -39,7 +42,12 @@ export default [
       }
     },
     plugins: [
-      css({output: 'vue-multiselect.css'}),
+      css({
+        output: function (styles) {
+          fs.writeFileSync(`dist/vue-multiselect.css`, styles)
+          fs.writeFileSync(`dist/vue-multiselect.min.css`, minify(styles).css)
+        }
+      }),
       vue()
     ]
   }
