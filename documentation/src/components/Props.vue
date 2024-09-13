@@ -300,6 +300,12 @@
           <td class="table__td">Enables search input's browser spellcheck if true.<br /><b>Added in v3.1.0</b></td>
         </tr>
         <tr class="table__tr">
+          <td class="table__td"><strong>required</strong></td>
+          <td class="table__td">Boolean</td>
+          <td class="table__td"><kbd>false</kbd></td>
+          <td class="table__td">Passes the Boolean value to the inbuilt <kbd>input</kbd> element.<br /><b>Added in v3.1.0</b></td>
+        </tr>
+        <tr class="table__tr">
           <td class="table__td utils--center" colspan="4"><strong>pointerMixin.js</strong></td>
         </tr>
         <tr class="table__tr">
