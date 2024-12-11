@@ -11,7 +11,7 @@
     class="multiselect"
     role="combobox"
     :aria-owns="'listbox-'+id"
-    :aria-activedescendant="id + '-' + pointer">
+    :aria-activedescendant="isOpen ? id + '-' + pointer : ''">
     <slot name="caret" :toggle="toggle">
       <div @mousedown.prevent.stop="toggle()" class="multiselect__select"></div>
     </slot>
