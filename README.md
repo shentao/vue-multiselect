@@ -49,7 +49,7 @@ Documentation for v3.0.0 is almost the same as for v2.x as it is mostly backward
 ## Install & basic usage
 
 ```bash
-npm install vue-multiselect@next
+npm install vue-multiselect
 ```
 
 ```vue
