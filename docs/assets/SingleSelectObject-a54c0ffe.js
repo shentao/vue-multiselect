@@ -1,4 +1,4 @@
-<template>
+const e=`<template>
   <div><label class="typo__label">Single select / dropdown</label>
     <multiselect v-model="value" deselect-label="Can't remove this value" track-by="name" label="name"
                  placeholder="Select one" :options="options" :searchable="false" :allow-empty="false">
@@ -29,7 +29,8 @@ export default {
     }
   }
 }
-</script>
+<\/script>
 
 <style lang="css">
 </style>
+`;export{e as default};

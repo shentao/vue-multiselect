@@ -5,7 +5,7 @@
       <ul>
         <li><code>:close-on-select="false"</code> – the dropdown stays open after selecting an option</li>
         <li><code>:clear-on-select="false"</code> – the search query stays the same after selecting an option</li>
-        <li>You can pass <code>&lt;template slot="tag" slot-scope="props"&gt;&lt;Your
+        <li>You can pass <code>&lt;template v-slot:tag="props"&gt;&lt;Your
           code&gt;&lt;/template&gt;</code> to use a different markup for selected options (tags)
         </li>
       </ul>
