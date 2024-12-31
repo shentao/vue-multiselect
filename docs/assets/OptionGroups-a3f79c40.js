@@ -1,4 +1,4 @@
-<template>
+const e=`<template>
   <div><label class="typo__label">Groups</label>
     <multiselect v-model="value" :options="options" :multiple="true" group-values="libs" group-label="language"
                  :group-select="true" placeholder="Type to search" track-by="name" label="name"><template v-slot:noResult>Oops! No elements found. Consider changing the search query.</template>
@@ -43,4 +43,5 @@ export default {
     }
   }
 }
-</script>
+<\/script>
+`;export{e as default};
