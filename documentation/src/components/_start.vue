@@ -20,6 +20,7 @@
                         </div>
                         <div class="grid__column grid__unit--md-6 list">
                             <ul class="list__ul">
+                                <li class="typo__li">Vue 3 Compatible</li>
                                 <li class="typo__li"><a class="typo__link" href="#sub-vuex-support">Vuex support by default</a></li>
                                 <li class="typo__li"><a class="typo__link" href="#sub-asynchronous-select">Ajax support</a></li>
                                 <li class="typo__li"><a class="typo__link" href="#sub-custom-configuration">Fully configurable</a></li>

@@ -1,6 +1,6 @@
 # vue-multiselect
 
-## Documentation for version 3
+## Documentation for version 3 (Compatible with Vue 3)
 
 Documentation for v3.0.0 is almost the same as for v2.x as it is mostly backward compatible. For the full docs for v3 and previous versions, check out: [vue-multiselect.js.org](https://vue-multiselect.js.org/#sub-getting-started)
 
@@ -31,6 +31,7 @@ Documentation for v3.0.0 is almost the same as for v2.x as it is mostly backward
 </p>
 
 ## Features & characteristics:
+* Vue 3 Compatible
 * NO dependencies
 * Single select
 * Multiple select
