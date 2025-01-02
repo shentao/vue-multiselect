@@ -23,8 +23,8 @@ jobs:
           - v1-dependencies-
 
       - run:
-        command: npm ci
-        no_output_timeout: 20m
+          command: npm ci
+          no_output_timeout: 20m
 
       - save_cache:
           paths:
