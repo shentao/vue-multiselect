@@ -580,6 +580,9 @@ export default {
           'update:modelValue',
           this.internalValue.concat(optionsToAdd)
         )
+        
+        /* istanbul ignore else */
+        if (this.clearOnSelect) this.search = ''
       }
 
       if (this.closeOnSelect) this.deactivate()
