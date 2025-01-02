@@ -1,26 +1,31 @@
+@use "sass:math"
+@use "../base/global"
+@use "../base/media"
+@use "../base/mixins"
+
 =calc-grid-columns($class, $i: 1)
   @for $i from 1 through $grid-columns
     .grid__unit--#{$class}-#{$i}
-      width: percentage(calc($i / $grid-columns))
+      width: math.percentage(calc($i / $grid-columns))
 
     .grid__push--#{$class}-#{$i}
-      left: percentage(calc($i / $grid-columns))
+      left: math.percentage(calc($i / $grid-columns))
       right: auto
 
     .grid__pull--#{$class}-#{$i}
-      right: percentage(calc($i / $grid-columns))
+      right: math.percentage(calc($i / $grid-columns))
       left: auto
 
     .grid__offset--#{$class}-#{$i}
-      margin-left: percentage(calc($i / $grid-columns))
+      margin-left: math.percentage(calc($i / $grid-columns))
 
     .blocks--#{$class}-#{$i} .blocks__element
-      width: calc(#{percentage(calc(1 / ($grid-columns / ($grid-columns / $i))))} - #{calc($grid-gutter-width / 2)})
+      width: calc(#{math.percentage(calc(1 / ($grid-columns / ($grid-columns / $i))))} - #{calc($grid-gutter-width / 2)})
 
 // config
-$grid-columns: $global-grid-columns
-$grid-gutter-width: $global-gutter
-$grid-max-width: $global-page-width
+$grid-columns: global.$global-grid-columns
+$grid-gutter-width: global.$global-gutter
+$grid-max-width: global.$global-page-width
 
 html, body
   font-size: 100%
@@ -60,7 +65,7 @@ html
     vertical-align: bottom
 
 .grid__row
-  +clearfix
+  +mixins.clearfix
 
   display: block
   font-size: 0
@@ -103,7 +108,7 @@ html
 
 +calc-grid-columns(sm)
 
-@media #{$medium-up}
+@media #{media.$medium-up}
 
   html, body
     overflow-x: initial
@@ -114,7 +119,7 @@ html
 
   +calc-grid-columns(md)
 
-@media #{$large-up}
+@media #{media.$large-up}
 
   .grid__push--lg-reset
     left: auto

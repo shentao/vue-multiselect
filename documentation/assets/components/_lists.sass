@@ -1,8 +1,11 @@
+@use "../base/functions"
+@use "../base/global"
+
 .list
   font:
-    family: $global-font
-    size: rem(16px)
-  color: $secondary-color
+    family: global.$global-font
+    size: functions.customREM(16px)
+  color: global.$secondary-color
   letter-spacing: 0.4px
   line-height: 32px
   list-style: none
@@ -11,41 +14,41 @@
   position: fixed
   top: 0
   width: calc(25% - 40px)
-  max-width: rem(310px)
+  max-width: functions.customREM(310px)
   overflow: auto
   height: calc(100% - 1em)
 
 .list__heading
   font:
-    family: $global-font-secondary
-    size: rem(14px)
-    weight: $global-font-weight-bold
-  line-height: rem(30px)
-  color: $primary-color
+    family: global.$global-font-secondary
+    size: functions.customREM(14px)
+    weight: global.$global-font-weight-bold
+  line-height: functions.customREM(30px)
+  color: global.$primary-color
   text-transform: uppercase
   letter-spacing: 0.4px
-  margin: rem(20px 0 0)
+  margin: functions.customREM(20px 0 0)
 
 .list__link
-  color: $secondary-color
+  color: global.$secondary-color
   text-decoration: none
   display: block
-  padding: rem(7px 10px)
-  margin-left: rem(-10px)
+  padding: functions.customREM(7px 10px)
+  margin-left: functions.customREM(-10px)
   border-radius: 5px
   line-height: 1.3
 
   &--active
-    background: $tertiary-color
+    background: global.$tertiary-color
 
   &--disabled
-    color: $secondary-lighten-color
+    color: global.$secondary-lighten-color
     pointer-events: none
 
 .list__desc
   display: block
-  font-size: rem(14px)
-  color: $secondary-lighten-color
+  font-size: functions.customREM(14px)
+  color: global.$secondary-lighten-color
   line-height: 1.4
   max-width: 200px
   margin-top: 3px
@@ -56,26 +59,26 @@
   margin-left: 5px
 
 .list__dl
-  font-family: $global-font
-  font-weight: $global-font-weight
+  font-family: global.$global-font
+  font-weight: global.$global-font-weight
 
 .list__dt
-  font-size: rem(14px)
-  margin-bottom: rem(10px)
-  color: $quaternary-color
+  font-size: functions.customREM(14px)
+  margin-bottom: functions.customREM(10px)
+  color: global.$quaternary-color
 
 .list__dd
-  font-size: rem($global-font-size)
+  font-size: functions.customREM(global.$global-font-size)
   margin-left: 0
-  margin-bottom: rem(20px)
+  margin-bottom: functions.customREM(20px)
   line-height: 1.4
 
 .list__ul,
 .list__ol
-  margin: rem(0 0 0 30px)
+  margin: functions.customREM(0 0 0 30px)
   padding: 0
   line-height: 1.8
-  font-weight: $global-font-weight
+  font-weight: global.$global-font-weight
 
 .list__ul
   list-style: square
