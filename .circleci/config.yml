@@ -22,7 +22,9 @@ jobs:
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
 
-      - run: npm install
+      - run:
+        command: npm ci
+        no_output_timeout: 20m
 
       - save_cache:
           paths:
