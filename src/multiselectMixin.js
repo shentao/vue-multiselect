@@ -51,13 +51,21 @@ function filterGroups (search, label, values, groupLabel, customLabel) {
         return []
       }
       const groupOptions = filterOptions(group[values], search, label, customLabel)
+      const groupSearch = includes(group[groupLabel], search)
+      
+      if (!groupOptions.length && !groupSearch) {
+        return []
+      } else if (!groupOptions.length && groupSearch) {
+        return {
+          [groupLabel]: group[groupLabel],
+          [values]: group[values]
+        }
+      }
 
-      return groupOptions.length
-        ? {
+      return {
           [groupLabel]: group[groupLabel],
           [values]: groupOptions
-        }
-        : []
+      }
     })
 }
 
