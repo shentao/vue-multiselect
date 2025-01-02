@@ -26,6 +26,10 @@ jobs:
           command: npm ci
           no_output_timeout: 20m
 
+      - run:
+          command: npm install -g vue-cli-service
+          no_output_timeout: 20m
+
       - save_cache:
           paths:
             - node_modules
