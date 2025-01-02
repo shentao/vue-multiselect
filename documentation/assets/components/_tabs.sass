@@ -1,36 +1,37 @@
-@import ../base/global
+@use "../base/global"
+@use "../base/functions"
 
 // config
-$tabs-bg: $global-background
-$tabs-bg-active: $global-background
+$tabs-bg: global.$global-background
+$tabs-bg-active: global.$global-background
 $tabs-font-size: 16px
 $tabs-height: 40px
-$tabs-link-weight: $global-font-weight
-$tabs-border: $tertiary-color
+$tabs-link-weight: global.$global-font-weight
+$tabs-border: global.$tertiary-color
 $tabs-padding: 0 20px
 $tabs-width: 3px
 
 %tabs
   display: flex
   align-items: stretch
-  min-height: rem($tabs-height)
+  min-height: functions.customREM($tabs-height)
 
 %tabs__link
   display: block
-  padding: rem($tabs-padding)
+  padding: functions.customREM($tabs-padding)
   font:
-    family: $global-font
-    size: rem($tabs-font-size)
+    family: global.$global-font
+    size: functions.customREM($tabs-font-size)
     weight: $tabs-link-weight
   text-decoration: none
   cursor: pointer
-  line-height: rem($tabs-height)
-  color: $secondary-lighten-color
+  line-height: functions.customREM($tabs-height)
+  color: global.$secondary-lighten-color
   transition: color .2s ease
 
 %tabs__link--active
-  font-weight: $global-font-weight-bold
-  color: $secondary-color
+  font-weight: global.$global-font-weight-bold
+  color: global.$secondary-color
 
 =tabs($name: tabs, $style: row, $inverted-content-side: false, $line-side: bottom)
   @if $style == column
@@ -48,21 +49,21 @@ $tabs-width: 3px
     @extend %tabs
 
     flex-direction: $style
-    border-#{$line-side}: $tabs-width solid $bright-grey-color
+    border-#{$line-side}: $tabs-width solid global.$bright-grey-color
 
   .#{$name}__link
     @extend %tabs__link
 
-    border-#{$line-side}: $tabs-width solid $bright-grey-color
+    border-#{$line-side}: $tabs-width solid global.$bright-grey-color
     margin-#{$line-side}: -$tabs-width
 
     &:hover,
     &:focus
-      color: $global-font-color
+      color: global.$global-font-color
 
   .#{$name}__link--active
     @extend %tabs__link--active
 
-    border-color: $primary-color
+    border-color: global.$primary-color
 
 +tabs(tabs, row)

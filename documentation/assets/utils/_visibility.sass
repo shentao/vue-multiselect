@@ -1,23 +1,25 @@
-@media #{$small-only}
+@use "../base/media"
+
+@media #{media.$small-only}
   .small--hidden
     display: none !important
 
-@media #{$medium-only}
+@media #{media.$medium-only}
   .medium--hidden
     display: none !important
 
-@media #{$medium-up}
+@media #{media.$medium-up}
   .medium-up--hidden
     display: none !important
 
-@media #{$large-only}
+@media #{media.$large-only}
   .large--hidden
     display: none !important
 
-@media #{$large-up}
+@media #{media.$large-up}
   .large-up--hidden
     display: none !important
 
-@media #{$xlarge-only}
+@media #{media.$xlarge-only}
   .xlarge--hidden
     display: none !important

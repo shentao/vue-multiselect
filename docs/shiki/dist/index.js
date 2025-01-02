@@ -11,7 +11,6 @@ const themes = [
   "github-dark-dimmed",
   "github-dark",
   "github-light",
-  "hc_light",
   "light-plus",
   "material-theme-darker",
   "material-theme-lighter",
@@ -31,6 +30,7 @@ const themes = [
   "slack-ochin",
   "solarized-dark",
   "solarized-light",
+  "vitesse-black",
   "vitesse-dark",
   "vitesse-light"
 ];
@@ -259,6 +259,13 @@ const languages = [
     path: "css.tmLanguage.json",
     displayName: "CSS",
     samplePath: "css.sample"
+  },
+  {
+    id: "csv",
+    scopeName: "text.csv",
+    path: "csv.tmLanguage.json",
+    displayName: "csv syntax",
+    samplePath: "csv.sample"
   },
   {
     id: "cue",
@@ -666,8 +673,7 @@ const languages = [
     scopeName: "source.css.less",
     path: "less.tmLanguage.json",
     displayName: "Less",
-    samplePath: "less.sample",
-    embeddedLangs: ["css"]
+    samplePath: "less.sample"
   },
   {
     id: "liquid",
@@ -799,6 +805,14 @@ const languages = [
     path: "nix.tmLanguage.json",
     displayName: "Nix",
     samplePath: "nix.sample"
+  },
+  {
+    id: "nushell",
+    scopeName: "source.nushell",
+    path: "nushell.tmLanguage.json",
+    displayName: "nushell",
+    samplePath: "nushell.sample",
+    aliases: ["nu"]
   },
   {
     id: "objective-c",
@@ -1189,7 +1203,7 @@ const languages = [
     path: "twig.tmLanguage.json",
     displayName: "Twig",
     samplePath: "twig.sample",
-    embeddedLangs: ["css", "javascript", "php", "python", "ruby"]
+    embeddedLangs: ["css", "javascript", "scss", "php", "python", "ruby"]
   },
   {
     id: "typescript",
@@ -1287,7 +1301,8 @@ const languages = [
     scopeName: "source.wolfram",
     path: "wolfram.tmLanguage.json",
     displayName: "Wolfram",
-    samplePath: "wolfram.sample"
+    samplePath: "wolfram.sample",
+    aliases: ["wl"]
   },
   {
     id: "xml",

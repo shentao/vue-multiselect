@@ -1,21 +1,26 @@
+@use "sass:color"
+@use "../base/functions"
+@use "../base/global"
+@use "grid"
+
 // config
-$input-font: $global-font
-$input-font-color: $secondary-color
-$input-font-weight: $global-font-weight
+$input-font: global.$global-font
+$input-font-color: global.$secondary-color
+$input-font-weight: global.$global-font-weight
 $input-font-size: 14px
 $input-height: 40px
 $input-border-width: 1px
-$input-border-color: $bright-grey-color
+$input-border-color: global.$bright-grey-color
 $input-border: $input-border-width solid $input-border-color
 $input-label-left-margin: 14px
 $input-padding: 0 13px
-$input-margin-bottom: $global-font-size * 2
-$input-label-color: lighten($input-font-color, 10%)
+$input-margin-bottom: global.$global-font-size * 2
+$input-label-color: color.adjust($input-font-color, $lightness: 10%)
 $input-label-size: 13px
-$input-background: $global-background
-$input-radius: $global-radius
+$input-background: global.$global-background
+$input-radius: global.$global-radius
 $input-select-font-size: 14px
-$input-select-background: $global-background
+$input-select-background: global.$global-background
 $input-message-font-size: 12px
 $input-message-margin: 5px
 
@@ -28,77 +33,77 @@ $input-addon-weight: 700
 .form__textarea
   position: relative
   margin:
-    bottom: rem($input-margin-bottom)
+    bottom: functions.customREM($input-margin-bottom)
 
 .form__input,
 .form__textarea
   font:
     family: $input-font
-    size: rem($input-font-size)
+    size: functions.customREM($input-font-size)
     weight: $input-font-weight
-  color: $global-font-color
-  line-height: rem($input-height - 2*$input-border-width)
-  min-height: rem($input-height - 2*$input-border-width)
+  color: global.$global-font-color
+  line-height: functions.customREM($input-height - 2*$input-border-width)
+  min-height: functions.customREM($input-height - 2*$input-border-width)
   position: relative
   border: $input-border
   border-radius: $input-radius
   background: $input-background
-  padding: rem($input-padding)
+  padding: functions.customREM($input-padding)
   width: 100%
   transition: border .1s ease
   box-sizing: border-box
 
   &:hover
-    border-color: darken($input-border-color, 10%)
+    border-color: color.adjust($input-border-color, $lightness: -10%)
 
   &:focus
-    border-color: darken($input-border-color, 25%)
+    border-color: color.adjust($input-border-color, $lightness: -25%)
     outline: none
 
   &--with-left-icon
-    padding-left: rem(45px)
+    padding-left: functions.customREM(45px)
 
   &--with-right-icon
-    padding-right: rem(45px)
+    padding-right: functions.customREM(45px)
 
 .form__icon
   position: absolute
   pointer-events: none
   top: -1px
-  height: rem($input-height)
-  line-height: rem($input-height)
+  height: functions.customREM($input-height)
+  line-height: functions.customREM($input-height)
 
   &--right
-    right: rem(15px)
+    right: functions.customREM(15px)
 
   &--left
-    left: rem(13px)
+    left: functions.customREM(13px)
 
 .form__textarea
   max-width: 100%
-  min-height: rem(82px)
+  min-height: functions.customREM(82px)
   resize: none
   line-height: 1.4
   padding-top: calc($input-height / 4)
 
 .form__label
-  font-size: rem($input-label-size)
+  font-size: functions.customREM($input-label-size)
   color: $input-label-color
   margin:
-    bottom: rem(5px)
-    left: rem($input-label-left-margin)
+    bottom: functions.customREM(5px)
+    left: functions.customREM($input-label-left-margin)
   display: block
-  font-family: $global-font
+  font-family: global.$global-font
 
 .form__label--inline
   @extend .form__label
 
   display: inline-block
-  margin-right: rem(calc($grid-gutter-width / 2))
-  margin-left: rem(calc($grid-gutter-width / 5))
+  margin-right: functions.customREM(calc(grid.$grid-gutter-width / 2))
+  margin-left: functions.customREM(calc(grid.$grid-gutter-width / 5))
 
 .form-group
-  margin-bottom: rem($input-margin-bottom)
+  margin-bottom: functions.customREM($input-margin-bottom)
 
   .form__input,
   .form__textarea
@@ -151,11 +156,11 @@ $input-addon-weight: 700
   border-left: none
 
 .form-group__addon
-  background: $tertiary-color
+  background: global.$tertiary-color
   border: $input-border
   border-radius: $input-radius
-  height: rem($input-height - 2*$input-border-width)
-  line-height: rem($input-height - 2*$input-border-width)
+  height: functions.customREM($input-height - 2*$input-border-width)
+  line-height: functions.customREM($input-height - 2*$input-border-width)
   width: 1%
   padding: $input-padding
   font:
@@ -167,18 +172,18 @@ $input-addon-weight: 700
 
   .button
     margin: 0
-    padding-right: rem(20px)
-    padding-left: rem(20px)
+    padding-right: functions.customREM(20px)
+    padding-left: functions.customREM(20px)
 
 .form-group__message
-  font-size: rem($input-message-font-size)
+  font-size: functions.customREM($input-message-font-size)
   line-height: 1
   display: none
   margin:
     left: $input-label-left-margin
-    top: rem(($input-margin-bottom * -1) + $input-message-margin)
+    top: functions.customREM(($input-margin-bottom * -1) + $input-message-margin)
     // Magic now :)
-    bottom: rem(($input-margin-bottom) - ($input-message-font-size + $input-message-margin))
+    bottom: functions.customREM(($input-margin-bottom) - ($input-message-font-size + $input-message-margin))
 
 .form-group--alert,
 .form-group--error
@@ -190,63 +195,63 @@ $input-addon-weight: 700
 
 .form-group--success
   .form__label
-    color: $success-color
+    color: global.$success-color
 
   .form-group__addon
     color: white
-    border-color: lighten($success-color, 20%)
-    background: lighten($success-color, 20%)
+    border-color: color.adjust(global.$success-color, $lightness: 20%)
+    background: color.adjust(global.$success-color, $lightness: 20%)
 
   input,
   textarea,
   input:focus,
   input:hover
-    border-color: lighten($success-color, 20%)
+    border-color: color.adjust(global.$success-color, $lightness: 20%)
 
   & + .form-group__message
     display: block
-    color: lighten($success-color, 15%)
+    color: color.adjust(global.$success-color, $lightness: 15%)
 
 .form-group--error
   .form__label
-    color: $error-color
+    color: global.$error-color
 
   .form-group__addon
     color: white
-    border-color: lighten($error-color, 20%)
-    background: lighten($error-color, 20%)
+    border-color: color.adjust(global.$error-color, $lightness: 20%)
+    background: color.adjust(global.$error-color, $lightness: 20%)
 
   input,
   textarea,
   input:focus,
   input:hover
-    border-color: lighten($error-color, 20%)
+    border-color: color.adjust(global.$error-color, $lightness: 20%)
 
   & + .form-group__message
     display: block
-    color: lighten($error-color, 15%)
+    color: color.adjust(global.$error-color, $lightness: 15%)
 
 .form-group--alert
   .form__label
-    color: $alert-color
+    color: global.$alert-color
 
   .form-group__addon
     color: white
-    border-color: lighten($alert-color, 20%)
-    background: lighten($alert-color, 20%)
+    border-color: color.adjust(global.$alert-color, $lightness: 20%)
+    background: color.adjust(global.$alert-color, $lightness: 20%)
 
   input,
   textarea,
   input:focus,
   input:hover
-    border-color: lighten($alert-color, 20%)
+    border-color: color.adjust(global.$alert-color, $lightness: 20%)
 
   & + .form-group__message
     display: block
-    color: lighten($alert-color, 15%)
+    color: color.adjust(global.$alert-color, $lightness: 15%)
 
 @keyframes shakeError
-  $shake-distance: rem(6px)
+  $shake-distance: functions.customREM(6px)
   0%
     transform: translateX(0)
 

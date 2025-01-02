@@ -1,31 +1,33 @@
-@import ../base/global
+@use "sass:color"
+@use "../base/global"
+@use "../base/functions"
 
 // config
-$table-border: darken($tertiary-color, 5%)
+$table-border: color.adjust(global.$tertiary-color, $lightness: -5%)
 $table-font-size: 16px
 $table-padding: 14px 16px
-$table-bg: $global-support-background
-$table-even-bg: $global-background
+$table-bg: global.$global-support-background
+$table-even-bg: global.$global-background
 
 =table-row-variant($name, $color, $hover-modifier)
   .table__tr--#{$name}
-    border-left: rem(4px) solid $color
+    border-left: functions.customREM(4px) solid $color
 
     &:hover
-      background: lighten($color, $hover-modifier)
+      background: color.adjust($color, $lightness: $hover-modifier)
 
 .table
   font:
-    family: $global-font
-    size: rem($table-font-size)
-    weight: $global-font-weight
-  margin-bottom: rem(40px)
+    family: global.$global-font
+    size: functions.customREM($table-font-size)
+    weight: global.$global-font-weight
+  margin-bottom: functions.customREM(40px)
   line-height: 1.4
 
 .table__tr
   border-bottom: 1px solid $table-border
   box-sizing: border-box
-  border-left: rem(4px) solid transparent
+  border-left: functions.customREM(4px) solid transparent
 
   &:nth-child(even)
     background: #fafafa
@@ -33,11 +35,11 @@ $table-even-bg: $global-background
   &:hover
     background: #f4f4f4
 
-+table-row-variant(primary, $primary-color, 48%)
++table-row-variant(primary, global.$primary-color, 48%)
 
 .table__td,
 .table__th
-  padding: rem($table-padding)
+  padding: functions.customREM($table-padding)
 
 .table__th
   border-bottom: 1px solid #ccc

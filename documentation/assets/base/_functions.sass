@@ -1,16 +1,19 @@
+@use "sass:list"
+@use "global"
+
 @use 'sass:math'
 
 @function no-unit($value)
   @return math.div($value, ($value * 0 + 1))
 
-@function to-rem($rem, $base-size: $global-font-size)
+@function to-rem($rem, $base-size: global.$global-font-size)
   $rem: calc(no-unit($rem) / no-unit($base-size) * 1rem)
   @if ($rem == 0rem)
     $rem: 0
   @return $rem
 
-@function rem($values)
-  $values-list: length($values)
+@function customREM($values)
+  $values-list: list.length($values)
 
   @if $values-list == 1
     @return to-rem($values)
@@ -18,6 +21,6 @@
   $rem-list: ()
 
   @for $i from 1 through $values-list
-    $rem-list: append($rem-list, to-rem(nth($values, $i)))
+    $rem-list: list.append($rem-list, to-rem(list.nth($values, $i)))
 
   @return $rem-list

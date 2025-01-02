@@ -1,3 +1,4 @@
+@use "sass:list";
 $z-index-list:
   modal,
   modal-bg,
@@ -12,6 +13,6 @@ $z-index-list:
   offcanvas;
 
 @function z-index($element, $stack: $z-index-list, $step: 100) {
-  $z-index-value: (length($stack) - index($stack, $element)) * $step + $step;
+  $z-index-value: (list.length($stack) - list.index($stack, $element)) * $step + $step;
   @return $z-index-value;
 }
