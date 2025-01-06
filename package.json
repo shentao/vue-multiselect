@@ -39,7 +39,7 @@
     "@vue/cli-plugin-babel": "~5.0.8",
     "@vue/cli-plugin-eslint": "^5.0.8",
     "@vue/cli-plugin-unit-jest": "^5.0.8",
-    "@vue/cli-service": "^4.5.0",
+    "@vue/cli-service": "^5.0.8",
     "@vue/test-utils": "^2.0.0-0",
     "@vue/vue3-jest": "^27.0.0",
     "core-js": "^3.6.5",
