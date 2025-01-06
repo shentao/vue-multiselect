@@ -6,14 +6,14 @@ module.exports = {
     'plugin:vue/essential'
   ],
   parserOptions: {
-    'ecmaVersion': 2017,
-    'sourceType': 'module',
-    'parser': 'babel-eslint',
+    ecmaVersion: 2017,
+    sourceType: 'module',
+    parser: '@babel/eslint-parser'
   },
   // required to lint *.vue files
   plugins: ['html'],
   // add your custom rules here
-  'rules': {
+  rules: {
     // allow paren-less arrow functions
     'arrow-parens': 0,
     // allow debugger during development
