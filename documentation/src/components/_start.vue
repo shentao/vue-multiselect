@@ -1,9 +1,9 @@
 <template>
 <section class="start" :style="gradient">
     <div class="center-vertically">
-        <h1 class="typo__h1"><img class="logo" src="/assets/vue-logo.png"/>Vue-multiselect<small class="version">{{version}}</small></h1>
+        <h1 class="typo__h1"><img class="logo" src="/assets/vue-logo.png" alt="vuejs logo"/>Vue-multiselect<small class="version">{{version}}</small></h1>
         <h3 class="typo__h3">The most complete selecting solution for <a class="typo__link" href="http://vuejs.org" target="_BLANK">Vue.js</a></h3>
-        <div class="badges"><img src="https://img.shields.io/github/stars/shentao/vue-multiselect.svg?label=Stars" /><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License" data-canonical-src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat" /><img src="https://img.shields.io/npm/dm/vue-multiselect.svg" alt="npm" data-canonical-src="https://img.shields.io/npm/dm/vue-multiselect.svg" style="max-width:100%;" /><img src="https://img.shields.io/badge/dependencies-none-brightgreen.svg?style=flat" alt="No Dependencies" data-canonical-src="https://img.shields.io/badge/dependencies-none-brightgreen.svg?style=flat" style="max-width:100%;" /></div>
+        <div class="badges"><img src="https://img.shields.io/github/stars/shentao/vue-multiselect.svg?label=Stars" alt="vue-multiselect library github stars" /><img src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat" alt="License" data-canonical-src="https://img.shields.io/badge/license-MIT-blue.svg?style=flat" /><img src="https://img.shields.io/npm/dm/vue-multiselect.svg" alt="npm" data-canonical-src="https://img.shields.io/npm/dm/vue-multiselect.svg" style="max-width:100%;" /><img src="https://img.shields.io/badge/dependencies-none-brightgreen.svg?style=flat" alt="No Dependencies" data-canonical-src="https://img.shields.io/badge/dependencies-none-brightgreen.svg?style=flat" style="max-width:100%;" /></div>
         <div class="grid__row grid__row--centered">
             <div class="grid__column grid__unit--md-6">
                 <div class="multiselect-example__container">

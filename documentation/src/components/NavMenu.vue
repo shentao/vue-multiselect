@@ -1,9 +1,9 @@
 <template>
   <ul class="list" :class="{ 'list--sticky': isNavSticky }">
     <multiselect class="list__multiselect" :options="versions" :model-value="version" :allow-empty="false"
-                 :searchable="false"
+                 id="version" :searchable="false"
                  @update:model-value="pickVersion" select-label="Go to" deselect-label=""
-                 selected-label=""></multiselect>
+                 selected-label="" aria-label="pick vue-multiselect version"></multiselect>
     <li class="list__heading">Setup</li>
     <li class="list__element"><a href="#sub-getting-started" class="link list__link" :class="{ 'list__link--active': currentPosition === 'sub-getting-started' }">Getting Started</a></li>
     <li class="list__element"><a href="#sub-migration-guide" class="link list__link" :class="{ 'list__link--active': currentPosition === 'sub-migration-guide' }">Migration Guide</a></li>
@@ -30,7 +30,7 @@
     <li class="list__element"><a target="_BLANK" href="https://vuelidate.netlify.com"
                                  class="link list__link">Vuelidate<img
       src="https://img.shields.io/github/stars/vuelidate/vuelidate.svg?style=social&amp;label=Stars"
-      class="list__img"><span class="list__desc">Simple model-based validation plugin for Vue.js</span></a></li>
+      class="list__img" alt="vuelidate library"><span class="list__desc">Simple model-based validation plugin for Vue.js</span></a></li>
   </ul>
 </template>
 <script>

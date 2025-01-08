@@ -1,6 +1,6 @@
 <template>
   <div><label class="typo__label">Custom option template</label>
-    <multiselect v-model="value" placeholder="Fav No Man’s Sky path" label="title" track-by="title" :options="options"
+    <multiselect id="custom-options" v-model="value" placeholder="Fav No Man’s Sky path" label="title" track-by="title" :options="options"
                  :option-height="104" :custom-label="customLabel" :show-labels="false">
       <template #singleLabel="props"><img class="option__image" :src="props.option.img"
                                                            alt="No Man’s Sky"/><span class="option__desc"><span
