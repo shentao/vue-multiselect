@@ -5,7 +5,7 @@
     <button @click="close" class="button button-small">Close</button>
     <pre>Multiselect Open: {{ isOpen }}</pre>
     <label class="typo__label">Controlling multiselect programmatically</label>
-    <multiselect ref="multiselect" placeholder="Pick at least one" :value="value" :options="options" :multiple="true"
+    <multiselect id="programmatic-control" ref="multiselect" placeholder="Pick at least one" :value="value" :options="options" :multiple="true"
                  :searchable="true" :allow-empty="false" :hide-selected="true" :max-height="150" :max="3"
                  @open="isOpen = true" @close="isOpen = false"></multiselect>
   </div>

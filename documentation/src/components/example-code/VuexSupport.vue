@@ -1,6 +1,6 @@
 <template>
 <div><label class="typo__label">Vuex example.</label>
-    <multiselect placeholder="Pick action" :modelValue="value" :options="options" :searchable="false" @update:modelValue="updateValueAction"></multiselect>
+    <multiselect id="vuex-support" placeholder="Pick action" :modelValue="value" :options="options" :searchable="false" @update:modelValue="updateValueAction" aria-label="pick a action"></multiselect>
 </div>
 </template>
 
