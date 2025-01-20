@@ -1,7 +1,7 @@
 <template>
 <div :class="{ 'invalid': isInvalid }">
   <label class="typo__label">Customized multiselect</label>
-  <multiselect placeholder="Pick at least one" select-label="Enter doesn’t work here!" :model-value="value" :options="options" :multiple="true" :searchable="true" :allow-empty="false" :prevent-autofocus="true" :hide-selected="true" :max-height="150" :max="3" :disabled="isDisabled" :block-keys="['Tab', 'Enter']" @update:modelValue="onChange" @close="onTouch" @select="onSelect"></multiselect>
+  <multiselect id="custom-configuration" placeholder="Pick at least one" select-label="Enter doesn’t work here!" :model-value="value" :options="options" :multiple="true" :searchable="true" :allow-empty="false" :prevent-autofocus="true" :hide-selected="true" :max-height="150" :max="3" :disabled="isDisabled" :block-keys="['Tab', 'Enter']" @update:modelValue="onChange" @close="onTouch" @select="onSelect"></multiselect>
   <label class="typo__label form__label" v-show="isInvalid">Must have at least one value</label>
 </div>
 </template>

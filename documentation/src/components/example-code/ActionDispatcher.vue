@@ -1,7 +1,7 @@
 <template>
 <div>
   <label class="typo__label">Open console to see logs.</label>
-  <multiselect placeholder="Pick action" :options="actions" :searchable="false" :reset-after="true" @select="dispatchAction"></multiselect>
+  <multiselect id="action-dispatcher" placeholder="Pick action" :options="actions" :searchable="false" :reset-after="true" @select="dispatchAction" aria-label="pick a action"></multiselect>
 </div>
 </template>
 
