@@ -1,3 +1,5 @@
+@use "functions"
+
 @mixin clearfix
   &:before,
   &:after
@@ -7,7 +9,7 @@
     clear: both
 
 @mixin spinner($size: 16px, $color: #333, $border-width: 2px)
-  width: rem($size)
+  width: functions.customREM($size)
 
   &:before,
   &:after
@@ -15,9 +17,9 @@
     content: ''
     top: 50%
     left: 50%
-    margin: rem($size / -2 0 0 $size / -2)
-    width: rem($size)
-    height: rem($size)
+    margin: functions.customREM($size / -2 0 0 $size / -2)
+    width: functions.customREM($size)
+    height: functions.customREM($size)
     border-radius: 100%
     border-color: $color transparent transparent
     border-style: solid

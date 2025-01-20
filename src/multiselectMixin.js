@@ -18,9 +18,11 @@ function includes (str, query) {
 }
 
 function filterOptions (options, search, label, customLabel) {
-  return search ? options
-    .filter((option) => includes(customLabel(option, label), search))
-    .sort((a, b) => customLabel(a, label).length - customLabel(b, label).length) : options
+  return search
+    ? options
+      .filter((option) => includes(customLabel(option, label), search))
+      .sort((a, b) => customLabel(a, label).length - customLabel(b, label).length)
+    : options
 }
 
 function stripGroups (options) {
@@ -47,16 +49,16 @@ function filterGroups (search, label, values, groupLabel, customLabel) {
     groups.map((group) => {
       /* istanbul ignore else */
       if (!group[values]) {
-        console.warn(`Options passed to vue-multiselect do not contain groups, despite the config.`)
+        console.warn('Options passed to vue-multiselect do not contain groups, despite the config.')
         return []
       }
       const groupOptions = filterOptions(group[values], search, label, customLabel)
 
       return groupOptions.length
         ? {
-          [groupLabel]: group[groupLabel],
-          [values]: groupOptions
-        }
+            [groupLabel]: group[groupLabel],
+            [values]: groupOptions
+          }
         : []
     })
 }
@@ -359,9 +361,9 @@ export default {
       /* istanbul ignore else */
       if (this.taggable && normalizedSearch.length && !this.isExistingOption(normalizedSearch)) {
         if (this.tagPosition === 'bottom') {
-          options.push({isTag: true, label: search})
+          options.push({ isTag: true, label: search })
         } else {
-          options.unshift({isTag: true, label: search})
+          options.unshift({ isTag: true, label: search })
         }
       }
 
@@ -566,7 +568,7 @@ export default {
 
         this.$emit('update:modelValue', newValue)
       } else {
-        let optionsToAdd = group[this.groupValues].filter(
+        const optionsToAdd = group[this.groupValues].filter(
           option => !(this.isOptionDisabled(option) || this.isSelected(option))
         )
 

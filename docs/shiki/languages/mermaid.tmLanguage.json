@@ -50,7 +50,7 @@
             },
             {
               "comment": "(class name) : (visibility)?(function)( (function param/generic param)? )(classifier)? (return/generic return)?$",
-              "match": "([\\w-]+)\\s?(:)\\s([\\+~#-])?([\\w-]+)(\\()([\\w-]+)?(~)?([\\w-]+)?(~)?\\s?([\\w-]+)?(\\))([*\\$])?\\s?([\\w-]+)?(~)?([\\w-]+)?(~)?$",
+              "match": "([\\w-]+)\\s?(:)\\s([\\+~#-])?([\\w-]+)(\\()([\\w-]+)?(~)?([\\w-]+)?(~)?\\s?([\\w-]+)?(\\))([*\\$]{0,2})\\s?([\\w-]+)?(~)?([\\w-]+)?(~)?$",
               "captures": {
                 "1": {
                   "name": "entity.name.type.class.mermaid"
@@ -215,7 +215,7 @@
                       }
                     }
                   ],
-                  "end": "(\\))([*\\$])?\\s?([\\w-]+)?(~)?([\\w-]+)?(~)?$",
+                  "end": "(\\))([*\\$]{0,2})\\s?([\\w-]+)?(~)?([\\w-]+)?(~)?$",
                   "endCaptures": {
                     "1": {
                       "name": "punctuation.parenthesis.closed.mermaid"
@@ -331,7 +331,7 @@
             },
             {
               "comment": "(entity) {",
-              "begin": "\\s+([\\w-]+)\\s+({)",
+              "begin": "\\s+([\\w-]+)\\s*({)",
               "beginCaptures": {
                 "1": {
                   "name": "variable"
@@ -358,6 +358,10 @@
                       "name": "string"
                     }
                   }
+                },
+                {
+                  "match": "\\%%.*",
+                  "name": "comment"
                 }
               ],
               "end": "(})",
@@ -369,7 +373,7 @@
             },
             {
               "comment": "(entity) (relationship) (entity) : (label)",
-              "match": "\\s*([\\w-]+)\\s+((?:\\|o|\\|\\||}o|}\\|)(?:..|--)(?:o\\||\\|\\||o{|\\|{))\\s+([\\w-]+)\\s+(:)\\s+((?:\"[\\w\\s]*\")|(?:[\\w-]+))",
+              "match": "\\s*([\\w-]+)\\s*((?:\\|o|\\|\\||}o|}\\||one or (?:zero|more|many)|zero or (?:one|more|many)|many\\((?:0|1)\\)|only one|0\\+|1\\+?)(?:..|--)(?:o\\||\\|\\||o{|\\|{|one or (?:zero|more|many)|zero or (?:one|more|many)|many\\((?:0|1)\\)|only one|0\\+|1\\+?))\\s*([\\w-]+)\\s*(:)\\s*((?:\"[\\w\\s]*\")|(?:[\\w-]+))",
               "captures": {
                 "1": {
                   "name": "variable"
@@ -977,7 +981,7 @@
             },
             {
               "comment": "(activate/deactivate)(Actor)",
-              "match": "\\s*((?:de)?activate)\\s+(\\b[\"\\(\\)$&%\\^/#.?!*=<>\\'\\\\\\w\\s]+\\b\\s*)",
+              "match": "\\s*((?:de)?activate)\\s+(\\b[\"()$&%^/#.?!*=<>'\\\\\\w\\s]+\\b\\)?\\s*)",
               "captures": {
                 "1": {
                   "name": "keyword.control.mermaid"
@@ -989,7 +993,7 @@
             },
             {
               "comment": "(Note)(direction)(Actor)(,)?(Actor)?(:)(Message)",
-              "match": "\\s*(Note)\\s+((?:left|right)\\sof|over)\\s+(\\b[\"\\(\\)$&%\\^/#.?!*=<>\\'\\\\\\w\\s]+\\b\\s*)(,)?(\\b[\"\\(\\)$&%\\^/#.?!*=<>\\'\\\\\\w\\s]+\\b\\s*)?(:)(?:\\s+([^;#]*))?",
+              "match": "\\s*(Note)\\s+((?:left|right)\\sof|over)\\s+(\\b[\"()$&%^/#.?!*=<>'\\\\\\w\\s]+\\b\\)?\\s*)(,)?(\\b[\"()$&%^/#.?!*=<>'\\\\\\w\\s]+\\b\\)?\\s*)?(:)(?:\\s+([^;#]*))?",
               "captures": {
                 "1": {
                   "name": "keyword.control.mermaid"
@@ -1036,8 +1040,8 @@
               }
             },
             {
-              "comment": "(alt/else/opt/par/and/autonumber)(text)",
-              "match": "\\s*(alt|else|opt|par|and|rect|autonumber)(?:\\s+([^#;]*))?",
+              "comment": "(alt/else/option/par/and/autonumber/critical/opt)(text)",
+              "match": "\\s*(alt|else|option|par|and|rect|autonumber|critical|opt)(?:\\s+([^#;]*))?",
               "captures": {
                 "1": {
                   "name": "keyword.control.mermaid"
@@ -1049,7 +1053,7 @@
             },
             {
               "comment": "(Actor)(Arrow)(Actor)(:)(Message)",
-              "match": "\\s*(\\b[\"\\(\\)$&%\\^/#.?!*=<>\\'\\\\\\w\\s]+\\b)\\s*(-?-(?:\\>|x|\\))\\>?[+-]?)\\s*([\"\\(\\)$&%\\^/#.?!*=<>\\'\\\\\\w\\s]+\\b)\\s*(:)\\s*([^;#]*)",
+              "match": "\\s*(\\b[\"()$&%^/#.?!*=<>'\\\\\\w\\s]+\\b\\)?)\\s*(-?-(?:\\>|x|\\))\\>?[+-]?)\\s*([\"()$&%^/#.?!*=<>'\\\\\\w\\s]+\\b\\)?)\\s*(:)\\s*([^;#]*)",
               "captures": {
                 "1": {
                   "name": "variable"

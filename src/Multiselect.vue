@@ -26,9 +26,9 @@
         :is-open="isOpen"
       >
         <div class="multiselect__tags-wrap" v-show="visibleValues.length > 0">
-          <template v-for="(option, index) of visibleValues" @mousedown.prevent>
+          <template v-for="(option, index) of visibleValues">
             <slot name="tag" :option="option" :search="search" :remove="removeElement">
-              <span class="multiselect__tag" :key="index">
+              <span class="multiselect__tag" :key="index" @mousedown.prevent>
                 <span v-text="getOptionLabel(option)"></span>
                 <i tabindex="1" @keypress.enter.prevent="removeElement(option)"
                    @mousedown.prevent="removeElement(option)" class="multiselect__tag-icon"></i>
@@ -374,15 +374,15 @@ export default {
       ) {
         // Hide input by setting the width to 0 allowing it to receive focus
         return this.isOpen
-          ? {width: '100%'}
-          : {width: '0', position: 'absolute', padding: '0'}
+          ? { width: '100%' }
+          : { width: '0', position: 'absolute', padding: '0' }
       }
       return ''
     },
     contentStyle () {
       return this.options.length
-        ? {display: 'inline-block'}
-        : {display: 'block'}
+        ? { display: 'inline-block' }
+        : { display: 'block' }
     },
     isAbove () {
       if (this.openDirection === 'above' || this.openDirection === 'top') {
