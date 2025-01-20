@@ -56,7 +56,7 @@
         autocomplete="off"
         :spellcheck="spellcheck"
         :placeholder="placeholder"
-        :required="required"
+        :required="isRequired"
         :style="inputStyle"
         :value="search"
         :disabled="disabled"
@@ -404,6 +404,13 @@ export default {
             ? this.isOpen
             : true)
       )
+    },
+    isRequired () {
+      if (this.required === false) {
+        return false
+      }
+      // if we have a value, any value, then this isn't required
+      return this.internalValue.length <= 0
     }
   }
 }
