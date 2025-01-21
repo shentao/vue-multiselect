@@ -327,6 +327,11 @@ export default {
       type: Number,
       default: 0
     },
+    /**
+     * Adds Required attribute to the input element when there is no value selected
+     * @default false
+     * @type {Boolean}
+     */
     required: {
       type: Boolean,
       default: false
