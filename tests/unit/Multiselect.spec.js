@@ -1764,4 +1764,64 @@ describe('Multiselect.vue', () => {
       expect(wrapper.emitted()['update:modelValue']).toEqual([['1']])
     })
   })
+  describe('required prop', () => {
+    test('should not have required value if required is false', () => {
+      const wrapper = shallowMount(Multiselect, {
+        props: {
+          modelValue: [],
+          options: ['1', '2', '3', '4', '5'],
+          required: false
+        }
+      })
+      expect(wrapper.get('.multiselect__input').attributes('required')).toBeUndefined()
+    })
+    test('should have required attribute if there is no value', () => {
+      const wrapper = shallowMount(Multiselect, {
+        props: {
+          modelValue: [],
+          options: ['1', '2', '3', '4', '5'],
+          required: true
+        }
+      })
+      expect(wrapper.get('.multiselect__input').attributes('required')).toEqual('')
+    })
+    test('should not required attribute if there is a value', () => {
+      const wrapper = shallowMount(Multiselect, {
+        props: {
+          modelValue: ['1'],
+          options: ['1', '2', '3', '4', '5'],
+          required: true
+        }
+      })
+      expect(wrapper.get('.multiselect__input').attributes('required')).toBeUndefined()
+    })
+    test('should required if a value is removed', async () => {
+      const wrapper = shallowMount(Multiselect, {
+        props: {
+          modelValue: ['1'],
+          options: ['1', '2', '3', '4', '5'],
+          required: true,
+          'onUpdate:modelValue': (e) => wrapper.setProps({ modelValue: e })
+        }
+      })
+      expect(wrapper.get('.multiselect__input').attributes('required')).toBeUndefined()
+      wrapper.vm.removeElement(wrapper.vm.internalValue[0])
+      await wrapper.vm.$nextTick()
+      expect(wrapper.get('.multiselect__input').attributes('required')).toBe('')
+    })
+    test('should not required value if a value is set', async () => {
+      const wrapper = shallowMount(Multiselect, {
+        props: {
+          modelValue: [],
+          options: ['1', '2', '3', '4', '5'],
+          required: true,
+          'onUpdate:modelValue': (e) => wrapper.setProps({ modelValue: e })
+        }
+      })
+      expect(wrapper.get('.multiselect__input').attributes('required')).toBe('')
+      wrapper.vm.select(wrapper.vm.options[0])
+      await wrapper.vm.$nextTick()
+      expect(wrapper.get('.multiselect__input').attributes('required')).toBeUndefined()
+    })
+  })
 })
