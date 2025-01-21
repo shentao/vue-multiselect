@@ -192,7 +192,7 @@
         </tr>
         <tr class="table__tr">
           <td class="table__td"><strong>filteringSortFunc</strong></td>
-          <td class="table__td">Function</td>
+          <td class="table__td">Function => Int</td>
           <td class="table__td"></td>
           <td class="table__td">Allows a custom sorting function when the user searching.
             This function will be the <i>compareFn</i> argument for

@@ -6,6 +6,8 @@
       object properties look at the <a href="#sub-asynchronous-select">ajax search example</a>.</p>
     <p><code>custom-label</code> accepts a function with the <code>option</code> object as the first param. It should
       return a string which is then used to display a custom label.</p>
+    <p>When sorting a filtered list, <code>filteringSortFunc</code> accepts a function for use in <code>Array.sort()</code>.
+      By default, it orders by the ascending length of each option.</p>
     <CodeDemoAndExample demo-name="SingleSelectSearch"/>
   </div>
 </template>
