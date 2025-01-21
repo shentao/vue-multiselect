@@ -1824,4 +1824,59 @@ describe('Multiselect.vue', () => {
       expect(wrapper.get('.multiselect__input').attributes('required')).toBeUndefined()
     })
   })
+  describe('filteringSortFunc prop', () => {
+    const options = [
+      { name: 'Vue.js', language: 'JavaScript' },
+      { name: 'Laravel', language: 'PHP' },
+      { name: 'Rails', language: 'Ruby' },
+      { name: 'Sinatra', language: 'Ruby' },
+      { name: 'Phoenix', language: 'Elixir' }
+    ]
+
+    const customLabel = ({ name, language }) => {
+      return `${name} — [${language}]`
+    }
+
+    test('should use default sorting when no function is provided', async () => {
+      const wrapper = shallowMount(Multiselect, {
+        props: {
+          modelValue: [],
+          options,
+          customLabel,
+          label: 'name',
+          trackBy: 'name'
+        },
+        data () {
+          return {
+            search: 'a'
+          }
+        }
+      })
+
+      expect(wrapper.vm.filteredOptions[0].name).toBe('Rails')
+      expect(wrapper.vm.filteredOptions[3].name).toBe('Vue.js')
+    })
+    test('should use custom sorting when function is provided', async () => {
+      const wrapper = shallowMount(Multiselect, {
+        props: {
+          modelValue: [],
+          options,
+          customLabel,
+          label: 'name',
+          trackBy: 'name',
+          filteringSortFunc: (a, b) => {
+            return a.name.length - b.name.length
+          }
+        },
+        data () {
+          return {
+            search: 'a'
+          }
+        }
+      })
+      expect(wrapper.vm.filteredOptions[0].name).toBe('Rails')
+      expect(wrapper.vm.filteredOptions[1].name).toBe('Vue.js')
+      expect(wrapper.vm.filteredOptions[2].name).toBe('Laravel')
+    })
+  })
 })
