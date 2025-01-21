@@ -195,7 +195,7 @@
           <td class="table__td">Function</td>
           <td class="table__td"></td>
           <td class="table__td">Allows a custom sorting function when the user searching.
-            This function will be passed to an
+            This function will be the <i>compareFn</i> argument for
             <i><a target="_blank"
                   href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort">
               Array.sort()
