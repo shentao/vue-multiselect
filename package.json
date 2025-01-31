@@ -52,7 +52,7 @@
     "rollup-plugin-vue": "^6.0.0",
     "sass": "^1.62.1",
     "sass-loader": "10.1.1",
-    "shiki": "^0.14.5",
+    "shiki": "^2.2.0",
     "shx": "^0.3.4",
     "typescript": "~3.9.3",
     "vite": "^4.3.9",
