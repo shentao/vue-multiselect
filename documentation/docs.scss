@@ -1,14 +1,37 @@
-@import './assets/main';
+@use 'sass:math';
+// BASE
+@use "assets/base/mixins";
+@use "assets/base/z-stack";
+@use "assets/base/normalize";
+@use "assets/base/animations";
+@use "assets/base/global";
+@use "assets/base/functions";
+@use "assets/base/media";
+@use "assets/base/typo";
+
+// COMPONENTS
+
+@use "assets/components/grid";
+@use "assets/components/table";
+@use "assets/components/buttons";
+@use "assets/components/inputs";
+@use "assets/components/lists";
+@use "assets/components/tabs";
+
+// TODO: OVERRIDING UTILS (which has to be loaded last to reduce the use of !important)
+@use "assets/utils/visibility";
+@use "assets/utils/utils";
+
 
 $multiselect-height: 140px;
 $multiselect-background: #000;
 
 .invalid {
   .typo__label {
-    color: $error-color;
+    color: global.$error-color;
   }
   .multiselect__tags {
-    border-color: $error-color !important;
+    border-color: global.$error-color !important;
   }
 }
 
@@ -25,36 +48,36 @@ body {
   background: linear-gradient(to left bottom, #8cc1f7 0%, #9cffd3 100%);
 
   .typo__h1 {
-    padding-top: rem(40px);
+    padding-top: functions.customREM(40px);
     position: relative;
   }
 
   .typo__h3 {
-    padding: rem(20px 0 0)
+    padding: functions.customREM(20px 0 0)
   }
 
-  @media #{$medium-up} {
+  @media #{media.$medium-up} {
     min-height: 100vh;
   }
 
   .button {
-    margin-bottom: rem(24px);
+    margin-bottom: functions.customREM(24px);
   }
 }
 
 .start__list {
-  padding-top: rem(30px)
+  padding-top: functions.customREM(30px)
 }
 
 .docs {
   text-align: left;
-  padding-top: rem(30px)
+  padding-top: functions.customREM(30px)
 }
 
 .center-vertically {
   position: relative;
 
-  @media #{$medium-up} {
+  @media #{media.$medium-up} {
     position: absolute;
     height: 600px;
     left: 0;
@@ -69,22 +92,22 @@ body {
 }
 
 .button {
-  margin: rem(0 10px)
+  margin: functions.customREM(0 10px)
 }
 
 .logo {
-  height: rem(70px);
-  margin-right: rem(20px);
+  height: functions.customREM(70px);
+  margin-right: functions.customREM(20px);
   vertical-align: middle;
   display: inline-block;
 }
 
 .button--github {
-  padding-left: rem(60px);
+  padding-left: functions.customREM(60px);
 
   &:before {
     content: url('./assets/github.svg');
-    left: rem(25px);
+    left: functions.customREM(25px);
     position: absolute;
   }
 }
@@ -96,9 +119,9 @@ body {
 
 .version {
   position: absolute;
-  bottom: rem(-7px);
-  font-size: rem(20px);
-  color: $secondary-color;
+  bottom: functions.customREM(-7px);
+  font-size: functions.customREM(20px);
+  color: global.$secondary-color;
   transform: translateX(-100%);
 }
 
@@ -115,50 +138,50 @@ body {
 }
 
 section {
-  margin-bottom: rem(20px)
+  margin-bottom: functions.customREM(20px)
 }
 
 #examples {
   .grid__column {
     & > p > a {
-      font-weight: $global-font-weight-bold;
-      color: $primary-color;
+      font-weight: global.$global-font-weight-bold;
+      color: global.$primary-color;
       text-decoration: none;
     }
 
     & > ul {
-      padding-left: rem(25px);
-      margin-top: rem(7px);
+      padding-left: functions.customREM(25px);
+      margin-top: functions.customREM(7px);
 
       li {
-        line-height: $paragraph-line-height;
-        font-family: $paragraph-family;
-        font-weight: $paragraph-font-weight;
-        font-size: rem($paragraph-font-size-ratio-sm * $global-font-size);
-        padding: rem(4px 0);
+        line-height: typo.$paragraph-line-height;
+        font-family: typo.$paragraph-family;
+        font-weight: typo.$paragraph-font-weight;
+        font-size: functions.customREM(typo.$paragraph-font-size-ratio-sm * global.$global-font-size);
+        padding: functions.customREM(4px 0);
       }
     }
   }
 }
 
 p > code, li > code {
-  font-size: rem(14px);
+  font-size: functions.customREM(14px);
   color: #41b883;
-  padding: rem(3px 5px);
-  border-radius: rem(4px);
+  padding: functions.customREM(3px 5px);
+  border-radius: functions.customREM(4px);
   background: #f3f3f3;
 }
 
 .shiki {
-  padding: rem(14px 18px);
+  padding: functions.customREM(14px 18px);
   background: #f6f8fa !important; // Override theme setting
-  font-size: rem(14px);
-  line-height: rem(24px);
+  font-size: functions.customREM(14px);
+  line-height: functions.customREM(24px);
 }
 
 // Selection Output
 .language-json {
-  padding: rem(14px 18px);
+  padding: functions.customREM(14px 18px);
   background: #f3f3f3;
   margin:0;
 }

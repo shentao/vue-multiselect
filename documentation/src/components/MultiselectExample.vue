@@ -1,7 +1,9 @@
 <template>
   <div>
-    <multiselect :options="badges" v-model="value"
+    <multiselect :options="badges"
+                 v-model="value"
                  label="name"
+                 id="badges"
                  track-by="name"
                  placeholder="Pick badges"
                  :multiple="true"

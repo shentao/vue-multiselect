@@ -1,6 +1,6 @@
 <template>
   <div><label class="typo__label">Simple select / dropdown</label>
-    <multiselect v-model="value" :options="options" :multiple="true" :close-on-select="false" :clear-on-select="false"
+    <multiselect id="multiselect" v-model="value" :options="options" :multiple="true" :close-on-select="false" :clear-on-select="false"
                  :preserve-search="true" placeholder="Pick some" label="name" track-by="name" :preselect-first="true">
       <template #selection="{ values, search, isOpen }">
         <span class="multiselect__single"

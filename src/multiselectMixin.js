@@ -17,12 +17,6 @@ function includes (str, query) {
   return text.indexOf(query.trim()) !== -1
 }
 
-function filterOptions (options, search, label, customLabel) {
-  return search ? options
-    .filter((option) => includes(customLabel(option, label), search))
-    .sort((a, b) => customLabel(a, label).length - customLabel(b, label).length) : options
-}
-
 function stripGroups (options) {
   return options.filter((option) => !option.$isLabel)
 }
@@ -40,25 +34,6 @@ function flattenOptions (values, label) {
       }
       return prev
     }, [])
-}
-
-function filterGroups (search, label, values, groupLabel, customLabel) {
-  return (groups) =>
-    groups.map((group) => {
-      /* istanbul ignore else */
-      if (!group[values]) {
-        console.warn(`Options passed to vue-multiselect do not contain groups, despite the config.`)
-        return []
-      }
-      const groupOptions = filterOptions(group[values], search, label, customLabel)
-
-      return groupOptions.length
-        ? {
-          [groupLabel]: group[groupLabel],
-          [values]: groupOptions
-        }
-        : []
-    })
 }
 
 const flow = (...fns) => (x) => fns.reduce((v, f) => f(v), x)
@@ -312,10 +287,19 @@ export default {
      * Prevent autofocus
      * @default false
      * @type {Boolean}
-    */
+     */
     preventAutofocus: {
       type: Boolean,
       default: false
+    },
+    /**
+     * Allows a custom function for sorting search/filtered results.
+     * @default null
+     * @type {Function}
+     */
+    filteringSortFunc: {
+      type: Function,
+      default: null
     }
   },
   mounted () {
@@ -347,7 +331,7 @@ export default {
       if (this.internalSearch) {
         options = this.groupValues
           ? this.filterAndFlat(options, normalizedSearch, this.label)
-          : filterOptions(options, normalizedSearch, this.label, this.customLabel)
+          : this.filterOptions(options, normalizedSearch, this.label, this.customLabel)
       } else {
         options = this.groupValues ? flattenOptions(this.groupValues, this.groupLabel)(options) : options
       }
@@ -359,9 +343,9 @@ export default {
       /* istanbul ignore else */
       if (this.taggable && normalizedSearch.length && !this.isExistingOption(normalizedSearch)) {
         if (this.tagPosition === 'bottom') {
-          options.push({isTag: true, label: search})
+          options.push({ isTag: true, label: search })
         } else {
-          options.unshift({isTag: true, label: search})
+          options.unshift({ isTag: true, label: search })
         }
       }
 
@@ -421,7 +405,7 @@ export default {
      */
     filterAndFlat (options, search, label) {
       return flow(
-        filterGroups(search, label, this.groupValues, this.groupLabel, this.customLabel),
+        this.filterGroups(search, label, this.groupValues, this.groupLabel, this.customLabel),
         flattenOptions(this.groupValues, this.groupLabel)
       )(options)
     },
@@ -566,7 +550,7 @@ export default {
 
         this.$emit('update:modelValue', newValue)
       } else {
-        let optionsToAdd = group[this.groupValues].filter(
+        const optionsToAdd = group[this.groupValues].filter(
           option => !(this.isOptionDisabled(option) || this.isSelected(option))
         )
 
@@ -721,6 +705,51 @@ export default {
         this.preferredOpenDirection = 'above'
         this.optimizedHeight = Math.min(spaceAbove - 40, this.maxHeight)
       }
+    },
+    /**
+     * Filters and sorts the options ready for selection
+     * @param {Array} options
+     * @param {String} search
+     * @param {String} label
+     * @param {Function} customLabel
+     * @returns {Array}
+     */
+    filterOptions (options, search, label, customLabel) {
+      return search
+        ? options
+          .filter((option) => includes(customLabel(option, label), search))
+          .sort((a, b) => {
+            if (typeof this.filteringSortFunc === 'function') {
+              return this.filteringSortFunc(a, b)
+            }
+            return customLabel(a, label).length - customLabel(b, label).length
+          })
+        : options
+    },
+    /**
+     *
+     * @param {String} search
+     * @param {String} label
+     * @param {String} values
+     * @param {String} groupLabel
+     * @param {function} customLabel
+     * @returns {function(*): *}
+     */
+    filterGroups (search, label, values, groupLabel, customLabel) {
+      return (groups) => groups.map((group) => {
+        /* istanbul ignore else */
+        if (!group[values]) {
+          console.warn('Options passed to vue-multiselect do not contain groups, despite the config.')
+          return []
+        }
+        const groupOptions = this.filterOptions(group[values], search, label, customLabel)
+
+        return groupOptions.length
+          ? {
+              [groupLabel]: group[groupLabel], [values]: groupOptions
+            }
+          : []
+      })
     }
   }
 }
