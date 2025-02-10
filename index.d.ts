@@ -169,6 +169,12 @@ export interface MultiselectMixinOptions {
    * @type {Boolean}
    */
   preventAutofocus?: boolean;
+  /** 
+   * Allows a custom function for sorting search/filtered results. 
+   * @default null 
+   * @type {Function} 
+   */ 
+  filteringSortFunc?: (a: any, b: any) => number;
 }
 
 export interface PointerMixinOptions {
