@@ -157,6 +157,15 @@ export default {
       default: true
     },
     /**
+     * Function to get the trackBy value
+     *
+     * @default false
+     * @type {Function}
+     */
+    customTrackBy: {
+      type: Function
+    },
+    /**
      * Function to interpolate the custom label
      * @default false
      * @type {Function}
@@ -352,8 +361,8 @@ export default {
       return options.slice(0, this.optionsLimit)
     },
     valueKeys () {
-      if (this.trackBy) {
-        return this.internalValue.map((element) => element[this.trackBy])
+      if (this.hasTrackBy) {
+        return this.internalValue.map((element) => this.getOptionTrackBy(element))
       } else {
         return this.internalValue
       }
@@ -368,6 +377,12 @@ export default {
         : this.internalValue.length
           ? this.getOptionLabel(this.internalValue[0])
           : this.searchable ? '' : this.placeholder
+    },
+    /**
+     * Returns true if a trackBy key/function is set. This is used in a few places to avoid copying arrays.
+     */
+    hasTrackBy () {
+      return this.trackBy != null || this.customTrackBy != null
     }
   },
   watch: {
@@ -445,9 +460,7 @@ export default {
      * @returns {Boolean} returns true if element is selected
      */
     isSelected (option) {
-      const opt = this.trackBy
-        ? option[this.trackBy]
-        : option
+      const opt = this.getOptionTrackBy(option)
       return this.valueKeys.indexOf(opt) > -1
     },
     /**
@@ -477,6 +490,17 @@ export default {
       /* istanbul ignore else */
       if (isEmpty(label)) return ''
       return label
+    },
+    /**
+     * Gets the trackBy value for the provided option
+     *
+     * @param  {Object||String||Integer} Passed option
+     * @returns {Object||String}
+     */
+    getOptionTrackBy (option) {
+      if (this.customTrackBy != null) return this.customTrackBy(option, this.trackBy)
+      if (this.trackBy != null) return option[this.trackBy]
+      return option
     },
     /**
      * Add the given option to the list of selected options
@@ -543,9 +567,9 @@ export default {
       if (this.wholeGroupSelected(group)) {
         this.$emit('remove', group[this.groupValues], this.id)
 
-        const groupValues = this.trackBy ? group[this.groupValues].map(val => val[this.trackBy]) : group[this.groupValues]
+        const groupValues = this.hasTrackBy ? group[this.groupValues].map(val => this.getOptionTrackBy(val)) : group[this.groupValues]
         const newValue = this.internalValue.filter(
-          option => groupValues.indexOf(this.trackBy ? option[this.trackBy] : option) === -1
+          option => groupValues.indexOf(this.hasTrackBy ? this.getOptionTrackBy(option) : option) === -1
         )
 
         this.$emit('update:modelValue', newValue)
@@ -605,7 +629,7 @@ export default {
       }
 
       const index = typeof option === 'object'
-        ? this.valueKeys.indexOf(option[this.trackBy])
+        ? this.valueKeys.indexOf(this.getOptionTrackBy(option))
         : this.valueKeys.indexOf(option)
 
       if (this.multiple) {
