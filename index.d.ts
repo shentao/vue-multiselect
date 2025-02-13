@@ -2,7 +2,7 @@
 // Originally written by: Akshay Jat https://github.com/akki-jat
 import { DefineComponent } from 'vue';
 
-export interface MultiselectMixinOptions {
+export interface MultiselectMixinProps {
   /**
    * Decide whether to filter the results based on search query.
    * Useful for async filtering, where we search through more complex data.
@@ -177,7 +177,7 @@ export interface MultiselectMixinOptions {
   filteringSortFunc?: (a: any, b: any) => number;
 }
 
-export interface PointerMixinOptions {
+export interface PointerMixinProps {
   /**
    * Enable/disable highlighting of the pointed value.
    * @type {Boolean}
@@ -187,111 +187,115 @@ export interface PointerMixinOptions {
   optionHeight?: number;
 }
 
-export const multiselectMixin: DefineComponent<MultiselectMixinOptions>;
-export const pointerMixin: DefineComponent<PointerMixinOptions>;
+export interface ComponentProps {
+  /**
+   * name attribute to match optional label element
+   * @default ''
+   * @type {String}
+   */
+  name?: string;
+  /**
+   * Presets the selected options value.
+   * @type {Object||Array||String||Integer||null}
+   */
+  modelValue?: object | any[] | string | number | null;
+  /**
+   * String to show when pointing to an option
+   * @default 'Press enter to select'
+   * @type {String}
+   */
+  selectLabel?: string;
+  /**
+   * String to show when pointing to an option
+   * @default 'Press enter to select'
+   * @type {String}
+   */
+  selectGroupLabel?: string;
+  /**
+   * String to show next to selected option
+   * @default 'Selected'
+   * @type {String}
+   */
+  selectedLabel?: string;
+  /**
+   * String to show when pointing to an already selected option
+   * @default 'Press enter to remove'
+   * @type {String}
+   */
+  deselectLabel?: string;
+  /**
+   * String to show when pointing to an already selected option
+   * @default 'Press enter to remove'
+   * @type {String}
+   */
+  deselectGroupLabel?: string;
+  /**
+   * Decide whether to show pointer labels
+   * @default true
+   * @type {Boolean}
+   */
+  showLabels?: boolean;
+  /**
+   * Limit the display of selected options. The rest will be hidden within the limitText string.
+   * @default 99999
+   * @type {Integer}
+   */
+  limit?: number;
+  /**
+   * Sets maxHeight style value of the dropdown
+   * @default 300
+   * @type {Integer}
+   */
+  maxHeight?: number;
+  /**
+   * Function that process the message shown when selected
+   * elements pass the defined limit.
+   * @default 'and * more'
+   * @param {Int} count Number of elements more than limit
+   * @type {Function}
+   */
+  limitText?: (count: number) => string;
+  /**
+   * Set true to trigger the loading spinner.
+   * @default False
+   * @type {Boolean}
+   */
+  loading?: boolean;
+  /**
+   * Disables the multiselect if true.
+   * @default false
+   * @type {Boolean}
+   */
+  disabled?: boolean;
+  /**
+   * Enables search input's spellcheck if true.
+   * @default false
+   * @type {Boolean}
+   */
+  spellcheck?: boolean;
+  /**
+   * Fixed opening direction
+   * @default ''
+   * @type {String}
+   */
+  openDirection?: string;
+  /**
+   * Shows slot with message about empty options
+   * @default true
+   * @type {Boolean}
+   */
+  showNoOptions?: boolean;
+  showNoResults?: boolean;
+  tabindex?: number;
+  required?: boolean;
+}
+
+export type MultiselectProps = ComponentProps & MultiselectMixinProps & PointerMixinProps;
+
+export const multiselectMixin: DefineComponent<MultiselectMixinProps>;
+export const pointerMixin: DefineComponent<PointerMixinProps>;
 export const Multiselect: DefineComponent<
-  {
-    /**
-     * name attribute to match optional label element
-     * @default ''
-     * @type {String}
-     */
-    name?: string;
-    /**
-     * Presets the selected options value.
-     * @type {Object||Array||String||Integer}
-     */
-    modelValue?: object | any[] | string | number;
-    /**
-     * String to show when pointing to an option
-     * @default 'Press enter to select'
-     * @type {String}
-     */
-    selectLabel?: string;
-    /**
-     * String to show when pointing to an option
-     * @default 'Press enter to select'
-     * @type {String}
-     */
-    selectGroupLabel?: string;
-    /**
-     * String to show next to selected option
-     * @default 'Selected'
-     * @type {String}
-     */
-    selectedLabel?: string;
-    /**
-     * String to show when pointing to an already selected option
-     * @default 'Press enter to remove'
-     * @type {String}
-     */
-    deselectLabel?: string;
-    /**
-     * String to show when pointing to an already selected option
-     * @default 'Press enter to remove'
-     * @type {String}
-     */
-    deselectGroupLabel?: string;
-    /**
-     * Decide whether to show pointer labels
-     * @default true
-     * @type {Boolean}
-     */
-    showLabels?: boolean;
-    /**
-     * Limit the display of selected options. The rest will be hidden within the limitText string.
-     * @default 99999
-     * @type {Integer}
-     */
-    limit?: number;
-    /**
-     * Sets maxHeight style value of the dropdown
-     * @default 300
-     * @type {Integer}
-     */
-    maxHeight?: number;
-    /**
-     * Function that process the message shown when selected
-     * elements pass the defined limit.
-     * @default 'and * more'
-     * @param {Int} count Number of elements more than limit
-     * @type {Function}
-     */
-    limitText?: (count: number) => string;
-    /**
-     * Set true to trigger the loading spinner.
-     * @default False
-     * @type {Boolean}
-     */
-    loading?: boolean;
-    /**
-     * Disables the multiselect if true.
-     * @default false
-     * @type {Boolean}
-     */
-    disabled?: boolean;
-    /**
-     * Enables search input's spellcheck if true.
-     * @default false
-     * @type {Boolean}
-     */
-    spellcheck?: boolean;
-    /**
-     * Fixed opening direction
-     * @default ''
-     * @type {String}
-     */
-    openDirection?: string;
-    /**
-     * Shows slot with message about empty options
-     * @default true
-     * @type {Boolean}
-     */
-    showNoOptions?: boolean;
-    showNoResults?: boolean;
-    tabindex?: number;
-    required?: boolean;
-  },
+  ComponentProps,
   {},
   {},
   {},
