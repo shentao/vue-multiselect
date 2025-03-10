@@ -35,6 +35,10 @@ $multiselect-background: #000;
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: #fff;
   color: #35495E;
