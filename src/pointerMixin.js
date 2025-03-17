@@ -2,7 +2,8 @@ export default {
   data () {
     return {
       pointer: 0,
-      pointerDirty: false
+      pointerDirty: false,
+      savedPointer: null
     }
   },
   props: {
@@ -77,8 +78,10 @@ export default {
       /* istanbul ignore else */
       if (this.pointer < this.filteredOptions.length - 1) {
         this.pointer++
+        this.savedPointer = null
         /* istanbul ignore next */
         if (this.$refs.list.scrollTop <= this.pointerPosition - (this.visibleElements - 1) * this.optionHeight) {
+          this.savedPointer = this.pointer
           this.$refs.list.scrollTop = this.pointerPosition - (this.visibleElements - 1) * this.optionHeight
         }
         /* istanbul ignore else */
@@ -93,8 +96,10 @@ export default {
     pointerBackward () {
       if (this.pointer > 0) {
         this.pointer--
+        this.savedPointer = null
         /* istanbul ignore else */
         if (this.$refs.list.scrollTop >= this.pointerPosition) {
+          this.savedPointer = this.pointer
           this.$refs.list.scrollTop = this.pointerPosition
         }
         /* istanbul ignore else */
@@ -138,8 +143,19 @@ export default {
       }
     },
     pointerSet (index) {
-      this.pointer = index
+      if (this.savedPointer && this.savedPointer > 0) {
+        this.pointer = this.savedPointer
+      } else {
+        this.pointer = index
+      }
+
+      if (this.savedPointer === 0) {
+        this.$nextTick(() => {
+          this.pointer = 0
+        })
+      }
       this.pointerDirty = true
+      this.savedPointer = null
     }
   }
 }
