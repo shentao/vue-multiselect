@@ -92,30 +92,31 @@
         </slot>
       </span>
     </div>
-    <transition name="multiselect">
-      <div
-        class="multiselect__content-wrapper"
-        v-show="isOpen"
-        @focus="activate"
-        tabindex="-1"
-        @mousedown.prevent
-        :style="{ maxHeight: optimizedHeight + 'px' }"
-        ref="list"
-      >
+    <teleport to="body">
+      <transition name="multiselect">
+        <div
+          class="multiselect__content-wrapper"
+          v-if="isOpen && ready"
+          @focus="activate"
+          tabindex="-1"
+          @mousedown.prevent
+          :style="[dropdownStyles, { maxHeight: optimizedHeight + 'px' }]"
+          ref="list"
+        >
           <ul class="multiselect__content" :style="contentStyle" role="listbox" :id="'listbox-'+id" :aria-multiselectable="multiple">
-          <slot name="beforeList"></slot>
-          <li v-if="multiple && max === internalValue.length">
+            <slot name="beforeList"></slot>
+            <li v-if="multiple && max === internalValue.length">
             <span class="multiselect__option">
               <slot name="maxElements">Maximum of {{ max }} options selected. First remove a selected option to select another.</slot>
             </span>
-          </li>
-          <template v-if="!max || internalValue.length < max">
-            <li class="multiselect__element"
-                v-for="(option, index) of filteredOptions"
-                :key="index"
-                :aria-selected="isSelected(option)"
-                v-bind:id="id + '-' + index"
-                v-bind:role="!(option && (option.$isLabel || option.$isDisabled)) ? 'option' : null">
+            </li>
+            <template v-if="!max || internalValue.length < max">
+              <li class="multiselect__element"
+                  v-for="(option, index) of filteredOptions"
+                  :key="index"
+                  :aria-selected="isSelected(option)"
+                  v-bind:id="id + '-' + index"
+                  v-bind:role="!(option && (option.$isLabel || option.$isDisabled)) ? 'option' : null">
               <span
                 v-if="!(option && (option.$isLabel || option.$isDisabled))"
                 :class="optionHighlight(index, option)"
@@ -129,34 +130,35 @@
                   <span>{{ getOptionLabel(option) }}</span>
                 </slot>
               </span>
-              <span
-                v-if="option && (option.$isLabel || option.$isDisabled)"
-                :data-select="groupSelect && selectGroupLabelText"
-                :data-deselect="groupSelect && deselectGroupLabelText"
-                :class="groupHighlight(index, option)"
-                @mouseenter.self="groupSelect && pointerSet(index)"
-                @mousedown.prevent="selectGroup(option)"
-                class="multiselect__option">
+                <span
+                  v-if="option && (option.$isLabel || option.$isDisabled)"
+                  :data-select="groupSelect && selectGroupLabelText"
+                  :data-deselect="groupSelect && deselectGroupLabelText"
+                  :class="groupHighlight(index, option)"
+                  @mouseenter.self="groupSelect && pointerSet(index)"
+                  @mousedown.prevent="selectGroup(option)"
+                  class="multiselect__option">
                 <slot name="option" :option="option" :search="search" :index="index">
                   <span>{{ getOptionLabel(option) }}</span>
                 </slot>
               </span>
-            </li>
-          </template>
-          <li v-show="showNoResults && (filteredOptions.length === 0 && search && !loading)">
+              </li>
+            </template>
+            <li v-show="showNoResults && (filteredOptions.length === 0 && search && !loading)">
             <span class="multiselect__option">
               <slot name="noResult" :search="search">No elements found. Consider changing the search query.</slot>
             </span>
-          </li>
+            </li>
             <li v-show="showNoOptions && ((options.length === 0 || (hasOptionGroup === true && filteredOptions.length === 0)) && !search && !loading)">
             <span class="multiselect__option">
               <slot name="noOptions">List is empty.</slot>
             </span>
-          </li>
-          <slot name="afterList"></slot>
-        </ul>
-      </div>
-    </transition>
+            </li>
+            <slot name="afterList"></slot>
+          </ul>
+        </div>
+      </transition>
+    </teleport>
   </div>
 </template>
 
@@ -337,6 +339,12 @@ export default {
       default: false
     }
   },
+  data() {
+    return {
+      dropdownStyles: {},
+      ready: false
+    };
+  },
   computed: {
     hasOptionGroup () {
       return this.groupValues && this.groupLabel && this.groupSelect
@@ -416,6 +424,24 @@ export default {
       }
       // if we have a value, any value, then this isn't required
       return this.internalValue.length <= 0
+    }
+  },
+  watch: {
+    isOpen(val) {
+      if (val) {
+        this.ready = false;
+        this.$nextTick(() => {
+          const rect = this.$el.getBoundingClientRect();
+          this.dropdownStyles = {
+            position: 'absolute',
+            top: `${rect.bottom + window.scrollY}px`,
+            left: `${rect.left + window.scrollX}px`,
+            width: `${rect.width}px`,
+            zIndex: 9999
+          };
+          this.ready = true;
+        });
+      }
     }
   }
 }
@@ -700,7 +726,7 @@ export default {
     border-top: none;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-    z-index: 50;
+    z-index: 9999;
     -webkit-overflow-scrolling: touch;
   }
 
