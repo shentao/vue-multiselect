@@ -180,6 +180,13 @@ methods: {
 }
 ```
 
+## ⚠️ Important: Options API Dependency
+
+vue-multiselect requires Vue's Options API to function properly. Do not disable the Options API in your build configuration.
+
+If you're using Vite with @vitejs/plugin-vue, make sure your __VUE_OPTIONS_API__ is set to `true` in your configuration:
+
+
 ## Special Thanks
 
 Thanks to Matt Elen for contributing this version!
