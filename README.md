@@ -180,11 +180,19 @@ methods: {
 }
 ```
 
-## ⚠️ Important: Options API Dependency
+## ⚠️ Build Tool Compatibility
 
-vue-multiselect requires Vue's Options API to function properly. Do not disable the Options API in your build configuration.
+**vue-multiselect requires Vue's Options API to function properly.** There are known issues with certain versions of `@vitejs/plugin-vue` that may inadvertently disable the Options API.
 
-If you're using Vite with @vitejs/plugin-vue, make sure your __VUE_OPTIONS_API__ is set to `true` in your configuration:
+### Known Issue with @vitejs/plugin-vue
+
+If you're experiencing issues after updating `@vitejs/plugin-vue` to version 5.2.2 or later, consider downgrading to version 5.2.1:
+
+```bash
+npm install @vitejs/plugin-vue@5.2.1
+```
+
+This issue occurs because changes in the plugin's configuration handling can disable the Options API even when not explicitly configured. See [issue #1901](https://github.com/shentao/vue-multiselect/issues/1901) for more details.
 
 
 ## Special Thanks
