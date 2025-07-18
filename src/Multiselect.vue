@@ -6,7 +6,7 @@
     @blur="searchable ? false : deactivate()"
     @keydown.self.down.prevent="pointerForward()"
     @keydown.self.up.prevent="pointerBackward()"
-    @keypress.enter.tab.stop.self="addPointerElement($event)"
+    @keydown.enter.tab.stop.self="addPointerElement($event)"
     @keyup.esc="deactivate()"
     class="multiselect"
     role="combobox"
@@ -30,7 +30,7 @@
             <slot name="tag" :option="option" :search="search" :remove="removeElement">
               <span class="multiselect__tag" :key="index" @mousedown.prevent>
                 <span v-text="getOptionLabel(option)"></span>
-                <i tabindex="1" @keypress.enter.prevent="removeElement(option)"
+                <i tabindex="1" @keydown.enter.prevent="removeElement(option)"
                    @mousedown.prevent="removeElement(option)" class="multiselect__tag-icon"></i>
               </span>
             </slot>
@@ -68,7 +68,7 @@
         @keyup.esc="deactivate()"
         @keydown.down.prevent="pointerForward()"
         @keydown.up.prevent="pointerBackward()"
-        @keypress.enter.prevent.stop.self="addPointerElement($event)"
+        @keydown.enter.prevent.stop.self="addPointerElement($event)"
         @keydown.delete.stop="removeLastElement()"
         class="multiselect__input"
         :aria-controls="'listbox-'+id"
