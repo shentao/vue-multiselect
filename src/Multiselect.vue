@@ -339,11 +339,11 @@ export default {
       default: false
     }
   },
-  data() {
+  data () {
     return {
       dropdownStyles: {},
       ready: false
-    };
+    }
   },
   computed: {
     hasOptionGroup () {
@@ -427,20 +427,20 @@ export default {
     }
   },
   watch: {
-    isOpen(val) {
+    isOpen (val) {
       if (val) {
-        this.ready = false;
+        this.ready = false
         this.$nextTick(() => {
-          const rect = this.$el.getBoundingClientRect();
+          const rect = this.$el.getBoundingClientRect()
           this.dropdownStyles = {
             position: 'absolute',
             top: `${rect.bottom + window.scrollY}px`,
             left: `${rect.left + window.scrollX}px`,
             width: `${rect.width}px`,
             zIndex: 9999
-          };
-          this.ready = true;
-        });
+          }
+          this.ready = true
+        })
       }
     }
   }
