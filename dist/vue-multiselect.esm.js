@@ -1,4 +1,4 @@
-import { openBlock, createElementBlock, normalizeClass, withKeys, withModifiers, renderSlot, createElementVNode, withDirectives, Fragment, renderList, toDisplayString, vShow, createCommentVNode, createVNode, Transition, withCtx, normalizeStyle, createTextVNode } from 'vue';
+import { openBlock, createElementBlock, normalizeClass, withKeys, withModifiers, renderSlot, createElementVNode, withDirectives, Fragment, renderList, toDisplayString, vShow, createCommentVNode, createVNode, Transition, withCtx, normalizeStyle, createTextVNode, createBlock, Teleport } from 'vue';
 
 function isEmpty (opt) {
   if (opt === 0) return false
@@ -836,7 +836,7 @@ var pointerMixin = {
       if (this.pointer < this.filteredOptions.length - 1) {
         this.pointer++;
         /* istanbul ignore next */
-        if (this.$refs.list.scrollTop <= this.pointerPosition - (this.visibleElements - 1) * this.optionHeight) {
+        if (this.$refs.list?.scrollTop <= this.pointerPosition - (this.visibleElements - 1) * this.optionHeight) {
           this.$refs.list.scrollTop = this.pointerPosition - (this.visibleElements - 1) * this.optionHeight;
         }
         /* istanbul ignore else */
@@ -852,7 +852,7 @@ var pointerMixin = {
       if (this.pointer > 0) {
         this.pointer--;
         /* istanbul ignore else */
-        if (this.$refs.list.scrollTop >= this.pointerPosition) {
+        if (this.$refs.list?.scrollTop >= this.pointerPosition) {
           this.$refs.list.scrollTop = this.pointerPosition;
         }
         /* istanbul ignore else */
@@ -1075,6 +1075,12 @@ var script = {
       default: false
     }
   },
+  data () {
+    return {
+      dropdownStyles: {},
+      ready: false
+    }
+  },
   computed: {
     hasOptionGroup () {
       return this.groupValues && this.groupLabel && this.groupSelect
@@ -1154,6 +1160,24 @@ var script = {
       }
       // if we have a value, any value, then this isn't required
       return this.internalValue.length <= 0
+    }
+  },
+  watch: {
+    isOpen (val) {
+      if (val) {
+        this.ready = false;
+        this.$nextTick(() => {
+          const rect = this.$el.getBoundingClientRect();
+          this.dropdownStyles = {
+            position: 'absolute',
+            top: `${rect.bottom + window.scrollY}px`,
+            left: `${rect.left + window.scrollX}px`,
+            width: `${rect.width}px`,
+            zIndex: 9999
+          };
+          this.ready = true;
+        });
+      }
     }
   }
 };
@@ -1308,111 +1332,111 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           ], 32 /* NEED_HYDRATION */))
         : createCommentVNode("v-if", true)
     ], 512 /* NEED_PATCH */),
-    createVNode(Transition, {
-      name: "multiselect",
-      persisted: ""
-    }, {
-      default: withCtx(() => [
-        withDirectives(createElementVNode("div", {
-          class: "multiselect__content-wrapper",
-          onFocus: _cache[12] || (_cache[12] = (...args) => (_ctx.activate && _ctx.activate(...args))),
-          tabindex: "-1",
-          onMousedown: _cache[13] || (_cache[13] = withModifiers(() => {}, ["prevent"])),
-          style: normalizeStyle({ maxHeight: _ctx.optimizedHeight + 'px' }),
-          ref: "list"
-        }, [
-          createElementVNode("ul", {
-            class: "multiselect__content",
-            style: normalizeStyle($options.contentStyle),
-            role: "listbox",
-            id: 'listbox-'+_ctx.id,
-            "aria-multiselectable": _ctx.multiple
-          }, [
-            renderSlot(_ctx.$slots, "beforeList"),
-            (_ctx.multiple && _ctx.max === _ctx.internalValue.length)
-              ? (openBlock(), createElementBlock("li", _hoisted_10, [
-                  createElementVNode("span", _hoisted_11, [
-                    renderSlot(_ctx.$slots, "maxElements", {}, () => [
-                      createTextVNode("Maximum of " + toDisplayString(_ctx.max) + " options selected. First remove a selected option to select another.", 1 /* TEXT */)
+    (openBlock(), createBlock(Teleport, { to: "body" }, [
+      createVNode(Transition, { name: "multiselect" }, {
+        default: withCtx(() => [
+          (_ctx.isOpen && $data.ready)
+            ? (openBlock(), createElementBlock("div", {
+                key: 0,
+                class: "multiselect__content-wrapper",
+                onFocus: _cache[12] || (_cache[12] = (...args) => (_ctx.activate && _ctx.activate(...args))),
+                tabindex: "-1",
+                onMousedown: _cache[13] || (_cache[13] = withModifiers(() => {}, ["prevent"])),
+                style: normalizeStyle([$data.dropdownStyles, { maxHeight: _ctx.optimizedHeight + 'px' }]),
+                ref: "list"
+              }, [
+                createElementVNode("ul", {
+                  class: "multiselect__content",
+                  style: normalizeStyle($options.contentStyle),
+                  role: "listbox",
+                  id: 'listbox-'+_ctx.id,
+                  "aria-multiselectable": _ctx.multiple
+                }, [
+                  renderSlot(_ctx.$slots, "beforeList"),
+                  (_ctx.multiple && _ctx.max === _ctx.internalValue.length)
+                    ? (openBlock(), createElementBlock("li", _hoisted_10, [
+                        createElementVNode("span", _hoisted_11, [
+                          renderSlot(_ctx.$slots, "maxElements", {}, () => [
+                            createTextVNode("Maximum of " + toDisplayString(_ctx.max) + " options selected. First remove a selected option to select another.", 1 /* TEXT */)
+                          ])
+                        ])
+                      ]))
+                    : createCommentVNode("v-if", true),
+                  (!_ctx.max || _ctx.internalValue.length < _ctx.max)
+                    ? (openBlock(true), createElementBlock(Fragment, { key: 1 }, renderList(_ctx.filteredOptions, (option, index) => {
+                        return (openBlock(), createElementBlock("li", {
+                          class: "multiselect__element",
+                          key: index,
+                          "aria-selected": _ctx.isSelected(option),
+                          id: _ctx.id + '-' + index,
+                          role: !(option && (option.$isLabel || option.$isDisabled)) ? 'option' : null
+                        }, [
+                          (!(option && (option.$isLabel || option.$isDisabled)))
+                            ? (openBlock(), createElementBlock("span", {
+                                key: 0,
+                                class: normalizeClass([_ctx.optionHighlight(index, option), "multiselect__option"]),
+                                onClick: withModifiers($event => (_ctx.select(option)), ["stop"]),
+                                onMouseenter: withModifiers($event => (_ctx.pointerSet(index)), ["self"]),
+                                "data-select": option && option.isTag ? _ctx.tagPlaceholder : $options.selectLabelText,
+                                "data-selected": $options.selectedLabelText,
+                                "data-deselect": $options.deselectLabelText
+                              }, [
+                                renderSlot(_ctx.$slots, "option", {
+                                  option: option,
+                                  search: _ctx.search,
+                                  index: index
+                                }, () => [
+                                  createElementVNode("span", null, toDisplayString(_ctx.getOptionLabel(option)), 1 /* TEXT */)
+                                ])
+                              ], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_13))
+                            : createCommentVNode("v-if", true),
+                          (option && (option.$isLabel || option.$isDisabled))
+                            ? (openBlock(), createElementBlock("span", {
+                                key: 1,
+                                "data-select": _ctx.groupSelect && $options.selectGroupLabelText,
+                                "data-deselect": _ctx.groupSelect && $options.deselectGroupLabelText,
+                                class: normalizeClass([_ctx.groupHighlight(index, option), "multiselect__option"]),
+                                onMouseenter: withModifiers($event => (_ctx.groupSelect && _ctx.pointerSet(index)), ["self"]),
+                                onMousedown: withModifiers($event => (_ctx.selectGroup(option)), ["prevent"])
+                              }, [
+                                renderSlot(_ctx.$slots, "option", {
+                                  option: option,
+                                  search: _ctx.search,
+                                  index: index
+                                }, () => [
+                                  createElementVNode("span", null, toDisplayString(_ctx.getOptionLabel(option)), 1 /* TEXT */)
+                                ])
+                              ], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_14))
+                            : createCommentVNode("v-if", true)
+                        ], 8 /* PROPS */, _hoisted_12))
+                      }), 128 /* KEYED_FRAGMENT */))
+                    : createCommentVNode("v-if", true),
+                  withDirectives(createElementVNode("li", null, [
+                    createElementVNode("span", _hoisted_15, [
+                      renderSlot(_ctx.$slots, "noResult", { search: _ctx.search }, () => [
+                        _cache[20] || (_cache[20] = createTextVNode("No elements found. Consider changing the search query."))
+                      ])
                     ])
-                  ])
-                ]))
-              : createCommentVNode("v-if", true),
-            (!_ctx.max || _ctx.internalValue.length < _ctx.max)
-              ? (openBlock(true), createElementBlock(Fragment, { key: 1 }, renderList(_ctx.filteredOptions, (option, index) => {
-                  return (openBlock(), createElementBlock("li", {
-                    class: "multiselect__element",
-                    key: index,
-                    "aria-selected": _ctx.isSelected(option),
-                    id: _ctx.id + '-' + index,
-                    role: !(option && (option.$isLabel || option.$isDisabled)) ? 'option' : null
-                  }, [
-                    (!(option && (option.$isLabel || option.$isDisabled)))
-                      ? (openBlock(), createElementBlock("span", {
-                          key: 0,
-                          class: normalizeClass([_ctx.optionHighlight(index, option), "multiselect__option"]),
-                          onClick: withModifiers($event => (_ctx.select(option)), ["stop"]),
-                          onMouseenter: withModifiers($event => (_ctx.pointerSet(index)), ["self"]),
-                          "data-select": option && option.isTag ? _ctx.tagPlaceholder : $options.selectLabelText,
-                          "data-selected": $options.selectedLabelText,
-                          "data-deselect": $options.deselectLabelText
-                        }, [
-                          renderSlot(_ctx.$slots, "option", {
-                            option: option,
-                            search: _ctx.search,
-                            index: index
-                          }, () => [
-                            createElementVNode("span", null, toDisplayString(_ctx.getOptionLabel(option)), 1 /* TEXT */)
-                          ])
-                        ], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_13))
-                      : createCommentVNode("v-if", true),
-                    (option && (option.$isLabel || option.$isDisabled))
-                      ? (openBlock(), createElementBlock("span", {
-                          key: 1,
-                          "data-select": _ctx.groupSelect && $options.selectGroupLabelText,
-                          "data-deselect": _ctx.groupSelect && $options.deselectGroupLabelText,
-                          class: normalizeClass([_ctx.groupHighlight(index, option), "multiselect__option"]),
-                          onMouseenter: withModifiers($event => (_ctx.groupSelect && _ctx.pointerSet(index)), ["self"]),
-                          onMousedown: withModifiers($event => (_ctx.selectGroup(option)), ["prevent"])
-                        }, [
-                          renderSlot(_ctx.$slots, "option", {
-                            option: option,
-                            search: _ctx.search,
-                            index: index
-                          }, () => [
-                            createElementVNode("span", null, toDisplayString(_ctx.getOptionLabel(option)), 1 /* TEXT */)
-                          ])
-                        ], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_14))
-                      : createCommentVNode("v-if", true)
-                  ], 8 /* PROPS */, _hoisted_12))
-                }), 128 /* KEYED_FRAGMENT */))
-              : createCommentVNode("v-if", true),
-            withDirectives(createElementVNode("li", null, [
-              createElementVNode("span", _hoisted_15, [
-                renderSlot(_ctx.$slots, "noResult", { search: _ctx.search }, () => [
-                  _cache[20] || (_cache[20] = createTextVNode("No elements found. Consider changing the search query."))
-                ])
-              ])
-            ], 512 /* NEED_PATCH */), [
-              [vShow, $props.showNoResults && (_ctx.filteredOptions.length === 0 && _ctx.search && !$props.loading)]
-            ]),
-            withDirectives(createElementVNode("li", null, [
-              createElementVNode("span", _hoisted_16, [
-                renderSlot(_ctx.$slots, "noOptions", {}, () => [
-                  _cache[21] || (_cache[21] = createTextVNode("List is empty."))
-                ])
-              ])
-            ], 512 /* NEED_PATCH */), [
-              [vShow, $props.showNoOptions && ((_ctx.options.length === 0 || ($options.hasOptionGroup === true && _ctx.filteredOptions.length === 0)) && !_ctx.search && !$props.loading)]
-            ]),
-            renderSlot(_ctx.$slots, "afterList")
-          ], 12 /* STYLE, PROPS */, _hoisted_9)
-        ], 36 /* STYLE, NEED_HYDRATION */), [
-          [vShow, _ctx.isOpen]
-        ])
-      ]),
-      _: 3 /* FORWARDED */
-    })
+                  ], 512 /* NEED_PATCH */), [
+                    [vShow, $props.showNoResults && (_ctx.filteredOptions.length === 0 && _ctx.search && !$props.loading)]
+                  ]),
+                  withDirectives(createElementVNode("li", null, [
+                    createElementVNode("span", _hoisted_16, [
+                      renderSlot(_ctx.$slots, "noOptions", {}, () => [
+                        _cache[21] || (_cache[21] = createTextVNode("List is empty."))
+                      ])
+                    ])
+                  ], 512 /* NEED_PATCH */), [
+                    [vShow, $props.showNoOptions && ((_ctx.options.length === 0 || ($options.hasOptionGroup === true && _ctx.filteredOptions.length === 0)) && !_ctx.search && !$props.loading)]
+                  ]),
+                  renderSlot(_ctx.$slots, "afterList")
+                ], 12 /* STYLE, PROPS */, _hoisted_9)
+              ], 36 /* STYLE, NEED_HYDRATION */))
+            : createCommentVNode("v-if", true)
+        ]),
+        _: 3 /* FORWARDED */
+      })
+    ]))
   ], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_1))
 }
 
