@@ -277,7 +277,7 @@
     border-top: none;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-    z-index: 50;
+    z-index: 9999;
     -webkit-overflow-scrolling: touch;
   }
 

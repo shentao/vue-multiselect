@@ -4702,7 +4702,7 @@ var es_regexp_exec = __webpack_require__(7495);
 var es_string_search = __webpack_require__(5746);
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__(9274);
-;// ./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./src/Multiselect.vue?vue&type=template&id=105c69d9
+;// ./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./src/Multiselect.vue?vue&type=template&id=9d237f16
 
 
 
@@ -4882,20 +4882,23 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     }, ["prevent"]))
   }, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_.renderSlot)(_ctx.$slots, "placeholder", {}, function () {
     return [(0,external_commonjs_vue_commonjs2_vue_root_Vue_.createTextVNode)((0,external_commonjs_vue_commonjs2_vue_root_Vue_.toDisplayString)(_ctx.placeholder), 1)];
-  })], 32)) : (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createCommentVNode)("", true)], 512), (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createVNode)(external_commonjs_vue_commonjs2_vue_root_Vue_.Transition, {
+  })], 32)) : (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createCommentVNode)("", true)], 512), ((0,external_commonjs_vue_commonjs2_vue_root_Vue_.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createBlock)(external_commonjs_vue_commonjs2_vue_root_Vue_.Teleport, {
+    to: "body"
+  }, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_.createVNode)(external_commonjs_vue_commonjs2_vue_root_Vue_.Transition, {
     name: "multiselect"
   }, {
     "default": (0,external_commonjs_vue_commonjs2_vue_root_Vue_.withCtx)(function () {
-      return [(0,external_commonjs_vue_commonjs2_vue_root_Vue_.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementVNode)("div", {
+      return [_ctx.isOpen && $data.ready ? ((0,external_commonjs_vue_commonjs2_vue_root_Vue_.openBlock)(), (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementBlock)("div", {
+        key: 0,
         "class": "multiselect__content-wrapper",
         onFocus: _cache[12] || (_cache[12] = function () {
           return _ctx.activate && _ctx.activate.apply(_ctx, arguments);
         }),
         tabindex: "-1",
         onMousedown: _cache[13] || (_cache[13] = (0,external_commonjs_vue_commonjs2_vue_root_Vue_.withModifiers)(function () {}, ["prevent"])),
-        style: (0,external_commonjs_vue_commonjs2_vue_root_Vue_.normalizeStyle)({
+        style: (0,external_commonjs_vue_commonjs2_vue_root_Vue_.normalizeStyle)([$data.dropdownStyles, {
           maxHeight: _ctx.optimizedHeight + 'px'
-        }),
+        }]),
         ref: "list"
       }, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementVNode)("ul", {
         "class": "multiselect__content",
@@ -4956,12 +4959,12 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         return [_cache[20] || (_cache[20] = (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createTextVNode)("No elements found. Consider changing the search query."))];
       })])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_.vShow, $props.showNoResults && _ctx.filteredOptions.length === 0 && _ctx.search && !$props.loading]]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_.withDirectives)((0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementVNode)("li", null, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_.createElementVNode)("span", _hoisted_16, [(0,external_commonjs_vue_commonjs2_vue_root_Vue_.renderSlot)(_ctx.$slots, "noOptions", {}, function () {
         return [_cache[21] || (_cache[21] = (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createTextVNode)("List is empty."))];
-      })])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_.vShow, $props.showNoOptions && (_ctx.options.length === 0 || $options.hasOptionGroup === true && _ctx.filteredOptions.length === 0) && !_ctx.search && !$props.loading]]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_.renderSlot)(_ctx.$slots, "afterList")], 12, _hoisted_9)], 36), [[external_commonjs_vue_commonjs2_vue_root_Vue_.vShow, _ctx.isOpen]])];
+      })])], 512), [[external_commonjs_vue_commonjs2_vue_root_Vue_.vShow, $props.showNoOptions && (_ctx.options.length === 0 || $options.hasOptionGroup === true && _ctx.filteredOptions.length === 0) && !_ctx.search && !$props.loading]]), (0,external_commonjs_vue_commonjs2_vue_root_Vue_.renderSlot)(_ctx.$slots, "afterList")], 12, _hoisted_9)], 36)) : (0,external_commonjs_vue_commonjs2_vue_root_Vue_.createCommentVNode)("", true)];
     }),
     _: 3
-  })], 42, _hoisted_1);
+  })]))], 42, _hoisted_1);
 }
-;// ./src/Multiselect.vue?vue&type=template&id=105c69d9
+;// ./src/Multiselect.vue?vue&type=template&id=9d237f16
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.slice.js
 var es_array_slice = __webpack_require__(4782);
@@ -5895,9 +5898,10 @@ var flow = function flow() {
     pointerForward: function pointerForward() {
       /* istanbul ignore else */
       if (this.pointer < this.filteredOptions.length - 1) {
+        var _this$$refs$list;
         this.pointer++;
         /* istanbul ignore next */
-        if (this.$refs.list.scrollTop <= this.pointerPosition - (this.visibleElements - 1) * this.optionHeight) {
+        if (((_this$$refs$list = this.$refs.list) === null || _this$$refs$list === void 0 ? void 0 : _this$$refs$list.scrollTop) <= this.pointerPosition - (this.visibleElements - 1) * this.optionHeight) {
           this.$refs.list.scrollTop = this.pointerPosition - (this.visibleElements - 1) * this.optionHeight;
         }
         /* istanbul ignore else */
@@ -5907,9 +5911,10 @@ var flow = function flow() {
     },
     pointerBackward: function pointerBackward() {
       if (this.pointer > 0) {
+        var _this$$refs$list2;
         this.pointer--;
         /* istanbul ignore else */
-        if (this.$refs.list.scrollTop >= this.pointerPosition) {
+        if (((_this$$refs$list2 = this.$refs.list) === null || _this$$refs$list2 === void 0 ? void 0 : _this$$refs$list2.scrollTop) >= this.pointerPosition) {
           this.$refs.list.scrollTop = this.pointerPosition;
         }
         /* istanbul ignore else */
@@ -6124,6 +6129,12 @@ var flow = function flow() {
       "default": false
     }
   },
+  data: function data() {
+    return {
+      dropdownStyles: {},
+      ready: false
+    };
+  },
   computed: {
     hasOptionGroup: function hasOptionGroup() {
       return this.groupValues && this.groupLabel && this.groupSelect;
@@ -6194,14 +6205,33 @@ var flow = function flow() {
       // if we have a value, any value, then this isn't required
       return this.internalValue.length <= 0;
     }
+  },
+  watch: {
+    isOpen: function isOpen(val) {
+      var _this = this;
+      if (val) {
+        this.ready = false;
+        this.$nextTick(function () {
+          var rect = _this.$el.getBoundingClientRect();
+          _this.dropdownStyles = {
+            position: 'absolute',
+            top: "".concat(rect.bottom + window.scrollY, "px"),
+            left: "".concat(rect.left + window.scrollX, "px"),
+            width: "".concat(rect.width, "px"),
+            zIndex: 9999
+          };
+          _this.ready = true;
+        });
+      }
+    }
   }
 });
 ;// ./src/Multiselect.vue?vue&type=script&lang=js
  
-;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./src/Multiselect.vue?vue&type=style&index=0&id=105c69d9&lang=css
+;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./src/Multiselect.vue?vue&type=style&index=0&id=9d237f16&lang=css
 // extracted by mini-css-extract-plugin
 
-;// ./src/Multiselect.vue?vue&type=style&index=0&id=105c69d9&lang=css
+;// ./src/Multiselect.vue?vue&type=style&index=0&id=9d237f16&lang=css
 
 // EXTERNAL MODULE: ./node_modules/vue-loader/dist/exportHelper.js
 var exportHelper = __webpack_require__(6262);
