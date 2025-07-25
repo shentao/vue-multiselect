@@ -740,7 +740,7 @@ export default {
     border-top: none;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
-    z-index: 9999;
+    z-index: 50;
     -webkit-overflow-scrolling: touch;
   }
 
