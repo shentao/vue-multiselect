@@ -1073,6 +1073,15 @@ var script = {
     required: {
       type: Boolean,
       default: false
+    },
+    /**
+     * Uses Vue Teleport's feature. Teleports the open dropdown to the bottom of the body element
+     * @default false
+     * @type {Boolean}
+     */
+    useTeleport: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -1165,18 +1174,23 @@ var script = {
   watch: {
     isOpen (val) {
       if (val) {
-        this.ready = false;
-        this.$nextTick(() => {
-          const rect = this.$el.getBoundingClientRect();
-          this.dropdownStyles = {
-            position: 'absolute',
-            top: `${rect.bottom + window.scrollY}px`,
-            left: `${rect.left + window.scrollX}px`,
-            width: `${rect.width}px`,
-            zIndex: 9999
-          };
+        if (this.useTeleport) {
+          this.ready = false;
+          // This helps with the positioning of the open dropdown when teleport is being used
+          this.$nextTick(() => {
+            const rect = this.$el.getBoundingClientRect();
+            this.dropdownStyles = {
+              position: 'absolute',
+              top: `${rect.bottom + window.scrollY}px`,
+              left: `${rect.left + window.scrollX}px`,
+              width: `${rect.width}px`,
+              zIndex: 9999
+            };
+            this.ready = true;
+          });
+        } else {
           this.ready = true;
-        });
+        }
       }
     }
   }
@@ -1332,7 +1346,10 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
           ], 32 /* NEED_HYDRATION */))
         : createCommentVNode("v-if", true)
     ], 512 /* NEED_PATCH */),
-    (openBlock(), createBlock(Teleport, { to: "body" }, [
+    (openBlock(), createBlock(Teleport, {
+      to: "body",
+      disabled: !$props.useTeleport
+    }, [
       createVNode(Transition, { name: "multiselect" }, {
         default: withCtx(() => [
           (_ctx.isOpen && $data.ready)
@@ -1436,7 +1453,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
         ]),
         _: 3 /* FORWARDED */
       })
-    ]))
+    ], 8 /* PROPS */, ["disabled"]))
   ], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_1))
 }
 

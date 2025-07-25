@@ -1074,6 +1074,15 @@ var VueMultiselect = (function (exports, vue) {
       required: {
         type: Boolean,
         default: false
+      },
+      /**
+       * Uses Vue Teleport's feature. Teleports the open dropdown to the bottom of the body element
+       * @default false
+       * @type {Boolean}
+       */
+      useTeleport: {
+        type: Boolean,
+        default: false
       }
     },
     data () {
@@ -1166,18 +1175,23 @@ var VueMultiselect = (function (exports, vue) {
     watch: {
       isOpen (val) {
         if (val) {
-          this.ready = false;
-          this.$nextTick(() => {
-            const rect = this.$el.getBoundingClientRect();
-            this.dropdownStyles = {
-              position: 'absolute',
-              top: `${rect.bottom + window.scrollY}px`,
-              left: `${rect.left + window.scrollX}px`,
-              width: `${rect.width}px`,
-              zIndex: 9999
-            };
+          if (this.useTeleport) {
+            this.ready = false;
+            // This helps with the positioning of the open dropdown when teleport is being used
+            this.$nextTick(() => {
+              const rect = this.$el.getBoundingClientRect();
+              this.dropdownStyles = {
+                position: 'absolute',
+                top: `${rect.bottom + window.scrollY}px`,
+                left: `${rect.left + window.scrollX}px`,
+                width: `${rect.width}px`,
+                zIndex: 9999
+              };
+              this.ready = true;
+            });
+          } else {
             this.ready = true;
-          });
+          }
         }
       }
     }
@@ -1333,7 +1347,10 @@ var VueMultiselect = (function (exports, vue) {
             ], 32 /* NEED_HYDRATION */))
           : vue.createCommentVNode("v-if", true)
       ], 512 /* NEED_PATCH */),
-      (vue.openBlock(), vue.createBlock(vue.Teleport, { to: "body" }, [
+      (vue.openBlock(), vue.createBlock(vue.Teleport, {
+        to: "body",
+        disabled: !$props.useTeleport
+      }, [
         vue.createVNode(vue.Transition, { name: "multiselect" }, {
           default: vue.withCtx(() => [
             (_ctx.isOpen && $data.ready)
@@ -1437,7 +1454,7 @@ var VueMultiselect = (function (exports, vue) {
           ]),
           _: 3 /* FORWARDED */
         })
-      ]))
+      ], 8 /* PROPS */, ["disabled"]))
     ], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_1))
   }
 
