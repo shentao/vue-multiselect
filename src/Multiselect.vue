@@ -92,7 +92,7 @@
         </slot>
       </span>
     </div>
-    <teleport to="body">
+    <teleport to="body" :disabled="!useTeleport">
       <transition name="multiselect">
         <div
           class="multiselect__content-wrapper"
@@ -337,6 +337,15 @@ export default {
     required: {
       type: Boolean,
       default: false
+    },
+    /**
+     * Uses Vue Teleport's feature. Teleports the open dropdown to the bottom of the body element
+     * @default false
+     * @type {Boolean}
+     */
+    useTeleport: {
+      type: Boolean,
+      default: false
     }
   },
   data () {
@@ -429,18 +438,23 @@ export default {
   watch: {
     isOpen (val) {
       if (val) {
-        this.ready = false
-        this.$nextTick(() => {
-          const rect = this.$el.getBoundingClientRect()
-          this.dropdownStyles = {
-            position: 'absolute',
-            top: `${rect.bottom + window.scrollY}px`,
-            left: `${rect.left + window.scrollX}px`,
-            width: `${rect.width}px`,
-            zIndex: 9999
-          }
+        if (this.useTeleport) {
+          this.ready = false
+          // This helps with the positioning of the open dropdown when teleport is being used
+          this.$nextTick(() => {
+            const rect = this.$el.getBoundingClientRect()
+            this.dropdownStyles = {
+              position: 'absolute',
+              top: `${rect.bottom + window.scrollY}px`,
+              left: `${rect.left + window.scrollX}px`,
+              width: `${rect.width}px`,
+              zIndex: 9999
+            }
+            this.ready = true
+          })
+        } else {
           this.ready = true
-        })
+        }
       }
     }
   }

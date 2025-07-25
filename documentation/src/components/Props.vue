@@ -318,6 +318,12 @@
           <td class="table__td">Passes the Boolean value to the inbuilt <kbd>input</kbd> element.<br /><b>Added in v3.1.0</b></td>
         </tr>
         <tr class="table__tr">
+          <td class="table__td"><strong>useTeleport</strong></td>
+          <td class="table__td">Boolean</td>
+          <td class="table__td"><kbd>false</kbd></td>
+          <td class="table__td">Uses Vue Teleport's feature. Teleports the open dropdown to the bottom of the <kbd>body</kbd> element.<br /><b>Added in v3.4.0</b></td>
+        </tr>
+        <tr class="table__tr">
           <td class="table__td utils--center" colspan="4"><strong>pointerMixin.js</strong></td>
         </tr>
         <tr class="table__tr">
