@@ -1056,20 +1056,6 @@ describe('Multiselect.vue', () => {
       expect(wrapper.vm.getOptionLabel(option)).toBe('2')
     })
 
-    test('should return option.label for passed option', () => {
-      const wrapper = shallowMount(Multiselect, {
-        props: {
-          modelValue: [],
-          options: [{ id: '1' }, { id: '2' }, { id: '3' }],
-          label: 'id',
-          trackBy: 'id',
-          multiple: true
-        }
-      })
-      const option = wrapper.vm.options[1]
-      expect(wrapper.vm.getOptionLabel(option)).toBe('2')
-    })
-
     test('should return option’s label when custom label is set', () => {
       const wrapper = shallowMount(Multiselect, {
         props: {
@@ -1117,6 +1103,78 @@ describe('Multiselect.vue', () => {
     })
   })
 
+  describe('#getOptionTrackBy()', () => {
+    test('should return the passed primitive option when no trackBy is set', () => {
+      const wrapper = shallowMount(Multiselect, {
+        props: {
+          multiple: true,
+          modelValue: [],
+          options: ['1', '2', '3']
+        }
+      })
+      const option = wrapper.vm.options[1]
+      expect(wrapper.vm.getOptionTrackBy(option)).toBe('2')
+    })
+
+    test('should return the passed object option when no trackBy is set', () => {
+      const wrapper = shallowMount(Multiselect, {
+        props: {
+          multiple: true,
+          modelValue: [],
+          options: ['1', '2', '3']
+        }
+      })
+      const option = wrapper.vm.options[1]
+      expect(wrapper.vm.getOptionTrackBy(option)).toBe(option)
+    })
+
+    test('should return option[trackBy] when specified', () => {
+      const wrapper = shallowMount(Multiselect, {
+        props: {
+          modelValue: [],
+          options: [{ id: '1' }, { id: '2' }, { id: '3' }],
+          label: 'id',
+          trackBy: 'id',
+          multiple: true
+        }
+      })
+      const option = wrapper.vm.options[1]
+      expect(wrapper.vm.getOptionTrackBy(option)).toBe('2')
+    })
+
+    test('should return customTrackBy’s interpolation if set for objects options', () => {
+      const wrapper = shallowMount(Multiselect, {
+        props: {
+          label: 'id',
+          trackBy: 'id',
+          multiple: true,
+          customTrackBy (option, trackBy) {
+            return `${trackBy}=${option.id}`
+          },
+          modelValue: [],
+          options: [{ id: '1' }, { id: '2' }, { id: '3' }]
+        }
+      })
+      const option = wrapper.vm.options[2]
+      expect(wrapper.vm.getOptionTrackBy(option)).toBe('id=3')
+    })
+
+    test('should return customTrackBy’s interpolation if set for primitive options', () => {
+      const wrapper = shallowMount(Multiselect, {
+        props: {
+          multiple: true,
+          customTrackBy (option) {
+            return `${option}+${option}`
+          },
+          modelValue: [],
+          options: [1, 2, 3]
+        }
+      })
+      const option = wrapper.vm.options[2]
+      expect(wrapper.vm.getOptionTrackBy(option)).toBe('3+3')
+    })
+  })
+
   describe('valueKeys', () => {
     test('should return primitive value Array when no :key is provided', () => {
       const wrapper = shallowMount(Multiselect, {
@@ -1156,6 +1214,35 @@ describe('Multiselect.vue', () => {
       })
       const comp = wrapper.vm
       expect(comp.valueKeys).toEqual(['2'])
+    })
+
+    test('should return an Array mapped from customTrackBy when multiple is TRUE', () => {
+      const wrapper = shallowMount(Multiselect, {
+        props: {
+          modelValue: [{ id: '1' }, { id: '2' }],
+          options: [{ id: '1' }, { id: '2' }, { id: '3' }],
+          label: 'id',
+          customTrackBy: (option) => '~' + option.id,
+          searchable: true,
+          multiple: true
+        }
+      })
+      expect(wrapper.vm.valueKeys).toEqual(['~1', '~2'])
+    })
+
+    test('should return customTrackBy(option) value when multiple is FALSE', () => {
+      const wrapper = shallowMount(Multiselect, {
+        props: {
+          label: 'id',
+          customTrackBy: (option) => '~' + option.id,
+          searchable: true,
+          multiple: false,
+          modelValue: { id: '2' },
+          options: [{ id: '1' }, { id: '2' }, { id: '3' }]
+        }
+      })
+      const comp = wrapper.vm
+      expect(comp.valueKeys).toEqual(['~2'])
     })
   })
 
