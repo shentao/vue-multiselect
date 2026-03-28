@@ -57,7 +57,11 @@
 </code></pre>
             <h3 class="typo__h3">via CDN</h3>
             <pre><code ref="cdn-usage">// register globally
-app.component('vue-multiselect', window['vue-multiselect'].default)</code></pre>
+                app.component('vue-multiselect', window['vue-multiselect'].default)
+                // in that case template usage  should be like below
+                <vue-multiselect v-model="value" :options="options"></vue-multiselect>
+            </code></pre>
+            
           </div>
         </div>
       </section>
