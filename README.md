@@ -201,6 +201,21 @@ Thanks to Matt Elen for contributing this version!
 
 > A Vue 3 upgrade of [@shentao's](https://github.com/shentao) [vue-mulitselect](https://github.com/shentao/vue-multiselect) component. The idea is that when you upgrade to Vue 3, you can swap the two components out, and everything should simply work. Feel free to check out our story of how we upgraded our product to Vue 3 on our blog at  [suade.org](https://suade.org/a-products-vue-3-migration-a-real-life-story/)
 
+## Props
+
+### showNoOptions
+
+- Type: Boolean  
+- Default: true  
+
+Controls whether the "No options available" message is displayed when there are no options.
+
+Example:
+
+```html
+<VueMultiselect :showNoOptions="false" :options="[]" />
+```
+
 ## Contributing
 
 ``` bash
