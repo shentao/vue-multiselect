@@ -1879,4 +1879,110 @@ describe('Multiselect.vue', () => {
       expect(wrapper.vm.filteredOptions[2].name).toBe('Laravel')
     })
   })
+  describe(':useTeleport', () => {
+    let originalResizeObserver
+    let observedTargets
+    let observerCallback
+
+    beforeEach(() => {
+      originalResizeObserver = global.ResizeObserver
+      observedTargets = []
+      global.ResizeObserver = class {
+        constructor (callback) {
+          observerCallback = callback
+        }
+
+        observe (target) {
+          observedTargets.push(target)
+        }
+
+        disconnect () {
+          observedTargets = []
+        }
+      }
+    })
+
+    afterEach(() => {
+      global.ResizeObserver = originalResizeObserver
+    })
+
+    test('observes its own element for resizes while teleporting', () => {
+      const wrapper = shallowMount(Multiselect, {
+        attachTo: document.body,
+        props: {
+          modelValue: [],
+          options: ['1', '2', '3'],
+          useTeleport: true
+        }
+      })
+
+      expect(observedTargets).toEqual([wrapper.vm.$el])
+
+      wrapper.unmount()
+    })
+
+    test('recalculates dropdownStyles when the base element resizes while open', async () => {
+      const wrapper = shallowMount(Multiselect, {
+        attachTo: document.body,
+        props: {
+          modelValue: [],
+          options: ['1', '2', '3'],
+          useTeleport: true
+        }
+      })
+
+      wrapper.vm.activate()
+      await wrapper.vm.$nextTick()
+
+      const firstRect = { bottom: 40, left: 0, right: 353, top: 0, width: 353 }
+      wrapper.vm.$el.getBoundingClientRect = () => firstRect
+      wrapper.vm.updateTeleportPosition()
+      expect(wrapper.vm.dropdownStyles.top).toBe('40px')
+
+      // Selected tags wrapped to a second line: base element grew taller.
+      const grownRect = { bottom: 108, left: 0, right: 353, top: 0, width: 353 }
+      wrapper.vm.$el.getBoundingClientRect = () => grownRect
+      observerCallback()
+      expect(wrapper.vm.dropdownStyles.top).toBe('108px')
+
+      wrapper.unmount()
+    })
+
+    test('does not reposition while the dropdown is closed', () => {
+      const wrapper = shallowMount(Multiselect, {
+        attachTo: document.body,
+        props: {
+          modelValue: [],
+          options: ['1', '2', '3'],
+          useTeleport: true
+        }
+      })
+
+      const spy = jest.spyOn(wrapper.vm, 'updateTeleportPosition')
+      observerCallback()
+      expect(spy).not.toHaveBeenCalled()
+
+      wrapper.unmount()
+    })
+
+    test('disconnects the observer and listeners on unmount', () => {
+      const wrapper = shallowMount(Multiselect, {
+        attachTo: document.body,
+        props: {
+          modelValue: [],
+          options: ['1', '2', '3'],
+          useTeleport: true
+        }
+      })
+
+      const removeEventListenerSpy = jest.spyOn(window, 'removeEventListener')
+      wrapper.unmount()
+
+      expect(observedTargets).toEqual([])
+      expect(removeEventListenerSpy).toHaveBeenCalledWith('resize', expect.any(Function))
+      expect(removeEventListenerSpy).toHaveBeenCalledWith('scroll', expect.any(Function), true)
+
+      removeEventListenerSpy.mockRestore()
+    })
+  })
 })
