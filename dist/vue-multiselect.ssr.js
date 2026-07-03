@@ -1200,53 +1200,20 @@ var script = {
           this.ready = false;
           // This helps with the positioning of the open dropdown when teleport is being used
           this.$nextTick(() => {
-            this.updateTeleportPosition();
+            const rect = this.$el.getBoundingClientRect();
+            this.dropdownStyles = {
+              position: 'absolute',
+              top: `${rect.bottom + window.scrollY}px`,
+              left: `${rect.left + window.scrollX}px`,
+              width: `${rect.width}px`,
+              zIndex: 9999
+            };
             this.ready = true;
           });
         } else {
           this.ready = true;
         }
       }
-    }
-  },
-  mounted () {
-    if (this.useTeleport && typeof ResizeObserver !== 'undefined') {
-      // The teleported dropdown is positioned once, in the `isOpen` watcher above. If
-      // the base element then changes size (e.g. selected tags wrapping to a new line
-      // as options are added) or moves (scrolling an ancestor), the dropdown itself
-      // stays put and visually disconnects from the base. Keep it in sync while open.
-      this._repositionTeleport = () => {
-        if (this.isOpen) {
-          this.updateTeleportPosition();
-        }
-      };
-      this._resizeObserver = new ResizeObserver(this._repositionTeleport);
-      this._resizeObserver.observe(this.$el);
-      window.addEventListener('resize', this._repositionTeleport);
-      window.addEventListener('scroll', this._repositionTeleport, true);
-    }
-  },
-  beforeUnmount () {
-    if (this._resizeObserver) {
-      this._resizeObserver.disconnect();
-      this._resizeObserver = null;
-    }
-    if (this._repositionTeleport) {
-      window.removeEventListener('resize', this._repositionTeleport);
-      window.removeEventListener('scroll', this._repositionTeleport, true);
-      this._repositionTeleport = null;
-    }
-  },
-  methods: {
-    updateTeleportPosition () {
-      const rect = this.$el.getBoundingClientRect();
-      this.dropdownStyles = {
-        position: 'absolute',
-        top: `${rect.bottom + window.scrollY}px`,
-        left: `${rect.left + window.scrollX}px`,
-        width: `${rect.width}px`,
-        zIndex: 9999
-      };
     }
   }
 };
