@@ -4702,7 +4702,7 @@ var es_regexp_exec = __webpack_require__(7495);
 var es_string_search = __webpack_require__(5746);
 // EXTERNAL MODULE: external {"commonjs":"vue","commonjs2":"vue","root":"Vue"}
 var external_commonjs_vue_commonjs2_vue_root_Vue_ = __webpack_require__(9274);
-;// ./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./src/Multiselect.vue?vue&type=template&id=c590559c
+;// ./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib/index.js??clonedRuleSet-82.use[1]!./node_modules/vue-loader/dist/templateLoader.js??ruleSet[1].rules[3]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./src/Multiselect.vue?vue&type=template&id=12d1baf4
 
 
 
@@ -4963,7 +4963,7 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     _: 3
   })], 8, ["to", "disabled"]))], 42, _hoisted_1);
 }
-;// ./src/Multiselect.vue?vue&type=template&id=c590559c
+;// ./src/Multiselect.vue?vue&type=template&id=12d1baf4
 
 // EXTERNAL MODULE: ./node_modules/core-js/modules/es.array.slice.js
 var es_array_slice = __webpack_require__(4782);
@@ -6239,14 +6239,7 @@ var flow = function flow() {
           this.ready = false;
           // This helps with the positioning of the open dropdown when teleport is being used
           this.$nextTick(function () {
-            var rect = _this.$el.getBoundingClientRect();
-            _this.dropdownStyles = {
-              position: 'absolute',
-              top: "".concat(rect.bottom + window.scrollY, "px"),
-              left: "".concat(rect.left + window.scrollX, "px"),
-              width: "".concat(rect.width, "px"),
-              zIndex: 9999
-            };
+            _this.updateTeleportPosition();
             _this.ready = true;
           });
         } else {
@@ -6254,14 +6247,55 @@ var flow = function flow() {
         }
       }
     }
+  },
+  mounted: function mounted() {
+    var _this2 = this;
+    if (this.useTeleport && typeof ResizeObserver !== 'undefined') {
+      // The teleported dropdown is positioned once, in the `isOpen` watcher above. If
+      // the base element then changes size (e.g. selected tags wrapping to a new line
+      // as options are added) or moves (scrolling an ancestor), the dropdown itself
+      // stays put and visually disconnects from the base. Keep it in sync while open.
+      this._repositionTeleport = function () {
+        if (_this2.isOpen) {
+          _this2.updateTeleportPosition();
+        }
+      };
+      this._resizeObserver = new ResizeObserver(this._repositionTeleport);
+      this._resizeObserver.observe(this.$el);
+      window.addEventListener('resize', this._repositionTeleport);
+      window.addEventListener('scroll', this._repositionTeleport, true);
+    }
+  },
+  beforeUnmount: function beforeUnmount() {
+    if (this._resizeObserver) {
+      this._resizeObserver.disconnect();
+      this._resizeObserver = null;
+    }
+    if (this._repositionTeleport) {
+      window.removeEventListener('resize', this._repositionTeleport);
+      window.removeEventListener('scroll', this._repositionTeleport, true);
+      this._repositionTeleport = null;
+    }
+  },
+  methods: {
+    updateTeleportPosition: function updateTeleportPosition() {
+      var rect = this.$el.getBoundingClientRect();
+      this.dropdownStyles = {
+        position: 'absolute',
+        top: "".concat(rect.bottom + window.scrollY, "px"),
+        left: "".concat(rect.left + window.scrollX, "px"),
+        width: "".concat(rect.width, "px"),
+        zIndex: 9999
+      };
+    }
   }
 });
 ;// ./src/Multiselect.vue?vue&type=script&lang=js
  
-;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./src/Multiselect.vue?vue&type=style&index=0&id=c590559c&lang=css
+;// ./node_modules/mini-css-extract-plugin/dist/loader.js??clonedRuleSet-54.use[0]!./node_modules/css-loader/dist/cjs.js??clonedRuleSet-54.use[1]!./node_modules/vue-loader/dist/stylePostLoader.js!./node_modules/postcss-loader/dist/cjs.js??clonedRuleSet-54.use[2]!./node_modules/vue-loader/dist/index.js??ruleSet[0].use[0]!./src/Multiselect.vue?vue&type=style&index=0&id=12d1baf4&lang=css
 // extracted by mini-css-extract-plugin
 
-;// ./src/Multiselect.vue?vue&type=style&index=0&id=c590559c&lang=css
+;// ./src/Multiselect.vue?vue&type=style&index=0&id=12d1baf4&lang=css
 
 // EXTERNAL MODULE: ./node_modules/vue-loader/dist/exportHelper.js
 var exportHelper = __webpack_require__(6262);
