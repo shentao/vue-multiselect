@@ -694,11 +694,13 @@ export default {
     adjustPosition () {
       if (typeof window === 'undefined') return
 
-      const spaceAbove = this.$el.getBoundingClientRect().top
-      const spaceBelow = window.innerHeight - this.$el.getBoundingClientRect().bottom
+      const rect = this.$el.getBoundingClientRect()
+      const spaceAbove = rect.top
+      const spaceBelow = window.innerHeight - rect.bottom
       const hasEnoughSpaceBelow = spaceBelow > this.maxHeight
+      const forcedAbove = this.openDirection === 'above' || this.openDirection === 'top'
 
-      if (hasEnoughSpaceBelow || spaceBelow > spaceAbove || this.openDirection === 'below' || this.openDirection === 'bottom') {
+      if (!forcedAbove && (hasEnoughSpaceBelow || spaceBelow > spaceAbove || this.openDirection === 'below' || this.openDirection === 'bottom')) {
         this.preferredOpenDirection = 'below'
         this.optimizedHeight = Math.min(spaceBelow - 40, this.maxHeight)
       } else {
