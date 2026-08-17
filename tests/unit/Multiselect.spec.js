@@ -1,4 +1,4 @@
-import { shallowMount } from '@vue/test-utils'
+import { shallowMount, mount } from '@vue/test-utils'
 import Multiselect from '@/Multiselect.vue'
 
 describe('Multiselect.vue', () => {
@@ -1877,6 +1877,143 @@ describe('Multiselect.vue', () => {
       expect(wrapper.vm.filteredOptions[0].name).toBe('Rails')
       expect(wrapper.vm.filteredOptions[1].name).toBe('Vue.js')
       expect(wrapper.vm.filteredOptions[2].name).toBe('Laravel')
+    })
+  })
+
+  describe('openDirection', () => {
+    const stubRect = (wrapper, rect) => {
+      wrapper.vm.$el.getBoundingClientRect = () => ({
+        top: 0, bottom: 0, left: 0, right: 0, width: 0, height: 0, ...rect
+      })
+    }
+
+    const mountAt = (rect, props = {}) => {
+      window.innerHeight = 800
+      const wrapper = shallowMount(Multiselect, {
+        props: { modelValue: [], options: ['1', '2', '3'], ...props }
+      })
+      stubRect(wrapper, rect)
+      return wrapper
+    }
+
+    afterEach(() => {
+      window.scrollY = 0
+      window.scrollX = 0
+    })
+
+    describe('adjustPosition', () => {
+      test('should open below and size to the space below when it fits', () => {
+        const wrapper = mountAt({ top: 20, bottom: 60 })
+
+        wrapper.vm.adjustPosition()
+
+        expect(wrapper.vm.isAbove).toBe(false)
+        expect(wrapper.vm.optimizedHeight).toBe(300)
+      })
+
+      test('should open above and size to the space above when there is no room below', () => {
+        const wrapper = mountAt({ top: 700, bottom: 740 })
+
+        wrapper.vm.adjustPosition()
+
+        expect(wrapper.vm.isAbove).toBe(true)
+        expect(wrapper.vm.optimizedHeight).toBe(300)
+      })
+
+      test('should size to the space above when opening above is forced', () => {
+        const wrapper = mountAt({ top: 100, bottom: 140 }, { openDirection: 'above' })
+
+        wrapper.vm.adjustPosition()
+
+        expect(wrapper.vm.isAbove).toBe(true)
+        // 100px above - 40px offset, instead of the 660px available below
+        expect(wrapper.vm.optimizedHeight).toBe(60)
+      })
+    })
+
+    describe(':useTeleport', () => {
+      test('should position the teleported dropdown below the multiselect', () => {
+        const wrapper = mountAt({ top: 20, bottom: 60, left: 15, width: 200 }, { useTeleport: true })
+
+        wrapper.vm.adjustPosition()
+
+        expect(wrapper.vm.calculateDropdownStyles()).toEqual({
+          position: 'absolute',
+          top: '60px',
+          left: '15px',
+          width: '200px',
+          zIndex: 9999
+        })
+      })
+
+      test('should position the teleported dropdown above the multiselect', () => {
+        const wrapper = mountAt({ top: 700, bottom: 740, left: 15, width: 200 }, { useTeleport: true })
+
+        wrapper.vm.adjustPosition()
+
+        expect(wrapper.vm.calculateDropdownStyles()).toEqual({
+          position: 'absolute',
+          top: '700px',
+          transform: 'translateY(-100%)',
+          left: '15px',
+          width: '200px',
+          zIndex: 9999
+        })
+      })
+
+      test('should honour a forced openDirection when positioning the teleported dropdown', () => {
+        const wrapper = mountAt({ top: 100, bottom: 140, left: 15, width: 200 }, {
+          useTeleport: true,
+          openDirection: 'above'
+        })
+
+        wrapper.vm.adjustPosition()
+        const styles = wrapper.vm.calculateDropdownStyles()
+
+        expect(styles.top).toBe('100px')
+        expect(styles.transform).toBe('translateY(-100%)')
+      })
+
+      test('should take the document scroll position into account', () => {
+        const wrapper = mountAt({ top: 700, bottom: 740, left: 15, width: 200 }, { useTeleport: true })
+        window.scrollY = 500
+        window.scrollX = 10
+
+        wrapper.vm.adjustPosition()
+        const styles = wrapper.vm.calculateDropdownStyles()
+
+        expect(styles.top).toBe('1200px')
+        expect(styles.left).toBe('25px')
+      })
+
+      test('should apply the position and the above marker when the dropdown opens', async () => {
+        window.innerHeight = 800
+        // mount() instead of shallowMount(), which stubs out the teleport itself
+        const wrapper = mount(Multiselect, {
+          props: {
+            modelValue: [],
+            options: ['1', '2', '3'],
+            useTeleport: true,
+            id: 'teleported'
+          }
+        })
+        stubRect(wrapper, { top: 700, bottom: 740, left: 15, width: 200 })
+
+        wrapper.vm.activate()
+        // The isOpen watcher defers measuring to $nextTick, so let the queue drain
+        await new Promise((resolve) => setTimeout(resolve, 0))
+
+        // Scoped through the id, so lingering dropdowns from other tests can't match
+        const dropdown = document.body
+          .querySelector('#listbox-teleported')
+          .closest('.multiselect__content-wrapper')
+
+        expect(dropdown.classList.contains('multiselect__content-wrapper--above')).toBe(true)
+        expect(dropdown.style.top).toBe('700px')
+        expect(dropdown.style.transform).toBe('translateY(-100%)')
+
+        wrapper.unmount()
+      })
     })
   })
 })

@@ -96,7 +96,7 @@
       <transition name="multiselect">
         <div
           class="multiselect__content-wrapper"
-          :class="contentWrapperClass"
+          :class="[contentWrapperClass, { 'multiselect__content-wrapper--above': isAbove }]"
           v-if="isOpen && ready"
           @focus="activate"
           tabindex="-1"
@@ -460,20 +460,41 @@ export default {
           this.ready = false
           // This helps with the positioning of the open dropdown when teleport is being used
           this.$nextTick(() => {
-            const rect = this.$el.getBoundingClientRect()
-            this.dropdownStyles = {
-              position: 'absolute',
-              top: `${rect.bottom + window.scrollY}px`,
-              left: `${rect.left + window.scrollX}px`,
-              width: `${rect.width}px`,
-              zIndex: 9999
-            }
+            this.dropdownStyles = this.calculateDropdownStyles()
             this.ready = true
           })
         } else {
           this.ready = true
         }
       }
+    }
+  },
+  methods: {
+    /**
+     * Positions the teleported dropdown next to the multiselect, since the
+     * `.multiselect--above` CSS can no longer reach it once it's teleported.
+     *
+     * @return {Object} style object for the content wrapper
+     */
+    calculateDropdownStyles () {
+      const rect = this.$el.getBoundingClientRect()
+
+      const styles = {
+        position: 'absolute',
+        left: `${rect.left + window.scrollX}px`,
+        width: `${rect.width}px`,
+        zIndex: 9999
+      }
+
+      if (this.isAbove) {
+        // Shift up by its own height, so the list needn't be measured first
+        styles.top = `${rect.top + window.scrollY}px`
+        styles.transform = 'translateY(-100%)'
+      } else {
+        styles.top = `${rect.bottom + window.scrollY}px`
+      }
+
+      return styles
     }
   }
 }
@@ -771,14 +792,20 @@ export default {
     vertical-align: top;
   }
 
-  .multiselect--above .multiselect__content-wrapper {
-    bottom: 100%;
+  .multiselect--above .multiselect__content-wrapper,
+  .multiselect__content-wrapper--above {
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
     border-bottom: none;
     border-top: 1px solid #e8e8e8;
+  }
+
+  /* Not applied when teleported: combined with the inline `top` this would
+     stretch the dropdown instead of moving it up. */
+  .multiselect--above .multiselect__content-wrapper {
+    bottom: 100%;
   }
 
   .multiselect__content::-webkit-scrollbar {
