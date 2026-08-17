@@ -810,7 +810,7 @@ describe('Multiselect.vue', () => {
       wrapper.vm.pointerAdjust()
       expect(wrapper.vm.pointer).toBe(2)
     })
-    test('should adjust the pointer to the first non-group-label option after changed from empty', async () => {
+    test('should adjust the pointer to the first non-group-label option after changed from empty', () => {
       const wrapper = shallowMount(Multiselect, {
         props: {
           modelValue: [],
@@ -827,7 +827,7 @@ describe('Multiselect.vue', () => {
         { group: [{ id: '1' }, { id: '2' }], groupLabel: 'A' }
       ]
       setTimeout(function () {
-      expect(wrapper.vm.pointer).toBe(1)
+        expect(wrapper.vm.pointer).toBe(1)
       }, 0)
     })
   })
