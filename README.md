@@ -1,5 +1,9 @@
 # vue-multiselect
 
+## v4 (alpha)
+
+> **`4.0.0-alpha.0`** is a full rewrite in **TypeScript** using the **Composition API** (Vue 3.5+). Component behaviour, props, events, slots and styling are unchanged — but the internal `multiselectMixin` / `pointerMixin` exports have been **replaced by composables**. See [Migration to v4](#migration-to-v4-alpha) below. This is a pre-release; install with `npm install vue-multiselect@alpha`.
+
 ## Documentation for version 3 (Compatible with Vue 3)
 
 Documentation for v3.0.0 is almost the same as for v2.x as it is mostly backward compatible. For the full docs for v3 and previous versions, check out: [vue-multiselect.js.org](https://vue-multiselect.js.org/#sub-getting-started)
@@ -39,7 +43,7 @@ Documentation for v3.0.0 is almost the same as for v2.x as it is mostly backward
 * Dropdowns
 * Filtering
 * Search with suggestions
-* Logic split into mixins
+* Logic split into composables
 * Basic component and support for custom components
 * V-model support
 * Vuex support
@@ -180,20 +184,50 @@ methods: {
 }
 ```
 
-## ⚠️ Build Tool Compatibility
+## Migration to v4 (alpha)
 
-**vue-multiselect requires Vue's Options API to function properly.** There are known issues with certain versions of `@vitejs/plugin-vue` that may inadvertently disable the Options API.
+v4 is a TypeScript + Composition API rewrite. For the vast majority of users nothing changes — the component, its props, events, slots and CSS are identical:
 
-### Known Issue with @vitejs/plugin-vue
-
-If you're experiencing issues after updating `@vitejs/plugin-vue` to version 5.2.2 or later, consider downgrading to version 5.2.1:
-
-```bash
-npm install @vitejs/plugin-vue@5.2.1
+```vue
+<script setup>
+import VueMultiselect from 'vue-multiselect'
+</script>
+<style src="vue-multiselect/dist/vue-multiselect.css"></style>
 ```
 
-This issue occurs because changes in the plugin's configuration handling can disable the Options API even when not explicitly configured. See [issue #1901](https://github.com/shentao/vue-multiselect/issues/1901) for more details.
+### Breaking changes
 
+- **`multiselectMixin` / `pointerMixin` exports were removed.** Vue [no longer recommends mixins](https://vuejs.org/guide/reusability/composables.html#vs-mixins); they are replaced by composables. If you built a custom-templated component on top of the mixins, use `useMultiselect` / `usePointer` instead:
+
+  ```vue
+  <script setup lang="ts">
+  import { ref } from 'vue'
+  import { useMultiselect, usePointer, multiselectProps } from 'vue-multiselect'
+
+  // Reuse the same prop schema (or define your own)
+  const props = defineProps(multiselectProps)
+  const emit = defineEmits([
+    'open', 'search-change', 'close', 'select', 'update:modelValue', 'remove', 'tag'
+  ])
+
+  const root = ref(null)
+  const searchInput = ref(null)
+  const list = ref(null)
+
+  // `useMultiselect` returns all state + methods, including the pointer API.
+  const ms = useMultiselect(props, emit, { root, search: searchInput, list })
+  // `ms.filteredOptions`, `ms.select`, `ms.removeElement`, `ms.activate`, `ms.pointerForward`, ...
+  </script>
+
+  <template>
+    <!-- your own markup + styling, driven by `ms.*` -->
+  </template>
+  ```
+
+  Options API users can call the composable inside `setup()` and return its bindings.
+
+- **`dist` filenames.** The build now emits `dist/vue-multiselect.esm.js` (ESM, for bundlers), `dist/vue-multiselect.cjs` (CommonJS, for `require()`), `dist/vue-multiselect.umd.js` (UMD, for `<script>`/CDN) and `dist/vue-multiselect.css`. The old `*.common.js`, `*.ssr.js`, `*.min.css` / `*.esm.css` / `*.ssr.css` variants are gone; import `vue-multiselect/dist/vue-multiselect.css` for styles. The UMD CDN global remains `window['vue-multiselect']` (use `window['vue-multiselect'].default` for the component).
+- **Types** are now generated from source (`dist/index.d.ts`) instead of the hand-written `index.d.ts`.
 
 ## Special Thanks
 
@@ -204,10 +238,21 @@ Thanks to Matt Elen for contributing this version!
 ## Contributing
 
 ``` bash
-# distribution build with minification
-npm run bundle
+# lint
+npm run lint
 
-# run unit tests
+# type-check
+npm run typecheck
+
+# run unit tests (Vitest)
 npm run test
 
+# distribution build (Vite library mode)
+npm run build
+
+# lint + typecheck + test + build
+npm run finish
+
+# run the documentation site locally
+npm run dev
 ```
