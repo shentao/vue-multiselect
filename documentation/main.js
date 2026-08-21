@@ -2,8 +2,7 @@ import {createApp, h} from 'vue'
 import Multiselect from '../src/index'
 import App from './src/App.vue'
 import {createStore} from 'vuex'
-import { setCDN, getHighlighter } from 'shiki'
-setCDN('shiki/')
+import { createHighlighter } from 'shiki'
 import './docs.scss'
 
 const store = createStore({
@@ -48,11 +47,16 @@ const app = createApp({
   }
 }).component('multiselect', Multiselect).use(store)
 
-getHighlighter({
-  theme: 'github-light',
+const theme = 'github-light'
+createHighlighter({
+  themes: [theme],
   langs: ['javascript', 'html', 'bash']
 }).then(highlighter => {
-  app.config.globalProperties.highlighter = highlighter
+  // Wrap so existing `highlighter.codeToHtml(code, { lang })` calls keep working;
+  // shiki v1+ requires an explicit `theme` on each call.
+  app.config.globalProperties.highlighter = {
+    codeToHtml: (code, options) => highlighter.codeToHtml(code, { theme, ...options })
+  }
   app.mount('#app')
 })
 
