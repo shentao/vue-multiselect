@@ -1,1480 +1,780 @@
-import { openBlock, createElementBlock, normalizeClass, withKeys, withModifiers, renderSlot, createElementVNode, withDirectives, Fragment, renderList, toDisplayString, vShow, createCommentVNode, createVNode, Transition, withCtx, normalizeStyle, createTextVNode, createBlock, Teleport } from 'vue';
-
-function isEmpty (opt) {
-  if (opt === 0) return false
-  if (Array.isArray(opt) && opt.length === 0) return true
-  return !opt
+import { Fragment as e, Teleport as t, Transition as n, computed as r, createBlock as i, createCommentVNode as a, createElementBlock as o, createElementVNode as s, createTextVNode as c, createVNode as l, defineComponent as u, nextTick as d, normalizeClass as f, normalizeStyle as p, onMounted as m, openBlock as h, ref as g, renderList as _, renderSlot as v, toDisplayString as y, unref as b, useTemplateRef as x, vShow as S, watch as C, withCtx as w, withDirectives as T, withKeys as E, withModifiers as D } from "vue";
+//#region src/utils.ts
+function O(e) {
+	return e === 0 ? !1 : Array.isArray(e) && e.length === 0 ? !0 : !e;
 }
-
-function not (fun) {
-  return (...params) => !fun(...params)
+function k(e) {
+	return (...t) => !e(...t);
 }
-
-function includes (str, query) {
-  /* istanbul ignore else */
-  if (str === undefined) str = 'undefined';
-  if (str === null) str = 'null';
-  if (str === false) str = 'false';
-  const text = str.toString().toLowerCase();
-  return text.indexOf(query.trim()) !== -1
+function ee(e, t) {
+	return e === void 0 && (e = "undefined"), e === null && (e = "null"), e === !1 && (e = "false"), e.toString().toLowerCase().indexOf(t.trim()) !== -1;
 }
-
-function stripGroups (options) {
-  return options.filter((option) => !option.$isLabel)
+function A(e) {
+	return e.filter((e) => !e.$isLabel);
 }
-
-function flattenOptions (values, label) {
-  return (options) =>
-    options.reduce((prev, curr) => {
-      /* istanbul ignore else */
-      if (curr[values] && curr[values].length) {
-        prev.push({
-          $groupLabel: curr[label],
-          $isLabel: true
-        });
-        return prev.concat(curr[values])
-      }
-      return prev
-    }, [])
+function j(e, t) {
+	return (n) => n.reduce((n, r) => r[e] && r[e].length ? (n.push({
+		$groupLabel: r[t],
+		$isLabel: !0
+	}), n.concat(r[e])) : n, []);
 }
-
-const flow = (...fns) => (x) => fns.reduce((v, f) => f(v), x);
-
-var multiselectMixin = {
-  data () {
-    return {
-      search: '',
-      isOpen: false,
-      preferredOpenDirection: 'below',
-      optimizedHeight: this.maxHeight
-    }
-  },
-  props: {
-    /**
-     * Decide whether to filter the results based on search query.
-     * Useful for async filtering, where we search through more complex data.
-     * @type {Boolean}
-     */
-    internalSearch: {
-      type: Boolean,
-      default: true
-    },
-    /**
-     * Array of available options: Objects, Strings or Integers.
-     * If array of objects, visible label will default to option.label.
-     * If `labal` prop is passed, label will equal option['label']
-     * @type {Array}
-     */
-    options: {
-      type: Array,
-      required: true
-    },
-    /**
-     * Equivalent to the `multiple` attribute on a `<select>` input.
-     * @default false
-     * @type {Boolean}
-     */
-    multiple: {
-      type: Boolean,
-      default: false
-    },
-    /**
-     * Key to compare objects
-     * @default 'id'
-     * @type {String}
-     */
-    trackBy: {
-      type: String
-    },
-    /**
-     * Label to look for in option Object
-     * @default 'label'
-     * @type {String}
-     */
-    label: {
-      type: String
-    },
-    /**
-     * Enable/disable search in options
-     * @default true
-     * @type {Boolean}
-     */
-    searchable: {
-      type: Boolean,
-      default: true
-    },
-    /**
-     * Clear the search input after `)
-     * @default true
-     * @type {Boolean}
-     */
-    clearOnSelect: {
-      type: Boolean,
-      default: true
-    },
-    /**
-     * Hide already selected options
-     * @default false
-     * @type {Boolean}
-     */
-    hideSelected: {
-      type: Boolean,
-      default: false
-    },
-    /**
-     * Equivalent to the `placeholder` attribute on a `<select>` input.
-     * @default 'Select option'
-     * @type {String}
-     */
-    placeholder: {
-      type: String,
-      default: 'Select option'
-    },
-    /**
-     * Allow to remove all selected values
-     * @default true
-     * @type {Boolean}
-     */
-    allowEmpty: {
-      type: Boolean,
-      default: true
-    },
-    /**
-     * Reset this.internalValue, this.search after this.internalValue changes.
-     * Useful if want to create a stateless dropdown.
-     * @default false
-     * @type {Boolean}
-     */
-    resetAfter: {
-      type: Boolean,
-      default: false
-    },
-    /**
-     * Enable/disable closing after selecting an option
-     * @default true
-     * @type {Boolean}
-     */
-    closeOnSelect: {
-      type: Boolean,
-      default: true
-    },
-    /**
-     * Function to interpolate the custom label
-     * @default false
-     * @type {Function}
-     */
-    customLabel: {
-      type: Function,
-      default (option, label) {
-        if (isEmpty(option)) return ''
-        return label ? option[label] : option
-      }
-    },
-    /**
-     * Disable / Enable tagging
-     * @default false
-     * @type {Boolean}
-     */
-    taggable: {
-      type: Boolean,
-      default: false
-    },
-    /**
-     * String to show when highlighting a potential tag
-     * @default 'Press enter to create a tag'
-     * @type {String}
-    */
-    tagPlaceholder: {
-      type: String,
-      default: 'Press enter to create a tag'
-    },
-    /**
-     * By default new tags will appear above the search results.
-     * Changing to 'bottom' will revert this behaviour
-     * and will proritize the search results
-     * @default 'top'
-     * @type {String}
-    */
-    tagPosition: {
-      type: String,
-      default: 'top'
-    },
-    /**
-     * Number of allowed selected options. No limit if 0.
-     * @default 0
-     * @type {Number}
-    */
-    max: {
-      type: [Number, Boolean],
-      default: false
-    },
-    /**
-     * Will be passed with all events as second param.
-     * Useful for identifying events origin.
-     * @default null
-     * @type {String|Integer}
-    */
-    id: {
-      default: null
-    },
-    /**
-     * Limits the options displayed in the dropdown
-     * to the first X options.
-     * @default 1000
-     * @type {Integer}
-    */
-    optionsLimit: {
-      type: Number,
-      default: 1000
-    },
-    /**
-     * Name of the property containing
-     * the group values
-     * @default 1000
-     * @type {String}
-    */
-    groupValues: {
-      type: String
-    },
-    /**
-     * Name of the property containing
-     * the group label
-     * @default 1000
-     * @type {String}
-    */
-    groupLabel: {
-      type: String
-    },
-    /**
-     * Allow to select all group values
-     * by selecting the group label
-     * @default false
-     * @type {Boolean}
-     */
-    groupSelect: {
-      type: Boolean,
-      default: false
-    },
-    /**
-     * Array of keyboard keys to block
-     * when selecting
-     * @default 1000
-     * @type {String}
-    */
-    blockKeys: {
-      type: Array,
-      default () {
-        return []
-      }
-    },
-    /**
-     * Prevent from wiping up the search value
-     * @default false
-     * @type {Boolean}
-    */
-    preserveSearch: {
-      type: Boolean,
-      default: false
-    },
-    /**
-     * Select 1st options if value is empty
-     * @default false
-     * @type {Boolean}
-    */
-    preselectFirst: {
-      type: Boolean,
-      default: false
-    },
-    /**
-     * Prevent autofocus
-     * @default false
-     * @type {Boolean}
-     */
-    preventAutofocus: {
-      type: Boolean,
-      default: false
-    },
-    /**
-     * Allows a custom function for sorting search/filtered results.
-     * @default null
-     * @type {Function}
-     */
-    filteringSortFunc: {
-      type: Function,
-      default: null
-    }
-  },
-  mounted () {
-    /* istanbul ignore else */
-    if (!this.multiple && this.max) {
-      console.warn('[Vue-Multiselect warn]: Max prop should not be used when prop Multiple equals false.');
-    }
-    if (
-      this.preselectFirst &&
-      !this.internalValue.length &&
-      this.options.length
-    ) {
-      this.select(this.filteredOptions[0]);
-    }
-  },
-  computed: {
-    internalValue () {
-      return this.modelValue || this.modelValue === 0
-        ? Array.isArray(this.modelValue) ? this.modelValue : [this.modelValue]
-        : []
-    },
-    filteredOptions () {
-      const search = this.search || '';
-      const normalizedSearch = search.toLowerCase().trim();
-
-      let options = this.options.concat();
-
-      /* istanbul ignore else */
-      if (this.internalSearch) {
-        options = this.groupValues
-          ? this.filterAndFlat(options, normalizedSearch, this.label)
-          : this.filterOptions(options, normalizedSearch, this.label, this.customLabel);
-      } else {
-        options = this.groupValues ? flattenOptions(this.groupValues, this.groupLabel)(options) : options;
-      }
-
-      options = this.hideSelected
-        ? options.filter(not(this.isSelected))
-        : options;
-
-      /* istanbul ignore else */
-      if (this.taggable && normalizedSearch.length && !this.isExistingOption(normalizedSearch)) {
-        if (this.tagPosition === 'bottom') {
-          options.push({ isTag: true, label: search });
-        } else {
-          options.unshift({ isTag: true, label: search });
-        }
-      }
-
-      return options.slice(0, this.optionsLimit)
-    },
-    valueKeys () {
-      if (this.trackBy) {
-        return this.internalValue.map((element) => element[this.trackBy])
-      } else {
-        return this.internalValue
-      }
-    },
-    optionKeys () {
-      const options = this.groupValues ? this.flatAndStrip(this.options) : this.options;
-      return options.map((element) => this.customLabel(element, this.label).toString().toLowerCase())
-    },
-    currentOptionLabel () {
-      return this.multiple
-        ? this.searchable ? '' : this.placeholder
-        : this.internalValue.length
-          ? this.getOptionLabel(this.internalValue[0])
-          : this.searchable ? '' : this.placeholder
-    }
-  },
-  watch: {
-    internalValue: {
-      handler () {
-      /* istanbul ignore else */
-        if (this.resetAfter && this.internalValue.length) {
-          this.search = '';
-          this.$emit('update:modelValue', this.multiple ? [] : null);
-        }
-      },
-      deep: true
-    },
-    search () {
-      this.$emit('search-change', this.search);
-    }
-  },
-  emits: ['open', 'search-change', 'close', 'select', 'update:modelValue', 'remove', 'tag'],
-  methods: {
-    /**
-     * Returns the internalValue in a way it can be emited to the parent
-     * @returns {Object||Array||String||Integer}
-     */
-    getValue () {
-      return this.multiple
-        ? this.internalValue
-        : this.internalValue.length === 0
-          ? null
-          : this.internalValue[0]
-    },
-    /**
-     * Filters and then flattens the options list
-     * @param  {Array}
-     * @return {Array} returns a filtered and flat options list
-     */
-    filterAndFlat (options, search, label) {
-      return flow(
-        this.filterGroups(search, label, this.groupValues, this.groupLabel, this.customLabel),
-        flattenOptions(this.groupValues, this.groupLabel)
-      )(options)
-    },
-    /**
-     * Flattens and then strips the group labels from the options list
-     * @param  {Array}
-     * @return {Array} returns a flat options list without group labels
-     */
-    flatAndStrip (options) {
-      return flow(
-        flattenOptions(this.groupValues, this.groupLabel),
-        stripGroups
-      )(options)
-    },
-    /**
-     * Updates the search value
-     * @param  {String}
-     */
-    updateSearch (query) {
-      this.search = query;
-    },
-    /**
-     * Finds out if the given query is already present
-     * in the available options
-     * @param  {String}
-     * @return {Boolean} returns true if element is available
-     */
-    isExistingOption (query) {
-      return !this.options
-        ? false
-        : this.optionKeys.indexOf(query) > -1
-    },
-    /**
-     * Finds out if the given element is already present
-     * in the result value
-     * @param  {Object||String||Integer} option passed element to check
-     * @returns {Boolean} returns true if element is selected
-     */
-    isSelected (option) {
-      const opt = this.trackBy
-        ? option[this.trackBy]
-        : option;
-      return this.valueKeys.indexOf(opt) > -1
-    },
-    /**
-     * Finds out if the given option is disabled
-     * @param  {Object||String||Integer} option passed element to check
-     * @returns {Boolean} returns true if element is disabled
-     */
-    isOptionDisabled (option) {
-      return !!option.$isDisabled
-    },
-    /**
-     * Returns empty string when options is null/undefined
-     * Returns tag query if option is tag.
-     * Returns the customLabel() results and casts it to string.
-     *
-     * @param  {Object||String||Integer} Passed option
-     * @returns {Object||String}
-     */
-    getOptionLabel (option) {
-      if (isEmpty(option)) return ''
-      /* istanbul ignore else */
-      if (option.isTag) return option.label
-      /* istanbul ignore else */
-      if (option.$isLabel) return option.$groupLabel
-
-      const label = this.customLabel(option, this.label);
-      /* istanbul ignore else */
-      if (isEmpty(label)) return ''
-      return label
-    },
-    /**
-     * Add the given option to the list of selected options
-     * or sets the option as the selected option.
-     * If option is already selected -> remove it from the results.
-     *
-     * @param  {Object||String||Integer} option to select/deselect
-     * @param  {Boolean} block removing
-     */
-    select (option, key) {
-      /* istanbul ignore else */
-      if (option.$isLabel && this.groupSelect) {
-        this.selectGroup(option);
-        return
-      }
-      if (this.blockKeys.indexOf(key) !== -1 ||
-        this.disabled ||
-        option.$isDisabled ||
-        option.$isLabel
-      ) return
-      /* istanbul ignore else */
-      if (this.max && this.multiple && this.internalValue.length === this.max) return
-      /* istanbul ignore else */
-      if (key === 'Tab' && !this.pointerDirty) return
-      if (option.isTag) {
-        this.$emit('tag', option.label, this.id);
-        this.search = '';
-        if (this.closeOnSelect && !this.multiple) this.deactivate();
-      } else {
-        const isSelected = this.isSelected(option);
-
-        if (isSelected) {
-          if (key !== 'Tab') this.removeElement(option);
-          return
-        }
-
-        if (this.multiple) {
-          this.$emit('update:modelValue', this.internalValue.concat([option]));
-        } else {
-          this.$emit('update:modelValue', option);
-        }
-
-        this.$emit('select', option, this.id);
-
-        /* istanbul ignore else */
-        if (this.clearOnSelect) this.search = '';
-      }
-      /* istanbul ignore else */
-      if (this.closeOnSelect) this.deactivate();
-    },
-    /**
-     * Add the given group options to the list of selected options
-     * If all group optiona are already selected -> remove it from the results.
-     *
-     * @param  {Object||String||Integer} group to select/deselect
-     */
-    selectGroup (selectedGroup) {
-      const group = this.options.find((option) => {
-        return option[this.groupLabel] === selectedGroup.$groupLabel
-      });
-
-      if (!group) return
-
-      if (this.wholeGroupSelected(group)) {
-        this.$emit('remove', group[this.groupValues], this.id);
-
-        const groupValues = this.trackBy ? group[this.groupValues].map(val => val[this.trackBy]) : group[this.groupValues];
-        const newValue = this.internalValue.filter(
-          option => groupValues.indexOf(this.trackBy ? option[this.trackBy] : option) === -1
-        );
-
-        this.$emit('update:modelValue', newValue);
-      } else {
-        const optionsToAdd = group[this.groupValues].filter(
-          option => !(this.isOptionDisabled(option) || this.isSelected(option))
-        );
-
-        // if max is defined then just select options respecting max
-        if (this.max) {
-          optionsToAdd.splice(this.max - this.internalValue.length);
-        }
-
-        this.$emit('select', optionsToAdd, this.id);
-        this.$emit(
-          'update:modelValue',
-          this.internalValue.concat(optionsToAdd)
-        );
-      }
-
-      if (this.closeOnSelect) this.deactivate();
-    },
-    /**
-     * Helper to identify if all values in a group are selected
-     *
-     * @param {Object} group to validated selected values against
-     */
-    wholeGroupSelected (group) {
-      return group[this.groupValues].every((option) => this.isSelected(option) || this.isOptionDisabled(option)
-      )
-    },
-    /**
-     * Helper to identify if all values in a group are disabled
-     *
-     * @param {Object} group to check for disabled values
-     */
-    wholeGroupDisabled (group) {
-      return group[this.groupValues].every(this.isOptionDisabled)
-    },
-    /**
-     * Removes the given option from the selected options.
-     * Additionally checks this.allowEmpty prop if option can be removed when
-     * it is the last selected option.
-     *
-     * @param  {type} option description
-     * @return {type}        description
-     */
-    removeElement (option, shouldClose = true) {
-      /* istanbul ignore else */
-      if (this.disabled) return
-      /* istanbul ignore else */
-      if (option.$isDisabled) return
-      /* istanbul ignore else */
-      if (!this.allowEmpty && this.internalValue.length <= 1) {
-        this.deactivate();
-        return
-      }
-
-      const index = typeof option === 'object'
-        ? this.valueKeys.indexOf(option[this.trackBy])
-        : this.valueKeys.indexOf(option);
-
-      if (this.multiple) {
-        const newValue = this.internalValue.slice(0, index).concat(this.internalValue.slice(index + 1));
-        this.$emit('update:modelValue', newValue);
-      } else {
-        this.$emit('update:modelValue', null);
-      }
-      this.$emit('remove', option, this.id);
-
-      /* istanbul ignore else */
-      if (this.closeOnSelect && shouldClose) this.deactivate();
-    },
-    /**
-     * Calls this.removeElement() with the last element
-     * from this.internalValue (selected element Array)
-     *
-     * @fires this#removeElement
-     */
-    removeLastElement () {
-      /* istanbul ignore else */
-      if (this.blockKeys.indexOf('Delete') !== -1) return
-      /* istanbul ignore else */
-      if (this.search.length === 0 && Array.isArray(this.internalValue) && this.internalValue.length) {
-        this.removeElement(this.internalValue[this.internalValue.length - 1], false);
-      }
-    },
-    /**
-     * Opens the multiselect’s dropdown.
-     * Sets this.isOpen to TRUE
-     */
-    activate () {
-      /* istanbul ignore else */
-      if (this.isOpen || this.disabled) return
-
-      this.adjustPosition();
-      /* istanbul ignore else  */
-      if (this.groupValues && this.pointer === 0 && this.filteredOptions.length) {
-        this.pointer = 1;
-      }
-
-      this.isOpen = true;
-      /* istanbul ignore else  */
-      if (this.searchable) {
-        if (!this.preserveSearch) this.search = '';
-        if (!this.preventAutofocus) this.$nextTick(() => this.$refs.search && this.$refs.search.focus());
-      } else if (!this.preventAutofocus) {
-        if (typeof this.$el !== 'undefined') this.$el.focus();
-      }
-      this.$emit('open', this.id);
-    },
-    /**
-     * Closes the multiselect’s dropdown.
-     * Sets this.isOpen to FALSE
-     */
-    deactivate () {
-      /* istanbul ignore else */
-      if (!this.isOpen) return
-
-      this.isOpen = false;
-      /* istanbul ignore else  */
-      if (this.searchable) {
-        if (this.$refs.search !== null && typeof this.$refs.search !== 'undefined') this.$refs.search.blur();
-      } else {
-        if (typeof this.$el !== 'undefined') this.$el.blur();
-      }
-      if (!this.preserveSearch) this.search = '';
-      this.$emit('close', this.getValue(), this.id);
-    },
-    /**
-     * Call this.activate() or this.deactivate()
-     * depending on this.isOpen value.
-     *
-     * @fires this#activate || this#deactivate
-     * @property {Boolean} isOpen indicates if dropdown is open
-     */
-    toggle () {
-      this.isOpen
-        ? this.deactivate()
-        : this.activate();
-    },
-    /**
-     * Updates the hasEnoughSpace variable used for
-     * detecting where to expand the dropdown
-     */
-    adjustPosition () {
-      if (typeof window === 'undefined') return
-
-      const spaceAbove = this.$el.getBoundingClientRect().top;
-      const spaceBelow = window.innerHeight - this.$el.getBoundingClientRect().bottom;
-      const hasEnoughSpaceBelow = spaceBelow > this.maxHeight;
-
-      if (hasEnoughSpaceBelow || spaceBelow > spaceAbove || this.openDirection === 'below' || this.openDirection === 'bottom') {
-        this.preferredOpenDirection = 'below';
-        this.optimizedHeight = Math.min(spaceBelow - 40, this.maxHeight);
-      } else {
-        this.preferredOpenDirection = 'above';
-        this.optimizedHeight = Math.min(spaceAbove - 40, this.maxHeight);
-      }
-    },
-    /**
-     * Filters and sorts the options ready for selection
-     * @param {Array} options
-     * @param {String} search
-     * @param {String} label
-     * @param {Function} customLabel
-     * @returns {Array}
-     */
-    filterOptions (options, search, label, customLabel) {
-      return search
-        ? options
-          .filter((option) => includes(customLabel(option, label), search))
-          .sort((a, b) => {
-            if (typeof this.filteringSortFunc === 'function') {
-              return this.filteringSortFunc(a, b)
-            }
-            return customLabel(a, label).length - customLabel(b, label).length
-          })
-        : options
-    },
-    /**
-     *
-     * @param {String} search
-     * @param {String} label
-     * @param {String} values
-     * @param {String} groupLabel
-     * @param {function} customLabel
-     * @returns {function(*): *}
-     */
-    filterGroups (search, label, values, groupLabel, customLabel) {
-      return (groups) => groups.map((group) => {
-        /* istanbul ignore else */
-        if (!group[values]) {
-          console.warn('Options passed to vue-multiselect do not contain groups, despite the config.');
-          return []
-        }
-        const groupOptions = this.filterOptions(group[values], search, label, customLabel);
-
-        return groupOptions.length
-          ? {
-              [groupLabel]: group[groupLabel], [values]: groupOptions
-            }
-          : []
-      })
-    }
-  }
-};
-
-var pointerMixin = {
-  data () {
-    return {
-      pointer: 0,
-      pointerDirty: false
-    }
-  },
-  props: {
-    /**
-     * Enable/disable highlighting of the pointed value.
-     * @type {Boolean}
-     * @default true
-     */
-    showPointer: {
-      type: Boolean,
-      default: true
-    },
-    optionHeight: {
-      type: Number,
-      default: 40
-    }
-  },
-  computed: {
-    pointerPosition () {
-      return this.pointer * this.optionHeight
-    },
-    visibleElements () {
-      return this.optimizedHeight / this.optionHeight
-    }
-  },
-  watch: {
-    filteredOptions () {
-      this.pointerAdjust();
-    },
-    isOpen () {
-      this.pointerDirty = false;
-    },
-    pointer () {
-      this.$refs.search && this.$refs.search.setAttribute('aria-activedescendant', this.id + '-' + this.pointer.toString());
-    }
-  },
-  methods: {
-    optionHighlight (index, option) {
-      return {
-        'multiselect__option--highlight': index === this.pointer && this.showPointer,
-        'multiselect__option--selected': this.isSelected(option)
-      }
-    },
-    groupHighlight (index, selectedGroup) {
-      if (!this.groupSelect) {
-        return [
-          'multiselect__option--disabled',
-          { 'multiselect__option--group': selectedGroup.$isLabel }
-        ]
-      }
-
-      const group = this.options.find((option) => {
-        return option[this.groupLabel] === selectedGroup.$groupLabel
-      });
-
-      return group && !this.wholeGroupDisabled(group)
-        ? [
-            'multiselect__option--group',
-            { 'multiselect__option--highlight': index === this.pointer && this.showPointer },
-            { 'multiselect__option--group-selected': this.wholeGroupSelected(group) }
-          ]
-        : 'multiselect__option--disabled'
-    },
-    addPointerElement ({ key } = 'Enter') {
-      /* istanbul ignore else */
-      if (this.filteredOptions.length > 0) {
-        this.select(this.filteredOptions[this.pointer], key);
-      }
-      this.pointerReset();
-    },
-    pointerForward () {
-      /* istanbul ignore else */
-      if (this.pointer < this.filteredOptions.length - 1) {
-        this.pointer++;
-        /* istanbul ignore next */
-        if (this.$refs.list?.scrollTop <= this.pointerPosition - (this.visibleElements - 1) * this.optionHeight) {
-          this.$refs.list.scrollTop = this.pointerPosition - (this.visibleElements - 1) * this.optionHeight;
-        }
-        /* istanbul ignore else */
-        if (
-          this.filteredOptions[this.pointer] &&
-          this.filteredOptions[this.pointer].$isLabel &&
-          !this.groupSelect
-        ) this.pointerForward();
-      }
-      this.pointerDirty = true;
-    },
-    pointerBackward () {
-      if (this.pointer > 0) {
-        this.pointer--;
-        /* istanbul ignore else */
-        if (this.$refs.list?.scrollTop >= this.pointerPosition) {
-          this.$refs.list.scrollTop = this.pointerPosition;
-        }
-        /* istanbul ignore else */
-        if (
-          this.filteredOptions[this.pointer] &&
-          this.filteredOptions[this.pointer].$isLabel &&
-          !this.groupSelect
-        ) this.pointerBackward();
-      } else {
-        /* istanbul ignore else */
-        if (
-          this.filteredOptions[this.pointer] &&
-          this.filteredOptions[0].$isLabel &&
-          !this.groupSelect
-        ) this.pointerForward();
-      }
-      this.pointerDirty = true;
-    },
-    pointerReset () {
-      /* istanbul ignore else */
-      if (!this.closeOnSelect) return
-      this.pointer = 0;
-      /* istanbul ignore else */
-      if (this.$refs.list) {
-        this.$refs.list.scrollTop = 0;
-      }
-    },
-    pointerAdjust () {
-      /* istanbul ignore else */
-      if (this.pointer >= this.filteredOptions.length - 1) {
-        this.pointer = this.filteredOptions.length
-          ? this.filteredOptions.length - 1
-          : 0;
-      }
-
-      if (this.filteredOptions.length > 0 &&
-        this.filteredOptions[this.pointer] &&
-        this.filteredOptions[this.pointer].$isLabel &&
-        !this.groupSelect
-      ) {
-        this.pointerForward();
-      }
-    },
-    pointerSet (index) {
-      this.pointer = index;
-      this.pointerDirty = true;
-    }
-  }
-};
-
-var script = {
-  name: 'vue-multiselect',
-  mixins: [multiselectMixin, pointerMixin],
-  compatConfig: {
-    MODE: 3,
-    ATTR_ENUMERATED_COERCION: false
-  },
-  props: {
-    /**
-       * name attribute to match optional label element
-       * @default ''
-       * @type {String}
-       */
-    name: {
-      type: String,
-      default: ''
-    },
-    /**
-       * Presets the selected options value.
-       * @type {Object||Array||String||Integer}
-       */
-    modelValue: {
-      type: null,
-      default () {
-        return []
-      }
-    },
-    /**
-       * String to show when pointing to an option
-       * @default 'Press enter to select'
-       * @type {String}
-       */
-    selectLabel: {
-      type: String,
-      default: 'Press enter to select'
-    },
-    /**
-       * String to show when pointing to an option
-       * @default 'Press enter to select'
-       * @type {String}
-       */
-    selectGroupLabel: {
-      type: String,
-      default: 'Press enter to select group'
-    },
-    /**
-       * String to show next to selected option
-       * @default 'Selected'
-       * @type {String}
-       */
-    selectedLabel: {
-      type: String,
-      default: 'Selected'
-    },
-    /**
-       * String to show when pointing to an already selected option
-       * @default 'Press enter to remove'
-       * @type {String}
-       */
-    deselectLabel: {
-      type: String,
-      default: 'Press enter to remove'
-    },
-    /**
-       * String to show when pointing to an already selected option
-       * @default 'Press enter to remove'
-       * @type {String}
-       */
-    deselectGroupLabel: {
-      type: String,
-      default: 'Press enter to deselect group'
-    },
-    /**
-       * Decide whether to show pointer labels
-       * @default true
-       * @type {Boolean}
-       */
-    showLabels: {
-      type: Boolean,
-      default: true
-    },
-    /**
-       * Limit the display of selected options. The rest will be hidden within the limitText string.
-       * @default 99999
-       * @type {Integer}
-       */
-    limit: {
-      type: Number,
-      default: 99999
-    },
-    /**
-       * Sets maxHeight style value of the dropdown
-       * @default 300
-       * @type {Integer}
-       */
-    maxHeight: {
-      type: Number,
-      default: 300
-    },
-    /**
-       * Function that process the message shown when selected
-       * elements pass the defined limit.
-       * @default 'and * more'
-       * @param {Int} count Number of elements more than limit
-       * @type {Function}
-       */
-    limitText: {
-      type: Function,
-      default: (count) => `and ${count} more`
-    },
-    /**
-       * Set true to trigger the loading spinner.
-       * @default False
-       * @type {Boolean}
-       */
-    loading: {
-      type: Boolean,
-      default: false
-    },
-    /**
-       * Disables the multiselect if true.
-       * @default false
-       * @type {Boolean}
-       */
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    /**
-     * Enables search input's spellcheck if true.
-     * @default false
-     * @type {Boolean}
-     */
-    spellcheck: {
-      type: Boolean,
-      default: false
-    },
-    /**
-       * Fixed opening direction
-       * @default ''
-       * @type {String}
-       */
-    openDirection: {
-      type: String,
-      default: ''
-    },
-    /**
-       * Shows slot with message about empty options
-       * @default true
-       * @type {Boolean}
-       */
-    showNoOptions: {
-      type: Boolean,
-      default: true
-    },
-    showNoResults: {
-      type: Boolean,
-      default: true
-    },
-    tabindex: {
-      type: Number,
-      default: 0
-    },
-    /**
-     * Adds Required attribute to the input element when there is no value selected
-     * @default false
-     * @type {Boolean}
-     */
-    required: {
-      type: Boolean,
-      default: false
-    },
-    /**
-     * Uses Vue Teleport's feature. Teleports the open dropdown to the bottom of the teleportTarget element
-     * @default false
-     * @type {Boolean}
-     */
-    useTeleport: {
-      type: Boolean,
-      default: false
-    },
-    /**
-     * Target selector for teleporting the dropdown element
-     * @default 'body'
-     * @type {String|Object}
-     */
-    teleportTarget: {
-      type: [String, Object],
-      default: 'body'
-    },
-    /**
-     * Classes to apply to the `multiselect__content-wrapper` element. This element is a teleport element (when enabled), so can be used to specifically target
-     * the teleported element
-     */
-    contentWrapperClass: {
-      type: [String, Array, Object],
-      default: ''
-    }
-  },
-  data () {
-    return {
-      dropdownStyles: {},
-      ready: false
-    }
-  },
-  computed: {
-    hasOptionGroup () {
-      return this.groupValues && this.groupLabel && this.groupSelect
-    },
-    isSingleLabelVisible () {
-      return (
-        (this.singleValue || this.singleValue === 0) &&
-          (!this.isOpen || !this.searchable) &&
-          !this.visibleValues.length
-      )
-    },
-    isPlaceholderVisible () {
-      return !this.internalValue.length && (!this.searchable || !this.isOpen)
-    },
-    visibleValues () {
-      return this.multiple ? this.internalValue.slice(0, this.limit) : []
-    },
-    singleValue () {
-      return this.internalValue[0]
-    },
-    deselectLabelText () {
-      return this.showLabels ? this.deselectLabel : ''
-    },
-    deselectGroupLabelText () {
-      return this.showLabels ? this.deselectGroupLabel : ''
-    },
-    selectLabelText () {
-      return this.showLabels ? this.selectLabel : ''
-    },
-    selectGroupLabelText () {
-      return this.showLabels ? this.selectGroupLabel : ''
-    },
-    selectedLabelText () {
-      return this.showLabels ? this.selectedLabel : ''
-    },
-    inputStyle () {
-      if (
-        this.searchable ||
-          (this.multiple && this.modelValue && this.modelValue.length)
-      ) {
-        // Hide input by setting the width to 0 allowing it to receive focus
-        return this.isOpen
-          ? { width: '100%' }
-          : { width: '0', position: 'absolute', padding: '0' }
-      }
-      return ''
-    },
-    contentStyle () {
-      return this.options.length
-        ? { display: 'inline-block' }
-        : { display: 'block' }
-    },
-    isAbove () {
-      if (this.openDirection === 'above' || this.openDirection === 'top') {
-        return true
-      } else if (
-        this.openDirection === 'below' ||
-          this.openDirection === 'bottom'
-      ) {
-        return false
-      } else {
-        return this.preferredOpenDirection === 'above'
-      }
-    },
-    showSearchInput () {
-      return (
-        this.searchable &&
-          (this.hasSingleSelectedSlot &&
-            (this.visibleSingleValue || this.visibleSingleValue === 0)
-            ? this.isOpen
-            : true)
-      )
-    },
-    isRequired () {
-      if (this.required === false) {
-        return false
-      }
-      // if we have a value, any value, then this isn't required
-      return this.internalValue.length <= 0
-    }
-  },
-  watch: {
-    isOpen (val) {
-      if (val) {
-        if (this.useTeleport) {
-          this.ready = false;
-          // This helps with the positioning of the open dropdown when teleport is being used
-          this.$nextTick(() => {
-            const rect = this.$el.getBoundingClientRect();
-            this.dropdownStyles = {
-              position: 'absolute',
-              top: `${rect.bottom + window.scrollY}px`,
-              left: `${rect.left + window.scrollX}px`,
-              width: `${rect.width}px`,
-              zIndex: 9999
-            };
-            this.ready = true;
-          });
-        } else {
-          this.ready = true;
-        }
-      }
-    }
-  }
-};
-
-const _hoisted_1 = ["tabindex", "aria-expanded", "aria-owns", "aria-activedescendant"];
-const _hoisted_2 = {
-  ref: "tags",
-  class: "multiselect__tags"
-};
-const _hoisted_3 = { class: "multiselect__tags-wrap" };
-const _hoisted_4 = ["textContent"];
-const _hoisted_5 = ["onKeydown", "onMousedown"];
-const _hoisted_6 = ["textContent"];
-const _hoisted_7 = { class: "multiselect__spinner" };
-const _hoisted_8 = ["name", "id", "spellcheck", "placeholder", "required", "value", "disabled", "tabindex", "aria-label", "aria-controls"];
-const _hoisted_9 = ["id", "aria-multiselectable"];
-const _hoisted_10 = { key: 0 };
-const _hoisted_11 = { class: "multiselect__option" };
-const _hoisted_12 = ["aria-selected", "id", "role"];
-const _hoisted_13 = ["onClick", "onMouseenter", "data-select", "data-selected", "data-deselect"];
-const _hoisted_14 = ["data-select", "data-deselect", "onMouseenter", "onMousedown"];
-const _hoisted_15 = { class: "multiselect__option" };
-const _hoisted_16 = { class: "multiselect__option" };
-
-function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (openBlock(), createElementBlock("div", {
-    tabindex: _ctx.searchable ? -1 : $props.tabindex,
-    class: normalizeClass([{ 'multiselect--active': _ctx.isOpen, 'multiselect--disabled': $props.disabled, 'multiselect--above': $options.isAbove, 'multiselect--has-options-group': $options.hasOptionGroup }, "multiselect"]),
-    onFocus: _cache[14] || (_cache[14] = $event => (_ctx.activate())),
-    onBlur: _cache[15] || (_cache[15] = $event => (_ctx.searchable ? false : _ctx.deactivate())),
-    onKeydown: [
-      _cache[16] || (_cache[16] = withKeys(withModifiers($event => (_ctx.pointerForward()), ["self","prevent"]), ["down"])),
-      _cache[17] || (_cache[17] = withKeys(withModifiers($event => (_ctx.pointerBackward()), ["self","prevent"]), ["up"])),
-      _cache[18] || (_cache[18] = withKeys(withModifiers($event => (_ctx.addPointerElement($event)), ["stop","self"]), ["enter","tab"]))
-    ],
-    onKeyup: _cache[19] || (_cache[19] = withKeys($event => (_ctx.deactivate()), ["esc"])),
-    role: "combobox",
-    "aria-expanded": _ctx.isOpen,
-    "aria-owns": 'listbox-'+_ctx.id,
-    "aria-activedescendant": _ctx.isOpen && _ctx.pointer !== null ? _ctx.id + '-' + _ctx.pointer : null
-  }, [
-    renderSlot(_ctx.$slots, "caret", { toggle: _ctx.toggle }, () => [
-      createElementVNode("div", {
-        onMousedown: _cache[0] || (_cache[0] = withModifiers($event => (_ctx.toggle()), ["prevent","stop"])),
-        class: "multiselect__select"
-      }, null, 32 /* NEED_HYDRATION */)
-    ]),
-    renderSlot(_ctx.$slots, "clear", { search: _ctx.search }),
-    createElementVNode("div", _hoisted_2, [
-      renderSlot(_ctx.$slots, "selection", {
-        search: _ctx.search,
-        remove: _ctx.removeElement,
-        values: $options.visibleValues,
-        isOpen: _ctx.isOpen
-      }, () => [
-        withDirectives(createElementVNode("div", _hoisted_3, [
-          (openBlock(true), createElementBlock(Fragment, null, renderList($options.visibleValues, (option, index) => {
-            return renderSlot(_ctx.$slots, "tag", {
-              option: option,
-              search: _ctx.search,
-              remove: _ctx.removeElement
-            }, () => [
-              (openBlock(), createElementBlock("span", {
-                class: "multiselect__tag",
-                key: index,
-                onMousedown: _cache[1] || (_cache[1] = withModifiers(() => {}, ["prevent"]))
-              }, [
-                createElementVNode("span", {
-                  textContent: toDisplayString(_ctx.getOptionLabel(option))
-                }, null, 8 /* PROPS */, _hoisted_4),
-                createElementVNode("i", {
-                  tabindex: "1",
-                  onKeydown: withKeys(withModifiers($event => (_ctx.removeElement(option)), ["prevent"]), ["enter"]),
-                  onMousedown: withModifiers($event => (_ctx.removeElement(option)), ["prevent"]),
-                  class: "multiselect__tag-icon"
-                }, null, 40 /* PROPS, NEED_HYDRATION */, _hoisted_5)
-              ], 32 /* NEED_HYDRATION */))
-            ])
-          }), 256 /* UNKEYED_FRAGMENT */))
-        ], 512 /* NEED_PATCH */), [
-          [vShow, $options.visibleValues.length > 0]
-        ]),
-        (_ctx.internalValue && _ctx.internalValue.length > $props.limit)
-          ? renderSlot(_ctx.$slots, "limit", { key: 0 }, () => [
-              createElementVNode("strong", {
-                class: "multiselect__strong",
-                textContent: toDisplayString($props.limitText(_ctx.internalValue.length - $props.limit))
-              }, null, 8 /* PROPS */, _hoisted_6)
-            ])
-          : createCommentVNode("v-if", true)
-      ]),
-      createVNode(Transition, { name: "multiselect__loading" }, {
-        default: withCtx(() => [
-          renderSlot(_ctx.$slots, "loading", {}, () => [
-            withDirectives(createElementVNode("div", _hoisted_7, null, 512 /* NEED_PATCH */), [
-              [vShow, $props.loading]
-            ])
-          ])
-        ]),
-        _: 3 /* FORWARDED */
-      }),
-      (_ctx.searchable)
-        ? (openBlock(), createElementBlock("input", {
-            key: 0,
-            ref: "search",
-            name: $props.name,
-            id: _ctx.id,
-            type: "text",
-            autocomplete: "off",
-            spellcheck: $props.spellcheck,
-            placeholder: _ctx.placeholder,
-            required: $options.isRequired,
-            style: normalizeStyle($options.inputStyle),
-            value: _ctx.search,
-            disabled: $props.disabled,
-            tabindex: $props.tabindex,
-            "aria-label": $props.name + '-searchbox',
-            onInput: _cache[2] || (_cache[2] = $event => (_ctx.updateSearch($event.target.value))),
-            onFocus: _cache[3] || (_cache[3] = withModifiers($event => (_ctx.activate()), ["prevent"])),
-            onBlur: _cache[4] || (_cache[4] = withModifiers($event => (_ctx.deactivate()), ["prevent"])),
-            onKeyup: _cache[5] || (_cache[5] = withKeys($event => (_ctx.deactivate()), ["esc"])),
-            onKeydown: [
-              _cache[6] || (_cache[6] = withKeys(withModifiers($event => (_ctx.pointerForward()), ["prevent"]), ["down"])),
-              _cache[7] || (_cache[7] = withKeys(withModifiers($event => (_ctx.pointerBackward()), ["prevent"]), ["up"])),
-              _cache[8] || (_cache[8] = withKeys(withModifiers($event => (_ctx.addPointerElement($event)), ["prevent","stop","self"]), ["enter"])),
-              _cache[9] || (_cache[9] = withKeys(withModifiers($event => (_ctx.removeLastElement()), ["stop"]), ["delete"]))
-            ],
-            class: "multiselect__input",
-            "aria-controls": 'listbox-'+_ctx.id
-          }, null, 44 /* STYLE, PROPS, NEED_HYDRATION */, _hoisted_8))
-        : createCommentVNode("v-if", true),
-      ($options.isSingleLabelVisible)
-        ? (openBlock(), createElementBlock("span", {
-            key: 1,
-            class: "multiselect__single",
-            onMousedown: _cache[10] || (_cache[10] = withModifiers((...args) => (_ctx.toggle && _ctx.toggle(...args)), ["prevent"]))
-          }, [
-            renderSlot(_ctx.$slots, "singleLabel", { option: $options.singleValue }, () => [
-              createTextVNode(toDisplayString(_ctx.currentOptionLabel), 1 /* TEXT */)
-            ])
-          ], 32 /* NEED_HYDRATION */))
-        : createCommentVNode("v-if", true),
-      ($options.isPlaceholderVisible)
-        ? (openBlock(), createElementBlock("span", {
-            key: 2,
-            class: "multiselect__placeholder",
-            onMousedown: _cache[11] || (_cache[11] = withModifiers((...args) => (_ctx.toggle && _ctx.toggle(...args)), ["prevent"]))
-          }, [
-            renderSlot(_ctx.$slots, "placeholder", {}, () => [
-              createTextVNode(toDisplayString(_ctx.placeholder), 1 /* TEXT */)
-            ])
-          ], 32 /* NEED_HYDRATION */))
-        : createCommentVNode("v-if", true)
-    ], 512 /* NEED_PATCH */),
-    (openBlock(), createBlock(Teleport, {
-      to: $props.teleportTarget,
-      disabled: !$props.useTeleport
-    }, [
-      createVNode(Transition, { name: "multiselect" }, {
-        default: withCtx(() => [
-          (_ctx.isOpen && $data.ready)
-            ? (openBlock(), createElementBlock("div", {
-                key: 0,
-                class: normalizeClass(["multiselect__content-wrapper", $props.contentWrapperClass]),
-                onFocus: _cache[12] || (_cache[12] = (...args) => (_ctx.activate && _ctx.activate(...args))),
-                tabindex: "-1",
-                onMousedown: _cache[13] || (_cache[13] = withModifiers(() => {}, ["prevent"])),
-                style: normalizeStyle([$data.dropdownStyles, { maxHeight: _ctx.optimizedHeight + 'px' }]),
-                ref: "list"
-              }, [
-                createElementVNode("ul", {
-                  class: "multiselect__content",
-                  style: normalizeStyle($options.contentStyle),
-                  role: "listbox",
-                  id: 'listbox-'+_ctx.id,
-                  "aria-multiselectable": _ctx.multiple
-                }, [
-                  renderSlot(_ctx.$slots, "beforeList"),
-                  (_ctx.multiple && _ctx.max === _ctx.internalValue.length)
-                    ? (openBlock(), createElementBlock("li", _hoisted_10, [
-                        createElementVNode("span", _hoisted_11, [
-                          renderSlot(_ctx.$slots, "maxElements", {}, () => [
-                            createTextVNode("Maximum of " + toDisplayString(_ctx.max) + " options selected. First remove a selected option to select another.", 1 /* TEXT */)
-                          ])
-                        ])
-                      ]))
-                    : createCommentVNode("v-if", true),
-                  (!_ctx.max || _ctx.internalValue.length < _ctx.max)
-                    ? (openBlock(true), createElementBlock(Fragment, { key: 1 }, renderList(_ctx.filteredOptions, (option, index) => {
-                        return (openBlock(), createElementBlock("li", {
-                          class: "multiselect__element",
-                          key: index,
-                          "aria-selected": _ctx.isSelected(option),
-                          id: _ctx.id + '-' + index,
-                          role: !(option && (option.$isLabel || option.$isDisabled)) ? 'option' : null
-                        }, [
-                          (!(option && (option.$isLabel || option.$isDisabled)))
-                            ? (openBlock(), createElementBlock("span", {
-                                key: 0,
-                                class: normalizeClass([_ctx.optionHighlight(index, option), "multiselect__option"]),
-                                onClick: withModifiers($event => (_ctx.select(option)), ["stop"]),
-                                onMouseenter: withModifiers($event => (_ctx.pointerSet(index)), ["self"]),
-                                "data-select": option && option.isTag ? _ctx.tagPlaceholder : $options.selectLabelText,
-                                "data-selected": $options.selectedLabelText,
-                                "data-deselect": $options.deselectLabelText
-                              }, [
-                                renderSlot(_ctx.$slots, "option", {
-                                  option: option,
-                                  search: _ctx.search,
-                                  index: index
-                                }, () => [
-                                  createElementVNode("span", null, toDisplayString(_ctx.getOptionLabel(option)), 1 /* TEXT */)
-                                ])
-                              ], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_13))
-                            : createCommentVNode("v-if", true),
-                          (option && (option.$isLabel || option.$isDisabled))
-                            ? (openBlock(), createElementBlock("span", {
-                                key: 1,
-                                "data-select": _ctx.groupSelect && $options.selectGroupLabelText,
-                                "data-deselect": _ctx.groupSelect && $options.deselectGroupLabelText,
-                                class: normalizeClass([_ctx.groupHighlight(index, option), "multiselect__option"]),
-                                onMouseenter: withModifiers($event => (_ctx.groupSelect && _ctx.pointerSet(index)), ["self"]),
-                                onMousedown: withModifiers($event => (_ctx.selectGroup(option)), ["prevent"])
-                              }, [
-                                renderSlot(_ctx.$slots, "option", {
-                                  option: option,
-                                  search: _ctx.search,
-                                  index: index
-                                }, () => [
-                                  createElementVNode("span", null, toDisplayString(_ctx.getOptionLabel(option)), 1 /* TEXT */)
-                                ])
-                              ], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_14))
-                            : createCommentVNode("v-if", true)
-                        ], 8 /* PROPS */, _hoisted_12))
-                      }), 128 /* KEYED_FRAGMENT */))
-                    : createCommentVNode("v-if", true),
-                  withDirectives(createElementVNode("li", null, [
-                    createElementVNode("span", _hoisted_15, [
-                      renderSlot(_ctx.$slots, "noResult", { search: _ctx.search }, () => [
-                        _cache[20] || (_cache[20] = createTextVNode("No elements found. Consider changing the search query."))
-                      ])
-                    ])
-                  ], 512 /* NEED_PATCH */), [
-                    [vShow, $props.showNoResults && (_ctx.filteredOptions.length === 0 && _ctx.search && !$props.loading)]
-                  ]),
-                  withDirectives(createElementVNode("li", null, [
-                    createElementVNode("span", _hoisted_16, [
-                      renderSlot(_ctx.$slots, "noOptions", {}, () => [
-                        _cache[21] || (_cache[21] = createTextVNode("List is empty."))
-                      ])
-                    ])
-                  ], 512 /* NEED_PATCH */), [
-                    [vShow, $props.showNoOptions && _ctx.filteredOptions.length === 0 && !_ctx.search && !$props.loading]
-                  ]),
-                  renderSlot(_ctx.$slots, "afterList")
-                ], 12 /* STYLE, PROPS */, _hoisted_9)
-              ], 38 /* CLASS, STYLE, NEED_HYDRATION */))
-            : createCommentVNode("v-if", true)
-        ]),
-        _: 3 /* FORWARDED */
-      })
-    ], 8 /* PROPS */, ["to", "disabled"]))
-  ], 42 /* CLASS, PROPS, NEED_HYDRATION */, _hoisted_1))
+var M = (...e) => (t) => e.reduce((e, t) => t(e), t), N = {
+	internalSearch: {
+		type: Boolean,
+		default: !0
+	},
+	options: {
+		type: Array,
+		required: !0
+	},
+	multiple: {
+		type: Boolean,
+		default: !1
+	},
+	trackBy: { type: String },
+	label: { type: String },
+	searchable: {
+		type: Boolean,
+		default: !0
+	},
+	clearOnSelect: {
+		type: Boolean,
+		default: !0
+	},
+	hideSelected: {
+		type: Boolean,
+		default: !1
+	},
+	placeholder: {
+		type: String,
+		default: "Select option"
+	},
+	allowEmpty: {
+		type: Boolean,
+		default: !0
+	},
+	resetAfter: {
+		type: Boolean,
+		default: !1
+	},
+	closeOnSelect: {
+		type: Boolean,
+		default: !0
+	},
+	customLabel: {
+		type: Function,
+		default(e, t) {
+			return O(e) ? "" : t ? e[t] : e;
+		}
+	},
+	taggable: {
+		type: Boolean,
+		default: !1
+	},
+	tagPlaceholder: {
+		type: String,
+		default: "Press enter to create a tag"
+	},
+	tagPosition: {
+		type: String,
+		default: "top"
+	},
+	max: {
+		type: [Number, Boolean],
+		default: !1
+	},
+	id: {
+		type: null,
+		default: null
+	},
+	optionsLimit: {
+		type: Number,
+		default: 1e3
+	},
+	groupValues: { type: String },
+	groupLabel: { type: String },
+	groupSelect: {
+		type: Boolean,
+		default: !1
+	},
+	blockKeys: {
+		type: Array,
+		default() {
+			return [];
+		}
+	},
+	preserveSearch: {
+		type: Boolean,
+		default: !1
+	},
+	preselectFirst: {
+		type: Boolean,
+		default: !1
+	},
+	preventAutofocus: {
+		type: Boolean,
+		default: !1
+	},
+	filteringSortFunc: {
+		type: Function,
+		default: null
+	}
+}, P = {
+	showPointer: {
+		type: Boolean,
+		default: !0
+	},
+	optionHeight: {
+		type: Number,
+		default: 40
+	}
+}, F = {
+	name: {
+		type: String,
+		default: ""
+	},
+	modelValue: {
+		type: null,
+		default() {
+			return [];
+		}
+	},
+	selectLabel: {
+		type: String,
+		default: "Press enter to select"
+	},
+	selectGroupLabel: {
+		type: String,
+		default: "Press enter to select group"
+	},
+	selectedLabel: {
+		type: String,
+		default: "Selected"
+	},
+	deselectLabel: {
+		type: String,
+		default: "Press enter to remove"
+	},
+	deselectGroupLabel: {
+		type: String,
+		default: "Press enter to deselect group"
+	},
+	showLabels: {
+		type: Boolean,
+		default: !0
+	},
+	limit: {
+		type: Number,
+		default: 99999
+	},
+	maxHeight: {
+		type: Number,
+		default: 300
+	},
+	limitText: {
+		type: Function,
+		default: (e) => `and ${e} more`
+	},
+	loading: {
+		type: Boolean,
+		default: !1
+	},
+	disabled: {
+		type: Boolean,
+		default: !1
+	},
+	spellcheck: {
+		type: Boolean,
+		default: !1
+	},
+	openDirection: {
+		type: String,
+		default: ""
+	},
+	showNoOptions: {
+		type: Boolean,
+		default: !0
+	},
+	showNoResults: {
+		type: Boolean,
+		default: !0
+	},
+	tabindex: {
+		type: Number,
+		default: 0
+	},
+	required: {
+		type: Boolean,
+		default: !1
+	},
+	useTeleport: {
+		type: Boolean,
+		default: !1
+	},
+	teleportTarget: {
+		type: [String, Object],
+		default: "body"
+	},
+	contentWrapperClass: {
+		type: [
+			String,
+			Array,
+			Object
+		],
+		default: ""
+	}
+}, I = {
+	...N,
+	...P,
+	...F
+}, L = [
+	"open",
+	"search-change",
+	"close",
+	"select",
+	"update:modelValue",
+	"remove",
+	"tag"
+];
+//#endregion
+//#region src/composables/usePointer.ts
+function R(e, t) {
+	let n = g(0), i = g(!1), a = r(() => n.value * e.optionHeight), o = r(() => t.optimizedHeight.value / e.optionHeight);
+	function s(r, i) {
+		return {
+			"multiselect__option--highlight": r === n.value && e.showPointer,
+			"multiselect__option--selected": t.isSelected(i)
+		};
+	}
+	function c(r, i) {
+		if (!e.groupSelect) return ["multiselect__option--disabled", { "multiselect__option--group": i.$isLabel }];
+		let a = e.options.find((t) => t[e.groupLabel] === i.$groupLabel);
+		return a && !t.wholeGroupDisabled(a) ? [
+			"multiselect__option--group",
+			{ "multiselect__option--highlight": r === n.value && e.showPointer },
+			{ "multiselect__option--group-selected": t.wholeGroupSelected(a) }
+		] : "multiselect__option--disabled";
+	}
+	function l({ key: e } = "Enter") {
+		t.filteredOptions.value.length > 0 && t.select(t.filteredOptions.value[n.value], e), f();
+	}
+	function u() {
+		/* istanbul ignore else */
+		if (n.value < t.filteredOptions.value.length - 1) {
+			n.value++;
+			let r = t.listRef.value;
+			/* istanbul ignore else */
+			r && r.scrollTop <= a.value - (o.value - 1) * e.optionHeight && (r.scrollTop = a.value - (o.value - 1) * e.optionHeight), t.filteredOptions.value[n.value] && t.filteredOptions.value[n.value].$isLabel && !e.groupSelect && u();
+		}
+		i.value = !0;
+	}
+	function d() {
+		if (n.value > 0) {
+			n.value--;
+			let r = t.listRef.value;
+			/* istanbul ignore else */
+			r && r.scrollTop >= a.value && (r.scrollTop = a.value), t.filteredOptions.value[n.value] && t.filteredOptions.value[n.value].$isLabel && !e.groupSelect && d();
+		} else t.filteredOptions.value[n.value] && t.filteredOptions.value[0].$isLabel && !e.groupSelect && u();
+		i.value = !0;
+	}
+	function f() {
+		e.closeOnSelect && (n.value = 0, t.listRef.value && (t.listRef.value.scrollTop = 0));
+	}
+	function p() {
+		n.value >= t.filteredOptions.value.length - 1 && (n.value = t.filteredOptions.value.length ? t.filteredOptions.value.length - 1 : 0), t.filteredOptions.value.length > 0 && t.filteredOptions.value[n.value] && t.filteredOptions.value[n.value].$isLabel && !e.groupSelect && u();
+	}
+	function m(e) {
+		n.value = e, i.value = !0;
+	}
+	return C(t.filteredOptions, () => {
+		p();
+	}), C(t.isOpen, () => {
+		i.value = !1;
+	}), C(n, () => {
+		t.searchRef.value && t.searchRef.value.setAttribute("aria-activedescendant", e.id + "-" + n.value.toString());
+	}), {
+		pointer: n,
+		pointerDirty: i,
+		pointerPosition: a,
+		visibleElements: o,
+		optionHighlight: s,
+		groupHighlight: c,
+		addPointerElement: l,
+		pointerForward: u,
+		pointerBackward: d,
+		pointerReset: f,
+		pointerAdjust: p,
+		pointerSet: m
+	};
 }
-
-script.render = render;
-
-export { script as Multiselect, script as default, multiselectMixin, pointerMixin };
+//#endregion
+//#region src/composables/useMultiselect.ts
+function z(e, t, n) {
+	let i = g(""), a = g(!1), o = g("below"), s = g(e.maxHeight), c = r(() => e.modelValue || e.modelValue === 0 ? Array.isArray(e.modelValue) ? e.modelValue : [e.modelValue] : []), l = r(() => {
+		let t = i.value || "", n = t.toLowerCase().trim(), r = e.options.concat();
+		return r = e.internalSearch ? e.groupValues ? _(r, n, e.label) : V(r, n, e.label, e.customLabel) : e.groupValues ? j(e.groupValues, e.groupLabel)(r) : r, r = e.hideSelected ? r.filter(k(x)) : r, e.taggable && n.length && !b(n) && (e.tagPosition === "bottom" ? r.push({
+			isTag: !0,
+			label: t
+		}) : r.unshift({
+			isTag: !0,
+			label: t
+		})), r.slice(0, e.optionsLimit);
+	}), u = r(() => e.trackBy ? c.value.map((t) => t[e.trackBy]) : c.value), f = r(() => (e.groupValues ? v(e.options) : e.options).map((t) => e.customLabel(t, e.label).toString().toLowerCase())), p = r(() => e.multiple ? e.searchable ? "" : e.placeholder : c.value.length ? w(c.value[0]) : e.searchable ? "" : e.placeholder);
+	function h() {
+		return e.multiple ? c.value : c.value.length === 0 ? null : c.value[0];
+	}
+	function _(t, n, r) {
+		return M(te(n, r, e.groupValues, e.groupLabel, e.customLabel), j(e.groupValues, e.groupLabel))(t);
+	}
+	function v(t) {
+		return M(j(e.groupValues, e.groupLabel), A)(t);
+	}
+	function y(e) {
+		i.value = e;
+	}
+	function b(t) {
+		return e.options ? f.value.indexOf(t) > -1 : !1;
+	}
+	function x(t) {
+		let n = e.trackBy ? t[e.trackBy] : t;
+		return u.value.indexOf(n) > -1;
+	}
+	function S(e) {
+		return !!e.$isDisabled;
+	}
+	function w(t) {
+		if (O(t)) return "";
+		/* istanbul ignore else */
+		if (t.isTag) return t.label;
+		/* istanbul ignore else */
+		if (t.$isLabel) return t.$groupLabel;
+		let n = e.customLabel(t, e.label);
+		return O(n) ? "" : n;
+	}
+	function T(n, r) {
+		/* istanbul ignore else */
+		if (n.$isLabel && e.groupSelect) {
+			E(n);
+			return;
+		}
+		if (!(e.blockKeys.indexOf(r) !== -1 || e.disabled || n.$isDisabled || n.$isLabel) && !(e.max && e.multiple && c.value.length === e.max) && !(r === "Tab" && !H.pointerDirty.value)) {
+			if (n.isTag) t("tag", n.label, e.id), i.value = "", e.closeOnSelect && !e.multiple && L();
+			else {
+				if (x(n)) {
+					r !== "Tab" && P(n);
+					return;
+				}
+				/* istanbul ignore else */
+				e.multiple ? t("update:modelValue", c.value.concat([n])) : t("update:modelValue", n), t("select", n, e.id), e.clearOnSelect && (i.value = "");
+			}
+			/* istanbul ignore else */
+			e.closeOnSelect && L();
+		}
+	}
+	function E(n) {
+		let r = e.options.find((t) => t[e.groupLabel] === n.$groupLabel);
+		if (r) {
+			if (D(r)) {
+				t("remove", r[e.groupValues], e.id);
+				let n = e.trackBy ? r[e.groupValues].map((t) => t[e.trackBy]) : r[e.groupValues];
+				t("update:modelValue", c.value.filter((t) => n.indexOf(e.trackBy ? t[e.trackBy] : t) === -1));
+			} else {
+				let n = r[e.groupValues].filter((e) => !(S(e) || x(e)));
+				e.max && n.splice(e.max - c.value.length), t("select", n, e.id), t("update:modelValue", c.value.concat(n));
+			}
+			e.closeOnSelect && L();
+		}
+	}
+	function D(t) {
+		return t[e.groupValues].every((e) => x(e) || S(e));
+	}
+	function N(t) {
+		return t[e.groupValues].every(S);
+	}
+	function P(n, r = !0) {
+		/* istanbul ignore else */
+		if (e.disabled || n.$isDisabled) return;
+		/* istanbul ignore else */
+		if (!e.allowEmpty && c.value.length <= 1) {
+			L();
+			return;
+		}
+		let i = typeof n == "object" ? u.value.indexOf(n[e.trackBy]) : u.value.indexOf(n);
+		/* istanbul ignore else */
+		e.multiple ? t("update:modelValue", c.value.slice(0, i).concat(c.value.slice(i + 1))) : t("update:modelValue", null), t("remove", n, e.id), e.closeOnSelect && r && L();
+	}
+	function F() {
+		e.blockKeys.indexOf("Delete") === -1 && i.value.length === 0 && Array.isArray(c.value) && c.value.length && P(c.value[c.value.length - 1], !1);
+	}
+	function I() {
+		a.value || e.disabled || (B(), e.groupValues && H.pointer.value === 0 && l.value.length && (H.pointer.value = 1), a.value = !0, e.searchable ? (e.preserveSearch || (i.value = ""), e.preventAutofocus || d(() => n.search.value && n.search.value.focus())) : e.preventAutofocus || n.root.value !== void 0 && n.root.value !== null && n.root.value.focus(), t("open", e.id));
+	}
+	function L() {
+		a.value && (a.value = !1, e.searchable ? n.search.value !== null && n.search.value !== void 0 && n.search.value.blur() : n.root.value !== void 0 && n.root.value !== null && n.root.value.blur(), e.preserveSearch || (i.value = ""), t("close", h(), e.id));
+	}
+	function z() {
+		a.value ? L() : I();
+	}
+	function B() {
+		if (typeof window > "u") return;
+		let t = n.root.value, r = t.getBoundingClientRect().top, i = window.innerHeight - t.getBoundingClientRect().bottom;
+		i > e.maxHeight || i > r || e.openDirection === "below" || e.openDirection === "bottom" ? (o.value = "below", s.value = Math.min(i - 40, e.maxHeight)) : (o.value = "above", s.value = Math.min(r - 40, e.maxHeight));
+	}
+	function V(t, n, r, i) {
+		return n ? t.filter((e) => ee(i(e, r), n)).sort((t, n) => typeof e.filteringSortFunc == "function" ? e.filteringSortFunc(t, n) : i(t, r).length - i(n, r).length) : t;
+	}
+	function te(e, t, n, r, i) {
+		return (a) => a.map((a) => {
+			/* istanbul ignore else */
+			if (!a[n]) return console.warn("Options passed to vue-multiselect do not contain groups, despite the config."), [];
+			let o = V(a[n], e, t, i);
+			return o.length ? {
+				[r]: a[r],
+				[n]: o
+			} : [];
+		});
+	}
+	C(c, () => {
+		/* istanbul ignore else */
+		e.resetAfter && c.value.length && (i.value = "", t("update:modelValue", e.multiple ? [] : null));
+	}, { deep: !0 }), C(i, () => {
+		t("search-change", i.value);
+	});
+	let H = R(e, {
+		filteredOptions: l,
+		optimizedHeight: s,
+		isOpen: a,
+		isSelected: x,
+		wholeGroupDisabled: N,
+		wholeGroupSelected: D,
+		select: T,
+		listRef: n.list,
+		searchRef: n.search
+	});
+	return m(() => {
+		!e.multiple && e.max && console.warn("[Vue-Multiselect warn]: Max prop should not be used when prop Multiple equals false."), e.preselectFirst && !c.value.length && e.options.length && T(l.value[0]);
+	}), {
+		search: i,
+		isOpen: a,
+		preferredOpenDirection: o,
+		optimizedHeight: s,
+		internalValue: c,
+		filteredOptions: l,
+		valueKeys: u,
+		optionKeys: f,
+		currentOptionLabel: p,
+		getValue: h,
+		filterAndFlat: _,
+		flatAndStrip: v,
+		updateSearch: y,
+		isExistingOption: b,
+		isSelected: x,
+		isOptionDisabled: S,
+		getOptionLabel: w,
+		select: T,
+		selectGroup: E,
+		wholeGroupSelected: D,
+		wholeGroupDisabled: N,
+		removeElement: P,
+		removeLastElement: F,
+		activate: I,
+		deactivate: L,
+		toggle: z,
+		adjustPosition: B,
+		filterOptions: V,
+		filterGroups: te,
+		...H
+	};
+}
+//#endregion
+//#region src/Multiselect.vue?vue&type=script&setup=true&lang.ts
+var B = [
+	"tabindex",
+	"aria-expanded",
+	"aria-owns",
+	"aria-activedescendant"
+], V = {
+	ref: "tags",
+	class: "multiselect__tags"
+}, te = { class: "multiselect__tags-wrap" }, H = ["textContent"], ne = ["onKeydown", "onMousedown"], re = ["textContent"], ie = { class: "multiselect__spinner" }, ae = [
+	"name",
+	"id",
+	"spellcheck",
+	"placeholder",
+	"required",
+	"value",
+	"disabled",
+	"tabindex",
+	"aria-label",
+	"aria-controls"
+], oe = ["id", "aria-multiselectable"], se = { key: 0 }, ce = { class: "multiselect__option" }, le = [
+	"aria-selected",
+	"id",
+	"role"
+], ue = [
+	"onClick",
+	"onMouseenter",
+	"data-select",
+	"data-selected",
+	"data-deselect"
+], de = [
+	"data-select",
+	"data-deselect",
+	"onMouseenter",
+	"onMousedown"
+], fe = { class: "multiselect__option" }, pe = { class: "multiselect__option" }, U = /* @__PURE__ */ u({
+	name: "vue-multiselect",
+	__name: "Multiselect",
+	props: I,
+	emits: [
+		"open",
+		"search-change",
+		"close",
+		"select",
+		"update:modelValue",
+		"remove",
+		"tag"
+	],
+	setup(u, { expose: m, emit: O }) {
+		let k = u, ee = O, A = g(null), j = g(null), { search: M, isOpen: N, preferredOpenDirection: P, optimizedHeight: F, internalValue: I, filteredOptions: L, valueKeys: R, optionKeys: U, currentOptionLabel: W, getValue: me, filterAndFlat: he, flatAndStrip: ge, updateSearch: _e, isExistingOption: ve, isSelected: ye, isOptionDisabled: be, getOptionLabel: G, select: xe, selectGroup: Se, wholeGroupSelected: Ce, wholeGroupDisabled: we, removeElement: K, removeLastElement: Te, activate: q, deactivate: J, toggle: Y, adjustPosition: Ee, filterOptions: De, filterGroups: Oe, pointer: ke, pointerDirty: Ae, pointerPosition: je, visibleElements: Me, optionHighlight: Ne, groupHighlight: Pe, addPointerElement: Fe, pointerForward: Ie, pointerBackward: Le, pointerReset: Re, pointerAdjust: ze, pointerSet: Be } = z(k, ee, {
+			root: A,
+			search: x("search"),
+			list: j
+		}), X = g({}), Z = g(!1), Ve = r(() => k.groupValues && k.groupLabel && k.groupSelect), Q = r(() => k.multiple ? I.value.slice(0, k.limit) : []), $ = r(() => I.value[0]), He = r(() => ($.value || $.value === 0) && (!N.value || !k.searchable) && !Q.value.length), Ue = r(() => !I.value.length && (!k.searchable || !N.value)), We = r(() => k.showLabels ? k.deselectLabel : ""), Ge = r(() => k.showLabels ? k.deselectGroupLabel : ""), Ke = r(() => k.showLabels ? k.selectLabel : ""), qe = r(() => k.showLabels ? k.selectGroupLabel : ""), Je = r(() => k.showLabels ? k.selectedLabel : ""), Ye = r(() => k.searchable || k.multiple && k.modelValue && k.modelValue.length ? N.value ? { width: "100%" } : {
+			width: "0",
+			position: "absolute",
+			padding: "0"
+		} : ""), Xe = r(() => k.options.length ? { display: "inline-block" } : { display: "block" }), Ze = r(() => k.openDirection === "above" || k.openDirection === "top" ? !0 : k.openDirection === "below" || k.openDirection === "bottom" ? !1 : P.value === "above"), Qe = r(() => k.required !== !1 && I.value.length <= 0);
+		return C(N, (e) => {
+			e && (k.useTeleport ? (Z.value = !1, d(() => {
+				let e = A.value;
+				if (!e) return;
+				let t = e.getBoundingClientRect();
+				X.value = {
+					position: "absolute",
+					top: `${t.bottom + window.scrollY}px`,
+					left: `${t.left + window.scrollX}px`,
+					width: `${t.width}px`,
+					zIndex: 9999
+				}, Z.value = !0;
+			})) : Z.value = !0);
+		}), m({
+			search: M,
+			isOpen: N,
+			preferredOpenDirection: P,
+			optimizedHeight: F,
+			internalValue: I,
+			filteredOptions: L,
+			valueKeys: R,
+			optionKeys: U,
+			currentOptionLabel: W,
+			getValue: me,
+			filterAndFlat: he,
+			flatAndStrip: ge,
+			updateSearch: _e,
+			isExistingOption: ve,
+			isSelected: ye,
+			isOptionDisabled: be,
+			getOptionLabel: G,
+			select: xe,
+			selectGroup: Se,
+			wholeGroupSelected: Ce,
+			wholeGroupDisabled: we,
+			removeElement: K,
+			removeLastElement: Te,
+			activate: q,
+			deactivate: J,
+			toggle: Y,
+			adjustPosition: Ee,
+			filterOptions: De,
+			filterGroups: Oe,
+			pointer: ke,
+			pointerDirty: Ae,
+			pointerPosition: je,
+			visibleElements: Me,
+			optionHighlight: Ne,
+			groupHighlight: Pe,
+			addPointerElement: Fe,
+			pointerForward: Ie,
+			pointerBackward: Le,
+			pointerReset: Re,
+			pointerAdjust: ze,
+			pointerSet: Be,
+			dropdownStyles: X,
+			ready: Z,
+			hasOptionGroup: Ve,
+			visibleValues: Q,
+			singleValue: $,
+			isSingleLabelVisible: He,
+			isPlaceholderVisible: Ue,
+			deselectLabelText: We,
+			deselectGroupLabelText: Ge,
+			selectLabelText: Ke,
+			selectGroupLabelText: qe,
+			selectedLabelText: Je,
+			inputStyle: Ye,
+			contentStyle: Xe,
+			isAbove: Ze,
+			isRequired: Qe
+		}), (r, u) => (h(), o("div", {
+			ref_key: "root",
+			ref: A,
+			tabindex: r.searchable ? -1 : r.tabindex,
+			class: f([{
+				"multiselect--active": b(N),
+				"multiselect--disabled": r.disabled,
+				"multiselect--above": Ze.value,
+				"multiselect--has-options-group": Ve.value
+			}, "multiselect"]),
+			onFocus: u[14] ||= (e) => b(q)(),
+			onBlur: u[15] ||= (e) => !r.searchable && b(J)(),
+			onKeydown: [
+				u[16] ||= E(D((e) => b(Ie)(), ["self", "prevent"]), ["down"]),
+				u[17] ||= E(D((e) => b(Le)(), ["self", "prevent"]), ["up"]),
+				u[18] ||= E(D((e) => b(Fe)(e), ["stop", "self"]), ["enter", "tab"])
+			],
+			onKeyup: u[19] ||= E((e) => b(J)(), ["esc"]),
+			role: "combobox",
+			"aria-expanded": b(N),
+			"aria-owns": "listbox-" + r.id,
+			"aria-activedescendant": b(N) && b(ke) !== null ? r.id + "-" + b(ke) : null
+		}, [
+			v(r.$slots, "caret", { toggle: b(Y) }, () => [s("div", {
+				onMousedown: u[0] ||= D((e) => b(Y)(), ["prevent", "stop"]),
+				class: "multiselect__select"
+			}, null, 32)]),
+			v(r.$slots, "clear", { search: b(M) }),
+			s("div", V, [
+				v(r.$slots, "selection", {
+					search: b(M),
+					remove: b(K),
+					values: Q.value,
+					isOpen: b(N)
+				}, () => [T(s("div", te, [(h(!0), o(e, null, _(Q.value, (e, t) => v(r.$slots, "tag", {
+					option: e,
+					search: b(M),
+					remove: b(K)
+				}, () => [(h(), o("span", {
+					class: "multiselect__tag",
+					key: t,
+					onMousedown: u[1] ||= D(() => {}, ["prevent"])
+				}, [s("span", { textContent: y(b(G)(e)) }, null, 8, H), s("i", {
+					tabindex: "1",
+					onKeydown: E(D((t) => b(K)(e), ["prevent"]), ["enter"]),
+					onMousedown: D((t) => b(K)(e), ["prevent"]),
+					class: "multiselect__tag-icon"
+				}, null, 40, ne)], 32))])), 256))], 512), [[S, Q.value.length > 0]]), b(I) && b(I).length > r.limit ? v(r.$slots, "limit", {}, () => [s("strong", {
+					class: "multiselect__strong",
+					textContent: y(r.limitText(b(I).length - r.limit))
+				}, null, 8, re)], void 0, 0) : a("", !0)]),
+				l(n, { name: "multiselect__loading" }, {
+					default: w(() => [v(r.$slots, "loading", {}, () => [T(s("div", ie, null, 512), [[S, r.loading]])])]),
+					_: 3
+				}),
+				r.searchable ? (h(), o("input", {
+					key: 0,
+					ref_key: "search",
+					ref: M,
+					name: r.name,
+					id: r.id,
+					type: "text",
+					autocomplete: "off",
+					spellcheck: r.spellcheck,
+					placeholder: r.placeholder,
+					required: Qe.value,
+					style: p(Ye.value),
+					value: b(M),
+					disabled: r.disabled,
+					tabindex: r.tabindex,
+					"aria-label": r.name + "-searchbox",
+					onInput: u[2] ||= (e) => b(_e)(e.target.value),
+					onFocus: u[3] ||= D((e) => b(q)(), ["prevent"]),
+					onBlur: u[4] ||= D((e) => b(J)(), ["prevent"]),
+					onKeyup: u[5] ||= E((e) => b(J)(), ["esc"]),
+					onKeydown: [
+						u[6] ||= E(D((e) => b(Ie)(), ["prevent"]), ["down"]),
+						u[7] ||= E(D((e) => b(Le)(), ["prevent"]), ["up"]),
+						u[8] ||= E(D((e) => b(Fe)(e), [
+							"prevent",
+							"stop",
+							"self"
+						]), ["enter"]),
+						u[9] ||= E(D((e) => b(Te)(), ["stop"]), ["delete"])
+					],
+					class: "multiselect__input",
+					"aria-controls": "listbox-" + r.id
+				}, null, 44, ae)) : a("", !0),
+				He.value ? (h(), o("span", {
+					key: 1,
+					class: "multiselect__single",
+					onMousedown: u[10] ||= D((...e) => b(Y) && b(Y)(...e), ["prevent"])
+				}, [v(r.$slots, "singleLabel", { option: $.value }, () => [c(y(b(W)), 1)])], 32)) : a("", !0),
+				Ue.value ? (h(), o("span", {
+					key: 2,
+					class: "multiselect__placeholder",
+					onMousedown: u[11] ||= D((...e) => b(Y) && b(Y)(...e), ["prevent"])
+				}, [v(r.$slots, "placeholder", {}, () => [c(y(r.placeholder), 1)])], 32)) : a("", !0)
+			], 512),
+			(h(), i(t, {
+				to: r.teleportTarget,
+				disabled: !r.useTeleport
+			}, [l(n, { name: "multiselect" }, {
+				default: w(() => [b(N) && Z.value ? (h(), o("div", {
+					key: 0,
+					class: f(["multiselect__content-wrapper", r.contentWrapperClass]),
+					onFocus: u[12] ||= (...e) => b(q) && b(q)(...e),
+					tabindex: "-1",
+					onMousedown: u[13] ||= D(() => {}, ["prevent"]),
+					style: p([X.value, { maxHeight: b(F) + "px" }]),
+					ref_key: "list",
+					ref: j
+				}, [s("ul", {
+					class: "multiselect__content",
+					style: p(Xe.value),
+					role: "listbox",
+					id: "listbox-" + r.id,
+					"aria-multiselectable": r.multiple
+				}, [
+					v(r.$slots, "beforeList"),
+					r.multiple && r.max === b(I).length ? (h(), o("li", se, [s("span", ce, [v(r.$slots, "maxElements", {}, () => [c("Maximum of " + y(r.max) + " options selected. First remove a selected option to select another.", 1)])])])) : a("", !0),
+					!r.max || b(I).length < r.max ? (h(!0), o(e, { key: 1 }, _(b(L), (e, t) => (h(), o("li", {
+						class: "multiselect__element",
+						key: t,
+						"aria-selected": b(ye)(e),
+						id: r.id + "-" + t,
+						role: e && (e.$isLabel || e.$isDisabled) ? null : "option"
+					}, [e && (e.$isLabel || e.$isDisabled) ? a("", !0) : (h(), o("span", {
+						key: 0,
+						class: f([b(Ne)(t, e), "multiselect__option"]),
+						onClick: D((t) => b(xe)(e), ["stop"]),
+						onMouseenter: D((e) => b(Be)(t), ["self"]),
+						"data-select": e && e.isTag ? r.tagPlaceholder : Ke.value,
+						"data-selected": Je.value,
+						"data-deselect": We.value
+					}, [v(r.$slots, "option", {
+						option: e,
+						search: b(M),
+						index: t
+					}, () => [s("span", null, y(b(G)(e)), 1)])], 42, ue)), e && (e.$isLabel || e.$isDisabled) ? (h(), o("span", {
+						key: 1,
+						"data-select": r.groupSelect && qe.value,
+						"data-deselect": r.groupSelect && Ge.value,
+						class: f([b(Pe)(t, e), "multiselect__option"]),
+						onMouseenter: D((e) => r.groupSelect && b(Be)(t), ["self"]),
+						onMousedown: D((t) => b(Se)(e), ["prevent"])
+					}, [v(r.$slots, "option", {
+						option: e,
+						search: b(M),
+						index: t
+					}, () => [s("span", null, y(b(G)(e)), 1)])], 42, de)) : a("", !0)], 8, le))), 128)) : a("", !0),
+					T(s("li", null, [s("span", fe, [v(r.$slots, "noResult", { search: b(M) }, () => [u[20] ||= c("No elements found. Consider changing the search query.", -1)])])], 512), [[S, r.showNoResults && b(L).length === 0 && b(M) && !r.loading]]),
+					T(s("li", null, [s("span", pe, [v(r.$slots, "noOptions", {}, () => [u[21] ||= c("List is empty.", -1)])])], 512), [[S, r.showNoOptions && b(L).length === 0 && !b(M) && !r.loading]]),
+					v(r.$slots, "afterList")
+				], 12, oe)], 38)) : a("", !0)]),
+				_: 3
+			})], 8, ["to", "disabled"]))
+		], 42, B));
+	}
+}), W = U;
+//#endregion
+export { U as Multiselect, W as default, N as multiselectCoreProps, L as multiselectEmits, I as multiselectProps, F as multiselectViewProps, P as pointerProps, z as useMultiselect, R as usePointer };

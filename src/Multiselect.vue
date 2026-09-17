@@ -1,5 +1,6 @@
 <template>
   <div
+    ref="root"
     :tabindex="searchable ? -1 : tabindex"
     :class="{ 'multiselect--active': isOpen, 'multiselect--disabled': disabled, 'multiselect--above': isAbove, 'multiselect--has-options-group': hasOptionGroup }"
     @focus="activate()"
@@ -12,7 +13,7 @@
     role="combobox"
     :aria-expanded="isOpen"
     :aria-owns="'listbox-'+id"
-    :aria-activedescendant="isOpen && pointer !== null ? id + '-' + pointer : null">
+    :aria-activedescendant="(isOpen && pointer !== null ? id + '-' + pointer : null) as any">
     <slot name="caret" :toggle="toggle">
       <div @mousedown.prevent.stop="toggle()" class="multiselect__select"></div>
     </slot>
@@ -62,7 +63,7 @@
         :disabled="disabled"
         :tabindex="tabindex"
         :aria-label="name + '-searchbox'"
-        @input="updateSearch($event.target.value)"
+        @input="updateSearch(($event.target as HTMLInputElement).value)"
         @focus.prevent="activate()"
         @blur.prevent="deactivate()"
         @keyup.esc="deactivate()"
@@ -111,13 +112,13 @@
               <slot name="maxElements">Maximum of {{ max }} options selected. First remove a selected option to select another.</slot>
             </span>
             </li>
-            <template v-if="!max || internalValue.length < max">
+            <template v-if="!max || internalValue.length < (max as number)">
               <li class="multiselect__element"
                   v-for="(option, index) of filteredOptions"
                   :key="index"
                   :aria-selected="isSelected(option)"
                   v-bind:id="id + '-' + index"
-                  v-bind:role="!(option && (option.$isLabel || option.$isDisabled)) ? 'option' : null">
+                  v-bind:role="(!(option && (option.$isLabel || option.$isDisabled)) ? 'option' : null) as any">
               <span
                 v-if="!(option && (option.$isLabel || option.$isDisabled))"
                 :class="optionHighlight(index, option)"
@@ -163,320 +164,238 @@
   </div>
 </template>
 
-<script>
-import multiselectMixin from './multiselectMixin'
-import pointerMixin from './pointerMixin'
+<script setup lang="ts">
+import { computed, nextTick, ref, useTemplateRef, watch, type CSSProperties } from 'vue'
+import { multiselectProps } from './props'
+import { useMultiselect } from './composables/useMultiselect'
 
-export default {
-  name: 'vue-multiselect',
-  mixins: [multiselectMixin, pointerMixin],
-  compatConfig: {
-    MODE: 3,
-    ATTR_ENUMERATED_COERCION: false
-  },
-  props: {
-    /**
-       * name attribute to match optional label element
-       * @default ''
-       * @type {String}
-       */
-    name: {
-      type: String,
-      default: ''
-    },
-    /**
-       * Presets the selected options value.
-       * @type {Object||Array||String||Integer}
-       */
-    modelValue: {
-      type: null,
-      default () {
-        return []
-      }
-    },
-    /**
-       * String to show when pointing to an option
-       * @default 'Press enter to select'
-       * @type {String}
-       */
-    selectLabel: {
-      type: String,
-      default: 'Press enter to select'
-    },
-    /**
-       * String to show when pointing to an option
-       * @default 'Press enter to select'
-       * @type {String}
-       */
-    selectGroupLabel: {
-      type: String,
-      default: 'Press enter to select group'
-    },
-    /**
-       * String to show next to selected option
-       * @default 'Selected'
-       * @type {String}
-       */
-    selectedLabel: {
-      type: String,
-      default: 'Selected'
-    },
-    /**
-       * String to show when pointing to an already selected option
-       * @default 'Press enter to remove'
-       * @type {String}
-       */
-    deselectLabel: {
-      type: String,
-      default: 'Press enter to remove'
-    },
-    /**
-       * String to show when pointing to an already selected option
-       * @default 'Press enter to remove'
-       * @type {String}
-       */
-    deselectGroupLabel: {
-      type: String,
-      default: 'Press enter to deselect group'
-    },
-    /**
-       * Decide whether to show pointer labels
-       * @default true
-       * @type {Boolean}
-       */
-    showLabels: {
-      type: Boolean,
-      default: true
-    },
-    /**
-       * Limit the display of selected options. The rest will be hidden within the limitText string.
-       * @default 99999
-       * @type {Integer}
-       */
-    limit: {
-      type: Number,
-      default: 99999
-    },
-    /**
-       * Sets maxHeight style value of the dropdown
-       * @default 300
-       * @type {Integer}
-       */
-    maxHeight: {
-      type: Number,
-      default: 300
-    },
-    /**
-       * Function that process the message shown when selected
-       * elements pass the defined limit.
-       * @default 'and * more'
-       * @param {Int} count Number of elements more than limit
-       * @type {Function}
-       */
-    limitText: {
-      type: Function,
-      default: (count) => `and ${count} more`
-    },
-    /**
-       * Set true to trigger the loading spinner.
-       * @default False
-       * @type {Boolean}
-       */
-    loading: {
-      type: Boolean,
-      default: false
-    },
-    /**
-       * Disables the multiselect if true.
-       * @default false
-       * @type {Boolean}
-       */
-    disabled: {
-      type: Boolean,
-      default: false
-    },
-    /**
-     * Enables search input's spellcheck if true.
-     * @default false
-     * @type {Boolean}
-     */
-    spellcheck: {
-      type: Boolean,
-      default: false
-    },
-    /**
-       * Fixed opening direction
-       * @default ''
-       * @type {String}
-       */
-    openDirection: {
-      type: String,
-      default: ''
-    },
-    /**
-       * Shows slot with message about empty options
-       * @default true
-       * @type {Boolean}
-       */
-    showNoOptions: {
-      type: Boolean,
-      default: true
-    },
-    showNoResults: {
-      type: Boolean,
-      default: true
-    },
-    tabindex: {
-      type: Number,
-      default: 0
-    },
-    /**
-     * Adds Required attribute to the input element when there is no value selected
-     * @default false
-     * @type {Boolean}
-     */
-    required: {
-      type: Boolean,
-      default: false
-    },
-    /**
-     * Uses Vue Teleport's feature. Teleports the open dropdown to the bottom of the teleportTarget element
-     * @default false
-     * @type {Boolean}
-     */
-    useTeleport: {
-      type: Boolean,
-      default: false
-    },
-    /**
-     * Target selector for teleporting the dropdown element
-     * @default 'body'
-     * @type {String|Object}
-     */
-    teleportTarget: {
-      type: [String, Object],
-      default: 'body'
-    },
-    /**
-     * Classes to apply to the `multiselect__content-wrapper` element. This element is a teleport element (when enabled), so can be used to specifically target
-     * the teleported element
-     */
-    contentWrapperClass: {
-      type: [String, Array, Object],
-      default: ''
-    }
-  },
-  data () {
-    return {
-      dropdownStyles: {},
-      ready: false
-    }
-  },
-  computed: {
-    hasOptionGroup () {
-      return this.groupValues && this.groupLabel && this.groupSelect
-    },
-    isSingleLabelVisible () {
-      return (
-        (this.singleValue || this.singleValue === 0) &&
-          (!this.isOpen || !this.searchable) &&
-          !this.visibleValues.length
-      )
-    },
-    isPlaceholderVisible () {
-      return !this.internalValue.length && (!this.searchable || !this.isOpen)
-    },
-    visibleValues () {
-      return this.multiple ? this.internalValue.slice(0, this.limit) : []
-    },
-    singleValue () {
-      return this.internalValue[0]
-    },
-    deselectLabelText () {
-      return this.showLabels ? this.deselectLabel : ''
-    },
-    deselectGroupLabelText () {
-      return this.showLabels ? this.deselectGroupLabel : ''
-    },
-    selectLabelText () {
-      return this.showLabels ? this.selectLabel : ''
-    },
-    selectGroupLabelText () {
-      return this.showLabels ? this.selectGroupLabel : ''
-    },
-    selectedLabelText () {
-      return this.showLabels ? this.selectedLabel : ''
-    },
-    inputStyle () {
-      if (
-        this.searchable ||
-          (this.multiple && this.modelValue && this.modelValue.length)
-      ) {
-        // Hide input by setting the width to 0 allowing it to receive focus
-        return this.isOpen
-          ? { width: '100%' }
-          : { width: '0', position: 'absolute', padding: '0' }
-      }
-      return ''
-    },
-    contentStyle () {
-      return this.options.length
-        ? { display: 'inline-block' }
-        : { display: 'block' }
-    },
-    isAbove () {
-      if (this.openDirection === 'above' || this.openDirection === 'top') {
-        return true
-      } else if (
-        this.openDirection === 'below' ||
-          this.openDirection === 'bottom'
-      ) {
-        return false
-      } else {
-        return this.preferredOpenDirection === 'above'
-      }
-    },
-    showSearchInput () {
-      return (
-        this.searchable &&
-          (this.hasSingleSelectedSlot &&
-            (this.visibleSingleValue || this.visibleSingleValue === 0)
-            ? this.isOpen
-            : true)
-      )
-    },
-    isRequired () {
-      if (this.required === false) {
-        return false
-      }
-      // if we have a value, any value, then this isn't required
-      return this.internalValue.length <= 0
-    }
-  },
-  watch: {
-    isOpen (val) {
-      if (val) {
-        if (this.useTeleport) {
-          this.ready = false
-          // This helps with the positioning of the open dropdown when teleport is being used
-          this.$nextTick(() => {
-            const rect = this.$el.getBoundingClientRect()
-            this.dropdownStyles = {
-              position: 'absolute',
-              top: `${rect.bottom + window.scrollY}px`,
-              left: `${rect.left + window.scrollX}px`,
-              width: `${rect.width}px`,
-              zIndex: 9999
-            }
-            this.ready = true
-          })
-        } else {
-          this.ready = true
+defineOptions({
+  name: 'vue-multiselect'
+})
+
+const props = defineProps(multiselectProps)
+
+const emit = defineEmits([
+  'open',
+  'search-change',
+  'close',
+  'select',
+  'update:modelValue',
+  'remove',
+  'tag'
+])
+
+// Template element references.
+const root = ref<HTMLElement | null>(null)
+const list = ref<HTMLElement | null>(null)
+// `useTemplateRef('search')` keeps the element available as `$refs.search` (as
+// in previous versions, e.g. `this.$refs.multiselect.$refs.search.blur()`)
+// without colliding with the `search` string state — Vue routes the element to
+// this ref while leaving the `search` string binding untouched.
+const searchInput = useTemplateRef<HTMLInputElement>('search')
+
+const {
+  // state
+  search,
+  isOpen,
+  preferredOpenDirection,
+  optimizedHeight,
+  // computed
+  internalValue,
+  filteredOptions,
+  valueKeys,
+  optionKeys,
+  currentOptionLabel,
+  // methods
+  getValue,
+  filterAndFlat,
+  flatAndStrip,
+  updateSearch,
+  isExistingOption,
+  isSelected,
+  isOptionDisabled,
+  getOptionLabel,
+  select,
+  selectGroup,
+  wholeGroupSelected,
+  wholeGroupDisabled,
+  removeElement,
+  removeLastElement,
+  activate,
+  deactivate,
+  toggle,
+  adjustPosition,
+  filterOptions,
+  filterGroups,
+  // pointer
+  pointer,
+  pointerDirty,
+  pointerPosition,
+  visibleElements,
+  optionHighlight,
+  groupHighlight,
+  addPointerElement,
+  pointerForward,
+  pointerBackward,
+  pointerReset,
+  pointerAdjust,
+  pointerSet
+} = useMultiselect(props, emit, { root, search: searchInput, list })
+
+const dropdownStyles = ref<Record<string, string | number>>({})
+const ready = ref(false)
+
+const hasOptionGroup = computed(() => props.groupValues && props.groupLabel && props.groupSelect)
+
+const visibleValues = computed(() => {
+  return props.multiple ? internalValue.value.slice(0, props.limit) : []
+})
+
+const singleValue = computed(() => internalValue.value[0])
+
+const isSingleLabelVisible = computed(() => {
+  return (
+    (singleValue.value || singleValue.value === 0) &&
+      (!isOpen.value || !props.searchable) &&
+      !visibleValues.value.length
+  )
+})
+
+const isPlaceholderVisible = computed(() => {
+  return !internalValue.value.length && (!props.searchable || !isOpen.value)
+})
+
+const deselectLabelText = computed(() => props.showLabels ? props.deselectLabel : '')
+const deselectGroupLabelText = computed(() => props.showLabels ? props.deselectGroupLabel : '')
+const selectLabelText = computed(() => props.showLabels ? props.selectLabel : '')
+const selectGroupLabelText = computed(() => props.showLabels ? props.selectGroupLabel : '')
+const selectedLabelText = computed(() => props.showLabels ? props.selectedLabel : '')
+
+const inputStyle = computed<CSSProperties | string>(() => {
+  if (
+    props.searchable ||
+      (props.multiple && props.modelValue && props.modelValue.length)
+  ) {
+    // Hide input by setting the width to 0 allowing it to receive focus
+    return isOpen.value
+      ? { width: '100%' }
+      : { width: '0', position: 'absolute', padding: '0' }
+  }
+  return ''
+})
+
+const contentStyle = computed<CSSProperties>(() => {
+  return props.options.length
+    ? { display: 'inline-block' }
+    : { display: 'block' }
+})
+
+const isAbove = computed(() => {
+  if (props.openDirection === 'above' || props.openDirection === 'top') {
+    return true
+  } else if (
+    props.openDirection === 'below' ||
+      props.openDirection === 'bottom'
+  ) {
+    return false
+  } else {
+    return preferredOpenDirection.value === 'above'
+  }
+})
+
+const isRequired = computed(() => {
+  if (props.required === false) {
+    return false
+  }
+  // if we have a value, any value, then this isn't required
+  return internalValue.value.length <= 0
+})
+
+watch(isOpen, (val) => {
+  if (val) {
+    if (props.useTeleport) {
+      ready.value = false
+      // This helps with the positioning of the open dropdown when teleport is being used
+      nextTick(() => {
+        const el = root.value
+        if (!el) return
+        const rect = el.getBoundingClientRect()
+        dropdownStyles.value = {
+          position: 'absolute',
+          top: `${rect.bottom + window.scrollY}px`,
+          left: `${rect.left + window.scrollX}px`,
+          width: `${rect.width}px`,
+          zIndex: 9999
         }
-      }
+        ready.value = true
+      })
+    } else {
+      ready.value = true
     }
   }
-}
+})
+
+// Expose the full public API, matching the surface previously available on the
+// component instance (Options API components exposed everything via template refs).
+defineExpose({
+  search,
+  isOpen,
+  preferredOpenDirection,
+  optimizedHeight,
+  internalValue,
+  filteredOptions,
+  valueKeys,
+  optionKeys,
+  currentOptionLabel,
+  getValue,
+  filterAndFlat,
+  flatAndStrip,
+  updateSearch,
+  isExistingOption,
+  isSelected,
+  isOptionDisabled,
+  getOptionLabel,
+  select,
+  selectGroup,
+  wholeGroupSelected,
+  wholeGroupDisabled,
+  removeElement,
+  removeLastElement,
+  activate,
+  deactivate,
+  toggle,
+  adjustPosition,
+  filterOptions,
+  filterGroups,
+  pointer,
+  pointerDirty,
+  pointerPosition,
+  visibleElements,
+  optionHighlight,
+  groupHighlight,
+  addPointerElement,
+  pointerForward,
+  pointerBackward,
+  pointerReset,
+  pointerAdjust,
+  pointerSet,
+  dropdownStyles,
+  ready,
+  hasOptionGroup,
+  visibleValues,
+  singleValue,
+  isSingleLabelVisible,
+  isPlaceholderVisible,
+  deselectLabelText,
+  deselectGroupLabelText,
+  selectLabelText,
+  selectGroupLabelText,
+  selectedLabelText,
+  inputStyle,
+  contentStyle,
+  isAbove,
+  isRequired
+})
 </script>
 
 <style>

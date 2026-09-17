@@ -20,7 +20,7 @@
             <h3 class="typo__h3">via CDN</h3>
              <pre>
               <code ref="cdn-install">&lt;script src="https://unpkg.com/vue-multiselect">&lt;/script>
-&lt;link rel="stylesheet" href="https://unpkg.com/vue-multiselect/dist/vue-multiselect.min.css"></code>
+&lt;link rel="stylesheet" href="https://unpkg.com/vue-multiselect/dist/vue-multiselect.css"></code>
             </pre>
           </div>
           <div class="grid__column">
@@ -49,7 +49,7 @@
 &lt;/script>
 
 &lt;!-- Add Multiselect CSS. Can be added as a static asset or inside a component. -->
-&lt;style src="vue-multiselect/dist/vue-multiselect.min.css">&lt;/style>
+&lt;style src="vue-multiselect/dist/vue-multiselect.css">&lt;/style>
 
 &lt;style>
   your styles

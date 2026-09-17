@@ -3,7 +3,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: cimg/node:22.4.0
+      - image: cimg/node:24.4.0
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -30,10 +30,8 @@ jobs:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
 
-      # run tests!
+      # lint, typecheck, test and build
+      - run: npm run lint
+      - run: npm run typecheck
       - run: npm run test
-
-      # To reeneable that the lib needs an account on codecov
-      # - run:
-      #     name: Send code coverage
-      #     command: './node_modules/.bin/codecov'
+      - run: npm run build

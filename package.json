@@ -1,8 +1,9 @@
 {
   "name": "vue-multiselect",
-  "version": "3.5.0",
+  "version": "4.0.0-alpha.0",
   "private": false,
-  "types": "index.d.ts",
+  "type": "module",
+  "types": "dist/index.d.ts",
   "homepage": "vue-multiselect.js.org",
   "description": "Multiselect component for Vue",
   "author": {
@@ -14,57 +15,71 @@
     "Akshay Jat <https://github.com/akki-jat>"
   ],
   "scripts": {
-    "copy": "shx mkdir -p docs/shiki && shx mkdir -p documentation/shiki && shx cp -r node_modules/shiki/{dist,languages,themes} documentation/shiki/ && shx cp -r node_modules/shiki/{dist,languages,themes} docs/shiki/",
-    "lint": "vue-cli-service lint",
-    "bundle": "vue-cli-service build --target lib ./src/index.js && rm -rf ./dist/demo.html && rollup -c --environment BUILD:production",
-    "finish": "npm run lint && npm test && npm run bundle",
-    "test": "vue-cli-service test:unit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "typecheck": "vue-tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "build": "vite build",
+    "bundle": "npm run build",
+    "finish": "npm run lint && npm run typecheck && npm run test && npm run build",
     "dev": "vite serve documentation",
-    "predev": "npm run copy",
-    "prebuild": "npm run copy",
-    "build": "vite build documentation",
-    "preview": "vite preview documentation"
+    "predocs:build": "node -e \"require('node:fs').rmSync('docs/assets',{recursive:true,force:true})\"",
+    "docs:build": "vite build documentation",
+    "docs:preview": "vite preview documentation"
   },
-  "main": "dist/vue-multiselect.esm.js",
-  "unpkg": "dist/vue-multiselect.umd.min.js",
+  "main": "dist/vue-multiselect.cjs",
+  "module": "dist/vue-multiselect.esm.js",
+  "unpkg": "dist/vue-multiselect.umd.js",
+  "jsdelivr": "dist/vue-multiselect.umd.js",
   "jsnext:main": "dist/vue-multiselect.esm.js",
+  "style": "dist/vue-multiselect.css",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/vue-multiselect.esm.js",
+      "require": "./dist/vue-multiselect.cjs"
+    },
+    "./dist/*": "./dist/*",
+    "./package.json": "./package.json"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
   "files": [
     "dist",
-    "src",
-    "index.d.ts"
+    "src"
   ],
+  "peerDependencies": {
+    "vue": "^3.5.0"
+  },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.25.9",
-    "@vitejs/plugin-vue": "^4.2.3",
-    "@vue/cli-plugin-babel": "~5.0.8",
-    "@vue/cli-plugin-eslint": "^5.0.8",
-    "@vue/cli-plugin-unit-jest": "^5.0.8",
-    "@vue/cli-service": "^5.0.8",
-    "@vue/test-utils": "^2.0.0-0",
-    "@vue/vue3-jest": "^27.0.0",
-    "core-js": "^3.6.5",
-    "csso": "^5.0.5",
-    "eslint-config-standard": "^17.1.0",
-    "eslint-plugin-html": "^6.0.0",
-    "eslint-plugin-vue": "^9.32.0",
-    "rollup": "^2.46.0",
-    "rollup-plugin-css-only": "^3.1.0",
-    "rollup-plugin-vue": "^6.0.0",
-    "sass": "^1.62.1",
-    "sass-loader": "10.1.1",
-    "shiki": "^0.14.5",
-    "shx": "^0.3.4",
-    "typescript": "~3.9.3",
-    "vite": "^4.3.9",
-    "vue": "^3.2.25",
-    "vuex": "^4.1.0"
+    "@eslint/js": "10.0.1",
+    "@types/node": "24.13.3",
+    "@vitejs/plugin-vue": "6.0.8",
+    "@vitest/coverage-v8": "4.1.10",
+    "@vue/test-utils": "2.4.11",
+    "eslint": "10.8.0",
+    "eslint-plugin-vue": "10.10.0",
+    "globals": "17.9.0",
+    "jsdom": "30.0.1",
+    "sass": "1.102.0",
+    "shiki": "4.4.2",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.66.0",
+    "vite": "8.2.0",
+    "vite-plugin-dts": "5.0.3",
+    "vitest": "4.1.10",
+    "vue": "3.5.41",
+    "vue-tsc": "3.3.9",
+    "vuex": "4.1.0"
   },
   "bugs": {
     "url": "https://github.com/shentao/vue-multiselect"
   },
   "engines": {
-    "node": ">= 14.18.1",
-    "npm": ">= 6.14.15"
+    "node": ">= 20.19.0"
   },
   "license": "MIT",
   "repository": {
