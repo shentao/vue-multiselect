@@ -11,8 +11,8 @@
     class="multiselect"
     role="combobox"
     :aria-expanded="isOpen"
-    :aria-owns="'listbox-'+id"
-    :aria-activedescendant="isOpen && pointer !== null ? id + '-' + pointer : null">
+    :aria-owns="listboxId"
+    :aria-activedescendant="activeDescendantId">
     <slot name="caret" :toggle="toggle">
       <div @mousedown.prevent.stop="toggle()" class="multiselect__select"></div>
     </slot>
@@ -71,7 +71,8 @@
         @keydown.enter.prevent.stop.self="addPointerElement($event)"
         @keydown.delete.stop="removeLastElement()"
         class="multiselect__input"
-        :aria-controls="'listbox-'+id"
+        :aria-controls="listboxId"
+        :aria-activedescendant="activeDescendantId"
       />
       <span
         v-if="isSingleLabelVisible"
@@ -373,6 +374,14 @@ export default {
     }
   },
   computed: {
+    listboxId () {
+      return this.isOpen && this.ready ? 'listbox-' + this.id : null
+    },
+    activeDescendantId () {
+      return this.listboxId && this.pointer !== null && this.pointer >= 0 && this.pointer < this.filteredOptions.length
+        ? this.id + '-' + this.pointer
+        : null
+    },
     hasOptionGroup () {
       return this.groupValues && this.groupLabel && this.groupSelect
     },
